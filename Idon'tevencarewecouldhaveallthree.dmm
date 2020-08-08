@@ -59,10 +59,6 @@
 "aB" = (
 /turf/simulated/floor/water/deep,
 /area/space)
-"aE" = (
-/obj/structure/sign/warning/biohazard,
-/turf/simulated/wall,
-/area/space)
 "aH" = (
 /turf/simulated/floor/outdoors/dirt,
 /area/space)
@@ -103,11 +99,6 @@
 	},
 /turf/simulated/floor/tiled/old_tile/white,
 /area/space)
-"bb" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/filingcabinet/chestdrawer,
-/turf/simulated/floor/wood,
-/area/space)
 "bz" = (
 /obj/structure/flora/ausbushes/stalkybush,
 /turf/simulated/floor/outdoors/grass/heavy,
@@ -134,12 +125,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
 /area/space)
-"cw" = (
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
 "cL" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
@@ -147,22 +132,6 @@
 "dy" = (
 /obj/machinery/seed_storage/random,
 /turf/simulated/floor/tiled,
-/area/space)
-"el" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table/woodentable,
-/obj/structure/window/reinforced,
-/turf/simulated/floor/wood,
-/area/space)
-"eG" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced,
-/turf/simulated/floor/wood,
-/area/space)
-"eR" = (
-/obj/structure/bed/chair/bay/chair/padded,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
 /area/space)
 "eU" = (
 /obj/effect/decal/cleanable/filth,
@@ -172,23 +141,6 @@
 "fR" = (
 /obj/structure/flora/ausbushes/fernybush,
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"ga" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/holoplant,
-/turf/simulated/floor/wood,
-/area/space)
-"gi" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
-/area/space)
-"gG" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table/woodentable,
-/obj/structure/sign/nosmoking_1{
-	pixel_y = -32
-	},
-/turf/simulated/floor/tiled/white,
 /area/space)
 "hh" = (
 /obj/structure/window/reinforced{
@@ -202,36 +154,6 @@
 	dir = 4
 	},
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"hs" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/mopbucket,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"ht" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/bed/chair/backed_red{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/white,
-/area/space)
-"hD" = (
-/obj/structure/lightpost,
-/turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"hM" = (
-/obj/structure/bed/chair/bay/comfy/blue{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
-/area/space)
-"hO" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/white,
 /area/space)
 "hY" = (
 /obj/structure/window/reinforced{
@@ -264,17 +186,6 @@
 /obj/structure/flora/ausbushes/sunnybush,
 /turf/simulated/floor/outdoors/grass/heavy,
 /area/space)
-"jm" = (
-/obj/structure/window/reinforced,
-/obj/structure/table/woodentable,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
-/area/space)
-"jy" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/wood,
-/area/space)
 "jG" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/simulated/floor/outdoors/grass/heavy,
@@ -282,15 +193,6 @@
 "jK" = (
 /obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/tiled,
-/area/space)
-"kb" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/window/reinforced,
-/obj/structure/table/woodentable,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
 /area/space)
 "kk" = (
 /obj/structure/shuttle/engine/propulsion{
@@ -300,12 +202,6 @@
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"kT" = (
-/obj/structure/table/woodentable,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/window/eastright,
-/turf/simulated/floor/wood,
 /area/space)
 "ln" = (
 /obj/structure/flora/ausbushes/sparsegrass,
@@ -323,31 +219,10 @@
 /obj/structure/window/reinforced,
 /turf/simulated/floor/plating,
 /area/space)
-"lx" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table/woodentable,
-/turf/simulated/floor/tiled/white,
-/area/space)
 "lA" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"lD" = (
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = -5;
-	pixel_y = 13
-	},
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 6;
-	pixel_y = 10
-	},
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = -13;
-	pixel_y = 2
-	},
-/obj/machinery/light,
-/turf/simulated/floor/tiled/white,
 /area/space)
 "lH" = (
 /obj/structure/window/reinforced,
@@ -382,12 +257,6 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"ow" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table/rack,
-/obj/structure/window/reinforced,
-/turf/simulated/floor/wood,
 /area/space)
 "oy" = (
 /obj/structure/grille,
@@ -425,10 +294,6 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/simulated/floor/outdoors/dirt,
 /area/space)
-"pi" = (
-/obj/structure/reagent_dispensers/beerkeg,
-/turf/simulated/floor/tiled/white,
-/area/space)
 "pn" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 8
@@ -465,27 +330,10 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
-"qf" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/bed/chair/backed_red{
-	dir = 8
-	},
-/obj/structure/sign/nosmoking_1{
-	pixel_y = -32
-	},
-/turf/simulated/floor/tiled/white,
-/area/space)
 "qg" = (
 /obj/effect/floor_decal/industrial/loading,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"qz" = (
-/obj/structure/bed/chair/bay/chair/padded{
-	dir = 8
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
 /area/space)
 "rd" = (
 /obj/structure/flora/ausbushes/fullgrass,
@@ -500,22 +348,6 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
-/area/space)
-"sU" = (
-/obj/structure/grille/broken,
-/obj/item/weapon/material/shard,
-/turf/simulated/floor/plating,
-/area/space)
-"tl" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table/woodentable,
-/turf/simulated/floor/wood,
-/area/space)
-"tC" = (
-/obj/structure/window/reinforced,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/holoplant,
-/turf/simulated/floor/wood,
 /area/space)
 "tE" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -533,17 +365,8 @@
 /obj/structure/window/reinforced,
 /turf/simulated/floor/plating,
 /area/space)
-"vJ" = (
-/obj/effect/decal/cleanable/blood,
-/turf/simulated/floor/tiled/white,
-/area/space)
 "wg" = (
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"wW" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/window/southleft,
-/turf/simulated/floor/wood,
 /area/space)
 "xv" = (
 /obj/effect/floor_decal/industrial/warning,
@@ -556,15 +379,6 @@
 	dir = 1
 	},
 /turf/simulated/floor/tiled,
-/area/space)
-"xC" = (
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
-"xH" = (
-/obj/structure/bed/chair/backed_red{
-	dir = 1
-	},
-/turf/simulated/floor/carpet/turcarpet,
 /area/space)
 "xP" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -584,15 +398,6 @@
 	},
 /turf/simulated/floor/outdoors/grass/heavy,
 /area/space)
-"yi" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/bmarble,
-/area/space)
-"yj" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/generic,
-/turf/simulated/floor/wmarble,
-/area/space)
 "yw" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 4
@@ -601,36 +406,10 @@
 /obj/effect/decal/cleanable/generic,
 /turf/simulated/floor/reinforced,
 /area/space)
-"yH" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/sink{
-	pixel_y = 20
-	},
-/obj/structure/mirror{
-	pixel_y = 34;
-	shattered = 1
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"yO" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/simulated/floor/wood,
-/area/space)
 "yP" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"yQ" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/white,
-/area/space)
-"zv" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wmarble,
 /area/space)
 "zJ" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -641,11 +420,6 @@
 "zV" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"zW" = (
-/obj/machinery/door/airlock/glass_external,
-/obj/machinery/door/firedoor/glass,
 /turf/simulated/floor/tiled/old_tile/white,
 /area/space)
 "Ab" = (
@@ -662,34 +436,8 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
 /area/space)
-"AJ" = (
-/turf/simulated/floor/tiled/white,
-/area/space)
-"Bw" = (
-/obj/item/weapon/material/shard,
-/turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
 "Ce" = (
 /turf/simulated/wall/shull,
-/area/space)
-"Cg" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/generic,
-/obj/structure/filingcabinet/chestdrawer,
-/turf/simulated/floor/wood,
-/area/space)
-"Co" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/white,
-/area/space)
-"CF" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/simulated/floor/wood,
 /area/space)
 "CH" = (
 /obj/effect/decal/cleanable/dirt,
@@ -699,17 +447,6 @@
 /obj/effect/floor_decal/industrial/warning,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
-/area/space)
-"CQ" = (
-/obj/structure/bed/chair/backed_red{
-	dir = 4
-	},
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
-"CU" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/bed/chair/backed_red,
-/turf/simulated/floor/tiled/white,
 /area/space)
 "CX" = (
 /obj/structure/grille,
@@ -741,20 +478,6 @@
 	},
 /turf/simulated/floor/outdoors/grass/heavy,
 /area/space)
-"Em" = (
-/obj/structure/sign/department/conference_room,
-/turf/simulated/wall,
-/area/space)
-"Ez" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced,
-/obj/structure/table/woodentable,
-/turf/simulated/floor/wood,
-/area/space)
-"Fa" = (
-/obj/structure/mopbucket,
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
 "Fg" = (
 /obj/structure/window/reinforced{
 	dir = 4
@@ -762,52 +485,11 @@
 /obj/structure/window/reinforced,
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
-"Fo" = (
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 2;
-	pixel_y = 1
-	},
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = 9;
-	pixel_y = 6
-	},
-/obj/effect/decal/cleanable/blood/drip{
-	pixel_x = -12;
-	pixel_y = 8
-	},
-/turf/simulated/floor/tiled/white,
-/area/space)
-"FE" = (
-/obj/effect/decal/cleanable/blood,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"FT" = (
-/obj/structure/flora/ausbushes/lavendergrass,
-/obj/structure/lightpost,
-/turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"FV" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/sign/graffiti/pisoff{
-	pixel_y = 30
-	},
-/obj/structure/table/marble,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
 "Ga" = (
 /obj/structure/fence{
 	dir = 4
 	},
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"Gr" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/remains/human,
-/obj/structure/toilet{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/old_tile/white,
 /area/space)
 "GM" = (
 /obj/machinery/door/airlock/glass,
@@ -840,17 +522,6 @@
 /obj/structure/flora/ausbushes/reedbush,
 /turf/simulated/floor/water/contaminated,
 /area/space)
-"IM" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"Jq" = (
-/obj/structure/table/woodentable,
-/obj/item/weapon/material/shard,
-/turf/simulated/floor/tiled/white,
-/area/space)
 "JO" = (
 /obj/structure/flora/ausbushes/grassybush,
 /obj/machinery/light/small{
@@ -869,51 +540,9 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
-"Kr" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/table/rack,
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/turf/simulated/floor/wood,
-/area/space)
 "Kt" = (
 /obj/structure/fence/door/locked,
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"KA" = (
-/obj/effect/decal/cleanable/blood,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/sink{
-	pixel_y = 20
-	},
-/obj/structure/mirror{
-	pixel_y = 34;
-	shattered = 1
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"KW" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/airlock,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"KY" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/white,
-/area/space)
-"KZ" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/holoplant,
-/turf/simulated/floor/wood,
 /area/space)
 "Lh" = (
 /obj/structure/window/reinforced{
@@ -922,13 +551,6 @@
 /obj/structure/window/reinforced,
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/simulated/floor/outdoors/grass/heavy,
-/area/space)
-"LP" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/reagent_dispensers/water_cooler/full{
-	dir = 4
-	},
-/turf/simulated/floor/wood,
 /area/space)
 "LU" = (
 /obj/structure/grille,
@@ -942,10 +564,6 @@
 /obj/structure/window/reinforced,
 /turf/simulated/floor/plating,
 /area/space)
-"Mf" = (
-/obj/effect/decal/cleanable/filth,
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
 "Mk" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 9
@@ -957,14 +575,6 @@
 /obj/structure/flora/ausbushes/stalkybush,
 /turf/simulated/floor/outdoors/mud,
 /area/space)
-"Na" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/reagent_dispensers/fueltank,
-/turf/simulated/floor/wood,
-/area/space)
 "Nd" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/simulated/floor/outdoors/grass/heavy,
@@ -973,17 +583,8 @@
 /obj/machinery/door/airlock/external,
 /turf/simulated/wall,
 /area/space)
-"Oe" = (
-/obj/machinery/door/airlock,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"Oh" = (
-/obj/machinery/door/airlock/glass_external,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/old_tile/white,
+"Og" = (
+/turf/space,
 /area/space)
 "Oq" = (
 /obj/structure/window/reinforced{
@@ -1021,13 +622,6 @@
 	},
 /turf/simulated/floor/tiled,
 /area/space)
-"RH" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/bed/chair/backed_red{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/space)
 "RI" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light{
@@ -1039,22 +633,6 @@
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/simulated/floor/outdoors/grass/heavy,
 /area/space)
-"RS" = (
-/obj/effect/decal/cleanable/generic,
-/obj/structure/table/woodentable,
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
-"RX" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/simulated/floor/wood,
-/area/space)
-"Sc" = (
-/obj/structure/table/woodentable,
-/turf/simulated/floor/tiled/white,
-/area/space)
 "Sh" = (
 /turf/simulated/floor/tiled/old_tile/white,
 /area/space)
@@ -1063,15 +641,6 @@
 	dir = 4
 	},
 /turf/simulated/floor/tiled,
-/area/space)
-"Ts" = (
-/obj/machinery/door/airlock/glass,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/white,
-/area/space)
-"TQ" = (
-/obj/structure/grille/broken,
-/turf/simulated/floor/plating,
 /area/space)
 "TU" = (
 /obj/structure/grille,
@@ -1087,19 +656,6 @@
 	},
 /turf/simulated/floor/plating,
 /area/space)
-"UH" = (
-/obj/structure/grille,
-/turf/simulated/floor/plating,
-/area/space)
-"UJ" = (
-/obj/structure/table/woodentable,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/computer/pod/old{
-	desc = "An old computer console. Potential uses include accounting, registrations and database operation.";
-	name = "old computer"
-	},
-/turf/simulated/floor/wood,
-/area/space)
 "UT" = (
 /obj/machinery/door/airlock/external,
 /turf/simulated/floor/tiled,
@@ -1109,80 +665,18 @@
 /obj/effect/decal/cleanable/filth,
 /turf/simulated/floor/tiled/old_tile/white,
 /area/space)
-"Vh" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/turf/simulated/floor/wood,
-/area/space)
-"Vv" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/table/rack,
-/turf/simulated/floor/wood,
-/area/space)
-"Wd" = (
-/obj/structure/sign/department/bar,
-/turf/simulated/wall,
-/area/space)
 "Wj" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/simulated/floor/outdoors/dirt,
-/area/space)
-"Wq" = (
-/obj/structure/grille,
-/obj/item/weapon/material/shard,
-/turf/simulated/floor/plating,
 /area/space)
 "Wy" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/generic,
 /turf/simulated/floor/tiled/old_tile/white,
 /area/space)
-"Wz" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/table/woodentable,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/wood,
-/area/space)
-"WR" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"WZ" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/toilet{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"Xn" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/structure/reagent_dispensers,
-/turf/simulated/floor/wood,
-/area/space)
 "Xt" = (
 /obj/structure/flora/ausbushes/reedbush,
 /turf/simulated/floor/outdoors/mud,
-/area/space)
-"XC" = (
-/obj/effect/decal/cleanable/vomit,
-/turf/simulated/floor/tiled/white,
 /area/space)
 "Yd" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -1191,20 +685,9 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced,
 /area/space)
-"Yg" = (
-/obj/structure/table/woodentable,
-/turf/simulated/floor/carpet/turcarpet,
-/area/space)
 "Yo" = (
 /obj/effect/decal/remains/deer,
 /turf/simulated/floor/outdoors/mud,
-/area/space)
-"Yu" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/old_tile/white,
 /area/space)
 "Zf" = (
 /obj/structure/flora/ausbushes/leafybush,
@@ -1214,12 +697,6 @@
 /obj/machinery/door/airlock/glass,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/old_tile/white,
-/area/space)
-"ZW" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/window/reinforced,
-/obj/structure/table/rack,
-/turf/simulated/floor/wood,
 /area/space)
 
 (1,1,1) = {"
@@ -8742,7 +8219,7 @@ ax
 ax
 ax
 ax
-Em
+ax
 oE
 oE
 ax
@@ -8872,21 +8349,21 @@ al
 al
 al
 al
-al
 ax
-tl
-tl
-LP
-yO
-gi
-gi
-gi
-gi
-wW
-yO
-zv
-yi
-zv
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+ax
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9014,21 +8491,21 @@ al
 al
 al
 al
-al
 ax
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-tC
-eR
-yi
-zv
-yi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9156,21 +8633,21 @@ al
 al
 al
 ao
-al
 ax
-bb
-gi
-Cg
-gi
-bb
-gi
-bb
-gi
-jm
-eR
-zv
-yi
-yj
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+ax
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9298,21 +8775,21 @@ al
 al
 al
 al
-al
 ax
-UJ
-hM
-UJ
-hM
-UJ
-hM
-UJ
-hM
-jm
-eR
-yi
-zv
-yi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+ax
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9440,21 +8917,21 @@ jG
 al
 al
 al
-al
 ax
-Wz
-kT
-Wz
-kT
-Wz
-kT
-Wz
-kT
-kb
-eR
-zv
-yi
-zv
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+ax
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9582,21 +9059,21 @@ al
 al
 al
 al
-al
 ax
-KZ
-qz
-gi
-qz
-gi
-qz
-gi
-qz
-gi
-ga
-yi
-zv
-yi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -9724,21 +9201,21 @@ al
 al
 ao
 al
-al
 ax
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+ax
+ax
+ax
+ax
 ax
 ah
 "}
@@ -9866,21 +9343,21 @@ al
 al
 al
 al
-al
 ax
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-yj
-yi
-zv
-yi
-zv
-yi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10008,21 +9485,21 @@ al
 al
 al
 al
-al
 ax
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
-yi
-zv
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10149,22 +9626,22 @@ al
 al
 al
 al
-hD
+al
 ax
-ax
-KY
-KY
-Wd
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-jy
-jy
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10292,21 +9769,21 @@ al
 al
 al
 al
-UH
-yQ
-yQ
-yQ
-yQ
-CU
-lx
 ax
-yO
-gi
-gi
-el
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10434,21 +9911,21 @@ jG
 al
 al
 RQ
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-ht
 ax
-gi
-gi
-gi
-tl
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10573,24 +10050,24 @@ al
 al
 al
 al
-al
+ao
 al
 oC
 ax
-yQ
-yQ
-yQ
-yQ
-yQ
-RH
-ax
-gi
-gi
-gi
-Ez
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10717,22 +10194,22 @@ al
 al
 al
 al
-hD
+al
 ax
-hO
-yQ
-yQ
-yQ
-yQ
-gG
-ax
-gi
-gi
-gi
-ow
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -10860,21 +10337,21 @@ al
 al
 al
 al
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-ht
 ax
-gi
-gi
-gi
-ZW
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11002,21 +10479,21 @@ al
 al
 al
 cg
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-yQ
-Wd
-gi
-Kr
-Vv
-Wd
-CF
-gi
-gi
+ax
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11145,20 +10622,20 @@ RQ
 al
 al
 ax
-yQ
-yQ
-yQ
-yQ
-yQ
-yQ
-jy
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11287,20 +10764,20 @@ al
 al
 al
 ax
-yQ
-yQ
-yQ
-yQ
-yQ
-yQ
-jy
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11428,21 +10905,21 @@ al
 al
 al
 cg
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-RH
-Wd
-gi
-Xn
-Na
-Wd
-CF
-gi
-gi
+ax
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11570,21 +11047,21 @@ al
 al
 al
 al
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-lx
 ax
-gi
-gi
-gi
-eG
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11711,22 +11188,22 @@ oC
 al
 al
 al
-hD
+al
 ax
-hO
-yQ
-yQ
-yQ
-yQ
-qf
-ax
-gi
-gi
-gi
-eG
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11851,24 +11328,24 @@ al
 al
 al
 al
-al
+ao
 al
 al
 ax
-yQ
-yQ
-yQ
-yQ
-yQ
-RH
-ax
-gi
-gi
-gi
-Vh
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -11996,21 +11473,21 @@ al
 al
 al
 al
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-lx
 ax
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12138,21 +11615,21 @@ al
 al
 al
 Nd
-UH
-yQ
-yQ
-yQ
-yQ
-yQ
-ht
 ax
-RX
-gi
-gi
-gi
-gi
-gi
-gi
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12279,22 +11756,22 @@ al
 RQ
 al
 al
-hD
+al
 ax
-ax
-Ts
-Ts
-Wd
-ax
-ax
-ax
-ax
-Oe
-ax
-ax
-xQ
-Oh
-ax
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12423,20 +11900,20 @@ al
 al
 al
 ax
-AJ
-AJ
-AJ
-Sc
-AJ
-pi
-ax
-FV
-CH
-hs
-ax
-Yu
-CH
-Yu
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12565,20 +12042,20 @@ al
 al
 al
 ax
-Co
-xC
-Fa
-RS
-xC
-AJ
-ax
-yH
-CH
-FE
-ax
-CH
-CH
-CH
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12706,21 +12183,21 @@ al
 al
 al
 al
-Wq
-Sc
-xH
-Mf
-Yg
-xC
-XC
 ax
-KA
-CH
-CH
-ax
-CH
-CH
-CH
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12848,21 +12325,21 @@ al
 al
 RQ
 al
-TQ
-Sc
-xH
-xC
-Yg
-Yg
-lD
 ax
-yH
-CH
-CH
-ax
-CH
-WR
-CH
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -12987,24 +12464,24 @@ al
 al
 al
 al
+ao
 al
 al
-Bw
-UH
-Sc
-xH
-xC
-xC
-xC
-Fo
 ax
-CH
-CH
-CH
-ax
-zW
-ax
-zW
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -13133,20 +12610,20 @@ al
 al
 al
 ax
-Co
-CQ
-CQ
-CQ
-xC
-vJ
-ax
-KW
-ax
-KW
-ax
-Sh
-IM
-Sh
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -13275,20 +12752,20 @@ al
 al
 al
 ax
-AJ
-Sc
-Sc
-Jq
-AJ
-AJ
-ax
-WZ
-ax
-Gr
-ax
-Sh
-Sh
-Sh
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
+Og
 ax
 ah
 "}
@@ -13418,9 +12895,6 @@ al
 al
 ax
 ax
-sU
-TQ
-UH
 ax
 ax
 ax
@@ -13428,9 +12902,12 @@ ax
 ax
 ax
 ax
-Sh
-Sh
-Sh
+ax
+ax
+ax
+ax
+ax
+ax
 ax
 ah
 "}
@@ -13569,11 +13046,11 @@ al
 al
 RQ
 al
-aE
-cw
-Sh
-cw
-aE
+al
+al
+al
+al
+al
 ah
 "}
 (88,1,1) = {"
@@ -13711,11 +13188,11 @@ al
 al
 al
 al
-FT
+jG
 al
 cg
 al
-hD
+al
 ah
 "}
 (89,1,1) = {"
