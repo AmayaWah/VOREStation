@@ -1,296 +1,972 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"aR" = (
+"ak" = (
 /obj/structure/table/rack/shelf,
-/turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"bA" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"cT" = (
-/obj/machinery/power/smes/buildable,
+/obj/item/weapon/strangerock,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/space)
-"eG" = (
-/obj/machinery/computer/ship/navigation{
-	dir = 8
+/area/submap/admin_upload/AU7)
+"am" = (
+/obj/structure/railing/grey{
+	dir = 4
 	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"hi" = (
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU4)
+"aA" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/obj/item/weapon/ore/diamond,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"aP" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU12)
+"ba" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/storage/belt/fannypack/blue,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"bs" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU10)
+"bv" = (
 /obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/space)
-"iC" = (
-/obj/machinery/computer/cryopod{
-	pixel_x = -32
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"iS" = (
-/obj/structure/table/steel_reinforced,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"jf" = (
-/obj/structure/handrail{
-	dir = 1
+	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"kC" = (
+/area/submap/admin_upload/AU14)
+"bx" = (
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/table/fancyblack,
+/obj/item/weapon/telecube/precursor{
+	desc = "A strange metallic cube that pulses silently. You have an incredibly bad feeling about this.";
+	description_info = "You aren't sure what to do with this thing."
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"bV" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/fossil/base,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"bY" = (
 /obj/machinery/power/port_gen/pacman/super/potato,
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/space)
-"kZ" = (
-/obj/structure/bed/chair/bay/comfy/green,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"lc" = (
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/space)
-"mi" = (
-/obj/machinery/disperser/middle,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"my" = (
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"oh" = (
-/obj/machinery/computer/ship/disperser{
-	dir = 1
+/obj/structure/railing/grey{
+	dir = 4
 	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"oG" = (
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"cl" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"cD" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/storage/backpack/satchel/gen,
+/obj/item/weapon/storage/backpack/satchel/gen,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"cN" = (
+/obj/machinery/power/quantumpad{
+	desc = "An alien transporter platform. It uses technologies unbeknownst to humanity.";
+	name = "alien transporter"
+	},
+/turf/simulated/floor/tiled/eris/white/danger,
+/area/submap/admin_upload/AU9)
+"cZ" = (
+/obj/structure/table/steel_reinforced,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"dy" = (
 /obj/machinery/computer/ship/sensors{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"pC" = (
+/area/submap/admin_upload)
+"dU" = (
+/obj/machinery/computer/ship/helm{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"dY" = (
+/obj/structure/bed/chair/bay/comfy/green{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"ea" = (
 /obj/structure/table/rack,
 /turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"rq" = (
+/area/submap/admin_upload/AU14)
+"ee" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
 /turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/space)
-"rz" = (
-/obj/structure/window/titanium{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/space)
-"rB" = (
-/obj/structure/table/rack/shelf,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"rK" = (
-/obj/structure/window/titanium,
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/space)
-"sA" = (
-/obj/machinery/disperser/front,
-/obj/structure/fans/hardlight,
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"vz" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"vA" = (
-/obj/machinery/disperser/back,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"vF" = (
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/space)
-"xV" = (
-/obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"zl" = (
-/obj/structure/handrail{
-	dir = 4
-	},
+/area/submap/admin_upload/AU6)
+"en" = (
 /turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"Ah" = (
-/obj/structure/bed/chair/bay/comfy/green{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"Az" = (
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/space)
-"Dk" = (
-/obj/structure/bed/chair/bay/comfy/green{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"DD" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"ET" = (
-/obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"FA" = (
-/obj/machinery/computer/ship/helm{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"Hv" = (
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/space)
-"HG" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/space)
-"Ke" = (
-/obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"Kz" = (
-/obj/structure/window/titanium{
-	dir = 8
-	},
-/obj/structure/window/titanium,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"Lu" = (
-/turf/simulated/wall/rpshull,
-/area/space)
-"LO" = (
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"Me" = (
-/obj/structure/closet/secure_closet/guncabinet,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"MR" = (
-/turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"NA" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"NU" = (
-/obj/structure/window/titanium,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"OS" = (
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"PD" = (
-/obj/structure/window/titanium,
-/obj/structure/window/titanium{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/space)
-"QD" = (
-/turf/space,
-/area/space)
-"RR" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"Sa" = (
+/area/submap/admin_upload/AU10)
+"fp" = (
+/obj/structure/table/fancyblack,
+/obj/item/weapon/miscdisc,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"fy" = (
 /obj/structure/cryofeed{
 	dir = 2
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"Su" = (
-/obj/structure/handrail{
-	dir = 8
+/area/submap/admin_upload/AU13)
+"fF" = (
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU4)
+"fL" = (
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU3)
+"fN" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/fossil/skull,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"gk" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU12)
+"gp" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/staff,
+/obj/item/weapon/fossil/bone,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"gt" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU12)
+"gK" = (
+/obj/structure/bed/chair/bay/comfy/green,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"gO" = (
+/obj/structure/table/steel_reinforced,
+/obj/item/weapon/strangerock,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"gZ" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/hydrogen,
+/obj/item/weapon/ore/hydrogen,
+/obj/item/weapon/ore/hydrogen,
+/obj/item/weapon/ore/hydrogen,
+/obj/item/weapon/ore/hydrogen,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/fossil/skull/horned,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"hj" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU2)
+"hx" = (
+/obj/structure/bed/chair/bay/comfy/teal{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU6)
+"hz" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"hZ" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"SB" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/white/panels,
-/area/space)
-"Tx" = (
-/obj/machinery/computer/ship/helm{
-	dir = 8
+/area/submap/admin_upload/AU13)
+"jn" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"jQ" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"TQ" = (
-/obj/structure/bed/chair/bay/comfy/captain,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"Ux" = (
-/turf/simulated/wall/r_lead,
-/area/space)
-"UN" = (
-/obj/structure/handrail{
+/area/submap/admin_upload)
+"jX" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU15)
+"kv" = (
+/obj/structure/bed/chair/bay/comfy/green{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"Vh" = (
+/area/submap/admin_upload)
+"kB" = (
+/obj/structure/bed/chair/bay/comfy/captain,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"kT" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU15)
+"ld" = (
+/obj/structure/closet/secure_closet/guncabinet,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"lW" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU2)
+"mk" = (
+/obj/structure/salvageable/data,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU6)
+"mm" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU8)
+"mo" = (
+/obj/structure/window/titanium,
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/storage/belt/fannypack/black,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"mx" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU11)
+"mA" = (
+/turf/simulated/wall/r_lead,
+/area/submap/admin_upload/AU15)
+"mE" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU12)
+"mX" = (
+/obj/structure/table/rack,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU11)
+"nj" = (
 /obj/structure/handrail{
 	dir = 8
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"Vx" = (
+/area/submap/admin_upload/AU15)
+"nu" = (
+/obj/structure/ship_munition/disperser_charge/mining,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU4)
+"nw" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/obj/item/weapon/ore/verdantium,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"nH" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU13)
+"oc" = (
+/obj/structure/salvageable/machine,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"of" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU2)
+"om" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"oA" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU3)
+"pk" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"qy" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"qM" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/bluespace_crystal,
+/obj/item/weapon/ore/bluespace_crystal,
+/obj/item/weapon/ore/bluespace_crystal,
+/obj/item/weapon/ore/bluespace_crystal,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"qW" = (
+/turf/simulated/floor/plating/eris,
+/area/submap/admin_upload/AU4)
+"ru" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU3)
+"rz" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU7)
+"sv" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU14)
+"sA" = (
+/obj/structure/window/titanium,
+/obj/structure/table/steel_reinforced,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"tA" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"ur" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU15)
+"uD" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/obj/item/weapon/ore/rutile,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"uP" = (
+/obj/structure/table/steel_reinforced,
+/obj/item/weapon/implant/dud,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU6)
+"vz" = (
+/obj/machinery/computer/ship/navigation{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"vH" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU5)
+"vX" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU14)
+"wa" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"wT" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU5)
+"wW" = (
+/obj/structure/window/titanium,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"wZ" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU14)
+"xa" = (
 /obj/machinery/cryopod{
 	dir = 2
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"WD" = (
+/area/submap/admin_upload/AU12)
+"xf" = (
+/obj/machinery/computer/operating,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"xI" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU2)
+"xR" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
+/obj/item/weapon/ore/glass,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/space)
-"Xy" = (
+/area/submap/admin_upload/AU7)
+"xZ" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload)
+"ye" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"yA" = (
+/obj/structure/salvageable/machine,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU6)
+"yD" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"yT" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU4)
+"yW" = (
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/ship_munition/disperser_charge/mining,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU3)
+"zt" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU14)
+"zw" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU3)
+"zD" = (
+/obj/machinery/disperser/back,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU3)
+"zN" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/obj/item/weapon/ore/uranium,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"zO" = (
+/obj/machinery/cryopod{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU13)
+"Ab" = (
+/obj/structure/table/steel_reinforced,
+/obj/item/weapon/storage/toolbox/syndicate/powertools,
+/obj/item/weapon/storage/firstaid/surgery,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"Ak" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU7)
+"Ay" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU5)
+"Bx" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU4)
+"BQ" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU15)
+"Ce" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload)
+"Cw" = (
+/obj/machinery/optable,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"CB" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU4)
+"DL" = (
+/obj/machinery/computer/ship/disperser{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU3)
+"Ev" = (
+/obj/machinery/disperser/front,
+/obj/structure/fans/hardlight,
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU4)
+"EQ" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU2)
+"ER" = (
+/obj/structure/cryofeed{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU12)
+"Fg" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"Fy" = (
+/obj/machinery/power/port_gen/pacman/super/potato,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"FJ" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/strangerock,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"Gh" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU8)
+"Gn" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU11)
+"GE" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU7)
+"GI" = (
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU9)
+"GK" = (
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU5)
+"Hc" = (
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"Hp" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"HD" = (
+/obj/machinery/computer/ship/disperser{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU4)
+"HG" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"HJ" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/storage/backpack/satchel/norm,
+/obj/item/weapon/storage/backpack/satchel/norm,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU15)
+"HU" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU10)
+"Iz" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU3)
+"IA" = (
+/obj/machinery/atmospherics/unary/engine/bigger,
+/obj/structure/window/titanium,
+/obj/structure/window/titanium,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/submap/admin_upload/AU15)
+"IO" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/fossil/bone,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"Jo" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU5)
+"JY" = (
+/obj/structure/bed/chair/bay/comfy/red,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU4)
+"Kl" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"Ku" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU12)
+"KJ" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"KS" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/table/fancyblack,
+/obj/item/weapon/technomancer_core/unstable{
+	desc = "A strange black box. It looks like you can wear it, using its straps. Like a backpack!";
+	name = "strange box"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"KZ" = (
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"La" = (
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU4)
+"LE" = (
 /obj/machinery/computer/cryopod{
 	pixel_x = 32
 	},
 /turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU12)
+"LO" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU2)
+"LS" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU10)
+"Mb" = (
+/obj/machinery/power/smes/buildable,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU15)
+"Mq" = (
+/obj/structure/table/rack/shelf,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/ore/gold,
+/obj/item/weapon/fossil/plant,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"MS" = (
+/obj/machinery/computer/ship/engines{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"Nc" = (
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU2)
+"Ne" = (
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"Nm" = (
+/turf/simulated/floor/plating/eris,
+/area/submap/admin_upload/AU3)
+"Nq" = (
+/obj/structure/bed/chair/bay/comfy/teal{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"NF" = (
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"NV" = (
+/obj/machinery/disperser/middle,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU4)
+"Oc" = (
+/obj/structure/table/rack,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU10)
+"OK" = (
+/obj/structure/window/titanium,
+/obj/structure/salvageable/autolathe,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"OX" = (
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU14)
+"Pq" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU9)
+"PB" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU13)
+"PN" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU13)
+"Qx" = (
+/obj/structure/salvageable/server,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"QD" = (
+/turf/space,
 /area/space)
+"QY" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU11)
+"Rt" = (
+/obj/structure/bed/chair/bay/comfy/red,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU3)
+"RJ" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"RR" = (
+/obj/structure/window/titanium{
+	dir = 8
+	},
+/obj/structure/window/titanium,
+/obj/structure/salvageable/autolathe,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
+"RZ" = (
+/obj/machinery/atmospherics/unary/engine,
+/obj/structure/window/titanium,
+/obj/structure/window/titanium,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/submap/admin_upload/AU15)
+"Sh" = (
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/submap/admin_upload/AU15)
+"Sm" = (
+/obj/machinery/disperser/middle,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU3)
+"SB" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU6)
+"Tq" = (
+/obj/machinery/disperser/back,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/submap/admin_upload/AU4)
+"TJ" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU4)
+"Uh" = (
+/obj/structure/window/titanium,
+/obj/structure/window/titanium,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/submap/admin_upload/AU15)
+"Um" = (
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU6)
+"UP" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU2)
+"UT" = (
+/obj/structure/ship_munition/disperser_charge/fire,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU3)
+"UX" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU9)
+"Vi" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU13)
+"Vp" = (
+/obj/structure/bed/chair/bay/comfy/brown{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"VR" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU13)
+"Wa" = (
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU2)
+"Wg" = (
+/obj/structure/bed/chair/bay/comfy/teal,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"Wv" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"WV" = (
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload/AU2)
+"Xi" = (
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU11)
+"Xp" = (
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/machinery/door/firedoor/glass,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/submap/admin_upload/AU7)
+"Xt" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/submap/admin_upload/AU3)
+"XD" = (
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/submap/admin_upload/AU8)
+"XF" = (
+/obj/machinery/computer/ship/helm{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"Yh" = (
+/obj/structure/bed/chair/bay/comfy/teal,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/submap/admin_upload/AU15)
 "YB" = (
+/obj/structure/salvageable/bliss,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/submap/admin_upload)
+"YJ" = (
+/obj/machinery/disperser/front,
+/obj/structure/fans/hardlight,
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU3)
+"YL" = (
+/obj/structure/ship_munition/disperser_charge/explosive,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/submap/admin_upload/AU3)
+"YX" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/submap/admin_upload/AU4)
+"YZ" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/white/panels,
+/area/submap/admin_upload/AU10)
+"Zg" = (
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/submap/admin_upload/AU15)
+"ZD" = (
+/turf/simulated/wall/rpshull,
+/area/submap/admin_upload/AU10)
+"ZU" = (
 /obj/machinery/computer/ship/navigation/telescreen{
 	pixel_y = -32
 	},
 /obj/structure/table/steel_reinforced,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"YL" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/dark,
-/area/space)
-"YR" = (
-/obj/machinery/computer/ship/engines{
-	dir = 1
-	},
+/area/submap/admin_upload)
+"ZW" = (
+/obj/structure/table/steel_reinforced,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/space)
-"ZS" = (
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/space)
+/area/submap/admin_upload)
 
 (1,1,1) = {"
 QD
@@ -7724,15 +8400,15 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
 QD
 QD
 QD
@@ -7740,15 +8416,15 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+ZD
+CB
+CB
+CB
+CB
+CB
+CB
+CB
+CB
 QD
 QD
 QD
@@ -7866,15 +8542,15 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
+Ku
+ER
+xa
+gt
+gt
+aP
+gt
+mE
+Ku
 QD
 QD
 QD
@@ -7882,15 +8558,15 @@ QD
 QD
 QD
 QD
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
+ZD
+fF
+La
+La
+La
+La
+La
+La
+CB
 QD
 QD
 QD
@@ -8008,15 +8684,15 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-Xy
-my
-Lu
-YL
-my
-Lu
+Ku
+ER
+xa
+LE
+gt
+Ku
+gk
+gt
+Ku
 QD
 QD
 QD
@@ -8024,15 +8700,15 @@ QD
 QD
 QD
 QD
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
+ZD
+fF
+nu
+nu
+nu
+nu
+nu
+nu
+CB
 QD
 QD
 QD
@@ -8150,36 +8826,36 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-my
-my
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+gt
+gt
+Ku
+Gn
+Gn
+Gn
+ZD
+ZD
+ZD
+ZD
+ZD
+fF
+am
+am
+am
+am
+am
+am
+CB
+CB
+CB
+CB
+CB
+CB
 QD
 QD
 QD
@@ -8292,36 +8968,36 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
-pC
-MR
-aR
-Lu
-aR
-MR
-pC
-Lu
-my
-my
-my
-my
-Hv
-Hv
-oh
-Lu
-QD
-QD
-QD
-QD
-QD
+Ku
+ER
+xa
+gt
+gt
+aP
+gt
+gt
+Ku
+mX
+Xi
+QY
+ZD
+YZ
+en
+Oc
+ZD
+YX
+YX
+YX
+YX
+Bx
+JY
+HD
+CB
+qW
+qW
+qW
+qW
+qW
 QD
 QD
 QD
@@ -8425,45 +9101,45 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+jX
 QD
 QD
-Lu
-Sa
-Vx
-Xy
-my
-Lu
-YL
-my
-Lu
-pC
-MR
-aR
-Lu
-aR
-MR
-pC
-Lu
-my
-Su
-my
-Su
-Hv
-vA
-mi
-sA
-QD
-QD
-QD
-QD
-QD
+Ku
+ER
+xa
+LE
+gt
+Ku
+gk
+gt
+Ku
+mX
+Xi
+QY
+ZD
+YZ
+en
+Oc
+ZD
+YX
+yT
+YX
+yT
+Bx
+Tq
+NV
+Ev
+qW
+qW
+qW
+qW
+qW
 QD
 QD
 QD
@@ -8567,49 +9243,49 @@ QD
 QD
 QD
 QD
-Lu
-vF
-vF
-vF
-vz
-OS
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-my
-my
-Lu
-MR
-MR
-aR
-Lu
-aR
-MR
-jf
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+jX
+Zg
+Zg
+Zg
+Hp
+NF
+jX
+jX
+jX
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+gt
+gt
+Ku
+Xi
+Xi
+QY
+ZD
+YZ
+en
+LS
+ZD
+TJ
+CB
+CB
+CB
+CB
+CB
+CB
+CB
+Jo
+Jo
+SB
+SB
+SB
+SB
+SB
+SB
+SB
 QD
 QD
 QD
@@ -8709,49 +9385,49 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-OS
-OS
-rq
-OS
-OS
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
-MR
-MR
-aR
-Lu
-aR
-MR
-MR
-Lu
-my
-my
-my
-my
-my
-my
-my
-rq
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+RZ
+Zg
+Zg
+Zg
+NF
+NF
+kT
+NF
+NF
+Ku
+ER
+xa
+gt
+gt
+aP
+gt
+gt
+Ku
+Xi
+Xi
+QY
+ZD
+YZ
+en
+en
+ZD
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+of
+GK
+Ay
+SB
+mk
+mk
+mk
+mk
+mk
+SB
 QD
 QD
 QD
@@ -8851,49 +9527,49 @@ QD
 QD
 QD
 QD
-Lu
-vF
-vF
-vF
-OS
-OS
-Lu
-OS
-OS
-Lu
-Sa
-Vx
-Xy
-my
-Lu
-YL
-my
-Lu
-MR
-MR
-aR
-Lu
-aR
-DD
-MR
-Lu
-my
-my
-my
-my
-my
-my
-my
-rq
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+Zg
+Zg
+Zg
+NF
+NF
+jX
+NF
+NF
+Ku
+ER
+xa
+LE
+gt
+Ku
+gk
+gt
+Ku
+Xi
+Xi
+QY
+ZD
+YZ
+HU
+en
+ZD
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+of
+GK
+GK
+SB
+Um
+Um
+Um
+Um
+Um
+SB
 QD
 QD
 QD
@@ -8992,50 +9668,50 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-rq
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-HG
-lc
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-HG
-hi
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+kT
+Ku
+Ku
+Ku
+Ku
+Ku
+Ku
+aP
+aP
+Ku
+mx
+Gn
+Gn
+ZD
+ZD
+ZD
+bs
+ZD
+UP
+Wa
+xZ
+xZ
+xZ
+xZ
+xZ
+xZ
+wT
+vH
+SB
+yA
+hx
+Um
+Um
+uP
+SB
 QD
 QD
 QD
@@ -9129,55 +9805,55 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-OS
-OS
-OS
-my
-my
-my
-my
-my
-my
-my
-my
-my
-my
-NA
-my
-my
-Lu
-rB
-iS
-oG
-iS
-Lu
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+of
+Nc
+Nc
+Nc
+Nc
+Nc
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+lW
+EQ
+EQ
+xZ
+qy
+ZW
+dy
+ZW
+xZ
+GK
+GK
+SB
+Um
+Um
+Um
+Um
+uP
+SB
 QD
 QD
 QD
@@ -9271,55 +9947,55 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-vF
-Lu
-OS
-OS
-Vh
-OS
-OS
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-OS
-OS
-OS
-my
-my
-Su
-my
-my
-Su
-my
-my
-my
-my
-my
-my
-my
-Lu
-LO
-LO
-Ah
-iS
-Lu
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+IA
+Zg
+Zg
+Zg
+Zg
+jX
+NF
+NF
+nj
+NF
+NF
+NF
+NF
+NF
+NF
+of
+Nc
+Nc
+Nc
+Nc
+Nc
+EQ
+EQ
+xI
+EQ
+EQ
+xI
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+xZ
+hz
+KZ
+dY
+ZW
+xZ
+GK
+GK
+ee
+Um
+Um
+Um
+Um
+uP
+SB
 QD
 QD
 QD
@@ -9413,55 +10089,55 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-vF
-Lu
-OS
-Ke
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-YL
-ET
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+Uh
+Zg
+Zg
+Zg
+Zg
+jX
+NF
+om
+jX
+jX
+jX
+jX
+jX
+jX
+kT
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+hj
 LO
-LO
-Lu
-LO
-LO
-kZ
-YR
-Lu
-lc
-lc
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+xZ
+xZ
+xZ
+xZ
+xZ
+xZ
+WV
+WV
+xZ
+hz
+KZ
+gK
+MS
+xZ
+GK
+GK
+SB
+SB
+SB
+SB
+SB
+SB
+SB
 QD
 QD
 QD
@@ -9555,60 +10231,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-Lu
-OS
-OS
-Lu
-Az
-Az
-Az
-rK
-OS
-ZS
-Lu
-Ux
-Ux
-Ux
-Ux
-Ux
-Ux
-Ux
-Lu
-my
-my
-Lu
-LO
-LO
-LO
-LO
-rq
-LO
-LO
-Lu
-LO
-LO
-iS
-iS
-Lu
-lc
-lc
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+NF
+NF
+NF
+NF
+jX
+NF
+NF
+jX
+HJ
+cD
+ba
+mo
+NF
+Sh
+jX
+mA
+mA
+mA
+mA
+mA
+mA
+mA
+jX
+EQ
+EQ
+xZ
+YB
+KZ
+KZ
+KZ
+Ce
+WV
+WV
+xZ
+KZ
+KZ
+ZW
+ZW
+xZ
+GK
+GK
+rz
+qM
+bV
+aA
+uD
+nw
+rz
+rz
+rz
+rz
+rz
+rz
 QD
 QD
 QD
@@ -9697,60 +10373,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-Lu
-RR
-OS
-Lu
-Az
-Az
+jX
+NF
+NF
+NF
+NF
+jX
+Kl
+NF
+jX
+Hc
+Hc
+Hc
+wW
+NF
+Sh
+jX
+mA
+BQ
+BQ
+BQ
+BQ
+BQ
+mA
+jX
+EQ
+EQ
+xZ
+ZW
+KZ
+KZ
+jQ
+xZ
+xZ
+xZ
+xZ
+KZ
+KZ
+KZ
+KJ
+xZ
+GK
+GK
 rz
-PD
-OS
-ZS
-Lu
-Ux
-Hv
-Hv
-Hv
-Hv
-Hv
-Ux
-Lu
-my
-my
-Lu
-Lu
-Lu
-LO
-LO
-Lu
-Lu
-Lu
-Lu
-LO
-LO
-LO
-LO
-Lu
-lc
-lc
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+HG
+HG
+HG
+HG
+HG
+rz
+rz
+rz
+rz
+rz
+rz
 QD
 QD
 QD
@@ -9839,60 +10515,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-Lu
-OS
-OS
-OS
-OS
-OS
-ZS
-Lu
-Ux
-Hv
-kC
-kC
-kC
-Hv
-Ux
-Lu
-my
-my
-Lu
-LO
-LO
-LO
-xV
-Lu
-UN
-UN
-Lu
-LO
-LO
-LO
-Tx
-Lu
-lc
-hi
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+NF
+NF
+NF
+NF
+kT
+NF
+NF
+jX
+NF
+NF
+NF
+NF
+NF
+Sh
+jX
+mA
+BQ
+Fg
+cl
+Fy
+BQ
+mA
+jX
+EQ
+EQ
+xZ
+ZW
+Vp
+KZ
+KJ
+xZ
+RJ
+RJ
+xZ
+KZ
+KZ
+KZ
+dU
+xZ
+GK
+vH
+rz
+GE
+HG
+gp
+zN
+ak
+rz
+HG
+Ne
+bx
+rz
+rz
 QD
 QD
 QD
@@ -9980,61 +10656,61 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-OS
-OS
-Lu
-OS
-OS
-OS
-OS
-OS
-ZS
-Hv
-Hv
-Hv
-WD
-cT
-kC
-Hv
-Ux
-Lu
-my
-my
-Lu
-Lu
-Lu
-LO
-LO
-rq
-LO
-LO
-rq
-LO
-TQ
-YB
-Lu
-Lu
-lc
-lc
-rq
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+NF
+NF
+jX
+NF
+NF
+NF
+NF
+NF
+Sh
+ur
+BQ
+BQ
+ye
+Mb
+yD
+BQ
+mA
+jX
+EQ
+EQ
+xZ
+ZW
+ZW
+KZ
+KZ
+Ce
+KZ
+KZ
+Ce
+KZ
+kB
+ZU
+xZ
+xZ
+GK
+GK
+Ak
+GE
+HG
+HG
+HG
+HG
+Xp
+HG
+HG
+fp
+rz
+rz
 QD
 QD
 QD
@@ -10123,60 +10799,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-Lu
-OS
-OS
-OS
-Kz
-OS
-ZS
-Lu
-Ux
-Hv
-kC
-kC
-kC
-Hv
-Ux
-Lu
-my
-my
-Lu
-iS
-UN
-LO
-xV
-Lu
-bA
-bA
-Lu
-LO
-LO
-LO
-FA
-Lu
-lc
-hi
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+NF
+NF
+NF
+NF
+kT
+NF
+NF
+jX
+Ab
+NF
+NF
+RR
+NF
+Sh
+jX
+mA
+BQ
+wa
+pk
+bY
+BQ
+mA
+jX
+EQ
+EQ
+xZ
+ZW
+Vp
+KZ
+KJ
+xZ
+Wv
+Wv
+xZ
+KZ
+KZ
+KZ
+XF
+xZ
+GK
+vH
+rz
+GE
+HG
+gZ
+fN
+xR
+rz
+HG
+jn
+KS
+rz
+rz
 QD
 QD
 QD
@@ -10265,60 +10941,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-Lu
-RR
-OS
-Lu
-OS
-OS
-OS
-NU
-OS
-ZS
-Lu
-Ux
-Hv
-Hv
-Hv
-Hv
-Hv
-Ux
-Lu
-my
-my
-Lu
-iS
-LO
-LO
-LO
-Lu
-Lu
-Lu
-Lu
-LO
-LO
-LO
-LO
-Lu
-lc
-lc
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+NF
+NF
+NF
+NF
+jX
+Kl
+NF
+jX
+Cw
+NF
+Yh
+sA
+NF
+Sh
+jX
+mA
+BQ
+BQ
+BQ
+BQ
+BQ
+mA
+jX
+EQ
+EQ
+xZ
+ld
+KZ
+KZ
+jQ
+xZ
+xZ
+xZ
+xZ
+KZ
+KZ
+KZ
+KJ
+xZ
+GK
+GK
+rz
+HG
+HG
+HG
+HG
+HG
+rz
+rz
+rz
+rz
+rz
+rz
 QD
 QD
 QD
@@ -10407,60 +11083,60 @@ QD
 QD
 QD
 QD
-Lu
-OS
-OS
-OS
-OS
-Lu
-OS
-OS
-Lu
-OS
-OS
-OS
-NU
-OS
-ZS
-Lu
-Ux
-Ux
-Ux
-Ux
-Ux
-Ux
-Ux
-Lu
-my
-my
-Lu
-Me
-LO
-LO
-LO
-rq
-LO
-LO
-Lu
-LO
-LO
-iS
-iS
-Lu
-lc
-lc
-Lu
-rq
-rq
-rq
-rq
-rq
-Lu
-QD
-QD
-QD
-QD
-QD
+jX
+NF
+NF
+NF
+NF
+jX
+NF
+NF
+jX
+xf
+NF
+NF
+OK
+NF
+Sh
+jX
+mA
+mA
+mA
+mA
+mA
+mA
+mA
+jX
+EQ
+EQ
+xZ
+ld
+KZ
+KZ
+KZ
+Ce
+WV
+WV
+xZ
+KZ
+KZ
+ZW
+ZW
+xZ
+GK
+GK
+rz
+IO
+bV
+Mq
+FJ
+tA
+rz
+rz
+rz
+rz
+rz
+rz
 QD
 QD
 QD
@@ -10549,55 +11225,55 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-vF
-Lu
-OS
-Ke
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-YL
-ET
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+IA
+Zg
+Zg
+Zg
+Zg
+jX
+NF
+om
+jX
+jX
+jX
+jX
+jX
+jX
+kT
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+hj
 LO
-LO
-Lu
-LO
-LO
-kZ
-YR
-Lu
-lc
-lc
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+xZ
+xZ
+xZ
+xZ
+xZ
+xZ
+WV
+WV
+xZ
+hz
+KZ
+gK
+MS
+xZ
+GK
+GK
+Gh
+Gh
+Gh
+Gh
+Gh
+Gh
+Gh
 QD
 QD
 QD
@@ -10691,55 +11367,55 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-vF
-Lu
-OS
-OS
-vz
-OS
-OS
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-OS
-OS
-OS
-my
-my
-NA
-my
-my
-NA
-my
-my
-my
-my
-my
-my
-my
-Lu
-LO
-LO
-Dk
-iS
-Lu
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+Uh
+Zg
+Zg
+Zg
+Zg
+jX
+NF
+NF
+Hp
+NF
+NF
+NF
+NF
+NF
+NF
+of
+Nc
+Nc
+Nc
+Nc
+Nc
+EQ
+EQ
+lW
+EQ
+EQ
+lW
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+xZ
+hz
+KZ
+kv
+ZW
+xZ
+GK
+GK
+mm
+XD
+XD
+gO
+XD
+cZ
+Gh
 QD
 QD
 QD
@@ -10833,55 +11509,55 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-OS
-rq
-OS
-OS
-OS
-OS
-OS
-my
-my
-my
-my
-my
-my
-my
-my
-my
-my
-Su
-my
-my
-Lu
-rB
-iS
-eG
-iS
-Lu
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+NF
+of
+Nc
+Nc
+Nc
+Nc
+Nc
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+EQ
+xI
+EQ
+EQ
+xZ
+qy
+ZW
+vz
+ZW
+xZ
+GK
+GK
+Gh
+XD
+XD
+Qx
+Nq
+Qx
+Gh
 QD
 QD
 QD
@@ -10980,50 +11656,50 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-rq
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-rq
-Lu
-YL
-my
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-HG
-hi
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+jX
+kT
+PN
+PN
+PN
+PN
+PN
+PN
+VR
+VR
+PN
+zt
+wZ
+wZ
+UX
+UX
+UX
+Pq
+UX
+hj
+EQ
+xZ
+xZ
+xZ
+xZ
+xZ
+xZ
+wT
+vH
+Gh
+XD
+XD
+Qx
+XD
+Qx
+Gh
 QD
 QD
 QD
@@ -11123,49 +11799,49 @@ QD
 QD
 QD
 QD
-Lu
-vF
-vF
-vF
-OS
-OS
-Lu
-OS
-OS
-Lu
-Sa
-Vx
-iC
-my
-Lu
-YL
-my
-Lu
-MR
-zl
-aR
-Lu
-aR
-zl
-MR
-Lu
-my
-my
-lc
-lc
-lc
-lc
-lc
-rq
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+jX
+Zg
+Zg
+Zg
+NF
+NF
+jX
+NF
+NF
+PN
+fy
+zO
+hZ
+nH
+PN
+Vi
+nH
+PN
+OX
+bv
+vX
+UX
+cN
+GI
+GI
+UX
+EQ
+EQ
+Wa
+Wa
+Wa
+Wa
+Wa
+of
+GK
+GK
+Gh
+XD
+XD
+XD
+Wg
+oc
+Gh
 QD
 QD
 QD
@@ -11265,49 +11941,49 @@ QD
 QD
 QD
 QD
-vF
-vF
-vF
-vF
-OS
-OS
-rq
-OS
-OS
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
-MR
-MR
-aR
-Lu
-aR
-MR
-MR
-Lu
-my
-my
-lc
-lc
-lc
-lc
-lc
-rq
-lc
-lc
-Lu
-lc
-lc
-lc
-lc
-lc
-Lu
+RZ
+Zg
+Zg
+Zg
+NF
+NF
+kT
+NF
+NF
+PN
+fy
+zO
+nH
+nH
+VR
+nH
+nH
+PN
+OX
+OX
+vX
+UX
+cN
+GI
+GI
+UX
+EQ
+EQ
+Wa
+Wa
+Wa
+Wa
+Wa
+of
+GK
+Ay
+Gh
+XD
+XD
+XD
+Wg
+oc
+Gh
 QD
 QD
 QD
@@ -11407,49 +12083,49 @@ QD
 QD
 QD
 QD
-Lu
-vF
-vF
-vF
-Vh
-OS
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-my
-my
-Lu
-SB
-MR
-aR
-Lu
-aR
-MR
-jf
-Lu
-rq
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+jX
+Zg
+Zg
+Zg
+nj
+NF
+jX
+jX
+jX
+PN
+PN
+PN
+PN
+PN
+PN
+nH
+nH
+PN
+sv
+OX
+vX
+UX
+cN
+GI
+GI
+UX
+Xt
+oA
+oA
+oA
+oA
+oA
+oA
+oA
+Jo
+Jo
+Gh
+Gh
+Gh
+Gh
+Gh
+Gh
+Gh
 QD
 QD
 QD
@@ -11549,45 +12225,45 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+jX
+jX
+jX
+jX
+jX
+jX
+jX
 QD
 QD
-Lu
-Sa
-Vx
-iC
-my
-Lu
-YL
-my
-Lu
-pC
-MR
-aR
-Lu
-aR
-MR
-pC
-Lu
-my
-NA
-my
-NA
-Hv
-vA
-mi
-sA
-QD
-QD
-QD
-QD
-QD
+PN
+fy
+zO
+hZ
+nH
+PN
+Vi
+nH
+PN
+ea
+OX
+vX
+UX
+cN
+GI
+GI
+UX
+Iz
+ru
+Iz
+ru
+zw
+zD
+Sm
+YJ
+Nm
+Nm
+Nm
+Nm
+Nm
 QD
 QD
 QD
@@ -11700,36 +12376,36 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
-pC
-MR
-aR
-Lu
-aR
-MR
-pC
-Lu
-my
-my
-my
-my
-Hv
-Hv
-oh
-Lu
-QD
-QD
-QD
-QD
-QD
+PN
+fy
+zO
+nH
+nH
+VR
+nH
+nH
+PN
+ea
+OX
+vX
+UX
+cN
+GI
+GI
+UX
+Iz
+Iz
+Iz
+Iz
+zw
+Rt
+DL
+oA
+Nm
+Nm
+Nm
+Nm
+Nm
 QD
 QD
 QD
@@ -11842,36 +12518,36 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-my
-my
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+PN
+PN
+PN
+PN
+PN
+PN
+nH
+nH
+PN
+wZ
+wZ
+wZ
+UX
+UX
+UX
+UX
+UX
+fL
+yW
+yW
+yW
+yW
+yW
+yW
+oA
+oA
+oA
+oA
+oA
+oA
 QD
 QD
 QD
@@ -11984,31 +12660,31 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-iC
-my
-Lu
+PN
+fy
+zO
+hZ
+nH
+PN
+Vi
+nH
+PN
+QD
+QD
+QD
+QD
+QD
+QD
+QD
+UX
+fL
 YL
-my
-Lu
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
+YL
+YL
+YL
+YL
+YL
+oA
 QD
 QD
 QD
@@ -12126,15 +12802,15 @@ QD
 QD
 QD
 QD
-Lu
-Sa
-Vx
-my
-my
-rq
-my
-my
-Lu
+PN
+fy
+zO
+nH
+nH
+VR
+nH
+PB
+PN
 QD
 QD
 QD
@@ -12142,15 +12818,15 @@ QD
 QD
 QD
 QD
-Lu
-Az
-Az
-Az
-Az
-Az
-Az
-Az
-Lu
+UX
+fL
+UT
+UT
+UT
+UT
+UT
+UT
+oA
 QD
 QD
 QD
@@ -12268,15 +12944,15 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+PN
+PN
+PN
+PN
+PN
+PN
+PN
+PN
+PN
 QD
 QD
 QD
@@ -12284,15 +12960,15 @@ QD
 QD
 QD
 QD
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
-Lu
+UX
+oA
+oA
+oA
+oA
+oA
+oA
+oA
+oA
 QD
 QD
 QD
