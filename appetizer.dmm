@@ -1,21 +1,33 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"af" = (
-/obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"am" = (
+"au" = (
 /obj/structure/cable{
 	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
+	d2 = 4;
+	icon_state = "1-4"
 	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"ay" = (
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU3)
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"az" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"aD" = (
+/obj/machinery/cryopod{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
 "aG" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -24,24 +36,6 @@
 	},
 /turf/space,
 /area/space)
-"aS" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"br" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU6)
 "bu" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -58,10 +52,6 @@
 	},
 /turf/space,
 /area/space)
-"by" = (
-/obj/machinery/disperser/middle,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
 "bC" = (
 /obj/machinery/firealarm{
 	alarms_hidden = 1;
@@ -74,46 +64,55 @@
 	},
 /turf/space,
 /area/space)
-"bD" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
+"bK" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"bV" = (
+/obj/effect/decal/remains/robot,
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"cS" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"bE" = (
-/obj/machinery/computer/ship/helm{
-	dir = 4
+/area/space)
+"cV" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
 	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"bQ" = (
-/obj/machinery/power/apc{
-	dir = 8;
-	name = "west bump";
-	pixel_x = -24
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"cY" = (
+/obj/structure/cable,
+/turf/space,
+/area/space)
+"dx" = (
+/turf/simulated/floor/plating/eris/under,
+/area/space)
+"dV" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"bY" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU2)
-"cd" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"cF" = (
-/obj/structure/cable/cyan{
 	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"ec" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
 	},
 /obj/structure/cable/cyan{
 	d1 = 1;
@@ -121,79 +120,24 @@
 	icon_state = "1-8"
 	},
 /obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"cY" = (
-/obj/structure/cable,
-/turf/space,
-/area/space)
-"db" = (
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"dl" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"dx" = (
-/turf/simulated/floor/plating/eris/under,
-/area/space)
-"dE" = (
-/obj/structure/railing/grey{
-	dir = 1
-	},
-/obj/structure/railing/grey{
-	dir = 8
-	},
-/obj/structure/cable/cyan{
-	d2 = 8;
-	icon_state = "0-8"
-	},
-/obj/machinery/power/port_gen/pacman/super/potato{
-	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
-	max_power_output = 10;
-	max_safe_output = 8;
-	max_sheets = 400;
-	max_temperature = 1200;
-	name = "highly advanced nuclear reactor";
-	power_gen = 150000;
-	temperature_gain = 10
-	},
-/obj/effect/decal/cleanable/greenglow,
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"dR" = (
-/obj/machinery/power/apc{
-	dir = 2;
-	name = "south bump";
-	pixel_y = -24
-	},
-/obj/structure/cable{
-	d2 = 8;
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU5)
-"ed" = (
-/obj/structure/cable{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"ef" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
 	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
 "eg" = (
 /obj/structure/cable/cyan{
 	d2 = 4;
@@ -201,116 +145,38 @@
 	},
 /turf/space,
 /area/space)
-"el" = (
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU5)
-"et" = (
-/obj/structure/table/steel_reinforced,
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	pixel_y = 26
+"eA" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"eC" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft,
+/area/space)
+"eE" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"eN" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU4)
-"eK" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"eR" = (
-/obj/effect/decal/remains/robot,
 /turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/submap/admin_upload/AU4)
-"eV" = (
-/obj/structure/handrail,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/submap/admin_upload/AU4)
-"eY" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"eZ" = (
-/obj/machinery/computer/ship/navigation{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
+/area/space)
 "fa" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/eris/dark/panels,
 /area/space)
-"fe" = (
-/obj/effect/decal/remains/xeno,
-/obj/item/clothing/under/harness,
-/obj/item/clothing/mask/gas,
-/obj/effect/decal/cleanable/blood/oil,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"ff" = (
-/obj/machinery/computer/cryopod{
-	pixel_x = -32
+"fY" = (
+/obj/machinery/computer/ship/helm{
+	dir = 8
 	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"fk" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
-/obj/structure/railing/grey,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"fs" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"fL" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 1
-	},
-/obj/structure/railing/grey,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"fN" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"ge" = (
-/obj/effect/decal/remains/posi,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
 "gl" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 1
@@ -321,27 +187,52 @@
 "go" = (
 /turf/simulated/floor/tiled/eris/dark/bluecorner,
 /area/space)
-"gp" = (
-/obj/structure/table/steel_reinforced,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"gv" = (
+"gF" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"gT" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/voidcraft/vertical,
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"hP" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"hU" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 4
 	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU3)
-"gy" = (
-/obj/machinery/power/shield_generator/upgraded,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"io" = (
 /obj/structure/cable{
+	d1 = 1;
 	d2 = 2;
-	icon_state = "0-2"
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"gJ" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"ir" = (
 /obj/structure/ship_munition/disperser_charge/explosive,
 /obj/structure/railing/grey{
 	dir = 8
@@ -353,125 +244,24 @@
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU9)
-"gQ" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"gY" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"hD" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 1
-	},
-/obj/machinery/door/airlock/voidcraft,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU3)
-"hR" = (
-/obj/structure/ship_munition/disperser_charge/emp,
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU7)
-"ii" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"io" = (
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"iq" = (
-/obj/structure/cable{
+/area/space)
+"iI" = (
+/obj/structure/cable/cyan{
 	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"iu" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
 	d2 = 8;
-	icon_state = "4-8"
+	icon_state = "2-8"
 	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"iE" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"iQ" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"iU" = (
-/obj/machinery/recharge_station,
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"iY" = (
 /obj/structure/cable/cyan{
 	d1 = 2;
 	d2 = 4;
 	icon_state = "2-4"
 	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"jx" = (
+/obj/structure/bed/chair/bay/comfy/red,
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"jb" = (
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/obj/machinery/power/rad_collector{
-	active = 1;
-	locked = 1
-	},
-/obj/structure/cable/cyan{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"jm" = (
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU3)
-"jz" = (
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	dir = 8;
-	pixel_x = -26
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
+/area/space)
 "jH" = (
 /obj/structure/cable{
 	d1 = 2;
@@ -480,61 +270,30 @@
 	},
 /turf/space,
 /area/space)
-"jZ" = (
-/obj/structure/railing/grey,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"kt" = (
-/obj/structure/closet/secure_closet/guncabinet,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"kH" = (
-/obj/machinery/disperser/middle,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
-"kK" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
+"kr" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU5)
-"kS" = (
-/obj/structure/railing/grey{
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"ku" = (
+/obj/structure/handrail{
 	dir = 4
 	},
-/obj/structure/railing/grey{
-	dir = 1
+/obj/machinery/power/apc{
+	dir = 1;
+	name = "north bump";
+	pixel_x = 0;
+	pixel_y = 24
 	},
-/obj/structure/cable/cyan{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/obj/machinery/power/port_gen/pacman/super/potato{
-	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
-	max_power_output = 10;
-	max_safe_output = 8;
-	max_sheets = 400;
-	max_temperature = 1200;
-	name = "highly advanced nuclear reactor";
-	power_gen = 150000;
-	temperature_gain = 10
-	},
-/obj/effect/decal/cleanable/greenglow,
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"kU" = (
 /obj/structure/cable{
-	d1 = 1;
 	d2 = 2;
-	icon_state = "1-2"
+	icon_state = "0-2"
 	},
-/obj/effect/decal/remains/posi,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
+/area/space)
 "lb" = (
 /obj/structure/cable/cyan{
 	d1 = 1;
@@ -543,104 +302,58 @@
 	},
 /turf/space,
 /area/space)
-"lh" = (
-/obj/item/weapon/flag/advent{
-	desc = "A banner belonging to an unknown faction.";
-	name = "strange banner"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
 "lk" = (
 /turf/simulated/wall/rpshull,
 /area/space)
-"lp" = (
-/obj/item/weapon/flag/advent{
-	desc = "A banner belonging to an unknown faction.";
-	name = "strange banner"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"lw" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"lB" = (
+"lo" = (
+/obj/machinery/disperser/back,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"lC" = (
 /obj/structure/railing/grey{
-	dir = 1
+	dir = 4
 	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"lS" = (
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"mh" = (
+/obj/structure/closet/secure_closet/guncabinet,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"mp" = (
+/obj/structure/cable/cyan,
+/turf/space,
+/area/space)
+"mK" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"mm" = (
-/obj/structure/cryofeed{
-	dir = 2
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"mp" = (
-/obj/structure/cable/cyan,
-/turf/space,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"ms" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU5)
-"mv" = (
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"mx" = (
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU5)
-"mF" = (
-/obj/structure/cable{
+"mN" = (
+/obj/structure/cable/cyan{
 	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
+	d2 = 4;
+	icon_state = "1-4"
 	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"mU" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU6)
-"mZ" = (
-/obj/machinery/door/firedoor/glass,
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/voidcraft,
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
+/area/space)
+"mY" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
 "nc" = (
 /obj/structure/cable{
 	d2 = 8;
@@ -648,71 +361,168 @@
 	},
 /turf/space,
 /area/space)
-"nh" = (
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU5)
-"nl" = (
-/obj/machinery/computer/ship/disperser{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
-"nr" = (
-/obj/structure/railing/grey,
-/obj/machinery/power/rad_collector{
-	active = 1;
-	locked = 1
-	},
-/obj/structure/railing/grey{
-	dir = 8
-	},
-/obj/structure/cable/cyan{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"nt" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"nx" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"nC" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/submap/admin_upload/AU4)
-"nE" = (
-/obj/machinery/shipsensors{
-	dir = 1
-	},
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU9)
 "nN" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 9
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"nR" = (
+"nZ" = (
+/obj/structure/table/steel_reinforced,
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = 32
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"od" = (
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/space,
+/area/space)
+"oq" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"oL" = (
+/obj/effect/shuttle_landmark/automatic/admin_use1,
+/turf/space,
+/area/space)
+"oM" = (
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"pd" = (
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"pf" = (
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"pk" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"pu" = (
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/space,
+/area/space)
+"pM" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"qd" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"qm" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"qo" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"qp" = (
+/obj/structure/cryofeed{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"qw" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/space,
+/area/space)
+"qK" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"rp" = (
+/obj/structure/cable{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/space,
+/area/space)
+"sf" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"sM" = (
 /obj/structure/railing/grey{
 	dir = 4
 	},
-/obj/structure/railing/grey,
+/obj/structure/railing/grey{
+	dir = 1
+	},
 /obj/structure/cable/cyan{
 	d2 = 4;
 	icon_state = "0-4"
@@ -729,160 +539,118 @@
 	},
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"od" = (
-/obj/structure/cable/cyan{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/space,
 /area/space)
-"og" = (
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/submap/admin_upload/AU4)
-"oj" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"oq" = (
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU9)
-"ov" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"ow" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"oz" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"oA" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU3)
-"oB" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"oL" = (
-/obj/effect/shuttle_landmark/automatic/admin_use1,
-/turf/space,
-/area/space)
-"oW" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/fuel{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"pa" = (
-/obj/structure/ship_munition/disperser_charge/mining,
-/obj/structure/railing/grey{
-	dir = 8
-	},
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU7)
-"pl" = (
-/obj/item/weapon/flag/advent{
-	desc = "A banner belonging to an unknown faction.";
-	name = "strange banner"
-	},
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	dir = 4;
-	pixel_x = 26
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"pu" = (
-/obj/structure/cable{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/turf/space,
-/area/space)
-"pA" = (
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"pD" = (
-/obj/machinery/computer/ship/engines{
+"sP" = (
+/obj/machinery/shipsensors{
 	dir = 1
 	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"pE" = (
-/obj/structure/cryofeed{
-	dir = 2
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"qr" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU9)
-"qu" = (
 /turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU7)
-"qw" = (
+/area/space)
+"tn" = (
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
-/turf/space,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"qP" = (
-/obj/machinery/shipsensors{
-	dir = 1
-	},
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU7)
-"qQ" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"qT" = (
+"ts" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"tJ" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"qV" = (
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"tO" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"tV" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"ul" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"up" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
+	},
+/obj/effect/decal/cleanable/blood/oil,
+/obj/effect/decal/cleanable/blood/oil,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"uw" = (
+/obj/structure/bed/chair/bay/comfy/green,
+/obj/effect/decal/remains/xeno,
+/obj/item/clothing/under/harness,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/head/helmet/dermal,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"uX" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"vd" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"vh" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"vv" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
@@ -890,123 +658,20 @@
 	},
 /obj/effect/decal/remains/robot,
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"ri" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"rp" = (
-/obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/space,
 /area/space)
-"rz" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU7)
-"rQ" = (
-/obj/effect/decal/remains/xeno,
-/obj/effect/decal/cleanable/blood,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"rY" = (
-/obj/structure/table/rack/shelf,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"rZ" = (
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
+"vA" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"se" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"sr" = (
-/obj/structure/handrail,
-/obj/machinery/computer/ship/navigation/telescreen{
-	pixel_y = 32
-	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
+/area/space)
+"vD" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = 32
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"sG" = (
-/obj/machinery/computer/ship/helm{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"sN" = (
-/obj/machinery/power/smes/buildable,
-/obj/structure/cable{
-	d2 = 8;
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"sP" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"sQ" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"sY" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU9)
-"ts" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"ua" = (
+/area/space)
+"vE" = (
 /obj/structure/railing/grey{
 	dir = 8
 	},
@@ -1019,119 +684,27 @@
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"uK" = (
-/obj/effect/decal/remains/posi,
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"uN" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload/AU4)
-"uS" = (
-/obj/machinery/power/apc{
-	dir = 4;
-	name = "east bump";
-	pixel_x = 24
-	},
-/obj/structure/cable{
-	d2 = 8;
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"uT" = (
-/obj/structure/handrail,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"uV" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"vl" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"vA" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 5
-	},
+/area/space)
+"vH" = (
+/obj/effect/gibspawner/robot,
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"vB" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"vE" = (
-/obj/machinery/power/terminal{
-	dir = 4
-	},
-/obj/structure/cable/cyan{
-	d2 = 2;
-	icon_state = "0-2"
-	},
+"vQ" = (
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"wi" = (
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"vP" = (
+/area/space)
+"wj" = (
 /obj/structure/cable{
 	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
+	d2 = 2;
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"vT" = (
-/obj/structure/ship_munition/disperser_charge/fire,
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU9)
-"we" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 9
 	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"wi" = (
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "wm" = (
@@ -1142,240 +715,69 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"wy" = (
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
-"wF" = (
-/obj/effect/decal/remains/robot,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"wS" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/fuel{
-	dir = 4
+"wx" = (
+/obj/machinery/power/smes/buildable,
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"xc" = (
-/obj/structure/bed/chair/bay/comfy/brown{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"xd" = (
-/obj/structure/railing/grey{
-	dir = 1
-	},
-/obj/machinery/power/rad_collector{
-	active = 1;
-	locked = 1
-	},
-/obj/structure/cable/cyan,
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"xn" = (
-/obj/effect/decal/remains/robot,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"xX" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"xZ" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload)
-"yf" = (
-/obj/structure/bed/chair/bay/comfy/captain,
-/obj/effect/decal/remains/xeno,
-/obj/item/clothing/under/harness,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/head/helmet/augment,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"yB" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU5)
-"yC" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"yH" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"yI" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/obj/machinery/power/apc{
-	dir = 1;
-	name = "north bump";
-	pixel_x = 0;
-	pixel_y = 24
-	},
-/obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"yJ" = (
-/obj/structure/handrail{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"zu" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"Ar" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"At" = (
-/obj/effect/decal/remains/robot,
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Av" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"AB" = (
-/obj/structure/cable/cyan{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/space,
 /area/space)
-"AV" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Bc" = (
-/obj/structure/bed/chair/bay/comfy/red,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
-"Bh" = (
-/obj/item/weapon/flag/advent{
-	desc = "A banner belonging to an unknown faction.";
-	name = "strange banner"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Bq" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU4)
-"Cb" = (
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"Co" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"Ct" = (
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"Cu" = (
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/obj/structure/ship_munition/disperser_charge/emp,
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU7)
-"CC" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload/AU4)
-"CG" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"CX" = (
+"wR" = (
 /obj/structure/cable{
 	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 6
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
-"Dd" = (
-/obj/machinery/power/terminal{
+"wS" = (
+/obj/machinery/power/apc{
+	dir = 8;
+	name = "west bump";
+	pixel_x = -24
+	},
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"wV" = (
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = -32
+	},
+/obj/structure/table/steel_reinforced,
+/obj/item/clothing/mask/ai,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"xf" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"xt" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 8
 	},
-/obj/structure/cable/cyan,
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Du" = (
+/area/space)
+"xQ" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"xW" = (
 /obj/structure/railing/grey{
 	dir = 8
 	},
@@ -1395,50 +797,46 @@
 	},
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"Dw" = (
-/obj/structure/cable/cyan{
-	d2 = 8;
-	icon_state = "0-8"
-	},
-/turf/space,
 /area/space)
-"DV" = (
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"Ed" = (
-/obj/machinery/computer/ship/disperser{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
-"EA" = (
+"yH" = (
 /obj/structure/cable{
-	d1 = 4;
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"yL" = (
+/obj/structure/cable{
+	d1 = 1;
 	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/machinery/power/apc{
-	dir = 1;
-	name = "north bump";
-	pixel_x = 0;
-	pixel_y = 24
-	},
-/obj/structure/cable{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"EU" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
+	icon_state = "1-8"
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Fv" = (
+/area/space)
+"yX" = (
+/obj/machinery/disperser/front,
+/obj/structure/fans/hardlight,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"ze" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"zp" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 8;
+	pixel_x = -26
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"zt" = (
 /obj/structure/plasticflaps,
 /obj/structure/cable{
 	d1 = 1;
@@ -1446,11 +844,373 @@
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU2)
-"FN" = (
-/obj/machinery/disperser/back,
+/area/space)
+"zy" = (
+/obj/effect/decal/remains/posi,
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"zC" = (
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"zM" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"Ak" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"Ay" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"AB" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/space,
+/area/space)
+"AC" = (
+/obj/structure/ship_munition/disperser_charge/explosive,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"AQ" = (
+/obj/machinery/power/terminal{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"AY" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Bb" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
+/area/space)
+"Bv" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"BI" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey,
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"BL" = (
+/obj/effect/decal/remains/posi,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"BR" = (
+/obj/structure/handrail,
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = 32
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"BT" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Ci" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Cw" = (
+/obj/structure/handrail,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Cx" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"CA" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/machinery/door/firedoor/glass,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"CX" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Da" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Dd" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Dl" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Ds" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Dw" = (
+/obj/structure/cable/cyan{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/space,
+/area/space)
+"Dz" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"DL" = (
+/obj/machinery/power/quantumpad{
+	desc = "An alien transporter platform. It uses technologies unbeknownst to humanity.";
+	name = "alien transporter"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_platform,
+/area/space)
+"DT" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"DX" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Ee" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Eo" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Es" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"Et" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"EG" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"EI" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"EL" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"ET" = (
+/obj/machinery/computer/ship/disperser{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Fj" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/obj/effect/decal/remains/robot,
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"Fs" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Fx" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"FQ" = (
+/obj/structure/ship_munition/disperser_charge/mining,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
 "Gb" = (
 /obj/machinery/firealarm{
 	alarms_hidden = 1;
@@ -1464,542 +1224,22 @@
 	},
 /turf/space,
 /area/space)
-"Go" = (
+"Gc" = (
+/obj/machinery/power/shield_generator/upgraded,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"Gq" = (
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload/AU4)
-"GX" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"Hq" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload/AU4)
-"Hr" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"Hs" = (
-/obj/effect/decal/remains/posi,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"HE" = (
-/obj/machinery/disperser/front,
-/obj/structure/fans/hardlight,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"HY" = (
-/obj/structure/railing/grey,
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/space)
-"Ia" = (
-/obj/machinery/power/apc{
-	dir = 2;
-	name = "south bump";
-	pixel_y = -24
-	},
-/obj/structure/cable,
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"Ix" = (
-/obj/machinery/computer/cryopod{
-	pixel_x = 32
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"IM" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
-/obj/effect/decal/remains/robot,
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"Jc" = (
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/space,
-/area/space)
-"Jo" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU5)
-"JF" = (
-/obj/structure/bed/chair/bay/comfy/green,
-/obj/effect/decal/remains/xeno,
-/obj/item/clothing/under/harness,
-/obj/item/clothing/mask/gas,
-/obj/item/clothing/head/helmet/dermal,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"JI" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU3)
-"JN" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"JR" = (
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
-"JW" = (
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"JZ" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Kd" = (
-/obj/structure/bed/chair/bay/comfy/green{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"Kf" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"KF" = (
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"KI" = (
-/turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"KT" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
-/obj/machinery/door/airlock/voidcraft,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU3)
-"KX" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"Lj" = (
-/obj/structure/handrail{
-	dir = 4
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/obj/effect/decal/remains/posi,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"LU" = (
-/obj/structure/ship_munition/disperser_charge/explosive,
-/obj/structure/railing/grey{
-	dir = 8
-	},
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU9)
-"LX" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU4)
-"Mg" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/obj/effect/decal/remains/robot,
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU5)
-"Ml" = (
-/obj/structure/bed/chair/bay/comfy/red,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
-"Mu" = (
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	dir = 4;
-	pixel_x = 26
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU7)
-"MI" = (
-/turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU9)
-"MM" = (
-/obj/machinery/computer/cryopod{
-	pixel_x = -32
-	},
-/obj/effect/decal/remains/xeno,
-/obj/item/clothing/under/harness,
-/obj/item/clothing/mask/gas,
-/obj/effect/decal/cleanable/blood/oil,
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"MR" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/space)
-"MS" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU14)
-"Na" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload)
-"Nf" = (
-/obj/machinery/power/terminal{
-	dir = 8
-	},
-/obj/structure/cable/cyan{
 	d2 = 2;
 	icon_state = "0-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Nq" = (
-/obj/machinery/power/port_gen/pacman/super/potato{
-	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
-	max_power_output = 10;
-	max_safe_output = 8;
-	max_sheets = 400;
-	max_temperature = 1200;
-	name = "highly advanced nuclear reactor";
-	power_gen = 150000;
-	temperature_gain = 10
-	},
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/obj/structure/cable/cyan{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"NC" = (
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"NK" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU7)
-"NP" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"NR" = (
-/turf/simulated/floor/plating/eris/under,
-/area/submap/admin_upload/AU6)
-"NV" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU5)
-"Oy" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft,
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
 /area/space)
-"OC" = (
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/space)
-"OH" = (
+"Gj" = (
 /obj/structure/railing/grey{
 	dir = 8
 	},
 /obj/structure/ship_munition/disperser_charge/mining,
 /turf/simulated/floor/tiled/eris/dark/cargo,
-/area/submap/admin_upload/AU9)
-"Pm" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"PA" = (
-/obj/structure/cable/cyan{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	dir = 4;
-	pixel_x = 26
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"PL" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"PV" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
-"PW" = (
-/obj/machinery/cryopod{
-	dir = 2
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU5)
-"Qa" = (
-/obj/machinery/cryopod{
-	dir = 2
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"Qi" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"QB" = (
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/space,
 /area/space)
-"QD" = (
-/turf/space,
-/area/space)
-"QF" = (
-/obj/machinery/computer/ship/navigation/telescreen{
-	pixel_y = -32
-	},
-/obj/structure/table/steel_reinforced,
-/obj/item/clothing/mask/ai,
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"QS" = (
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"QU" = (
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"QX" = (
-/obj/machinery/power/terminal{
-	dir = 4
-	},
-/obj/structure/cable/cyan,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Rl" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Rr" = (
-/obj/machinery/power/quantumpad{
-	desc = "An alien transporter platform. It uses technologies unbeknownst to humanity.";
-	name = "alien transporter"
-	},
-/turf/simulated/floor/tiled/eris/dark/gray_platform,
-/area/submap/admin_upload/AU5)
-"Rt" = (
-/obj/effect/overmap/visitable/ship/admin_use{
-	fore_dir = 4;
-	scanner_desc = "\[i]Registration\[/i]: Unable to retrieve information from vessel.\n\[i]Class\[/i]: Hypothesis: Scientific-exploratory vessel.\n\[i]Transponder\[/i]: ERROR\n\[b]Notice\[/b]: No life signs detected. Anomalous particles being generated on-site. Proceed with caution.\n\"";
-	scanner_name = "Unknown Vessel"
-	},
-/turf/space,
-/area/space)
-"Rz" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/violetcorener,
-/area/submap/admin_upload/AU6)
-"RP" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark/bluecorner,
-/area/submap/admin_upload/AU4)
-"RU" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"Sp" = (
-/obj/machinery/atmospherics/unary/engine,
-/obj/structure/window/titanium,
-/obj/structure/window/titanium,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/space)
-"Sv" = (
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/space)
-"SB" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU6)
-"SC" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	dir = 8
-	},
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/machinery/door/firedoor/glass,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU3)
-"SX" = (
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"Tg" = (
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"Tu" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU4)
-"TF" = (
-/obj/structure/handrail{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"TI" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/space,
-/area/space)
-"TN" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload/AU6)
-"TT" = (
-/turf/simulated/floor/tiled/eris/dark/gray_perforated,
-/area/submap/admin_upload/AU5)
-"TU" = (
+"GH" = (
 /obj/structure/railing/grey{
 	dir = 8
 	},
@@ -2020,70 +1260,290 @@
 	},
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
-/area/submap/admin_upload/AU2)
-"Ud" = (
+/area/space)
+"GU" = (
+/obj/machinery/power/apc{
+	dir = 1;
+	name = "north bump";
+	pixel_x = 0;
+	pixel_y = 24
+	},
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"HY" = (
+/obj/structure/railing/grey,
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"Jc" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/space,
+/area/space)
+"Jg" = (
+/obj/structure/bed/chair/bay/comfy/green{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Jh" = (
+/obj/machinery/door/firedoor/glass,
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Jo" = (
+/obj/structure/bed/chair/bay/comfy/green,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"JB" = (
+/obj/structure/bed/chair/bay/comfy/brown{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"JI" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"Kf" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Km" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"KG" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"KR" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Lj" = (
+/obj/structure/bed/chair/bay/comfy/green{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"LG" = (
+/obj/structure/handrail{
+	dir = 4
 	},
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Uh" = (
-/obj/structure/railing/grey,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/space)
-"Uj" = (
-/obj/structure/bed/chair/bay/comfy/green,
+/obj/effect/decal/remains/posi,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"Un" = (
-/obj/machinery/power/smes/buildable,
-/obj/structure/cable{
-	d2 = 4;
-	icon_state = "0-4"
+/area/space)
+"Ma" = (
+/obj/machinery/computer/ship/sensors{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Mc" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Mf" = (
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Uq" = (
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
 /area/space)
-"Uu" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"UE" = (
-/obj/item/weapon/flag/advent{
-	desc = "A banner belonging to an unknown faction.";
-	name = "strange banner"
-	},
-/obj/machinery/firealarm{
-	alarms_hidden = 1;
-	dir = 8;
-	pixel_x = -26
+"Mh" = (
+/obj/structure/handrail{
+	dir = 8
 	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"UG" = (
-/obj/machinery/atmospherics/unary/engine,
-/obj/structure/window/titanium,
-/obj/structure/window/titanium,
-/turf/simulated/floor/tiled/eris/dark/panels,
-/area/submap/admin_upload/AU3)
-"UJ" = (
+/area/space)
+"MQ" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"MR" = (
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 4;
 	icon_state = "2-4"
 	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Nc" = (
+/obj/structure/bed/chair/bay/comfy/captain,
+/obj/effect/decal/remains/xeno,
+/obj/item/clothing/under/harness,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/head/helmet/augment,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"UL" = (
+/area/space)
+"NG" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"NL" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Oy" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft,
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"OC" = (
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"OE" = (
+/obj/structure/table/steel_reinforced,
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	pixel_y = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"OL" = (
+/obj/machinery/computer/ship/navigation{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Pf" = (
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"Pm" = (
+/obj/structure/handrail,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"PT" = (
+/obj/structure/table/steel_reinforced,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Qb" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"QB" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/space,
+/area/space)
+"QD" = (
+/turf/space,
+/area/space)
+"QW" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 10
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"QZ" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 9
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Rg" = (
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 8;
@@ -2100,21 +1560,185 @@
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU2)
-"UM" = (
-/obj/machinery/computer/ship/sensors{
+/area/space)
+"Ro" = (
+/obj/machinery/disperser/middle,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Rt" = (
+/obj/effect/overmap/visitable/ship/admin_use{
+	fore_dir = 4;
+	scanner_desc = "\[i]Registration\[/i]: Unable to retrieve information from vessel.\n\[i]Class\[/i]: Hypothesis: Scientific-exploratory vessel.\n\[i]Transponder\[/i]: ERROR\n\[b]Notice\[/b]: No life signs detected. Anomalous particles being generated on-site. Proceed with caution.\n\"";
+	scanner_name = "Unknown Vessel"
+	},
+/turf/space,
+/area/space)
+"RA" = (
+/obj/machinery/computer/ship/helm{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"Vc" = (
+/area/space)
+"RC" = (
+/obj/machinery/recharge_station,
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Sp" = (
+/obj/machinery/atmospherics/unary/engine,
+/obj/structure/window/titanium,
+/obj/structure/window/titanium,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"Su" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Sv" = (
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"SS" = (
+/obj/machinery/power/apc{
+	dir = 2;
+	name = "south bump";
+	pixel_y = -24
+	},
+/obj/structure/cable,
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Tc" = (
+/obj/machinery/power/apc{
+	dir = 2;
+	name = "south bump";
+	pixel_y = -24
+	},
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"TC" = (
+/obj/machinery/power/apc{
+	dir = 4;
+	name = "east bump";
+	pixel_x = 24
+	},
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Vm" = (
-/obj/machinery/disperser/front,
-/obj/structure/fans/hardlight,
+/area/space)
+"TI" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/space,
+/area/space)
+"TP" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"TQ" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU7)
+/area/space)
+"TR" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/cable/cyan,
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"Uh" = (
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"Ui" = (
+/obj/machinery/computer/ship/engines{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Uq" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"Us" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 8;
+	pixel_x = -26
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Uy" = (
+/obj/machinery/power/smes/buildable,
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"UH" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"UR" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Vn" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
 "Vu" = (
 /obj/structure/cable{
 	d1 = 4;
@@ -2123,18 +1747,6 @@
 	},
 /turf/space,
 /area/space)
-"Vv" = (
-/obj/effect/gibspawner/robot,
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU4)
-"VD" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU5)
 "VL" = (
 /obj/structure/cable{
 	d1 = 2;
@@ -2144,128 +1756,70 @@
 /turf/space,
 /area/space)
 "Wc" = (
-/obj/structure/railing/grey,
-/obj/machinery/power/rad_collector{
-	active = 1;
-	locked = 1
-	},
-/obj/structure/railing/grey{
-	dir = 4
-	},
-/obj/structure/cable/cyan{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"Wn" = (
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"Wu" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/obj/effect/decal/remains/posi,
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload/AU4)
-"Wz" = (
+/area/space)
+"WQ" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/structure/cable/cyan{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"Xl" = (
-/obj/structure/table/steel_reinforced,
-/obj/machinery/computer/ship/navigation/telescreen{
-	pixel_y = 32
-	},
 /turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"Xn" = (
-/obj/structure/bed/chair/bay/comfy/green{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"XK" = (
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/tiled/eris/dark/orangecorner,
-/area/submap/admin_upload/AU2)
-"XX" = (
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU9)
-"XZ" = (
+/area/space)
+"WR" = (
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"Xm" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"Yc" = (
-/obj/machinery/disperser/back,
-/turf/simulated/floor/tiled/eris/dark/danger,
-/area/submap/admin_upload/AU9)
-"Yy" = (
-/obj/structure/handrail,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU4)
-"YL" = (
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/tiled/eris/dark/golden,
-/area/submap/admin_upload)
-"YW" = (
-/turf/simulated/wall/rpshull,
-/area/submap/admin_upload/AU13)
-"Zb" = (
-/obj/structure/railing/grey,
-/obj/machinery/power/rad_collector{
-	active = 1;
-	locked = 1
-	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Xz" = (
 /obj/structure/cable/cyan{
+	d1 = 1;
 	d2 = 2;
-	icon_state = "0-2"
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/eris/dark/monofloor,
-/area/submap/admin_upload/AU2)
-"Zt" = (
-/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"XL" = (
+/obj/effect/gibspawner/robot,
 /turf/simulated/floor/tiled/eris/dark,
-/area/submap/admin_upload/AU6)
-"Zz" = (
-/obj/machinery/door/firedoor/glass,
-/obj/machinery/door/airlock/voidcraft/vertical,
-/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
-/area/submap/admin_upload)
+/area/space)
+"YR" = (
+/obj/structure/ship_munition/disperser_charge/fire,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"Zf" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Zi" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"ZN" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
 
 (1,1,1) = {"
 QD
@@ -9128,29 +8682,29 @@ QD
 QD
 QD
 QD
+lk
+lk
+lk
 QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+lk
 QD
 QD
 QD
@@ -9269,7 +8823,6 @@ QD
 QD
 QD
 QD
-QD
 lk
 lk
 lk
@@ -9293,7 +8846,8 @@ lk
 lk
 lk
 lk
-QD
+lk
+lk
 QD
 QD
 QD
@@ -9411,7 +8965,18 @@ QD
 QD
 QD
 QD
-QD
+lk
+lk
+dx
+dx
+lk
+dx
+dx
+dx
+dx
+dx
+dx
+dx
 lk
 dx
 dx
@@ -9420,22 +8985,11 @@ dx
 dx
 dx
 dx
-dx
-dx
-dx
-lk
-dx
-dx
-dx
-dx
-dx
-dx
-dx
 lk
 dx
 dx
 lk
-QD
+lk
 QD
 QD
 QD
@@ -9548,12 +9102,12 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 dx
 dx
@@ -9577,7 +9131,7 @@ dx
 dx
 dx
 lk
-QD
+lk
 QD
 QD
 QD
@@ -9689,25 +9243,21 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 dx
 dx
-SB
-SB
-SB
-SB
-SB
-SB
-NR
-SB
-SB
+lk
+lk
+lk
+lk
+lk
 lk
 dx
 lk
@@ -9715,15 +9265,19 @@ lk
 lk
 dx
 lk
-rz
-qu
-rz
-rz
-rz
-rz
-rz
-rz
-rz
+lk
+lk
+dx
+lk
+lk
+dx
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
 QD
 QD
@@ -9831,41 +9385,41 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+Sv
+Sv
+Uh
+wi
+wi
 lk
 dx
 dx
-SB
-pE
-Qa
-SX
-SX
-TN
-SX
-UE
-SB
-OC
-OC
-OC
+lk
+qp
+aD
+xf
+xf
+bK
+xf
+zp
 lk
 OC
 OC
 OC
-rz
-mv
-mv
-hR
-hR
-hR
-hR
-hR
-rz
+lk
+OC
+OC
+OC
+lk
+xf
+xf
+pd
+pd
+pd
+pd
+pd
+lk
 QD
 QD
 QD
@@ -9974,24 +9528,24 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
+Sp
+fa
+fa
+gl
+vA
+wi
 lk
 dx
 dx
-SB
-pE
-Qa
-Ix
-SX
-SB
-Zt
-SX
-SB
+lk
+qp
+aD
+vD
+xf
+lk
+DT
+xf
+lk
 OC
 OC
 OC
@@ -9999,15 +9553,15 @@ OC
 OC
 OC
 OC
-rz
-mv
-mv
-pa
-pa
-pa
-pa
-pa
-rz
+lk
+xf
+xf
+FQ
+FQ
+FQ
+FQ
+FQ
+lk
 QD
 QD
 QD
@@ -10120,41 +9674,41 @@ lk
 lk
 lk
 lk
-lk
+CA
 lk
 lk
 dx
 dx
-SB
-SB
-SB
-SB
-SB
-SB
-SX
-SX
-SB
-JW
-JW
-JW
-SB
-SB
-JW
-JW
-rz
-mv
-mv
-Cu
-Cu
-Cu
-Cu
-Cu
-rz
-rz
-rz
-rz
-rz
-rz
+lk
+lk
+lk
+lk
+lk
+lk
+xf
+xf
+lk
+OC
+OC
+OC
+lk
+lk
+OC
+OC
+lk
+xf
+xf
+lC
+lC
+lC
+lC
+lC
+lk
+lk
+lk
+lk
+lk
+lk
 QD
 QD
 QD
@@ -10258,45 +9812,45 @@ QD
 QD
 QD
 QD
-lk
-Sv
-Sv
-Uh
-wi
+Sp
+eE
+Fj
+Zi
+ZN
 wi
 lk
 dx
 dx
-SB
-pE
-Qa
-SX
-Cb
-TN
-SX
-SX
-SB
-JW
-lw
-nt
-Ia
-SB
-JW
-iU
-rz
-qQ
-fN
-JN
-mv
-wy
-Bc
-nl
-rz
-qP
-qu
-qu
-qu
-qu
+lk
+qp
+aD
+xf
+XL
+bK
+xf
+xf
+lk
+OC
+tV
+Qb
+SS
+lk
+OC
+RC
+lk
+cV
+io
+au
+xf
+Da
+jx
+ET
+lk
+sP
+dx
+dx
+dx
+dx
 QD
 QD
 QD
@@ -10394,51 +9948,51 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-Sp
-fa
-fa
-gl
-vA
-wi
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+Sv
+Sv
+Uh
+Dl
+pM
 lk
 dx
 dx
-SB
-pE
-Qa
-Ix
-rQ
-SB
-Zt
-Cb
-SB
-JW
-aS
-JW
-JW
-SB
-JW
-iU
-rz
-ov
-PV
-uS
-PV
-Mu
-FN
-by
-Vm
-qu
-qu
-qu
-qu
-qu
+lk
+qp
+aD
+vD
+xf
+lk
+DT
+XL
+lk
+OC
+EG
+OC
+OC
+lk
+OC
+RC
+lk
+Zf
+Mh
+TC
+Mh
+Ds
+lo
+Ro
+yX
+dx
+dx
+dx
+dx
+dx
 QD
 QD
 QD
@@ -10536,57 +10090,57 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
-oA
-oA
-oA
-SC
-oA
-oA
-oA
-jm
-SB
-SB
-SB
-SB
-SB
-SB
-SX
-SX
-SB
-JW
-aS
-JW
-JW
-SB
-JW
-JW
-rz
-NK
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-rz
-YW
-YW
-YW
-YW
-YW
-YW
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+Dl
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+lk
+lk
+lk
+xf
+xf
+lk
+OC
+EG
+OC
+OC
+lk
+OC
+OC
+lk
+Ak
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 lk
 lk
@@ -10678,46 +10232,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-UG
-Uu
-IM
-fk
-wS
-JI
-KT
-JI
-Co
-SB
-pE
-Qa
-SX
-SX
-TN
-SX
-iq
-br
-nt
-Rz
-JW
-JW
-SB
-JW
-iU
-SB
-gQ
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-LX
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+wi
+Dl
+wi
+ze
+wi
+wi
+lk
+qp
+aD
+xf
+xf
+bK
+xf
+cV
+gT
+Qb
+Xm
+OC
+OC
+lk
+OC
+RC
+lk
+Zf
+xf
+xf
+xf
+xf
+xf
+xf
+bK
 go
 go
 go
@@ -10820,46 +10374,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
-io
-io
-jZ
-Ct
-lh
-oA
-Ct
-oB
-SB
-pE
-Qa
-Ix
-SX
-SB
-Zt
-nx
-SB
-JW
-JW
-JW
-JW
-SB
-JW
-iU
-SB
-Av
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-LX
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+wi
+Dl
+wi
+lk
+wi
+wi
+lk
+qp
+aD
+vD
+xf
+lk
+DT
+Zf
+lk
+OC
+OC
+OC
+OC
+lk
+OC
+RC
+lk
+qm
+xf
+xf
+xf
+xf
+xf
+xf
+bK
 go
 go
 go
@@ -10962,46 +10516,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-gv
-SB
-SB
-SB
-SB
-SB
-SB
-TN
-mU
-SB
-SB
-SB
-SB
-SB
-SB
-TN
-SB
-SB
-eV
-og
-xZ
-xZ
-xZ
-xZ
-xZ
-xZ
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+lk
+lk
+MQ
+lk
+lk
+lk
+bK
+lk
+lk
+lk
+lk
+lk
+lk
+bK
+Ak
+lk
+lk
+lk
+lk
+lk
+lk
+bK
+lk
+lk
+Pm
+go
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 Uq
 lk
@@ -11100,50 +10654,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
+lk
+lk
+lk
+lk
 wi
 wi
 wi
-MR
-wm
+wi
+wi
+lk
+wi
+wR
+wj
 wm
 Oy
 wm
 wm
-eC
-vP
-DV
-DV
-DV
-DV
-Vc
-gQ
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-cd
-gQ
-xn
-xZ
-rY
-gp
-UM
-gp
-xZ
+Oy
+mK
+wi
+wi
+wi
+wi
+xf
+Zf
+xf
+xf
+xf
+xf
+xf
+xf
+xf
+xf
+AY
+Zf
+vQ
+lk
+Km
+PT
+Ma
+PT
+lk
 QD
 QD
 QD
@@ -11242,50 +10796,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
+lk
+lk
+lk
+lk
 wi
 wi
 wi
-Kf
+wi
+wi
+lk
+wi
+xt
 wi
 wi
 lk
 wi
 wi
-Bq
-Hr
-Go
-Go
-Go
-Go
-oj
-Rl
-AV
-lS
-ge
-TF
-Vc
-Vc
-Vc
-Vc
-ge
-gQ
-Vc
-xZ
-uT
-QS
-Xn
-gp
-xZ
+lk
+CX
+wm
+wm
+wm
+wm
+io
+dV
+BT
+au
+BL
+Mh
+xf
+xf
+xf
+xf
+BL
+Zf
+xf
+lk
+ts
+oM
+Jg
+PT
+lk
 QD
 QD
 QD
@@ -11384,50 +10938,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-Bh
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-sr
-af
-xZ
-xZ
-xZ
-xZ
-xZ
-xZ
-CC
-Gq
-xZ
-uT
-QS
-JF
-pD
-xZ
+wi
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+xt
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+BR
+Et
+lk
+lk
+lk
+lk
+lk
+lk
+WQ
+oM
+lk
+ts
+oM
+uw
+Ui
+lk
 QD
 QD
 QD
@@ -11526,50 +11080,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-vE
-rZ
-QX
-db
-bY
-KF
-jb
-jb
-jb
-jb
-jb
-KF
-bY
-gQ
-At
-xZ
-gp
-xc
-UJ
-RU
-Na
-Hq
-Gq
-xZ
-QS
-QS
-gp
-gp
-xZ
+wi
+lk
+lk
+lk
+lk
+lk
+wi
+lk
+wi
+xt
+lk
+wi
+wi
+AQ
+tn
+lk
+pf
+TP
+TP
+TP
+TP
+TP
+pf
+lk
+Zf
+bV
+lk
+PT
+JB
+eA
+yH
+gT
+qo
+oM
+lk
+oM
+oM
+PT
+PT
+lk
 QD
 QD
 QD
@@ -11668,50 +11222,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-Un
-oz
-Un
-db
-bY
-Zb
-we
-cF
-cF
-cF
-xX
-xd
-bY
-gQ
-Vc
-xZ
-gp
-QS
-iE
-lp
-xZ
-xZ
-xZ
-xZ
-QS
-QS
-QS
-yJ
-xZ
+wi
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+xt
+lk
+GU
+wi
+Uy
+vd
+lk
+ef
+Ci
+Fx
+Fx
+Fx
+ul
+TR
+lk
+Zf
+xf
+lk
+PT
+oM
+WQ
+DX
+lk
+lk
+lk
+lk
+oM
+oM
+oM
+Ee
+lk
 QD
 QD
 QD
@@ -11810,50 +11364,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-bY
-sP
-JZ
-ri
-Wz
-yH
-db
-bY
-Wc
-iu
-dE
-Du
-TU
-Tg
-xd
-bY
-gQ
-Vc
-xZ
-Xl
-xc
-iE
-yJ
-xZ
-yI
-Lj
-xZ
-QS
-QS
-QS
-sG
-xZ
+wi
+mY
+Mc
+Mc
+Mc
+Mc
+Mc
+mY
+Mc
+QZ
+wm
+UH
+wm
+KR
+vd
+lk
+Dz
+qK
+sf
+xW
+GH
+Bv
+TR
+lk
+Zf
+xf
+lk
+nZ
+JB
+WQ
+Ee
+lk
+ku
+LG
+lk
+oM
+oM
+oM
+fY
+lk
 QD
 QD
 QD
@@ -11952,50 +11506,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+wi
+Kf
+lk
+vH
 wi
 wi
-bY
-EA
-db
-pA
-XK
-ow
-ow
-mZ
-yC
-GX
-KI
-gy
-qT
-am
-lB
-Fv
-Ud
-Vc
-xZ
-et
-gp
-se
-RU
-Na
-kU
-mF
-Zz
-QS
-yf
-QF
-xZ
-xZ
+iI
+Jh
+Xz
+EI
+Cx
+Gc
+Es
+kr
+Vn
+zt
+pk
+xf
+lk
+OE
+PT
+vh
+yH
+gT
+Wu
+qo
+bK
+oM
+Nc
+wV
+lk
+lk
 QD
 QD
 QD
@@ -12094,50 +11648,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-bY
-ed
-JZ
-fs
-Wz
-bD
-db
-bY
-nr
-iQ
-kS
-Nq
-nR
-iY
-xd
-bY
-gQ
-Vc
-xZ
-Xl
-xc
-iE
-yJ
-xZ
-eK
-eK
-xZ
-QS
-QS
-QS
-bE
-xZ
+wi
+EL
+cS
+cS
+cS
+cS
+cS
+EL
+cS
+Ay
+wm
+wm
+wm
+mK
+vd
+lk
+az
+KG
+sM
+Pf
+BI
+Bb
+TR
+lk
+Zf
+xf
+lk
+nZ
+JB
+WQ
+Ee
+lk
+NG
+NG
+lk
+oM
+oM
+oM
+RA
+lk
 QD
 QD
 QD
@@ -12236,50 +11790,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-sN
-oz
-sN
-db
-bY
-Zb
-vB
-UL
-UL
-UL
-Ar
-xd
-bY
-gQ
-Vc
-xZ
-kt
-QS
-iE
-lp
-xZ
-xZ
-xZ
-xZ
-QS
-QS
-QS
-yJ
-xZ
+wi
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+xt
+lk
+wi
+wi
+wx
+vd
+lk
+ef
+ec
+Rg
+Rg
+Rg
+mN
+TR
+lk
+Zf
+xf
+lk
+mh
+oM
+WQ
+DX
+lk
+lk
+lk
+lk
+oM
+oM
+oM
+Ee
+lk
 QD
 QD
 QD
@@ -12378,50 +11932,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-Nf
-PA
-Dd
-db
-bY
-KF
-ua
-ua
-ua
-ua
-ua
-KF
-bY
-gQ
-Vc
-xZ
-kt
-QS
-YL
-RU
-Na
-Wn
-uN
-xZ
-QS
-QS
-gp
-gp
-xZ
+wi
+lk
+lk
+lk
+lk
+lk
+wi
+lk
+wi
+xt
+lk
+wi
+UR
+Mf
+Su
+lk
+pf
+vE
+vE
+vE
+vE
+vE
+pf
+lk
+Zf
+xf
+lk
+mh
+oM
+NL
+yH
+gT
+yH
+hP
+lk
+oM
+oM
+PT
+PT
+lk
 QD
 QD
 QD
@@ -12520,50 +12074,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
 wi
 wi
-db
-Pm
-db
-Bh
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-bY
-sr
-af
-xZ
-xZ
-xZ
-xZ
-xZ
-xZ
-Gq
-CC
-xZ
-uT
-QS
-Uj
-pD
-xZ
+wi
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+xt
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+BR
+Et
+lk
+lk
+lk
+lk
+lk
+lk
+oM
+WQ
+lk
+ts
+oM
+Jo
+Ui
+lk
 QD
 QD
 QD
@@ -12662,50 +12216,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
+lk
+lk
+lk
+lk
 wi
 wi
 wi
-Kf
+wi
+wi
+lk
+wi
+xt
 wi
 wi
 lk
 wi
 wi
-Bq
-Qi
-qV
-Go
-Go
-Go
-oj
-CG
+lk
+MR
+vv
+wm
+wm
+wm
+io
+uX
+Fs
+gF
+io
+Fs
+io
+io
+io
+io
+io
+uX
+Dd
+lk
 ts
-PL
-oj
-ts
-oj
-oj
-oj
-oj
-oj
-CG
-XZ
-xZ
-uT
-QS
-Kd
-gp
-xZ
+oM
+Lj
+PT
+lk
 QD
 QD
 QD
@@ -12804,50 +12358,50 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
+lk
+lk
+lk
+lk
+lk
+lk
 wi
 wi
 wi
-CX
-wm
+wi
+wi
+lk
+wi
+QW
+qd
 wm
 Oy
 wm
 wm
-eC
-uK
-DV
-Vv
-DV
-DV
-Vc
-gQ
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-Vc
-TF
-gQ
-gQ
-xZ
-rY
-gp
-eZ
-gp
-xZ
+Oy
+zy
+wi
+vH
+wi
+wi
+xf
+Zf
+xf
+xf
+xf
+xf
+xf
+xf
+xf
+xf
+Mh
+Zf
+Zf
+lk
+Km
+PT
+OL
+PT
+lk
 QD
 QD
 QD
@@ -12950,46 +12504,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-oA
-gv
-Jo
-Jo
-Jo
-Jo
-Jo
-Jo
-yB
-ms
-Jo
-Jo
-Jo
-Jo
-Jo
-Jo
-el
-el
-Jo
-Yy
-gQ
-xZ
-xZ
-xZ
-xZ
-xZ
-xZ
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+lk
+lk
+MQ
+lk
+lk
+lk
+bK
+lk
+lk
+lk
+lk
+lk
+lk
+bK
+Ak
+lk
+lk
+lk
+lk
+lk
+lk
+Uq
+Uq
+lk
+Cw
+Zf
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 Uq
 lk
@@ -13092,46 +12646,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
-io
-io
-jZ
-Ct
-lh
-oA
-Ct
-oB
-Jo
-mm
-PW
-ff
-NC
-Jo
-sQ
-ii
-Jo
-mx
-mx
-Jo
-TT
-TT
-NC
-NC
-el
-gQ
-EU
-nC
-RP
-nC
-nC
-nC
-Tu
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+wi
+Dl
+wi
+lk
+wi
+wi
+lk
+qp
+aD
+Eo
+xf
+lk
+DT
+Zf
+lk
+pf
+pf
+lk
+zC
+zC
+xf
+xf
+Uq
+Zf
+oq
+eN
+zM
+eN
+eN
+eN
+gT
 go
 go
 go
@@ -13234,46 +12788,46 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-UG
-NP
-NP
-fL
-oW
-uV
-hD
-uV
-zu
-Jo
-mm
-PW
-NC
-fe
-yB
-NC
-vl
-kK
-VD
-Mg
-nh
-Rr
-TT
-NC
-Hs
-el
-gQ
-Vc
-og
-eR
-og
-og
-og
-LX
+lk
+lk
+wi
+wi
+wi
+wi
+wi
+lk
+wi
+wi
+Dl
+wi
+tO
+wi
+wi
+lk
+qp
+aD
+xf
+xf
+bK
+xf
+oq
+gT
+tJ
+xQ
+dx
+DL
+zC
+xf
+BL
+Uq
+Zf
+xf
+go
+Wc
+go
+go
+go
+bK
 go
 go
 go
@@ -13376,57 +12930,57 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-oA
-oA
-oA
-oA
-oB
-oA
-oA
-ay
-oA
-Jo
-Jo
-Jo
-Jo
-Jo
-Jo
-NC
-NC
-Jo
-mx
-NV
-nh
-Rr
-TT
-NC
-NC
-sY
-qr
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-MS
-MS
-MS
-MS
-MS
-YW
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+Dl
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+lk
+lk
+lk
+xf
+xf
+lk
+pf
+JI
+dx
+DL
+zC
+xf
+xf
+lk
+Ak
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 lk
 lk
@@ -13518,51 +13072,51 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-Sp
-fa
-fa
-HY
-nN
-wi
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+Sv
+Sv
+Uh
+Dl
+pM
 lk
 dx
 dx
-Jo
-mm
-PW
-MM
-NC
-Jo
-sQ
-NC
-Jo
-mx
-NV
-nh
-Rr
-TT
-NC
-NC
-sY
-QU
-KX
-bQ
-KX
-jz
-Yc
-kH
-HE
-oq
-oq
-oq
-oq
-oq
+lk
+qp
+aD
+up
+xf
+lk
+DT
+xf
+lk
+pf
+JI
+dx
+DL
+zC
+xf
+xf
+lk
+Zf
+AY
+wS
+AY
+Us
+lo
+Ro
+yX
+dx
+dx
+dx
+dx
+dx
 QD
 QD
 QD
@@ -13666,45 +13220,45 @@ QD
 QD
 QD
 QD
-lk
-Sv
-Sv
-Uh
-wi
+Sp
+fa
+fa
+gl
+ZN
 wi
 lk
 dx
 dx
-Jo
-mm
-PW
-NC
-wF
-yB
-NC
-wF
-Jo
-mx
-dR
-Jo
-TT
-TT
-NC
-NC
-sY
-eY
-dl
-gY
-XX
-JR
-Ml
-Ed
-sY
-nE
+lk
+qp
+aD
+xf
+vQ
+bK
+xf
+vQ
+lk
+pf
+Tc
+lk
+zC
+zC
+xf
+xf
+lk
 oq
-oq
-oq
-oq
+io
+yL
+xf
+Da
+jx
+ET
+lk
+sP
+dx
+dx
+dx
+dx
 QD
 QD
 QD
@@ -13812,41 +13366,41 @@ lk
 lk
 lk
 lk
-lk
+hU
 lk
 lk
 dx
 dx
-Jo
-Jo
-Jo
-Jo
-Jo
-Jo
-NC
-NC
-Jo
-mx
-mx
-Jo
-Jo
-Jo
-NC
-NC
-sY
-MI
-OH
-OH
-OH
-OH
-OH
-OH
-sY
-sY
-sY
-sY
-sY
-sY
+lk
+lk
+lk
+lk
+lk
+lk
+xf
+xf
+lk
+pf
+pf
+lk
+lk
+lk
+xf
+xf
+lk
+WR
+Gj
+Gj
+Gj
+Gj
+Gj
+Gj
+lk
+lk
+lk
+lk
+lk
+lk
 QD
 QD
 QD
@@ -13950,40 +13504,40 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
+Sp
+fa
+fa
+HY
+nN
+wi
 lk
 dx
 dx
-Jo
-mm
-PW
-ff
-NC
-Jo
-sQ
-NC
-Jo
-mx
-mx
-mx
-mx
-el
-NC
-NC
-sY
-MI
-LU
-LU
-LU
-gJ
-LU
-LU
-sY
+lk
+qp
+aD
+Eo
+xf
+lk
+DT
+xf
+lk
+pf
+pf
+pf
+pf
+Uq
+xf
+xf
+lk
+WR
+AC
+AC
+AC
+ir
+AC
+AC
+lk
 QD
 QD
 QD
@@ -14091,41 +13645,41 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+Sv
+Sv
+Uh
+wi
+wi
 lk
 dx
 dx
-Jo
-mm
-PW
-fe
-NC
-yB
-NC
-pl
-Jo
-mx
-mx
-mx
-mx
-Jo
-NC
-NC
-sY
-MI
-vT
-vT
-vT
-vT
-vT
-vT
-sY
+lk
+qp
+aD
+xf
+xf
+bK
+xf
+TQ
+lk
+pf
+pf
+pf
+pf
+lk
+xf
+xf
+lk
+WR
+YR
+YR
+YR
+YR
+YR
+YR
+lk
 QD
 QD
 QD
@@ -14233,41 +13787,41 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 dx
 dx
-Jo
-Jo
-Jo
-Jo
-Jo
-Jo
-nh
-Jo
-Jo
-Jo
-nh
-Jo
-Jo
-Jo
-nh
-Jo
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
-sY
+lk
+lk
+lk
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
 QD
 QD
@@ -14376,12 +13930,12 @@ QD
 QD
 QD
 QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
+lk
+lk
+lk
+lk
 lk
 dx
 dx
@@ -14405,7 +13959,7 @@ dx
 dx
 dx
 lk
-QD
+lk
 QD
 QD
 QD
@@ -14523,7 +14077,18 @@ QD
 QD
 QD
 QD
-QD
+lk
+lk
+dx
+dx
+lk
+dx
+dx
+dx
+dx
+dx
+dx
+dx
 lk
 dx
 dx
@@ -14532,22 +14097,11 @@ dx
 dx
 dx
 dx
-dx
-dx
-dx
-dx
-dx
-dx
-dx
-dx
-dx
-dx
-dx
 lk
 dx
 dx
 lk
-QD
+lk
 QD
 QD
 QD
@@ -14665,7 +14219,7 @@ QD
 QD
 QD
 QD
-QD
+lk
 lk
 lk
 lk
@@ -14808,28 +14362,28 @@ QD
 QD
 QD
 QD
+lk
+lk
+lk
 QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
+lk
+lk
+lk
+lk
+lk
+lk
+lk
 QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
-QD
+lk
+lk
 QD
 QD
 QD
