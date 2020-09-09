@@ -1,4 +1,5 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+<<<<<<< Updated upstream
 "ap" = (
 /obj/structure/handrail,
 /obj/structure/cable{
@@ -7,6 +8,13 @@
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/eris/dark,
+=======
+"aC" = (
+/obj/machinery/computer/ship/helm{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+>>>>>>> Stashed changes
 /area/space)
 "aG" = (
 /obj/structure/cable{
@@ -16,6 +24,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "aQ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel,
 /obj/machinery/door/firedoor/glass,
@@ -24,6 +33,37 @@
 "aV" = (
 /turf/simulated/floor/tiled/eris/dark/techfloor,
 /area/space)
+=======
+"aI" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"aN" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"bc" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"bf" = (
+/obj/structure/bed/chair/bay/comfy/green,
+/obj/effect/decal/remains/xeno,
+/obj/item/clothing/under/harness,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/head/helmet/dermal,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"bp" = (
+/obj/structure/cryofeed{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+>>>>>>> Stashed changes
 "bu" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -52,6 +92,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "cQ" = (
 /obj/structure/railing/grey{
 	dir = 4
@@ -73,11 +114,36 @@
 	},
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
+=======
+"bR" = (
+/obj/structure/bed/chair/bay/comfy/green,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"cv" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"cB" = (
+/obj/machinery/computer/ship/sensors{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+>>>>>>> Stashed changes
 /area/space)
 "cY" = (
 /obj/structure/cable,
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "db" = (
 /obj/structure/handrail,
 /turf/simulated/floor/tiled/eris/dark,
@@ -92,6 +158,16 @@
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
+=======
+"dx" = (
+/turf/simulated/floor/plating/eris/under,
+/area/space)
+"dC" = (
+/obj/machinery/shipsensors{
+	dir = 1
+	},
+/turf/simulated/floor/plating/eris/under,
+>>>>>>> Stashed changes
 /area/space)
 "eg" = (
 /obj/structure/cable/cyan{
@@ -100,12 +176,18 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "ep" = (
 /obj/structure/handrail{
+=======
+"ev" = (
+/obj/structure/bed/chair/bay/comfy/brown{
+>>>>>>> Stashed changes
 	dir = 1
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
 /area/space)
+<<<<<<< Updated upstream
 "eB" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -132,6 +214,15 @@
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
+=======
+"eP" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+>>>>>>> Stashed changes
 /area/space)
 "fa" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
@@ -139,6 +230,7 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/panels,
 /area/space)
+<<<<<<< Updated upstream
 "ff" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -166,6 +258,39 @@
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
+=======
+"fS" = (
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"fY" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey,
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+>>>>>>> Stashed changes
 /area/space)
 "gl" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
@@ -177,6 +302,7 @@
 "go" = (
 /turf/simulated/floor/tiled/eris/dark/bluecorner,
 /area/space)
+<<<<<<< Updated upstream
 "gL" = (
 /obj/structure/handrail{
 	dir = 4
@@ -199,11 +325,36 @@
 "ht" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/voidcraft/vertical,
+=======
+"gA" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/decal/remains/posi,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"gP" = (
+/obj/machinery/power/apc{
+	dir = 4;
+	name = "east bump";
+	pixel_x = 24
+	},
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"hn" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
 "hP" = (
@@ -229,18 +380,50 @@
 "jc" = (
 /obj/effect/decal/remains/posi,
 /obj/structure/cable{
+=======
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"hs" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"hJ" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/machinery/door/firedoor/glass,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"in" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
 "jH" = (
 /obj/structure/cable{
+=======
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+<<<<<<< Updated upstream
 /turf/space,
 /area/space)
 "jS" = (
@@ -251,10 +434,40 @@
 /area/space)
 "kj" = (
 /obj/structure/cable{
+=======
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"is" = (
+/obj/structure/table/steel_reinforced,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"iJ" = (
+/obj/structure/bed/chair/bay/comfy/captain,
+/obj/effect/decal/remains/xeno,
+/obj/item/clothing/under/harness,
+/obj/item/clothing/mask/gas,
+/obj/item/clothing/head/helmet/augment,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"iT" = (
+/obj/structure/bed/chair/bay/comfy/green{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"iX" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
 "kn" = (
@@ -289,6 +502,100 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
+=======
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"je" = (
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"jf" = (
+/obj/structure/ship_munition/disperser_charge/explosive,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"jp" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/ship_munition/disperser_charge/emp,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"jG" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"jH" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/space,
+/area/space)
+"jM" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"kt" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"kv" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"ky" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"kC" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"kD" = (
+/obj/structure/bed/chair/bay/comfy/green{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"kL" = (
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = -32
+	},
+/obj/structure/table/steel_reinforced,
+/obj/item/clothing/mask/ai,
+/turf/simulated/floor/tiled/eris/dark/golden,
+>>>>>>> Stashed changes
 /area/space)
 "lb" = (
 /obj/structure/cable/cyan{
@@ -301,6 +608,7 @@
 "lk" = (
 /turf/simulated/wall/rpshull,
 /area/space)
+<<<<<<< Updated upstream
 "lu" = (
 /obj/structure/bed/chair/bay/comfy/brown{
 	dir = 1
@@ -327,6 +635,39 @@
 /turf/simulated/floor/tiled/eris/dark/monofloor,
 /area/space)
 "mg" = (
+=======
+"lJ" = (
+/obj/machinery/cryopod{
+	dir = 2
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"lL" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"lM" = (
+/obj/machinery/door/firedoor/glass,
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/voidcraft,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"mp" = (
+/obj/structure/cable/cyan,
+/turf/space,
+/area/space)
+"mL" = (
+>>>>>>> Stashed changes
 /obj/structure/handrail,
 /obj/structure/cable{
 	d1 = 4;
@@ -335,6 +676,7 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/bluecorner,
 /area/space)
+<<<<<<< Updated upstream
 "mp" = (
 /obj/structure/cable/cyan,
 /turf/space,
@@ -344,6 +686,8 @@
 /obj/machinery/door/airlock/voidcraft/vertical,
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
+=======
+>>>>>>> Stashed changes
 "nc" = (
 /obj/structure/cable{
 	d2 = 8;
@@ -351,6 +695,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "np" = (
 /obj/effect/gibspawner/robot,
 /turf/simulated/floor/tiled/eris/dark/bluecorner,
@@ -361,6 +706,26 @@
 	},
 /obj/machinery/door/firedoor/glass,
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
+=======
+"nu" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"nI" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"nM" = (
+/obj/effect/decal/remains/posi,
+/turf/simulated/floor/tiled/eris/dark,
+>>>>>>> Stashed changes
 /area/space)
 "nN" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
@@ -375,6 +740,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "og" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -410,11 +776,31 @@
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled/eris/dark/monofloor,
+=======
+"ol" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"op" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"ot" = (
+/obj/machinery/power/quantumpad{
+	desc = "An alien transporter platform. It uses technologies unbeknownst to humanity.";
+	name = "alien transporter"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_platform,
+>>>>>>> Stashed changes
 /area/space)
 "oL" = (
 /obj/effect/shuttle_landmark/automatic/admin_use1,
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "pa" = (
 /obj/machinery/power/apc{
 	dir = 2;
@@ -432,6 +818,37 @@
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
+=======
+"oR" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"pk" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"pn" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+>>>>>>> Stashed changes
 /area/space)
 "pu" = (
 /obj/structure/cable{
@@ -440,6 +857,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "pz" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel,
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
@@ -451,11 +869,23 @@
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
 "pM" = (
+=======
+"pZ" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"qo" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+<<<<<<< Updated upstream
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 10
 	},
@@ -486,6 +916,18 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/monofloor,
 /area/space)
+=======
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+>>>>>>> Stashed changes
 "qw" = (
 /obj/structure/cable/cyan{
 	d1 = 1;
@@ -494,6 +936,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "qy" = (
 /obj/structure/cable/cyan{
 	d1 = 1;
@@ -504,11 +947,30 @@
 /area/space)
 "qT" = (
 /obj/machinery/door/firedoor/glass,
+=======
+"qZ" = (
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"rp" = (
+/obj/structure/cable{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/space,
+/area/space)
+"rt" = (
+>>>>>>> Stashed changes
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+<<<<<<< Updated upstream
 /obj/machinery/door/airlock/voidcraft,
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
@@ -540,19 +1002,75 @@
 /turf/space,
 /area/space)
 "rw" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"rB" = (
+/obj/structure/closet/secure_closet/guncabinet,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"rX" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"sr" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"sx" = (
+/obj/effect/decal/remains/posi,
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable{
+=======
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"sG" = (
+/obj/structure/handrail,
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = 32
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"sX" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
 "tc" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"to" = (
+>>>>>>> Stashed changes
 /obj/structure/railing/grey{
 	dir = 8
 	},
@@ -573,6 +1091,7 @@
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
 /area/space)
+<<<<<<< Updated upstream
 "ti" = (
 /obj/structure/bed/chair/bay/comfy/green{
 	dir = 8
@@ -628,6 +1147,41 @@
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "uk" = (
+=======
+"tp" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"tq" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"tY" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"uz" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
@@ -635,6 +1189,7 @@
 	},
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
+<<<<<<< Updated upstream
 "ul" = (
 /obj/structure/cable{
 	d1 = 2;
@@ -645,15 +1200,49 @@
 /area/space)
 "uq" = (
 /obj/structure/cable/cyan{
+=======
+"uH" = (
+/obj/structure/table/steel_reinforced,
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	pixel_y = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"uI" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"uJ" = (
+/obj/machinery/disperser/back,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"ve" = (
+/obj/structure/cable{
+>>>>>>> Stashed changes
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+<<<<<<< Updated upstream
 /obj/structure/cable/cyan{
+=======
+/obj/structure/cable{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
@@ -677,19 +1266,49 @@
 	name = "north bump";
 	pixel_x = 0;
 	pixel_y = 24
+=======
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"vf" = (
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/ship_munition/disperser_charge/mining,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"vn" = (
+/obj/machinery/power/apc{
+	dir = 8;
+	name = "west bump";
+	pixel_x = -24
+>>>>>>> Stashed changes
 	},
 /obj/structure/cable{
 	d2 = 4;
 	icon_state = "0-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "uS" = (
+=======
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"vA" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"vT" = (
+/obj/structure/handrail,
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+<<<<<<< Updated upstream
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
 	dir = 8
 	},
@@ -697,11 +1316,20 @@
 /area/space)
 "uX" = (
 /obj/structure/plasticflaps,
+=======
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"wi" = (
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"wm" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/techfloor_grid,
 /area/space)
 "uY" = (
@@ -716,10 +1344,17 @@
 	icon_state = "1-8"
 	},
 /obj/structure/cable/cyan{
+=======
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"wy" = (
+/obj/structure/cable{
+>>>>>>> Stashed changes
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
 "vz" = (
@@ -754,10 +1389,41 @@
 	icon_state = "1-4"
 	},
 /obj/structure/cable/cyan{
+=======
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"wE" = (
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey,
+/obj/structure/cable/cyan{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"wK" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft/vertical,
+/obj/structure/cable{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 8;
@@ -769,19 +1435,39 @@
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "wm" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"xe" = (
+/obj/machinery/power/shield_generator/upgraded,
+/obj/structure/cable{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"xz" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "wn" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"xI" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
 "wv" = (
@@ -835,6 +1521,126 @@
 /obj/structure/cable/cyan{
 	d2 = 4;
 	icon_state = "0-4"
+=======
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"yc" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"yg" = (
+/obj/machinery/power/apc{
+	dir = 2;
+	name = "south bump";
+	pixel_y = -24
+	},
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"yq" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"yH" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"yV" = (
+/obj/machinery/power/smes/buildable,
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"yY" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/cable/cyan,
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"zh" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
+	},
+/obj/effect/decal/cleanable/blood/oil,
+/obj/effect/decal/cleanable/blood/oil,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"zG" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"zQ" = (
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"zY" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"AB" = (
+/obj/structure/cable/cyan{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/space,
+/area/space)
+"AE" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"AJ" = (
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/cable/cyan{
+	d2 = 8;
+	icon_state = "0-8"
+>>>>>>> Stashed changes
 	},
 /obj/machinery/power/port_gen/pacman/super/potato{
 	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
@@ -849,6 +1655,7 @@
 /obj/effect/decal/cleanable/greenglow,
 /turf/simulated/floor/tiled/eris/dark/techfloor,
 /area/space)
+<<<<<<< Updated upstream
 "zk" = (
 /obj/machinery/disperser/front,
 /obj/structure/fans/hardlight,
@@ -890,23 +1697,94 @@
 /area/space)
 "Ag" = (
 /obj/structure/cable{
+=======
+"Bf" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Bh" = (
+/obj/machinery/computer/ship/navigation{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Br" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Bv" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = 32
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"By" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+<<<<<<< Updated upstream
+=======
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Bz" = (
+/obj/effect/decal/remains/robot,
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"BY" = (
+/obj/structure/ship_munition/disperser_charge/mining,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"Cc" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
 "Ax" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"Cf" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
@@ -986,6 +1864,48 @@
 "Ds" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/fuel,
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
+=======
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 10
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Cg" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Cr" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"CF" = (
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"CX" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Di" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 8;
+	pixel_x = -26
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+>>>>>>> Stashed changes
 /area/space)
 "Dw" = (
 /obj/structure/cable/cyan{
@@ -994,12 +1914,25 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "Eq" = (
+=======
+"DZ" = (
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Er" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 8;
@@ -1063,6 +1996,51 @@
 	},
 /obj/machinery/door/airlock/voidcraft,
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
+=======
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"EL" = (
+/obj/machinery/computer/ship/helm{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"EN" = (
+/obj/structure/ship_munition/disperser_charge/explosive,
+/obj/structure/railing/grey{
+	dir = 8
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"EZ" = (
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Ff" = (
+/obj/structure/handrail{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Fn" = (
+/obj/structure/table/rack/shelf,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Ga" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/panels,
+>>>>>>> Stashed changes
 /area/space)
 "Gb" = (
 /obj/machinery/firealarm{
@@ -1077,6 +2055,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "Gw" = (
 /obj/structure/handrail{
 	dir = 4
@@ -1102,6 +2081,75 @@
 	},
 /obj/structure/ship_munition/disperser_charge/mining,
 /turf/simulated/floor/tiled/eris/dark/cargo,
+=======
+"Gc" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Gd" = (
+/obj/machinery/disperser/front,
+/obj/structure/fans/hardlight,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Ge" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"GE" = (
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"GM" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Hf" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Hv" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 9
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"HU" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/obj/effect/decal/remains/robot,
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"HW" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/obj/machinery/power/apc{
+	dir = 1;
+	name = "north bump";
+	pixel_x = 0;
+	pixel_y = 24
+	},
+/obj/structure/cable{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+>>>>>>> Stashed changes
 /area/space)
 "HY" = (
 /obj/structure/railing/grey,
@@ -1110,6 +2158,7 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/panels,
 /area/space)
+<<<<<<< Updated upstream
 "Ik" = (
 /obj/machinery/computer/ship/navigation/telescreen{
 	pixel_y = -32
@@ -1137,10 +2186,45 @@
 	icon_state = "4-8"
 	},
 /obj/structure/cable/cyan{
+=======
+"Ib" = (
+/obj/structure/table/steel_reinforced,
+/obj/machinery/computer/ship/navigation/telescreen{
+	pixel_y = 32
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Id" = (
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"Io" = (
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Is" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+/obj/effect/decal/remains/posi,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Ix" = (
+/obj/structure/cable{
+>>>>>>> Stashed changes
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
 "Iu" = (
@@ -1150,6 +2234,15 @@
 	pixel_y = 26
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
+=======
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"IE" = (
+/obj/structure/handrail{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark,
+>>>>>>> Stashed changes
 /area/space)
 "Jc" = (
 /obj/structure/cable/cyan{
@@ -1159,6 +2252,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "Jf" = (
 /obj/machinery/firealarm{
 	alarms_hidden = 1;
@@ -1212,10 +2306,68 @@
 /area/space)
 "Kf" = (
 /obj/structure/cable{
+=======
+"Jd" = (
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"Je" = (
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Jk" = (
+/obj/structure/handrail,
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Jn" = (
+/obj/machinery/power/apc{
+	dir = 2;
+	name = "south bump";
+	pixel_y = -24
+	},
+/obj/structure/cable,
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Jz" = (
+/obj/structure/handrail{
+	dir = 4
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"JC" = (
+/obj/structure/bed/chair/bay/comfy/red,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"JE" = (
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/space)
 "Kw" = (
@@ -1224,10 +2376,17 @@
 /area/space)
 "KC" = (
 /obj/structure/cable{
+=======
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"JG" = (
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
@@ -1241,27 +2400,83 @@
 	d2 = 4;
 	icon_state = "2-4"
 	},
+=======
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"JL" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/railing/grey{
+	dir = 1
+	},
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/machinery/power/port_gen/pacman/super/potato{
+	desc = "A machine that generates electricity for use in electrical networks. It is of alien design, despite remarkable resemblance to Terran generators. It seems to be generally more advanced than anything you'd find back home.";
+	max_power_output = 10;
+	max_safe_output = 8;
+	max_sheets = 400;
+	max_temperature = 1200;
+	name = "highly advanced nuclear reactor";
+	power_gen = 150000;
+	temperature_gain = 10
+	},
+/obj/effect/decal/cleanable/greenglow,
+/turf/simulated/floor/tiled/eris/dark/techfloor,
+/area/space)
+"Kf" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/golden,
 /area/space)
 "Lg" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Kn" = (
+/obj/effect/decal/remains/robot,
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Kp" = (
+>>>>>>> Stashed changes
 /obj/structure/cable/cyan{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
 "Ls" = (
+=======
+/obj/structure/cable/cyan{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"KP" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /obj/machinery/door/firedoor/glass,
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
@@ -1336,10 +2551,59 @@
 	dir = 8
 	},
 /obj/structure/cable{
+=======
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Lt" = (
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"LB" = (
+/obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"LM" = (
+/obj/machinery/computer/ship/disperser{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Mj" = (
+/obj/machinery/disperser/middle,
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Mt" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"My" = (
+/obj/machinery/power/smes/buildable,
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"MD" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/structure/cable/cyan{
+>>>>>>> Stashed changes
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
 "OP" = (
@@ -1357,11 +2621,36 @@
 "Pp" = (
 /obj/structure/railing/grey{
 	dir = 1
+=======
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"MG" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"MI" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"MP" = (
+/obj/structure/railing/grey{
+	dir = 8
+>>>>>>> Stashed changes
 	},
 /obj/machinery/power/rad_collector{
 	active = 1;
 	locked = 1
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable/cyan,
 /turf/simulated/floor/tiled/eris/dark/monofloor,
 /area/space)
@@ -1376,11 +2665,45 @@
 /turf/simulated/floor/tiled/eris/dark/cargo,
 /area/space)
 "Py" = (
+=======
+/obj/structure/cable/cyan{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"MR" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Nq" = (
+/obj/machinery/computer/ship/engines{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"NS" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Oy" = (
+/obj/machinery/door/firedoor/glass,
+/obj/machinery/door/airlock/voidcraft,
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/monofloor,
 /area/space)
 "PX" = (
@@ -1391,11 +2714,29 @@
 /turf/simulated/floor/tiled/eris/dark/golden,
 /area/space)
 "Qn" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"OC" = (
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+/area/space)
+"Pk" = (
+/obj/structure/plasticflaps,
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"Pp" = (
+>>>>>>> Stashed changes
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/gray_perforated,
 /area/space)
 "Qt" = (
@@ -1406,6 +2747,32 @@
 /area/space)
 "Qw" = (
 /turf/simulated/floor/tiled/eris/dark/monofloor,
+=======
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Py" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/gibspawner/robot,
+/turf/simulated/floor/tiled/eris/dark/bluecorner,
+/area/space)
+"QA" = (
+/obj/machinery/recharge_station,
+/turf/simulated/floor/tiled/eris/dark/violetcorener,
+>>>>>>> Stashed changes
 /area/space)
 "QB" = (
 /obj/structure/cable/cyan{
@@ -1418,6 +2785,7 @@
 "QD" = (
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "QK" = (
 /obj/structure/railing/grey{
 	dir = 8
@@ -1450,6 +2818,19 @@
 	name = "alien transporter"
 	},
 /turf/simulated/floor/tiled/eris/dark/gray_platform,
+=======
+"Rc" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 8;
+	pixel_x = -26
+	},
+/turf/simulated/floor/tiled/eris/dark,
+>>>>>>> Stashed changes
 /area/space)
 "Rt" = (
 /obj/effect/overmap/visitable/ship/admin_use{
@@ -1459,12 +2840,25 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "RN" = (
+=======
+"RE" = (
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"RU" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 4;
 	icon_state = "2-4"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark,
 /area/space)
 "Si" = (
@@ -1474,6 +2868,25 @@
 	pixel_x = 26
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
+=======
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 9
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"RW" = (
+/obj/structure/ship_munition/disperser_charge/fire,
+/turf/simulated/floor/tiled/eris/dark/cargo,
+/area/space)
+"Sg" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+>>>>>>> Stashed changes
 /area/space)
 "Sp" = (
 /obj/machinery/atmospherics/unary/engine,
@@ -1481,15 +2894,24 @@
 /obj/structure/window/titanium,
 /turf/simulated/floor/tiled/eris/dark/panels,
 /area/space)
+<<<<<<< Updated upstream
 "St" = (
 /obj/machinery/computer/ship/sensors{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
+=======
+"Su" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+>>>>>>> Stashed changes
 /area/space)
 "Sv" = (
 /turf/simulated/floor/tiled/eris/dark/panels,
 /area/space)
+<<<<<<< Updated upstream
 "SC" = (
 /obj/machinery/power/terminal{
 	dir = 4
@@ -1528,6 +2950,38 @@
 	dir = 10
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
+=======
+"Sw" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 8
+	},
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"SA" = (
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/structure/cable/cyan{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/danger,
+/area/space)
+"Td" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+>>>>>>> Stashed changes
 /area/space)
 "TI" = (
 /obj/structure/cable{
@@ -1537,6 +2991,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "TK" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -1619,6 +3074,30 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel,
 /obj/structure/railing/grey,
 /turf/simulated/floor/tiled/eris/dark/panels,
+=======
+"Uh" = (
+/obj/structure/railing/grey,
+/turf/simulated/floor/tiled/eris/dark/panels,
+/area/space)
+"Uq" = (
+/turf/simulated/floor/tiled/eris/dark/techfloor_grid,
+/area/space)
+"Vo" = (
+/obj/machinery/power/apc{
+	dir = 1;
+	name = "north bump";
+	pixel_x = 0;
+	pixel_y = 24
+	},
+/obj/structure/cable{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Vp" = (
+/turf/simulated/floor/tiled/eris/dark/danger,
+>>>>>>> Stashed changes
 /area/space)
 "Vu" = (
 /obj/structure/cable{
@@ -1628,6 +3107,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "Vx" = (
 /obj/machinery/power/smes/buildable,
 /obj/structure/cable{
@@ -1635,6 +3115,17 @@
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
+=======
+"Vv" = (
+/obj/machinery/power/terminal{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+>>>>>>> Stashed changes
 /area/space)
 "VL" = (
 /obj/structure/cable{
@@ -1644,6 +3135,7 @@
 	},
 /turf/space,
 /area/space)
+<<<<<<< Updated upstream
 "VN" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -1666,11 +3158,18 @@
 /obj/structure/railing/grey{
 	dir = 1
 	},
+=======
+"VO" = (
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"VP" = (
+>>>>>>> Stashed changes
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+<<<<<<< Updated upstream
 /turf/simulated/floor/tiled/eris/dark/monofloor,
 /area/space)
 "WO" = (
@@ -1717,11 +3216,57 @@
 /turf/simulated/floor/tiled/eris/dark/golden,
 /area/space)
 "XX" = (
+=======
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 5
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"VU" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 4
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"WC" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled/eris/dark/golden,
+/area/space)
+"Xc" = (
+/obj/structure/railing/grey,
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/structure/cable/cyan{
+	d2 = 2;
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"Xe" = (
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"Xp" = (
+>>>>>>> Stashed changes
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 8;
 	icon_state = "1-8"
 	},
+<<<<<<< Updated upstream
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
@@ -1735,6 +3280,48 @@
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
 "Ys" = (
+=======
+/turf/simulated/floor/tiled/eris/dark/gray_perforated,
+/area/space)
+"Xy" = (
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/fuel{
+	dir = 6
+	},
+/turf/simulated/floor/tiled/eris/dark/orangecorner,
+/area/space)
+"Ye" = (
+/obj/item/weapon/flag/advent{
+	desc = "A banner belonging to an unknown faction.";
+	name = "strange banner"
+	},
+/obj/machinery/firealarm{
+	alarms_hidden = 1;
+	dir = 4;
+	pixel_x = 26
+	},
+/turf/simulated/floor/tiled/eris/dark,
+/area/space)
+"Yo" = (
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/machinery/power/rad_collector{
+	active = 1;
+	locked = 1
+	},
+/obj/structure/cable/cyan{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/turf/simulated/floor/tiled/eris/dark/monofloor,
+/area/space)
+"YJ" = (
+>>>>>>> Stashed changes
 /obj/structure/cable/cyan{
 	d1 = 4;
 	d2 = 8;
@@ -1752,6 +3339,7 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/danger,
 /area/space)
+<<<<<<< Updated upstream
 "Yz" = (
 /obj/structure/table/rack/shelf,
 /turf/simulated/floor/tiled/eris/dark/golden,
@@ -1761,6 +3349,10 @@
 	dir = 1
 	},
 /turf/simulated/floor/tiled/eris/dark/golden,
+=======
+"ZG" = (
+/turf/simulated/floor/tiled/eris/dark/gray_platform,
+>>>>>>> Stashed changes
 /area/space)
 
 (1,1,1) = {"
@@ -9201,6 +10793,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Rc
 lk
 lk
@@ -9213,6 +10806,20 @@ Rc
 lk
 lk
 lk
+=======
+dx
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+dx
+lk
+lk
+dx
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -9338,6 +10945,7 @@ lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 kq
@@ -9361,6 +10969,31 @@ xp
 xp
 xp
 xp
+=======
+bp
+lJ
+GE
+GE
+ol
+GE
+Rc
+lk
+OC
+OC
+OC
+lk
+OC
+OC
+OC
+lk
+GE
+GE
+je
+je
+je
+je
+je
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -9480,6 +11113,7 @@ lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 FF
@@ -9503,6 +11137,31 @@ ux
 ux
 ux
 ux
+=======
+bp
+lJ
+Bv
+GE
+lk
+Gc
+GE
+lk
+OC
+OC
+OC
+OC
+OC
+OC
+OC
+lk
+GE
+GE
+BY
+BY
+BY
+BY
+BY
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -9616,7 +11275,11 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Bp
+=======
+hJ
+>>>>>>> Stashed changes
 lk
 lk
 dx
@@ -9627,6 +11290,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 kq
 kq
 lk
@@ -9645,6 +11309,26 @@ EN
 EN
 EN
 EN
+=======
+GE
+GE
+lk
+OC
+OC
+OC
+lk
+lk
+OC
+OC
+lk
+GE
+GE
+jp
+jp
+jp
+jp
+jp
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -9755,15 +11439,23 @@ QD
 QD
 QD
 Sp
+<<<<<<< Updated upstream
 hP
 qg
 Vf
 Ds
+=======
+yq
+HU
+Ga
+MI
+>>>>>>> Stashed changes
 wi
 lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 kq
@@ -9789,6 +11481,33 @@ wQ
 Tq
 lk
 jS
+=======
+bp
+lJ
+GE
+CF
+ol
+GE
+GE
+lk
+OC
+Ge
+Er
+Jn
+lk
+OC
+QA
+lk
+NS
+qZ
+kt
+GE
+Vp
+JC
+LM
+lk
+dC
+>>>>>>> Stashed changes
 dx
 dx
 dx
@@ -9900,12 +11619,18 @@ lk
 Sv
 Sv
 Uh
+<<<<<<< Updated upstream
 Xq
 FP
+=======
+Su
+nI
+>>>>>>> Stashed changes
 lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 FF
@@ -9930,6 +11655,32 @@ Si
 Tk
 Dc
 zk
+=======
+bp
+lJ
+Bv
+GE
+lk
+Gc
+CF
+lk
+OC
+DZ
+OC
+OC
+lk
+OC
+QA
+lk
+hn
+IE
+gP
+IE
+Io
+uJ
+Mj
+Gd
+>>>>>>> Stashed changes
 dx
 dx
 dx
@@ -10042,17 +11793,26 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 ns
 lk
 lk
 lk
 Rc
+=======
+Su
+lk
+lk
+lk
+dx
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 kq
 kq
 lk
@@ -10065,6 +11825,27 @@ kq
 kq
 lk
 ht
+=======
+GE
+GE
+lk
+OC
+DZ
+OC
+OC
+lk
+OC
+OC
+lk
+lL
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -10079,6 +11860,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -10086,6 +11868,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -10176,14 +11960,20 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
 wi
+<<<<<<< Updated upstream
 Xq
 wi
 kp
@@ -10213,6 +12003,51 @@ kq
 kq
 kq
 kq
+=======
+Su
+wi
+ky
+wi
+wi
+lk
+bp
+lJ
+GE
+GE
+ol
+GE
+NS
+wK
+Er
+Mt
+OC
+OC
+lk
+OC
+QA
+lk
+hn
+GE
+GE
+GE
+GE
+GE
+GE
+ol
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -10268,6 +12103,7 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -10282,6 +12118,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 "}
 (61,1,1) = {"
 QD
@@ -10318,20 +12156,30 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
 wi
+<<<<<<< Updated upstream
 Xq
+=======
+Su
+>>>>>>> Stashed changes
 wi
 lk
 wi
 wi
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 FF
@@ -10355,6 +12203,45 @@ kq
 kq
 kq
 kq
+=======
+bp
+lJ
+Bv
+GE
+lk
+Gc
+hn
+lk
+OC
+OC
+OC
+OC
+lk
+OC
+QA
+lk
+yc
+GE
+GE
+GE
+GE
+GE
+GE
+ol
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -10410,6 +12297,7 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -10424,6 +12312,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 "}
 (62,1,1) = {"
 QD
@@ -10460,37 +12350,62 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 lk
 lk
+<<<<<<< Updated upstream
 ns
 lk
 lk
 lk
 mq
+=======
+Sw
+lk
+lk
+lk
+ol
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 mq
 ht
+=======
+ol
+lL
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 mq
 lk
 lk
 mg
+=======
+ol
+lk
+lk
+mL
+>>>>>>> Stashed changes
 go
 lk
 lk
@@ -10498,6 +12413,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -10512,6 +12428,22 @@ QD
 QD
 QD
 QD
+=======
+lk
+Uq
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -10602,13 +12534,19 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+Lt
+Lt
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 Ct
 kK
 wm
@@ -10639,6 +12577,38 @@ Yz
 EE
 St
 EE
+=======
+Xy
+Hv
+wm
+Oy
+wm
+wm
+Oy
+Ix
+wi
+wi
+wi
+wi
+GE
+hn
+GE
+GE
+GE
+GE
+GE
+GE
+GE
+GE
+yH
+hn
+Kn
+lk
+Fn
+is
+cB
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -10647,13 +12617,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -10744,13 +12722,25 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+wi
+=======
+Lt
+Lt
 wi
 wi
 wi
 lk
 wi
+oR
+>>>>>>> Stashed changes
+wi
+wi
+lk
+wi
+<<<<<<< Updated upstream
 uS
 wi
 wi
@@ -10781,6 +12771,33 @@ Ny
 Nu
 ti
 EE
+=======
+wi
+lk
+CX
+wm
+wm
+wm
+wm
+qZ
+uI
+Bf
+kt
+nM
+IE
+GE
+GE
+GE
+GE
+nM
+hn
+GE
+lk
+Jk
+VO
+kD
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -10789,13 +12806,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+Uq
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -10882,6 +12907,7 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 xF
 xF
 xF
@@ -10889,11 +12915,24 @@ lk
 wi
 wi
 wi
+=======
+wi
+wi
+wi
+lk
+Lt
+Lt
+wi
+>>>>>>> Stashed changes
 wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
+=======
+oR
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -10908,14 +12947,20 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Bg
 Xw
+=======
+sG
+tp
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Ok
 kq
 lk
@@ -10923,6 +12968,15 @@ Ny
 Nu
 Mc
 Zm
+=======
+hs
+VO
+lk
+Jk
+VO
+bf
+Nq
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -10931,13 +12985,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11035,6 +13097,7 @@ lk
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
 lk
 wi
@@ -11065,6 +13128,38 @@ Nu
 Nu
 EE
 EE
+=======
+oR
+lk
+wi
+Id
+Vv
+jM
+lk
+Xe
+Yo
+Yo
+Yo
+Yo
+Yo
+Xe
+lk
+hn
+Bz
+lk
+is
+ev
+sr
+rX
+wK
+kv
+VO
+lk
+VO
+VO
+is
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11073,13 +13168,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11166,9 +13269,15 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 Xq
 Xq
 Xq
+=======
+wi
+wi
+wi
+>>>>>>> Stashed changes
 lk
 wi
 wi
@@ -11177,6 +13286,7 @@ wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
 lk
 uQ
@@ -11199,14 +13309,45 @@ EE
 Nu
 Hc
 fu
+=======
+oR
+lk
+Vo
+Id
+My
+JE
+lk
+AE
+YJ
+Pp
+Pp
+Pp
+SA
+yY
+lk
+hn
+GE
+lk
+is
+VO
+hs
+Td
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Nu
 Nu
 Nu
 Nu
+=======
+VO
+VO
+VO
+Ff
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11215,13 +13356,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11308,6 +13457,7 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 Tv
 zy
 zy
@@ -11349,6 +13499,49 @@ Nu
 Nu
 Nu
 XE
+=======
+wi
+wi
+wi
+aI
+Sg
+Sg
+Sg
+Sg
+Sg
+aI
+Sg
+RU
+Cr
+tY
+rt
+eP
+JE
+lk
+Xc
+sX
+AJ
+to
+wE
+pZ
+yY
+lk
+hn
+GE
+lk
+Ib
+ev
+hs
+Ff
+lk
+HW
+Is
+lk
+VO
+VO
+VO
+EL
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11357,13 +13550,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11463,6 +13664,7 @@ lk
 wi
 Kf
 lk
+<<<<<<< Updated upstream
 Kw
 wi
 wi
@@ -11490,6 +13692,35 @@ kp
 Nu
 Pk
 Ik
+=======
+Je
+wi
+wi
+Kp
+lM
+LB
+JG
+bc
+xe
+nu
+KP
+pn
+Pk
+ve
+GE
+lk
+uH
+is
+WC
+rX
+wK
+gA
+kv
+ol
+VO
+iJ
+kL
+>>>>>>> Stashed changes
 lk
 lk
 QD
@@ -11499,6 +13730,7 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -11506,6 +13738,15 @@ QD
 QD
 QD
 QD
+=======
+lk
+lk
+lk
+lk
+lk
+QD
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11592,6 +13833,7 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 pS
 Fm
 Fm
@@ -11633,6 +13875,49 @@ Nu
 Nu
 Nu
 eI
+=======
+wi
+wi
+wi
+jG
+Br
+Br
+Br
+Br
+Br
+jG
+Br
+qo
+Cr
+wm
+rt
+Cc
+JE
+lk
+zG
+iX
+JL
+Jd
+fY
+EZ
+yY
+lk
+hn
+GE
+lk
+Ib
+ev
+hs
+Ff
+lk
+Hf
+Hf
+lk
+VO
+VO
+VO
+aC
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11641,13 +13926,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11734,9 +14027,15 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 pt
 pt
 pt
+=======
+wi
+wi
+wi
+>>>>>>> Stashed changes
 lk
 wi
 wi
@@ -11745,6 +14044,7 @@ wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
 lk
 wi
@@ -11767,14 +14067,45 @@ Mg
 Nu
 Hc
 fu
+=======
+oR
+lk
+wi
+Id
+yV
+JE
+lk
+AE
+in
+By
+By
+By
+MD
+yY
+lk
+hn
+GE
+lk
+rB
+VO
+hs
+Td
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Nu
 Nu
 Nu
 Nu
+=======
+VO
+VO
+VO
+Ff
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11783,13 +14114,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -11887,6 +14226,7 @@ lk
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
 lk
 wi
@@ -11917,6 +14257,38 @@ Nu
 Nu
 EE
 EE
+=======
+oR
+lk
+wi
+zY
+fS
+Xp
+lk
+Xe
+MP
+MP
+MP
+MP
+MP
+Xe
+lk
+hn
+GE
+lk
+rB
+VO
+Cg
+rX
+wK
+rX
+RE
+lk
+VO
+VO
+is
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -11925,13 +14297,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -12018,6 +14398,7 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 tV
 tV
 tV
@@ -12025,11 +14406,24 @@ lk
 wi
 wi
 wi
+=======
+wi
+wi
+wi
+lk
+Lt
+Lt
+wi
+>>>>>>> Stashed changes
 wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 uS
+=======
+oR
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -12044,14 +14438,20 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Bg
 Xw
+=======
+sG
+tp
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 kq
 Ok
 lk
@@ -12059,6 +14459,15 @@ Ny
 Nu
 Mc
 Zm
+=======
+VO
+hs
+lk
+Jk
+VO
+bR
+Nq
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -12067,13 +14476,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -12164,13 +14581,25 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+wi
+=======
+Lt
+Lt
 wi
 wi
 wi
 lk
 wi
+oR
+>>>>>>> Stashed changes
+wi
+wi
+lk
+wi
+<<<<<<< Updated upstream
 uS
 wi
 wi
@@ -12201,6 +14630,33 @@ Ny
 Nu
 tx
 EE
+=======
+wi
+lk
+MR
+GM
+wm
+wm
+wm
+qZ
+uz
+Jz
+kC
+qZ
+Jz
+qZ
+qZ
+qZ
+qZ
+qZ
+uz
+cv
+lk
+Jk
+VO
+iT
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -12209,13 +14665,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+Uq
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -12306,13 +14770,19 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+Lt
+Lt
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
+<<<<<<< Updated upstream
 pM
 TK
 wm
@@ -12343,6 +14813,38 @@ Yz
 EE
 AO
 EE
+=======
+Cf
+VP
+wm
+Oy
+wm
+wm
+Oy
+sx
+wi
+Je
+wi
+wi
+GE
+hn
+GE
+GE
+GE
+GE
+GE
+GE
+GE
+GE
+IE
+hn
+hn
+lk
+Fn
+is
+Bh
+is
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -12351,13 +14853,21 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
+=======
+lk
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -12448,44 +14958,85 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 lk
 lk
+<<<<<<< Updated upstream
 ns
 lk
 lk
 lk
 mq
+=======
+Sw
+lk
+lk
+lk
+ol
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 mq
 ht
+=======
+ol
+lL
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Rc
 Rc
 lk
 ap
 kq
+=======
+Uq
+Uq
+lk
+vT
+hn
 lk
 lk
 lk
 lk
 lk
 lk
+lk
+Uq
+lk
+lk
+lk
+lk
+lk
+lk
+>>>>>>> Stashed changes
+lk
+lk
+lk
+lk
+lk
+lk
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -12500,6 +15051,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -12590,20 +15143,30 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
 wi
+<<<<<<< Updated upstream
 Xq
+=======
+Su
+>>>>>>> Stashed changes
 wi
 lk
 wi
 wi
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 AD
@@ -12624,6 +15187,42 @@ Ok
 kq
 go
 np
+=======
+bp
+lJ
+op
+GE
+lk
+Gc
+hn
+lk
+Xe
+Xe
+lk
+Id
+Id
+GE
+GE
+Uq
+hn
+wy
+xz
+Py
+xz
+xz
+xz
+wK
+go
+go
+go
+go
+go
+go
+go
+go
+go
+go
+>>>>>>> Stashed changes
 go
 go
 go
@@ -12682,6 +15281,7 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -12696,6 +15296,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 "}
 (78,1,1) = {"
 QD
@@ -12732,14 +15334,20 @@ QD
 QD
 lk
 lk
+<<<<<<< Updated upstream
 wi
 wi
+=======
+ZG
+ZG
+>>>>>>> Stashed changes
 wi
 wi
 wi
 lk
 wi
 wi
+<<<<<<< Updated upstream
 Xq
 wi
 iB
@@ -12764,6 +15372,46 @@ kq
 Rc
 Ok
 kq
+=======
+Su
+wi
+aN
+wi
+wi
+lk
+bp
+lJ
+GE
+GE
+ol
+GE
+wy
+wK
+tq
+xI
+dx
+ot
+Id
+GE
+nM
+Uq
+hn
+GE
+go
+zQ
+go
+go
+go
+ol
+go
+go
+go
+go
+go
+go
+go
+go
+>>>>>>> Stashed changes
 go
 go
 go
@@ -12824,6 +15472,7 @@ QD
 QD
 QD
 QD
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -12838,6 +15487,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 "}
 (79,1,1) = {"
 QD
@@ -12882,17 +15533,26 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 ns
 lk
 lk
 lk
 Rc
+=======
+Su
+lk
+lk
+lk
+dx
+>>>>>>> Stashed changes
 lk
 lk
 lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 kq
 kq
 lk
@@ -12905,6 +15565,27 @@ kq
 kq
 lk
 ht
+=======
+GE
+GE
+lk
+Xe
+pk
+dx
+ot
+Id
+GE
+GE
+lk
+lL
+lk
+lk
+lk
+lk
+lk
+lk
+lk
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -12919,6 +15600,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 QD
 QD
 QD
@@ -12926,6 +15608,8 @@ QD
 QD
 QD
 QD
+=======
+>>>>>>> Stashed changes
 QD
 QD
 QD
@@ -13024,12 +15708,18 @@ lk
 Sv
 Sv
 Uh
+<<<<<<< Updated upstream
 Xq
 FP
+=======
+Su
+nI
+>>>>>>> Stashed changes
 lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 AD
@@ -13054,6 +15744,32 @@ Ab
 Tk
 Dc
 zk
+=======
+bp
+lJ
+zh
+GE
+lk
+Gc
+GE
+lk
+Xe
+pk
+dx
+ot
+Id
+GE
+GE
+lk
+hn
+yH
+vn
+yH
+Di
+uJ
+Mj
+Gd
+>>>>>>> Stashed changes
 dx
 dx
 dx
@@ -13166,12 +15882,17 @@ Sp
 fa
 fa
 gl
+<<<<<<< Updated upstream
 Ds
+=======
+MI
+>>>>>>> Stashed changes
 wi
 lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 kq
@@ -13197,6 +15918,33 @@ wQ
 Tq
 lk
 jS
+=======
+bp
+lJ
+GE
+Kn
+ol
+GE
+Kn
+lk
+Xe
+yg
+lk
+Id
+Id
+GE
+GE
+lk
+wy
+qZ
+MG
+GE
+Vp
+JC
+LM
+lk
+dC
+>>>>>>> Stashed changes
 dx
 dx
 dx
@@ -13308,7 +16056,11 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 LB
+=======
+VU
+>>>>>>> Stashed changes
 lk
 lk
 dx
@@ -13319,6 +16071,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 kq
 kq
 lk
@@ -13337,6 +16090,26 @@ Hw
 Hw
 Hw
 Hw
+=======
+GE
+GE
+lk
+Xe
+Xe
+lk
+lk
+lk
+GE
+GE
+lk
+Lt
+vf
+vf
+vf
+vf
+vf
+vf
+>>>>>>> Stashed changes
 lk
 lk
 lk
@@ -13456,6 +16229,7 @@ lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 AD
@@ -13479,6 +16253,31 @@ Pt
 Ip
 Pt
 Pt
+=======
+bp
+lJ
+op
+GE
+lk
+Gc
+GE
+lk
+Xe
+Xe
+Xe
+Xe
+Uq
+GE
+GE
+lk
+Lt
+jf
+jf
+jf
+EN
+jf
+jf
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -13598,6 +16397,7 @@ lk
 dx
 dx
 lk
+<<<<<<< Updated upstream
 Qt
 pC
 kq
@@ -13621,6 +16421,31 @@ yg
 yg
 yg
 yg
+=======
+bp
+lJ
+GE
+GE
+ol
+GE
+Ye
+lk
+Xe
+Xe
+Xe
+Xe
+lk
+GE
+GE
+lk
+Lt
+RW
+RW
+RW
+RW
+RW
+RW
+>>>>>>> Stashed changes
 lk
 QD
 QD
@@ -13745,6 +16570,7 @@ lk
 lk
 lk
 lk
+<<<<<<< Updated upstream
 Rc
 lk
 lk
@@ -13754,6 +16580,17 @@ lk
 lk
 lk
 Rc
+=======
+dx
+lk
+lk
+lk
+dx
+lk
+lk
+lk
+dx
+>>>>>>> Stashed changes
 lk
 lk
 lk
