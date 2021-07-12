@@ -182,7 +182,7 @@
 	icon = 'icons/vore/custom_clothes_vr.dmi'
 	icon_state = "solara_dress"
 
-	icon_override = 'icons/mob/uniform.dmi'
+	icon_override = 'icons/inventory/uniform/mob.dmi'
 	item_state = "solara_dress"
 
 //For general use
@@ -698,10 +698,10 @@
 	desc = " This is Lethe's Hat! A little tag attached inside reads: 'If found please return to Lethe! Or else!' It looks rather worn in. It also lacks armor."
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 
-	icon = 'icons/obj/clothing/hats.dmi'
+	icon = 'icons/inventory/head/item.dmi'
 	icon_state = "hoscap"
 
-	icon_override = 'icons/mob/head.dmi'
+	icon_override = 'icons/inventory/head/mob.dmi'
 	item_state = "hoscap"
 
 /obj/item/weapon/storage/belt/utility/fluff/vulpine
@@ -751,9 +751,9 @@
 	item_state = "pom_mob"
 
 	w_class = ITEMSIZE_SMALL
-	on = 0
-	brightness_on = 5
+	light_range = 5
 	light_overlay = null
+	light_system = MOVABLE_LIGHT
 
 	action_button_name = "Toggle pom-pom"
 
@@ -768,15 +768,13 @@
 	//	to_chat(user, "You cannot turn the light on while in this [user.loc]")
 	//	return
 
-	switch(on)
+	switch(light_on)
 		if(0)
-			on = 1
 			to_chat(user, "You light up your pom-pom.")
 			icon_state = "pom-on"
 			item_state = "pom-on_mob"
 
 		if(1)
-			on = 0
 			to_chat(user, "You dim your pom-pom.")
 			icon_state = "pom"
 			item_state = "pom_mob"
@@ -1763,13 +1761,13 @@ Departamental Swimsuits, for general use
 	item_state = "hasd_helm"
 	species_restricted = null
 
-	mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
-		if(..())
-			if(H.ckey != "silencedmp5a5")
-				to_chat(H, "<span class='warning'>...The faceplate is clearly not made for your anatomy, thus, does not fit.</span>")
-				return 0
-			else
-				return 1
+/obj/item/clothing/head/helmet/space/void/security/hasd/mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
+	if(..())
+		if(H.ckey != "silencedmp5a5")
+			to_chat(H, "<span class='warning'>...The faceplate is clearly not made for your anatomy, thus, does not fit.</span>")
+			return 0
+		else
+			return 1
 
 /obj/item/clothing/suit/space/void/security/hasd
 	name = "HASD EVA bodyplates"
@@ -1781,12 +1779,12 @@ Departamental Swimsuits, for general use
 	item_state = "hasd_suit"
 	pixel_x = -16
 
-	mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
-		if(..() && istype(H) && H.ckey == "silencedmp5a5")
-			return 1
-		else
-			to_chat(H, "<span class='warning'>This suit is not designed for you.</span>")
-			return 0
+/obj/item/clothing/suit/space/void/security/hasd/mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
+	if(..() && istype(H) && H.ckey == "silencedmp5a5")
+		return 1
+	else
+		to_chat(H, "<span class='warning'>This suit is not designed for you.</span>")
+		return 0
 
 //Zigfe:Zaoozaoo Xrimxuqmqixzix
 /obj/item/clothing/head/fluff/zao
@@ -2123,7 +2121,7 @@ Departamental Swimsuits, for general use
 		user.visible_message("<span class='notice'>[user] harmlessly bops [target] with \the [src].</span>", \
 		"<span class='notice'>\The [src] harmlessly bops [target]. The hat seems... unwilling?</span>")
 	else
-		user.visible_message("<span class='notice'>\The [src] flops over [user]'s' head for a moment, but they seem alright.</span>", \
+		user.visible_message("<b>\The [src]</b> flops over [user]'s' head for a moment, but they seem alright.", \
 		"<span class='notice'>\The [src] flops over your head for a moment, but you correct it without issue. There we go!</span>")
 
 /obj/item/clothing/head/fluff/nikki/proc/hat_warp_checks(var/mob/living/target, mob/user, proximity_flag)
@@ -2321,7 +2319,7 @@ Departamental Swimsuits, for general use
 			item_state = "rgb"
 			overlay_state = "rgb"
 			to_chat(user, "The polychromic plates in your cloak activate, turning it white.")
-		has_suit.update_clothing_icon()
+		has_suit?.update_clothing_icon()
 
 /obj/item/clothing/accessory/poncho/roles/cloak/fluff/cloakglowing/verb/color_verb()
 	set name = "Swap color"
@@ -2331,3 +2329,50 @@ Departamental Swimsuits, for general use
 	if(usr.stat) return
 
 	colorswap(usr)
+
+//Pandora029 : Evelyn Tareen
+/obj/item/clothing/suit/storage/hooded/wintercoat/security/fluff/evelyn
+	name = "warden's navy winter coat"
+	desc = "A custom tailored security winter coat in navy blue colors, this one has the rank markings of a warden on it."
+	icon = 'icons/vore/custom_clothes_vr.dmi'
+	icon_state = "evelyncoat"
+
+	icon_override = 'icons/vore/custom_onmob_vr.dmi'
+	item_state = "evelyncoat_mob"
+
+/obj/item/clothing/suit/storage/hooded/wintercoat/security/fluff/evelyn/ui_action_click()
+	ToggleHood_evelyn()
+
+/obj/item/clothing/suit/storage/hooded/wintercoat/security/fluff/evelyn/equipped(mob/user, slot)
+	if(slot != slot_wear_suit)
+		RemoveHood_evelyn()
+	..()
+
+/obj/item/clothing/suit/storage/hooded/wintercoat/security/fluff/evelyn/proc/RemoveHood_evelyn()
+	icon_state = "evelyncoat"
+	item_state = "evelyncoat_mob"
+	hood_up = 0
+	if(ishuman(hood.loc))
+		var/mob/living/carbon/H = hood.loc
+		H.unEquip(hood, 1)
+		H.update_inv_wear_suit()
+	hood.loc = src
+
+/obj/item/clothing/suit/storage/hooded/wintercoat/security/fluff/evelyn/proc/ToggleHood_evelyn()
+	if(!hood_up)
+		if(ishuman(loc))
+			var/mob/living/carbon/human/H = loc
+			if(H.wear_suit != src)
+				to_chat(H, "<span class='warning'>You must be wearing [src] to put up the hood!</span>")
+				return
+			if(H.head)
+				to_chat(H, "<span class='warning'>You're already wearing something on your head!</span>")
+				return
+			else
+				H.equip_to_slot_if_possible(hood,slot_head,0,0,1)
+				hood_up = 1
+				icon_state = "evelyncoat_t"
+				item_state = "evelyncoat_mob_t"
+				H.update_inv_wear_suit()
+	else
+		RemoveHood_evelyn()

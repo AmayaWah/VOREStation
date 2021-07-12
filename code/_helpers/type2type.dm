@@ -96,6 +96,19 @@
 		if ("SOUTHEAST") return 6
 		if ("SOUTHWEST") return 10
 
+// Turns a direction into text showing all bits set
+/proc/dirs2text(direction)
+	if(!direction)
+		return ""
+	var/list/dirs = list()
+	if(direction & NORTH) dirs += "NORTH"
+	if(direction & SOUTH) dirs += "SOUTH"
+	if(direction & EAST) dirs += "EAST"
+	if(direction & WEST) dirs += "WEST"
+	if(direction & UP) dirs += "UP"
+	if(direction & DOWN) dirs += "DOWN"
+	return dirs.Join(" ")
+
 // Converts an angle (degrees) into an ss13 direction
 /proc/angle2dir(var/degree)
 	degree = (degree + 22.5) % 365 // 22.5 = 45 / 2
@@ -397,3 +410,17 @@
 				return /datum
 
 	return text2path(copytext(string_type, 1, last_slash))
+
+//checks if a file exists and contains text
+//returns text as a string if these conditions are met
+/proc/safe_file2text(filename, error_on_invalid_return = TRUE)
+	try
+		if(fexists(filename))
+			. = file2text(filename)
+			if(!. && error_on_invalid_return)
+				error("File empty ([filename])")
+		else if(error_on_invalid_return)
+			error("File not found ([filename])")
+	catch(var/exception/E)
+		if(error_on_invalid_return)
+			error("Exception when loading file as string: [E]")
