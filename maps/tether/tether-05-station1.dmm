@@ -42,7 +42,7 @@
 	dir = 1
 	},
 /mob/living/simple_mob/animal/sif/fluffy,
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "aag" = (
 /obj/structure/sign/securearea{
@@ -8732,7 +8732,7 @@
 	pixel_x = 24
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "auU" = (
 /obj/item/weapon/stool,
@@ -9142,7 +9142,7 @@
 /obj/machinery/light,
 /obj/structure/dogbed,
 /mob/living/simple_mob/animal/sif/fluffy/silky,
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "awh" = (
 /obj/machinery/power/apc{
@@ -9157,7 +9157,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "awj" = (
 /obj/machinery/requests_console{
@@ -9445,11 +9445,6 @@
 	dir = 2;
 	icon_state = "pipe-c"
 	},
-/obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
-	icon_state = "2-8"
-	},
 /obj/machinery/portable_atmospherics/powered/pump/filled,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor,
@@ -9611,6 +9606,11 @@
 /obj/structure/catwalk,
 /obj/machinery/light/small{
 	dir = 8
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
 	},
 /turf/simulated/floor,
 /area/storage/emergency_storage/emergency4)
@@ -11140,11 +11140,6 @@
 /obj/item/weapon/storage/box/lights/mixed,
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
 	d2 = 8;
@@ -14306,16 +14301,16 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
 /obj/structure/catwalk,
 /obj/structure/cable/green{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
 	},
 /turf/simulated/floor,
 /area/storage/emergency_storage/emergency4)
@@ -14617,9 +14612,9 @@
 "bqj" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
 	},
 /turf/simulated/floor,
 /area/storage/emergency_storage/emergency4)
@@ -18057,7 +18052,7 @@
 /obj/effect/floor_decal/spline/fancy/wood{
 	dir = 1
 	},
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "ekj" = (
 /obj/structure/table/reinforced,
@@ -22119,9 +22114,6 @@
 	},
 /turf/simulated/floor/tiled,
 /area/quartermaster/office)
-"isj" = (
-/turf/simulated/wall/r_wall,
-/area/engineering/locker_room)
 "isr" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -24194,7 +24186,7 @@
 	d2 = 4;
 	icon_state = "1-4"
 	},
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "kCD" = (
 /obj/machinery/mineral/stacking_machine,
@@ -25985,7 +25977,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "mau" = (
 /obj/item/weapon/storage/backpack/parachute{
@@ -28071,7 +28063,7 @@
 /turf/simulated/floor/tiled,
 /area/ai_monitored/storage/eva)
 "nZQ" = (
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "oaR" = (
 /obj/structure/cable/green{
@@ -29373,7 +29365,7 @@
 /obj/effect/floor_decal/spline/fancy/wood{
 	dir = 1
 	},
-/turf/simulated/floor/outdoors/grass/forest,
+/turf/simulated/floor/grass,
 /area/quartermaster/qm)
 "pOQ" = (
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
@@ -33118,6 +33110,11 @@
 /area/shuttle/medivac/engines)
 "ucJ" = (
 /obj/effect/floor_decal/rust,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
 /turf/simulated/floor,
 /area/storage/emergency_storage/emergency4)
 "ucL" = (
@@ -42439,9 +42436,9 @@ abq
 aiM
 aiM
 aac
-isj
-isj
-isj
+acz
+acz
+acz
 aoy
 alM
 amf
