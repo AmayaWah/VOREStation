@@ -43,7 +43,7 @@
 	var/list/nearby_things = range(0, get_turf(src))
 	for(var/mob/M in nearby_things)
 		var/obj/O = assembly ? assembly : src
-		to_chat(M, "<span class='notice'>[bicon(O)] [stuff_to_display]</span>")
+		to_chat(M, span_notice("[icon2html(O,M.client)] [stuff_to_display]"))
 
 /obj/item/integrated_circuit/output/screen/large
 	name = "large screen"
@@ -56,7 +56,7 @@
 /obj/item/integrated_circuit/output/screen/large/do_work()
 	..()
 	var/obj/O = assembly ? loc : assembly
-	O.visible_message("<span class='notice'>[bicon(O)] [stuff_to_display]</span>")
+	O.visible_message(span_notice("[icon2html(O,viewers(O))] [stuff_to_display]"))
 
 /obj/item/integrated_circuit/output/light
 	name = "light"
@@ -134,7 +134,7 @@
 	text = get_pin_data(IC_INPUT, 1)
 	if(!isnull(text))
 		var/obj/O = assembly ? loc : assembly
-		audible_message("[bicon(O)] \The [O.name] states, \"[text]\"", runemessage = text)
+		audible_message("[icon2html(O,hearers(src))] \The [O.name] states, \"[text]\"", runemessage = text)
 
 /obj/item/integrated_circuit/output/text_to_speech/advanced
 	name = "advanced text-to-speech circuit"
@@ -149,7 +149,7 @@
 
 	var/mob/living/voice/my_voice
 
-/obj/item/integrated_circuit/output/text_to_speech/advanced/Initialize()
+/obj/item/integrated_circuit/output/text_to_speech/advanced/Initialize(mapload)
 	. = ..()
 	my_voice = new (src)
 	mob_list -= my_voice // no life() ticks
@@ -180,8 +180,8 @@
 	power_draw_per_use = 20
 	var/list/sounds = list()
 
-/obj/item/integrated_circuit/output/sound/New()
-	..()
+/obj/item/integrated_circuit/output/sound/Initialize(mapload)
+	. = ..()
 	extended_desc = list()
 	extended_desc += "The first input pin determines which sound is used. The choices are; "
 	extended_desc += jointext(sounds, ", ")
@@ -287,8 +287,8 @@
 	power_draw_idle = 5 // Raises to 80 when on.
 	var/obj/machinery/camera/network/circuits/camera
 
-/obj/item/integrated_circuit/output/video_camera/New()
-	..()
+/obj/item/integrated_circuit/output/video_camera/Initialize(mapload)
+	. = ..()
 	extended_desc = list()
 	extended_desc += "Network choices are; "
 	extended_desc += jointext(networks, ", ")
@@ -442,13 +442,14 @@
 //	var/datum/beam/holo_beam = null // A visual effect, to make it easy to know where a hologram is coming from.
 	// It is commented out due to picking up the assembly killing the beam.
 
-/obj/item/integrated_circuit/output/holographic_projector/Initialize()
+/obj/item/integrated_circuit/output/holographic_projector/Initialize(mapload)
 	. = ..()
-	GLOB.moved_event.register(src, src, .proc/on_moved)
+	AddComponent(/datum/component/recursive_move)
+	RegisterSignal(src, COMSIG_OBSERVER_MOVED, PROC_REF(on_moved))
 
 /obj/item/integrated_circuit/output/holographic_projector/Destroy()
 	destroy_hologram()
-	GLOB.moved_event.unregister(src, src, .proc/on_moved)
+	UnregisterSignal(src, COMSIG_OBSERVER_MOVED)
 	return ..()
 
 /obj/item/integrated_circuit/output/holographic_projector/do_work()
@@ -540,6 +541,7 @@
 		update_hologram()
 
 /obj/item/integrated_circuit/output/holographic_projector/proc/on_moved()
+	SIGNAL_HANDLER
 	if(hologram)
 		update_hologram_position()
 

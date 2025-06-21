@@ -28,7 +28,7 @@
 	icon_living = "rous"
 	icon_dead = "rous-dead"
 	icon_rest = "rous_rest"
-	faction = "mouse"
+	faction = FACTION_MOUSE
 	icon = 'icons/mob/vore64x32.dmi'
 
 	maxHealth = 150
@@ -46,7 +46,7 @@
 	friendly = list("nuzzles", "licks", "noses softly at", "noseboops", "headbumps against", "leans on", "nibbles affectionately on")
 
 	meat_amount = 6
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat
+	meat_type = /obj/item/reagent_containers/food/snacks/meat
 
 	old_x = -16
 	old_y = 0
@@ -70,8 +70,14 @@
 	say_list_type = /datum/say_list/rat
 	ai_holder_type = /datum/ai_holder/simple_mob/melee/rat
 
+	allow_mind_transfer = TRUE
+
 /mob/living/simple_mob/vore/aggressive/rat/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "In a cruel game of cat-and-mouse gone horribly wrong, you struggle to breathe clearly as the giant rat holds your head in its jaws, the rest of its bulk pinning you to the ground. Slimy slurps and its own muffled squeaking fill your senses as it simultaneously tosses its head while backing up. Quickly, ravenously consuming you, bit by bit, packing you down its gullet no matter how you struggle. Passing by its excited heartbeat, your thoroughly slickened head pushes out into its awaiting stomach, a dark and humid hammock eager to accept the rest of you. Soon, those too-warm, plush walls clench and squeeze around you with undeniable need! A need for mere filling, or, perhaps, a proper meal?"
@@ -105,7 +111,7 @@
 
 	if(hunger > 0 && life_since_foodscan++ > 5) //Only look for floor food when hungry.
 		life_since_foodscan = 0
-		for(var/obj/item/weapon/reagent_containers/food/snacks/S in oview(src,3)) //Accept thrown offerings and scavenge surroundings.
+		for(var/obj/item/reagent_containers/food/snacks/S in oview(src,3)) //Accept thrown offerings and scavenge surroundings.
 			if(get_dist(src,S) <=1)
 				visible_emote("hungrily devours \the [S].")
 				playsound(src,'sound/items/eatfood.ogg', rand(10,50), 1)
@@ -163,14 +169,14 @@
 				hunger += 5
 		else
 			food.Weaken(5)
-			food.visible_message("<span class='danger'>\The [src] pounces on \the [food]!</span>!")
+			food.visible_message(span_danger("\The [src] pounces on \the [food]!"))
 			target_mob = food
 			EatTarget()
 			hunger = 0
 			food = null
 
 /mob/living/simple_mob/vore/aggressive/rat/tame/attackby(var/obj/item/O, var/mob/user) // Feed the rat your food to satisfy it.
-	if(istype(O, /obj/item/weapon/reagent_containers/food/snacks))
+	if(istype(O, /obj/item/reagent_containers/food/snacks))
 		qdel(O)
 		playsound(src,'sound/items/eatfood.ogg', rand(10,50), 1)
 		hunger = 0
@@ -183,7 +189,7 @@
 		return null
 	else if(ishuman(found_atom) && will_eat(found_atom))
 		var/mob/living/carbon/human/H = found_atom
-		for(var/obj/item/weapon/reagent_containers/food/snacks/S in H)
+		for(var/obj/item/reagent_containers/food/snacks/S in H)
 			if(!food)
 				visible_emote("sniffs around the air intently, seeming to have caught a whiff of food!")
 			if(resting)
@@ -212,9 +218,9 @@
 	. = ..()
 	if(!riding_datum)
 		riding_datum = new /datum/riding/simple_mob(src)
-	verbs |= /mob/living/simple_mob/proc/animal_mount
-	verbs |= /mob/living/proc/toggle_rider_reins
-	movement_cooldown = 3
+	add_verb(src, /mob/living/simple_mob/proc/animal_mount)
+	add_verb(src, /mob/living/proc/toggle_rider_reins)
+	movement_cooldown = 0
 
 /mob/living/simple_mob/vore/aggressive/rat/MouseDrop_T(mob/living/M, mob/living/user)
 	return
@@ -244,6 +250,36 @@
 	min_n2 = 0
 	max_n2 = 0
 	minbodytemp = 0
+
+/mob/living/simple_mob/vore/aggressive/rat/pet
+	name = "pet rat"
+	ai_holder_type = /datum/ai_holder/simple_mob/retaliate
+
+/mob/living/simple_mob/vore/aggressive/rat/pet/Initialize(mapload)
+	.=..()
+
+	var/chance = rand(1,101)
+	switch(chance)
+		if(1 to 50)
+			name = "Ratthew"
+			desc = "When this oversized rodent and its sibling were officially adopted by Nanotrasen, a poll for a name was held. \
+			When said poll elected the name of one of station's altevian crewmembers twice in a row, ethics commitee stepped in. \
+			Then the name of ethics officer was elected. Ultimately, after a dozen or so names involving people with ratlike qualities, \
+			mental or physical, were removed from options as names, he was named Ratthew. Even though some still remember him as mouse number one."
+		if(51 to 100)
+			name = ";help maint"
+			desc = "While the other of the two trash rat siblings was named based on the poll, this one had misfortune of having official announcement \
+			of her poll results be interrupted by someone yelling on radio over an encounter with this rodent, earning her the name. Perhaps if not for \
+			this cruel twist of fate, she really would be named Julius Cheesar, after the name Jeremy was eliminated from the poll, considering nine hundred \
+			and eighty four rodent pets were named that already."
+		if(101)
+			name = "Brick"
+			desc = "Despite some conspiracy theories, this rat is not younger sibling of the other two rats commonly found in local trashpits, nor is it a \
+			younger sibling of any ratlike crew. Truth be told, it's just some random rat that barely ever shows up, yet people demanded it be given a name as well."
+			maxHealth = 1750
+			health = 1750
+			melee_damage_lower = 1
+			melee_damage_upper = 2
 
 /datum/say_list/rat
 	speak = list("Squeek!","SQUEEK!","Squeek?")

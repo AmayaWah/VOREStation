@@ -1,11 +1,11 @@
 //Space stragglers go here
 /obj/effect/overmap/visitable/sector/temporary
 	name = "Deep Space"
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	known = FALSE
 	in_space = TRUE
 
-/obj/effect/overmap/visitable/sector/temporary/Initialize()
+/obj/effect/overmap/visitable/sector/temporary/Initialize(mapload)
 	if(!istype(loc, /turf/unsimulated/map))
 		CRASH("Attempt to create deepspace which is not on overmap: [log_info_line(loc)]")
 	// Tell sector initializer where are is where we want to be.
@@ -66,7 +66,7 @@
 
 	return TRUE
 
-/obj/item/device/uav/lost_in_space()
+/obj/item/uav/lost_in_space()
 	if(state == 1)
 		return FALSE
 	return ..()
@@ -102,7 +102,7 @@
 		return
 
 	// Don't let AI eyes yeet themselves off the map
-	if(istype(A, /mob/observer/eye))
+	if(isEye(A))
 		return
 
 	if(A.lost_in_space())

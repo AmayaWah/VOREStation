@@ -12,7 +12,7 @@
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 250
 	active_power_usage = 500
-	circuit = /obj/item/weapon/circuitboard/roguezones
+	circuit = /obj/item/circuitboard/roguezones
 
 	var/debug = 0
 	var/debug_scans = 0
@@ -20,7 +20,7 @@
 	var/legacy_zone = 0 //Disable scanning and whatnot.
 	var/obj/machinery/computer/shuttle_control/belter/shuttle_control
 
-/obj/machinery/computer/roguezones/Initialize()
+/obj/machinery/computer/roguezones/Initialize(mapload)
 	. = ..()
 	shuttle_control = locate(/obj/machinery/computer/shuttle_control/belter)
 	return INITIALIZE_HINT_LATELOAD
@@ -84,7 +84,7 @@
 	data["can_recall_shuttle"] = (shuttle_control && (shuttle_control.z in using_map.belter_belt_z) && !curZoneOccupied)
 	return data
 
-/obj/machinery/computer/roguezones/tgui_act(action, list/params)
+/obj/machinery/computer/roguezones/tgui_act(action, list/params, datum/tgui/ui)
 	if(..())
 		return TRUE
 	switch(action)
@@ -92,10 +92,10 @@
 			scan_for_new_zone()
 			. = TRUE
 		if("recall_shuttle")
-			failsafe_shuttle_recall()
+			failsafe_shuttle_recall(ui.user)
 			. = TRUE
 
-	add_fingerprint(usr)
+	add_fingerprint(ui.user)
 
 /obj/machinery/computer/roguezones/proc/scan_for_new_zone()
 	if(scanning)
@@ -132,7 +132,7 @@
 	return
 
 
-/obj/machinery/computer/roguezones/proc/failsafe_shuttle_recall()
+/obj/machinery/computer/roguezones/proc/failsafe_shuttle_recall(mob/user)
 	if(!shuttle_control)
 		return // Shuttle computer has been destroyed
 	if (!(shuttle_control.z in using_map.belter_belt_z))
@@ -141,14 +141,14 @@
 		return // Not usable if shuttle is in occupied zone
 	// Okay do it
 	var/datum/shuttle/autodock/ferry/S = SSshuttles.shuttles["Belter"]
-	S.launch(usr)
+	S.launch(user)
 
-/obj/item/weapon/circuitboard/roguezones
+/obj/item/circuitboard/roguezones
 	name = T_BOARD("asteroid belt scanning computer")
 	build_path = /obj/machinery/computer/roguezones
 	origin_tech = list(TECH_DATA = 3, TECH_BLUESPACE = 1)
 
-/obj/item/weapon/paper/rogueminer
+/obj/item/paper/rogueminer
 	name = "R-38 Scanner Console Guide"
 	info = {"<h4>Getting Started</h4>
 	Congratulations, your station has purchased the R-38 industrial asteroid belt scanner!<br>
@@ -159,5 +159,4 @@
 	<h4>Traveling to the belt</h4>
 	When a new zone has been scanned, your station's shuttle destination will be updated to direct it to the newly discovered area automatically.<br>
 	You can then travel to the new area to mine in that location.<br>
-	<br>
-	<font size=1>This technology produced under license from Thinktronic Systems, LTD.</font>"}
+	<br> "} + span_small("This technology produced under license from Thinktronic Systems, LTD.")

@@ -31,17 +31,17 @@
 
 /datum/event2/meta/blob/get_weight()
 	// Count the 'fighters'.
-	var/list/engineers = metric.get_people_in_department(DEPARTMENT_ENGINEERING)
-	var/list/security = metric.get_people_in_department(DEPARTMENT_SECURITY)
+	var/list/engineers = GLOB.metric.get_people_in_department(DEPARTMENT_ENGINEERING)
+	var/list/security = GLOB.metric.get_people_in_department(DEPARTMENT_SECURITY)
 
 	if(engineers.len + security.len < required_fighters)
 		return 0
 
 	// Now count the 'support'.
-	var/list/medical = metric.get_people_in_department(DEPARTMENT_MEDICAL)
+	var/list/medical = GLOB.metric.get_people_in_department(DEPARTMENT_MEDICAL)
 	var/need_medical = FALSE
 
-	var/list/robotics = metric.get_people_with_job(/datum/job/roboticist)
+	var/list/robotics = GLOB.metric.get_people_with_job(/datum/job/roboticist)
 	var/need_robotics = FALSE
 
 	// Determine what kind of support might be needed.
@@ -106,19 +106,19 @@
 	for(var/i = 1 to number_of_blobs)
 		var/turf/T = pick(open_turfs)
 		var/obj/structure/blob/core/new_blob = new spawn_blob_type(T)
-		blobs += weakref(new_blob)
+		blobs += WEAKREF(new_blob)
 		open_turfs -= T // So we can't put two cores on the same tile if doing multiblob.
 		log_debug("Spawned [new_blob.overmind.blob_type.name] blob at [get_area(new_blob)].")
 
 /datum/event2/event/blob/should_end()
-	for(var/weakref/weakref as anything in blobs)
+	for(var/datum/weakref/weakref as anything in blobs)
 		if(weakref.resolve()) // If the weakref is resolvable, that means the blob hasn't been deleted yet.
 			return FALSE
 	return TRUE // Only end if all blobs die.
 
 // Normally this does nothing, but is useful if aborted by an admin.
 /datum/event2/event/blob/end()
-	for(var/weakref/weakref as anything in blobs)
+	for(var/datum/weakref/weakref as anything in blobs)
 		var/obj/structure/blob/core/B = weakref.resolve()
 		if(istype(B))
 			qdel(B)
@@ -128,7 +128,7 @@
 		var/danger_level = 0
 		var/list/blob_type_names = list()
 		var/multiblob = FALSE
-		for(var/weakref/weakref as anything in blobs)
+		for(var/datum/weakref/weakref as anything in blobs)
 			var/obj/structure/blob/core/B = weakref.resolve()
 			if(!istype(B))
 				continue

@@ -12,6 +12,8 @@
 	desc = "Lacking a durasteel horse to ride."
 	icon_state = "cowboy"
 	drop_sound = 'sound/items/drop/leather.ogg'
+	heat_protection = FEET|LEGS
+	cold_protection = FEET|LEGS
 
 /obj/item/clothing/shoes/boots/cowboy/classic
 	name = "classic cowboy boots"
@@ -22,17 +24,17 @@
 	name = "snake skin boots"
 	desc = "A pair of cowboy boots made from python skin."
 	icon_state = "cowboy_snakeskin"
+/* //Icons lost to time.
+/obj/item/clothing/shoes/boots/cowboy/green
+	name = "green cowboy boots"
+	desc = "A classic looking pair of durable cowboy boots made out of snappy green leather."
+	icon_state = "cowboy_green"
 
-/obj/item/clothing/shoes/boots/cowboy/lizard
-	name = "lizard skin boots"
-	desc = "You can hear a faint hissing from inside the boots; you hope it is just a mournful ghost."
-	icon_state = "lizardboots_green"
-
-/obj/item/clothing/shoes/boots/cowboy/lizard/masterwork
-	name = "\improper Hugs-The-Feet lizard skin boots"
-	desc = "A pair of masterfully crafted lizard skin boots. Finally a good application for the station's most bothersome inhabitants."
-	icon_state = "lizardboots_blue"
-
+/obj/item/clothing/shoes/boots/cowboy/blue
+	name = "blue cowboy boots"
+	desc = "A classic looking pair of durable cowboy boots made out of extra fancy blue leather."
+	icon_state = "cowboy_blue"
+*/
 /obj/item/clothing/shoes/boots/cowboy/brown
 	name = "brown cowboy boots"
 	desc = "A small sticker lets you know they've been inspected for snakes, It is unclear how long ago the inspection took place..."
@@ -74,6 +76,8 @@
 	desc = "Taller synthleather boots with an artificial shine."
 	icon_state = "kneeboots"
 	item_state_slots = list(slot_r_hand_str = "jackboots", slot_l_hand_str = "jackboots")
+	heat_protection = FEET|LEGS
+	cold_protection = FEET|LEGS
 
 /obj/item/clothing/shoes/boots/jackboots/toeless/knee
 	name = "toe-less knee-length jackboots"
@@ -81,12 +85,16 @@
 	icon_state = "digikneeboots"
 	item_state_slots = list(slot_r_hand_str = "jackboots", slot_l_hand_str = "jackboots")
 	species_restricted = null
+	heat_protection = FEET|LEGS
+	cold_protection = FEET|LEGS
 
 /obj/item/clothing/shoes/boots/jackboots/thigh
 	name = "thigh-length jackboots"
 	desc = "Even taller synthleather boots with an artificial shine."
 	icon_state = "thighboots"
 	item_state_slots = list(slot_r_hand_str = "jackboots", slot_l_hand_str = "jackboots")
+	heat_protection = FEET|LEGS
+	cold_protection = FEET|LEGS
 
 /obj/item/clothing/shoes/boots/jackboots/toeless/thigh
 	name = "toe-less thigh-length jackboots"
@@ -94,6 +102,11 @@
 	icon_state = "digithighboots"
 	item_state_slots = list(slot_r_hand_str = "jackboots", slot_l_hand_str = "jackboots")
 	species_restricted = null
+	heat_protection = FEET|LEGS
+	cold_protection = FEET|LEGS
+
+/obj/item/clothing/shoes/boots/jackboots/recolorable
+	icon_state = "boots_recolor"
 
 /obj/item/clothing/shoes/boots/workboots
 	name = "workboots"
@@ -115,9 +128,7 @@
 	name = "winter boots"
 	desc = "Boots lined with 'synthetic' animal fur."
 	icon_state = "winterboots"
-	cold_protection = FEET
 	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = FEET
 	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE
 	snow_speed = -1
 	step_volume_mod = 0.8
@@ -169,7 +180,7 @@
 	icon_state = "winterboots_hydro"
 
 /obj/item/clothing/shoes/boots/winter/explorer
-	name = "explorer winter boots"
+	name = "away team winter boots"
 	desc = "Steel-toed winter boots for mining or exploration in hazardous environments. Very good at keeping toes warm and uncrushed."
 	icon_state = "explorer"
 	armor = list(melee = 30, bullet = 10, laser = 10, energy = 15, bomb = 20, bio = 0, rad = 0)
@@ -190,6 +201,7 @@
 	desc = "A pair of winter boots, with metal bracing attached to assist in climbing rocky terrain."
 	icon_state = "climbing_boots"
 	rock_climbing = TRUE
+	//Climbing delay with boots is 1
 
 /obj/item/clothing/shoes/boots/tactical
 	name = "tactical boots"
@@ -229,9 +241,7 @@
 	item_flags = NOSLIP
 	siemens_coefficient = 0.6
 
-	cold_protection = FEET
 	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = FEET
 	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE
 
 //Stolen from CM, refurbished to be less terrible.
@@ -241,3 +251,18 @@
 	icon_state = "jackboots"
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
 	siemens_coefficient = 0.6
+
+/obj/item/clothing/shoes/boots/singer
+	name = "blue performer's boots"
+	desc = "These boots were made for dancing."
+	icon_state = "bsing"
+
+/obj/item/clothing/shoes/boots/singer/yellow
+	name = "yellow performer's boots"
+	desc = "These boots were made for dancing."
+	icon_state = "ysing"
+
+/obj/item/clothing/shoes/boots/half_moon
+	name = "half moon boots"
+	desc = "Flexible and tight, these boots ensure the wearer will be leaving a solid impression without sacrificing mobility."
+	icon_state = "half_moon"

@@ -18,10 +18,11 @@
 
 	clicksound = "keyboard"
 
-/obj/machinery/computer/Initialize()
+/obj/machinery/computer/Initialize(mapload)
 	. = ..()
 	power_change()
 	update_icon()
+	AddElement(/datum/element/climbable)
 
 /obj/machinery/computer/process()
 	if(stat & (NOPOWER|BROKEN))
@@ -31,7 +32,6 @@
 /obj/machinery/computer/emp_act(severity)
 	if(prob(20/severity)) set_broken()
 	..()
-
 
 /obj/machinery/computer/ex_act(severity)
 	switch(severity)
@@ -44,14 +44,13 @@
 				return
 			if (prob(50))
 				for(var/x in verbs)
-					verbs -= x
+					src.verbs -= x
 				set_broken()
 		if(3.0)
 			if (prob(25))
 				for(var/x in verbs)
-					verbs -= x
+					src.verbs -= x
 				set_broken()
-		else
 	return
 
 /obj/machinery/computer/bullet_act(var/obj/item/projectile/Proj)
@@ -64,7 +63,7 @@
 
 /obj/machinery/computer/update_icon()
 	cut_overlays()
-	
+
 	. = list()
 
 	// Connecty
@@ -120,15 +119,15 @@
 	if(computer_deconstruction_screwdriver(user, I))
 		return
 	else
-		if(istype(I,/obj/item/weapon/gripper)) //Behold, Grippers and their horribleness. If ..() is called by any computers' attackby() now or in the future, this should let grippers work with them appropriately.
-			var/obj/item/weapon/gripper/B = I	//B, for Borg.
+		if(istype(I,/obj/item/gripper)) //Behold, Grippers and their horribleness. If ..() is called by any computers' attackby() now or in the future, this should let grippers work with them appropriately.
+			var/obj/item/gripper/B = I	//B, for Borg.
 			if(!B.wrapped)
 				to_chat(user, "\The [B] is not holding anything.")
 				return
 			else
 				var/B_held = B.wrapped
 				to_chat(user, "You use \the [B] to use \the [B_held] with \the [src].")
-				playsound(src, "keyboard", 100, 1, 0)
+				playsound(src, clicksound, 100, 1, 0)
 			return
 		attack_hand(user)
 		return

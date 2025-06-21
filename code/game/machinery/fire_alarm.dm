@@ -23,7 +23,7 @@ FIRE ALARM
 	var/last_process = 0
 	panel_open = FALSE
 	var/seclevel
-	circuit = /obj/item/weapon/circuitboard/firealarm
+	circuit = /obj/item/circuitboard/firealarm
 	var/alarms_hidden = FALSE //If the alarms from this machine are visible on consoles
 
 /obj/machinery/firealarm/alarms_hidden
@@ -43,13 +43,13 @@ FIRE ALARM
 	. = ..()
 	. += "Current security level: [seclevel]"
 
-/obj/machinery/firealarm/Initialize()
+/obj/machinery/firealarm/Initialize(mapload)
 	. = ..()
 	if(!pixel_x && !pixel_y)
 		offset_alarm()
 
 	if(z in using_map.contact_levels)
-		set_security_level(security_level ? get_security_level() : "green")
+		set_security_level(GLOB.security_level ? get_security_level() : "green")
 
 /obj/machinery/firealarm/proc/offset_alarm()
 	pixel_x = (dir & 3) ? 0 : (dir == 4 ? 26 : -26)
@@ -88,14 +88,14 @@ FIRE ALARM
 			if("blue")	set_light(l_range = 2, l_power = 0.25, l_color = "#1024A9")
 			if("red")	set_light(l_range = 4, l_power = 0.9, l_color = "#ff0000")
 			if("delta")	set_light(l_range = 4, l_power = 0.9, l_color = "#FF6633")
-	
+
 	. += mutable_appearance(icon, fire_state)
 	. += emissive_appearance(icon, fire_state)
-	
+
 	if(seclevel)
 		. += mutable_appearance(icon, "overlay_[seclevel]")
 		. += emissive_appearance(icon, "overlay_[seclevel]")
-	
+
 	add_overlay(.)
 
 /obj/machinery/firealarm/fire_act(datum/gas_mixture/air, temperature, volume)
@@ -124,12 +124,12 @@ FIRE ALARM
 		return
 
 	if(panel_open)
-		if(istype(W, /obj/item/device/multitool))
+		if(istype(W, /obj/item/multitool))
 			detecting = !(detecting)
 			if(detecting)
-				user.visible_message("<span class='notice'>\The [user] has reconnected [src]'s detecting unit!</span>", "<span class='notice'>You have reconnected [src]'s detecting unit.</span>")
+				user.visible_message(span_notice("\The [user] has reconnected [src]'s detecting unit!"), span_notice("You have reconnected [src]'s detecting unit."))
 			else
-				user.visible_message("<span class='notice'>\The [user] has disconnected [src]'s detecting unit!</span>", "<span class='notice'>You have disconnected [src]'s detecting unit.</span>")
+				user.visible_message(span_notice("\The [user] has disconnected [src]'s detecting unit!"), span_notice("You have disconnected [src]'s detecting unit."))
 		return
 
 	alarm()
@@ -201,7 +201,7 @@ FIRE ALARM
 FIRE ALARM CIRCUIT
 Just a object used in constructing fire alarms
 
-/obj/item/weapon/firealarm_electronics
+/obj/item/firealarm_electronics
 	name = "fire alarm electronics"
 	icon = 'icons/obj/doors/door_assembly.dmi'
 	icon_state = "door_electronics"
@@ -233,33 +233,33 @@ Just a object used in constructing fire alarms
 	ASSERT(isarea(A))
 	var/d1
 	var/d2
-	if(istype(user, /mob/living/carbon/human) || istype(user, /mob/living/silicon/ai))
+	if(ishuman(user) || isAI(user))
 
 		if(A.party)
-			d1 = text("<A href='?src=\ref[];reset=1'>No Party :(</A>", src)
+			d1 = text("<A href='byond://?src=\ref[];reset=1'>No Party :(</A>", src)
 		else
-			d1 = text("<A href='?src=\ref[];alarm=1'>PARTY!!!</A>", src)
+			d1 = text("<A href='byond://?src=\ref[];alarm=1'>PARTY!!!</A>", src)
 		if(timing)
-			d2 = text("<A href='?src=\ref[];time=0'>Stop Time Lock</A>", src)
+			d2 = text("<A href='byond://?src=\ref[];time=0'>Stop Time Lock</A>", src)
 		else
-			d2 = text("<A href='?src=\ref[];time=1'>Initiate Time Lock</A>", src)
+			d2 = text("<A href='byond://?src=\ref[];time=1'>Initiate Time Lock</A>", src)
 		var/second = time % 60
 		var/minute = (time - second) / 60
-		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>Party Button</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
+		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>Party Button</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='byond://?src=\ref[];tp=-30'>-</A> <A href='byond://?src=\ref[];tp=-1'>-</A> <A href='byond://?src=\ref[];tp=1'>+</A> <A href='byond://?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
 		user << browse(dat, "window=partyalarm")
 		onclose(user, "partyalarm")
 	else
 		if(A.fire)
-			d1 = text("<A href='?src=\ref[];reset=1'>[]</A>", src, stars("No Party :("))
+			d1 = text("<A href='byond://?src=\ref[];reset=1'>[]</A>", src, stars("No Party :("))
 		else
-			d1 = text("<A href='?src=\ref[];alarm=1'>[]</A>", src, stars("PARTY!!!"))
+			d1 = text("<A href='byond://?src=\ref[];alarm=1'>[]</A>", src, stars("PARTY!!!"))
 		if(timing)
-			d2 = text("<A href='?src=\ref[];time=0'>[]</A>", src, stars("Stop Time Lock"))
+			d2 = text("<A href='byond://?src=\ref[];time=0'>[]</A>", src, stars("Stop Time Lock"))
 		else
-			d2 = text("<A href='?src=\ref[];time=1'>[]</A>", src, stars("Initiate Time Lock"))
+			d2 = text("<A href='byond://?src=\ref[];time=1'>[]</A>", src, stars("Initiate Time Lock"))
 		var/second = time % 60
 		var/minute = (time - second) / 60
-		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>[]</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", stars("Party Button"), d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
+		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>[]</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='byond://?src=\ref[];tp=-30'>-</A> <A href='byond://?src=\ref[];tp=-1'>-</A> <A href='byond://?src=\ref[];tp=1'>+</A> <A href='byond://?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", stars("Party Button"), d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
 		user << browse(dat, "window=partyalarm")
 		onclose(user, "partyalarm")
 	return
@@ -284,7 +284,7 @@ Just a object used in constructing fire alarms
 	..()
 	if(usr.stat || stat & (BROKEN|NOPOWER))
 		return
-	if((usr.contents.Find(src) || ((get_dist(src, usr) <= 1) && istype(loc, /turf))) || (istype(usr, /mob/living/silicon/ai)))
+	if((usr.contents.Find(src) || ((get_dist(src, usr) <= 1) && istype(loc, /turf))) || (isAI(usr)))
 		usr.machine = src
 		if(href_list["reset"])
 			reset()
@@ -296,7 +296,7 @@ Just a object used in constructing fire alarms
 			var/tp = text2num(href_list["tp"])
 			time += tp
 			time = min(max(round(time), 0), 120)
-		updateUsrDialog()
+		updateUsrDialog(usr)
 
 		add_fingerprint(usr)
 	else

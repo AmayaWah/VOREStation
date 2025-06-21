@@ -6,7 +6,7 @@
 	bantype = "changeling"
 	feedback_tag = "changeling_objective"
 	avoid_silicons = TRUE
-	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Site Manager")
+	protected_jobs = list(JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_DETECTIVE, JOB_HEAD_OF_SECURITY, JOB_SITE_MANAGER)
 	welcome_text = "Use say \"#g message\" to communicate with your fellow changelings. Remember: you get all of their absorbed DNA if you absorb them."
 	antag_sound = 'sound/effects/antag_notice/ling_alert.ogg'
 	flags = ANTAG_SUSPICIOUS | ANTAG_RANDSPAWN | ANTAG_VOTABLE
@@ -64,15 +64,15 @@
 			var/mob/living/carbon/human/H = player.current
 			if(H.isSynthetic())
 				return 0
-			if(H.species.flags & NO_SCAN)
+			if(H.species.flags & (NO_SLEEVE|NO_DNA))
 				return 0
 			return 1
 		else if(isnewplayer(player.current))
 			if(player.current.client && player.current.client.prefs)
 				var/datum/species/S = GLOB.all_species[player.current.client.prefs.species]
-				if(S && (S.flags & NO_SCAN))
+				if(S && (S.flags & (NO_SLEEVE|NO_DNA)))
 					return 0
-				if(player.current.client.prefs.organ_data["torso"] == "cyborg") // Full synthetic.
+				if(player.current.client.prefs.organ_data[BP_TORSO] == "cyborg") // Full synthetic. // TODO, this to issynthetic()?
 					return 0
 				return 1
 	return 0

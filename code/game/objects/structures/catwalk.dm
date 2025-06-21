@@ -13,15 +13,23 @@
 	var/static/plating_colors = list(
 		/obj/item/stack/tile/floor = "#858a8f",
 		/obj/item/stack/tile/floor/dark = "#4f4f4f",
-		/obj/item/stack/tile/floor/white = "#e8e8e8")
+		/obj/item/stack/tile/floor/white = "#e8e8e8",
+		/obj/item/stack/tile/floor/techmaint = "#4d585b",
+		/obj/item/stack/tile/floor/techgrey = "#363f43")
 	var/health = 100
 	var/maxhealth = 100
+	var/delete_me = FALSE
 
-/obj/structure/catwalk/Initialize()
+/obj/structure/catwalk/Initialize(mapload)
 	. = ..()
+	if(delete_me)
+		return INITIALIZE_HINT_QDEL
 	for(var/obj/structure/catwalk/C in get_turf(src))
 		if(C != src)
-			qdel(C)
+			if(!(C.flags & ATOM_INITIALIZED))
+				C.delete_me = TRUE
+			else
+				qdel(C)
 	update_connections(1)
 	update_icon()
 
@@ -38,7 +46,7 @@
 			O.update() //Will cause anything on the open turf to fall if it should
 
 /obj/structure/catwalk/proc/redraw_nearby_catwalks()
-	for(var/direction in alldirs)
+	for(var/direction in GLOB.alldirs)
 		var/obj/structure/catwalk/L = locate() in get_step(src, direction)
 		if(L)
 			L.update_connections()
@@ -62,10 +70,10 @@
 /obj/structure/catwalk/ex_act(severity)
 	switch(severity)
 		if(1)
-			new /obj/item/stack/rods(src.loc)
+			new /obj/item/stack/rods(src.loc, 2) //VOREstation Edit: Conservation of mass
 			qdel(src)
 		if(2)
-			new /obj/item/stack/rods(src.loc)
+			new /obj/item/stack/rods(src.loc, 2) //VOREstation Edit: Conservation of mass
 			qdel(src)
 
 /obj/structure/catwalk/attack_robot(var/mob/user)
@@ -74,41 +82,42 @@
 
 /obj/structure/catwalk/proc/deconstruct(mob/user)
 	playsound(src, 'sound/items/Welder.ogg', 100, 1)
-	to_chat(user, "<span class='notice'>Slicing \the [src] joints ...</span>")
-	new /obj/item/stack/rods(src.loc)
-	new /obj/item/stack/rods(src.loc)
+	to_chat(user, span_notice("Slicing \the [src] joints ..."))
 	//Lattice would delete itself, but let's save ourselves a new obj
-	if(isspace(loc) || isopenspace(loc))
+	if(isopenspace(loc) && user.a_intent == I_HELP)
 		new /obj/structure/lattice/(src.loc)
+		new /obj/item/stack/rods(src.loc, 1)
+	else
+		new /obj/item/stack/rods(src.loc, 2)
 	if(plated_tile)
 		new plated_tile(src.loc)
 	qdel(src)
 
 /obj/structure/catwalk/attackby(obj/item/C as obj, mob/user as mob)
-	if(istype(C, /obj/item/weapon/weldingtool))
-		var/obj/item/weapon/weldingtool/WT = C
+	if(C.has_tool_quality(TOOL_WELDER))
+		var/obj/item/weldingtool/WT = C.get_welder()
 		if(WT.isOn() && WT.remove_fuel(0, user))
 			deconstruct(user)
 			return
-	if(C.is_crowbar() && plated_tile)
+	if(C.has_tool_quality(TOOL_CROWBAR) && plated_tile)
 		hatch_open = !hatch_open
 		if(hatch_open)
 			playsound(src, 'sound/items/Crowbar.ogg', 100, 2)
-			to_chat(user, "<span class='notice'>You pry open \the [src]'s maintenance hatch.</span>")
+			to_chat(user, span_notice("You pry open \the [src]'s maintenance hatch."))
 			update_falling()
 		else
 			playsound(src, 'sound/items/Deconstruct.ogg', 100, 2)
-			to_chat(user, "<span class='notice'>You shut \the [src]'s maintenance hatch.</span>")
+			to_chat(user, span_notice("You shut \the [src]'s maintenance hatch."))
 		update_icon()
 		return
 	if(istype(C, /obj/item/stack/tile/floor) && !plated_tile)
 		var/obj/item/stack/tile/floor/ST = C
-		to_chat(user, "<span class='notice'>Placing tile...</span>")
+		to_chat(user, span_notice("Placing tile..."))
 		if (!do_after(user, 10))
 			return
 		if(!ST.use(1))
 			return
-		to_chat(user, "<span class='notice'>You plate \the [src]</span>")
+		to_chat(user, span_notice("You plate \the [src]"))
 		name = "plated catwalk"
 		plated_tile = C.type
 		src.add_fingerprint(user)
@@ -123,7 +132,7 @@
 /obj/structure/catwalk/take_damage(amount)
 	health -= amount
 	if(health <= 0)
-		visible_message("<span class='warning'>\The [src] breaks down!</span>")
+		visible_message(span_warning("\The [src] breaks down!"))
 		playsound(src, 'sound/effects/grillehit.ogg', 50, 1)
 		new /obj/item/stack/rods(get_turf(src))
 		Destroy()
@@ -189,3 +198,13 @@
 	icon_state = "catwalk_platedwhite"
 	tile = /obj/item/stack/tile/floor/white
 	platecolor = "#e8e8e8"
+
+/obj/effect/catwalk_plated/techmaint
+	icon_state = "catwalk_techmaint"
+	tile = /obj/item/stack/tile/floor/techmaint
+	platecolor = "#4d585b"
+
+/obj/effect/catwalk_plated/techfloor
+	icon_state = "catwalk_techfloor"
+	tile = /obj/item/stack/tile/floor/techgrey
+	platecolor = "#363f43"

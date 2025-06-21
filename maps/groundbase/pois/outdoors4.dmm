@@ -8,7 +8,7 @@
 "h" = (
 /obj/structure/table/standard,
 /obj/random/maintenance/misc,
-/obj/item/device/flashlight/lamp/green{
+/obj/item/flashlight/lamp/green{
 	pixel_x = 1;
 	pixel_y = 5
 	},
@@ -16,7 +16,7 @@
 /area/submap/groundbase/poi/outdoor/cabin1)
 "i" = (
 /obj/structure/table/standard,
-/obj/item/device/flashlight/lamp{
+/obj/item/flashlight/lamp{
 	pixel_x = 2;
 	pixel_y = 7
 	},
@@ -41,7 +41,7 @@
 /turf/simulated/floor,
 /area/submap/groundbase/poi/outdoor/cabin1)
 "u" = (
-/turf/simulated/floor/outdoors/grass/virgo3c,
+/turf/simulated/floor/outdoors/grass/seasonal/notrees_nomobs_lowsnow,
 /area/submap/groundbase/poi/outdoor)
 "B" = (
 /obj/structure/table/standard,
@@ -64,7 +64,7 @@
 /area/submap/groundbase/poi/outdoor/cabin1)
 "U" = (
 /obj/structure/flora/tree/bigtree,
-/turf/simulated/floor/outdoors/grass/virgo3c,
+/turf/simulated/floor/outdoors/grass/seasonal/notrees_nomobs_lowsnow,
 /area/submap/groundbase/poi/outdoor)
 "V" = (
 /obj/structure/grille,

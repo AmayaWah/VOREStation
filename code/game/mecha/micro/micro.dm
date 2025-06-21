@@ -1,11 +1,3 @@
-/obj/mecha
-	var/max_micro_utility_equip = 0
-	var/max_micro_weapon_equip = 0
-	var/list/micro_utility_equipment = new
-	var/list/micro_weapon_equipment = new
-
-
-
 /obj/mecha/micro
 	icon = 'icons/mecha/micro.dmi'
 	force = 10 //still a robot
@@ -26,7 +18,6 @@
 	max_micro_weapon_equip = 1
 	//add_req_access = 0
 	//operation_req_access = list(access_hos)
-	damage_absorption = list("brute"=1,"fire"=1,"bullet"=1,"laser"=1,"energy"=1,"bomb"=1)
 	var/am = "d3c2fbcadca903a41161ccc9df9cf948"
 	damage_minimum = 0				//Incoming damage lower than this won't actually deal damage. Scrapes shouldn't be a real thing.
 	minimum_penetration = 0		//Incoming damage won't be fully applied if you don't have at least 20. Almost all AP clears this.
@@ -35,14 +26,14 @@
 	if(internal_damage&MECHA_INT_CONTROL_LOST)
 		target = safepick(oview(1,src))
 	if(!melee_can_hit || !istype(target, /atom)) return
-	if(istype(target, /mob/living))
+	if(isliving(target))
 		var/mob/living/M = target
 		if(src.occupant.a_intent == I_HURT)
 			playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
 			if(damtype == "brute")
 				step_away(M,src,15)
 
-			if(istype(target, /mob/living/carbon/human))
+			if(ishuman(target))
 				var/mob/living/carbon/human/H = target
 	//			if (M.health <= 0) return
 
@@ -56,10 +47,10 @@
 							update |= temp.take_damage(0, rand(force/2, force))
 						if("tox")
 							if(H.reagents)
-								if(H.reagents.get_reagent_amount("carpotoxin") + force < force*2)
-									H.reagents.add_reagent("carpotoxin", force)
-								if(H.reagents.get_reagent_amount("cryptobiolin") + force < force*2)
-									H.reagents.add_reagent("cryptobiolin", force)
+								if(H.reagents.get_reagent_amount(REAGENT_ID_CARPOTOXIN) + force < force*2)
+									H.reagents.add_reagent(REAGENT_ID_CARPOTOXIN, force)
+								if(H.reagents.get_reagent_amount(REAGENT_ID_CRYPTOBIOLIN) + force < force*2)
+									H.reagents.add_reagent(REAGENT_ID_CRYPTOBIOLIN, force)
 						else
 							return
 					if(update)	H.UpdateDamageIcon()
@@ -74,15 +65,15 @@
 						M.take_overall_damage(0, rand(force/2, force))
 					if("tox")
 						if(M.reagents)
-							if(M.reagents.get_reagent_amount("carpotoxin") + force < force*2)
-								M.reagents.add_reagent("carpotoxin", force)
-							if(M.reagents.get_reagent_amount("cryptobiolin") + force < force*2)
-								M.reagents.add_reagent("cryptobiolin", force)
+							if(M.reagents.get_reagent_amount(REAGENT_ID_CARPOTOXIN) + force < force*2)
+								M.reagents.add_reagent(REAGENT_ID_CARPOTOXIN, force)
+							if(M.reagents.get_reagent_amount(REAGENT_ID_CRYPTOBIOLIN) + force < force*2)
+								M.reagents.add_reagent(REAGENT_ID_CRYPTOBIOLIN, force)
 					else
 						return
 				M.updatehealth()
-			src.occupant_message("You hit [target].")
-			src.visible_message("<font color='red'><b>[src.name] hits [target].</b></font>")
+			src.occupant_message(span_attack("You hit [target]."))
+			src.visible_message(span_bolddanger("[src.name] hits [target]."))
 		else
 			step_away(M,src)
 			src.occupant_message("You push [target] out of the way.")
@@ -97,8 +88,8 @@
 		if(damtype == "brute")
 			for(var/target_type in src.destroyable_obj)
 				if(istype(target, target_type) && hascall(target, "attackby"))
-					src.occupant_message("You hit [target].")
-					src.visible_message("<font color='red'><b>[src.name] hits [target]</b></font>")
+					src.occupant_message(span_attack("You hit [target]."))
+					src.visible_message(span_bolddanger("[src.name] hits [target]."))
 					if(!istype(target, /turf/simulated/wall))
 						target:attackby(src,src.occupant)
 					else
@@ -119,18 +110,17 @@
 
 // override move_inside() so only micro crew can use them
 
-/obj/mecha/micro/move_inside()
-	var/mob/living/carbon/C = usr
-	if (C.size_multiplier >= 0.5)
-		to_chat(C, "<span class='warning'>You can't fit in this suit!</span>")
+/obj/mecha/micro/move_inside(mob/user)
+	if (user.get_effective_size(TRUE) >= 0.5)
+		to_chat(user, span_warning("You can't fit in this suit!"))
 		return
 	else
 		..()
 
 /obj/mecha/micro/move_inside_passenger()
 	var/mob/living/carbon/C = usr
-	if (C.size_multiplier >= 0.5)
-		to_chat(C, "<span class='warning'>You can't fit in this suit!</span>")
+	if (C.get_effective_size(TRUE) >= 0.5)
+		to_chat(C, span_warning("You can't fit in this suit!"))
 		return
 	else
 		..()
@@ -156,4 +146,3 @@
 
 /obj/effect/decal/mecha_wreckage/micro
 	icon = 'icons/mecha/micro.dmi'
-

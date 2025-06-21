@@ -18,9 +18,7 @@ GLOBAL_LIST_EMPTY(fusion_cores)
 	active_power_usage = 500 //multiplied by field strength
 	anchored = FALSE
 
-	circuit = /obj/item/weapon/circuitboard/fusion_core
-
-	var/obj/item/hose_connector/output/Output
+	circuit = /obj/item/circuitboard/fusion_core
 
 	var/obj/effect/fusion_em_field/owned_field
 	var/field_strength = 1//0.01
@@ -32,21 +30,22 @@ GLOBAL_LIST_EMPTY(fusion_cores)
 /obj/machinery/power/fusion_core/mapped
 	anchored = TRUE
 
-/obj/machinery/power/fusion_core/Initialize()
+/obj/machinery/power/fusion_core/Initialize(mapload)
 	. = ..()
 	GLOB.fusion_cores += src
 
-	Output = new(src)
+	AddComponent(/datum/component/hose_connector/output)
+
 	create_reagents(10000)
 
 	default_apply_parts()
 
-/obj/machinery/power/fusion_core/mapped/Initialize()
+/obj/machinery/power/fusion_core/mapped/Initialize(mapload)
 	. = ..()
 	connect_to_network()
 
 /obj/machinery/power/fusion_core/Destroy()
-	for(var/obj/machinery/computer/fusion_core_control/FCC in machines)
+	for(var/obj/machinery/computer/fusion_core_control/FCC in GLOB.machines)
 		FCC.connected_devices -= src
 		if(FCC.cur_viewed_device == src)
 			FCC.cur_viewed_device = null
@@ -64,10 +63,7 @@ GLOBAL_LIST_EMPTY(fusion_cores)
 	if((stat & BROKEN) || !powernet || !owned_field)
 		Shutdown()
 
-	if(Output.get_pairing())
-		reagents.trans_to_holder(Output.reagents, Output.reagents.maximum_volume)
-		if(prob(5))
-			visible_message("<b>\The [src]</b> gurgles as it exports fluid.")
+	SEND_SIGNAL(src, COMSIG_HOSE_FORCEPUMP)
 
 	if(owned_field)
 
@@ -131,14 +127,14 @@ GLOBAL_LIST_EMPTY(fusion_cores)
 /obj/machinery/power/fusion_core/attack_hand(var/mob/user)
 	if(!Adjacent(user)) // As funny as it was for the AI to hug-kill the tokamak field from a distance...
 		return
-	visible_message("<b>\The [user]</b> hugs \the [src] to make it feel better!")
+	visible_message(span_infoplain(span_bold("\The [user]") + " hugs \the [src] to make it feel better!"))
 	if(owned_field)
 		Shutdown()
 
 /obj/machinery/power/fusion_core/attackby(var/obj/item/W, var/mob/user)
 
 	if(owned_field)
-		to_chat(user,"<span class='warning'>Shut \the [src] off first!</span>")
+		to_chat(user,span_warning("Shut \the [src] off first!"))
 		return
 
 	if(default_deconstruction_screwdriver(user, W))
@@ -148,8 +144,9 @@ GLOBAL_LIST_EMPTY(fusion_cores)
 	if(default_part_replacement(user, W))
 		return
 
-	if(istype(W, /obj/item/device/multitool))
-		var/new_ident = tgui_input_text(usr, "Enter a new ident tag.", "Fusion Core", id_tag)
+	if(istype(W, /obj/item/multitool))
+		var/new_ident = tgui_input_text(user, "Enter a new ident tag.", "Fusion Core", id_tag, MAX_NAME_LEN)
+		new_ident = sanitize(new_ident,MAX_NAME_LEN)
 		if(new_ident && user.Adjacent(src))
 			id_tag = new_ident
 		return

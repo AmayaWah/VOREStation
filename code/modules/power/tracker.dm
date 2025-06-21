@@ -26,7 +26,7 @@
 
 /obj/machinery/power/tracker/Destroy()
 	unset_control() //remove from control computer
-	..()
+	. = ..()
 
 //set the control of the tracker to a given computer if closer than SOLAR_MAX_DIST
 /obj/machinery/power/tracker/proc/set_control(var/obj/machinery/power/solar_control/SC)
@@ -51,25 +51,25 @@
 	if(powernet && (powernet == control.powernet)) //update if we're still in the same powernet
 		control.cdir = angle
 
-/obj/machinery/power/tracker/attackby(var/obj/item/weapon/W, var/mob/user)
+/obj/machinery/power/tracker/attackby(var/obj/item/W, var/mob/user)
 
-	if(W.is_crowbar())
+	if(W.has_tool_quality(TOOL_CROWBAR))
 		playsound(src, 'sound/machines/click.ogg', 50, 1)
-		user.visible_message("<span class='notice'>[user] begins to take the glass off the solar tracker.</span>")
+		user.visible_message(span_notice("[user] begins to take the glass off the solar tracker."))
 		if(do_after(user, 50))
 			var/obj/item/solar_assembly/S = new(loc)
 			S.tracker = TRUE
 			S.anchored = TRUE
 			new glass_type(loc, 2)
 			playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-			user.visible_message("<span class='notice'>[user] takes the glass off the tracker.</span>")
+			user.visible_message(span_notice("[user] takes the glass off the tracker."))
 			qdel(src)
 		return
 	..()
 
 // Tracker Electronic
 
-/obj/item/weapon/tracker_electronics
+/obj/item/tracker_electronics
 
 	name = "tracker electronics"
 	icon = 'icons/obj/doors/door_assembly.dmi'

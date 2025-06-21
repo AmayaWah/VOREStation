@@ -25,14 +25,15 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 	icon_dead = "space_jellyfish_dead"
 	has_eye_glow = TRUE
 	hovering = TRUE
+	density = FALSE
 
 
-	faction = "jellyfish"
+	faction = FACTION_JELLYFISH
 	maxHealth = 100
 	health = 100
 	nutrition = 150
 	pass_flags = PASSTABLE
-	movement_cooldown = 3.25
+	movement_cooldown = 1
 
 	see_in_dark = 10
 
@@ -63,7 +64,7 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 	speak_emote = list("thrumms")
 
 	meat_amount = 0
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/jellyfishcore
+	meat_type = /obj/item/reagent_containers/food/snacks/jellyfishcore
 
 	say_list_type = /datum/say_list/jellyfish
 
@@ -80,12 +81,26 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 
 	var/reproduction_cooldown = 0
 
+/mob/living/simple_mob/vore/alienanimals/space_jellyfish/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/swarming)
+
+// Allows this mob to swarm
+/mob/living/simple_mob/vore/alienanimals/space_jellyfish/CanPass(atom/movable/mover, turf/target)
+	if(isliving(mover) && !istype(mover, /mob/living/simple_mob/vore/alienanimals/space_jellyfish) && mover.density == TRUE)
+		return FALSE
+	return ..()
+
 /datum/say_list/jellyfish
 	emote_see = list("flickers", "flashes", "looms","pulses","sways","shimmers hypnotically")
 
 
 /mob/living/simple_mob/vore/alienanimals/space_jellyfish/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "internal chamber"
 	B.desc = "It's smooth and translucent. You can see the world around you distort and wobble with the movement of the space jellyfish. It floats casually, while the delicate flesh seems to form to you. It's surprisingly cool, and flickers with its own light. You're on display for all to see, trapped within the confines of this strange space alien!"
@@ -107,16 +122,16 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 		if(prob(25))
 			L.adjustHalLoss(leech)
 
-/mob/living/simple_mob/vore/alienanimals/space_jellyfish/New(newloc, jellyfish)
+/mob/living/simple_mob/vore/alienanimals/space_jellyfish/Initialize(mapload, jellyfish)
+	. = ..()
 	GLOB.jellyfish_count ++
 	var/mob/living/simple_mob/vore/alienanimals/space_jellyfish/parent = jellyfish
 	if(parent)
 		parent.faction = faction
-	..()
 
 /mob/living/simple_mob/vore/alienanimals/space_jellyfish/death()
 	. = ..()
-	new /obj/item/weapon/reagent_containers/food/snacks/jellyfishcore(loc, nutrition)
+	new /obj/item/reagent_containers/food/snacks/jellyfishcore(loc, nutrition)
 	GLOB.jellyfish_count --
 	qdel(src)
 
@@ -150,7 +165,7 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 	wander = TRUE
 	unconscious_vore = TRUE
 
-/obj/item/weapon/reagent_containers/food/snacks/jellyfishcore
+/obj/item/reagent_containers/food/snacks/jellyfishcore
 	name = "jellyfish core"
 	icon = 'icons/obj/food_vr.dmi'
 	icon_state = "jellyfish_core"
@@ -161,11 +176,7 @@ GLOBAL_VAR_INIT(jellyfish_count, 0)
 
 	var/inherited_nutriment = 0
 
-/obj/item/weapon/reagent_containers/food/snacks/jellyfishcore/New(newloc, inherit)
-	inherited_nutriment	= inherit
+/obj/item/reagent_containers/food/snacks/jellyfishcore/Initialize(mapload, inherit)
 	. = ..()
-
-/obj/item/weapon/reagent_containers/food/snacks/jellyfishcore/Initialize()
-	nutriment_amt += inherited_nutriment
-	. = ..()
-	reagents.add_reagent("nutriment", nutriment_amt, nutriment_desc)
+	nutriment_amt += inherit
+	reagents.add_reagent(REAGENT_ID_NUTRIMENT, nutriment_amt, nutriment_desc)

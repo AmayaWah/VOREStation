@@ -7,17 +7,17 @@
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 250
 	active_power_usage = 500
-	circuit = /obj/item/weapon/circuitboard/crew
+	circuit = /obj/item/circuitboard/crew
 	var/datum/tgui_module/crew_monitor/crew_monitor
 
-/obj/machinery/computer/crew/New()
+/obj/machinery/computer/crew/Initialize(mapload)
+	. = ..()
 	crew_monitor = new(src)
-	..()
 
 /obj/machinery/computer/crew/Destroy()
 	qdel(crew_monitor)
 	crew_monitor = null
-	..()
+	. = ..()
 
 /obj/machinery/computer/crew/attack_ai(mob/user)
 	attack_hand(user)

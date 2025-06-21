@@ -16,7 +16,8 @@
 	var/x_offset = 0 // Offset from the 'center' of where the projector is, so that if it moves, the shield can recalc its position.
 	var/y_offset = 0 // Ditto.
 
-/obj/effect/directional_shield/New(var/newloc, var/new_projector)
+/obj/effect/directional_shield/Initialize(mapload, var/new_projector)
+	. = ..()
 	if(new_projector)
 		projector = new_projector
 		var/turf/us = get_turf(src)
@@ -26,7 +27,6 @@
 			y_offset = us.y - them.y
 	else
 		update_color()
-	..(newloc)
 
 /obj/effect/directional_shield/proc/relocate()
 	if(!projector)
@@ -66,7 +66,7 @@
 
 /obj/effect/directional_shield/bullet_act(var/obj/item/projectile/P)
 	adjust_health(-P.get_structure_damage())
-	P.on_hit()
+	P.on_hit(src)
 	playsound(src, 'sound/effects/EMPulse.ogg', 75, 1)
 
 // All the shields tied to their projector are one 'unit', and don't have individualized health values like most other shields.
@@ -98,20 +98,24 @@
 	var/high_color = "#0099FF"			// Color the shield will be when at max health.  A light blue.
 	var/low_color = "#FF0000"			// Color the shield will drift towards as health is lowered.  Deep red.
 
-/obj/item/shield_projector/Initialize()
+/obj/item/shield_projector/Initialize(mapload)
 	START_PROCESSING(SSobj, src)
+	AddComponent(/datum/component/recursive_move)
+	RegisterSignal(src, COMSIG_OBSERVER_MOVED, PROC_REF(moved_event))
 	if(always_on)
-		create_shields()
-	GLOB.moved_event.register(src, src, .proc/moved_event)
+		spawn(0)
+			if(!QDELETED(src))
+				create_shields()
 	return ..()
 
 /obj/item/shield_projector/Destroy()
 	destroy_shields()
 	STOP_PROCESSING(SSobj, src)
-	GLOB.moved_event.unregister(src, src, .proc/moved_event)
+	UnregisterSignal(src, COMSIG_OBSERVER_MOVED)
 	return ..()
 
 /obj/item/shield_projector/proc/moved_event()
+	SIGNAL_HANDLER
 	update_shield_positions()
 
 /obj/item/shield_projector/proc/create_shield(var/newloc, var/new_dir)
@@ -135,6 +139,7 @@
 	active = FALSE
 
 /obj/item/shield_projector/proc/update_shield_positions()
+	SIGNAL_HANDLER
 	for(var/obj/effect/directional_shield/S in active_shields)
 		S.relocate()
 
@@ -144,7 +149,7 @@
 		if(shield_health <= 0)
 			destroy_shields()
 			var/turf/T = get_turf(src)
-			T.visible_message("<span class='danger'>\The [src] overloads and the shield vanishes!</span>")
+			T.visible_message(span_danger("\The [src] overloads and the shield vanishes!"))
 			playsound(src, 'sound/machines/defib_failed.ogg', 75, 0)
 		else
 			if(shield_health < max_shield_health / 4) // Play a more urgent sounding beep if it's at 25% health.
@@ -184,13 +189,13 @@
 /obj/item/shield_projector/attack_self(var/mob/living/user)
 	if(active)
 		if(always_on)
-			to_chat(user, "<span class='warning'>You can't seem to deactivate \the [src].</span>")
+			to_chat(user, span_warning("You can't seem to deactivate \the [src]."))
 			return
 		set_on(FALSE)
 	else
 		set_dir(user.dir) // Needed for linear shields.
 		set_on(TRUE)
-	visible_message("<span class='notice'>\The [user] [!active ? "de":""]activates \the [src].</span>")
+	visible_message(span_notice("\The [user] [!active ? "de":""]activates \the [src]."))
 
 /obj/item/shield_projector/proc/set_on(var/on)
 	if(isnull(on))
@@ -376,7 +381,7 @@
 /obj/item/shield_projector/line/exosuit/attack_self(var/mob/living/user)
 	if(active)
 		if(always_on)
-			to_chat(user, "<span class='warning'>You can't seem to deactivate \the [src].</span>")
+			to_chat(user, span_warning("You can't seem to deactivate \the [src]."))
 			return
 
 		destroy_shields()
@@ -386,7 +391,7 @@
 		else
 			set_dir(user.dir)
 		create_shields()
-	visible_message("<span class='notice'>\The [user] [!active ? "de":""]activates \the [src].</span>")
+	visible_message(span_notice("\The [user] [!active ? "de":""]activates \the [src]."))
 
 /obj/item/shield_projector/line/exosuit/adjust_health(amount)
 	..()

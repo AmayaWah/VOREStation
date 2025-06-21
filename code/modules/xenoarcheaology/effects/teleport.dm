@@ -1,6 +1,7 @@
+/// Modified to work with the Artifact Harvester
 /datum/artifact_effect/teleport
-	name = "teleport"
-	effect_type = EFFECT_BLUESPACE
+	name = "Teleportation"
+	effect_type = EFFECT_TELEPORT
 	effect_state = "pulsing"
 	effect_color = "#88ffdb"
 
@@ -8,7 +9,7 @@
 	var/atom/holder = get_master_holder()
 	var/weakness = GetAnomalySusceptibility(user)
 	if(prob(100 * weakness))
-		to_chat(user, "<font color='red'>You are suddenly zapped away elsewhere!</font>")
+		to_chat(user, span_red("You are suddenly zapped away elsewhere!"))
 		if (user.buckled)
 			user.buckled.unbuckle_mob()
 
@@ -24,14 +25,17 @@
 
 /datum/artifact_effect/teleport/DoEffectAura()
 	var/atom/holder = get_master_holder()
+	if(istype(holder, /obj/item/anobattery))
+		var/obj/item/anobattery/battery = holder
+		battery.stored_charge = max(0, battery.stored_charge-250) //Slow your roll. This takes a LOT of energy.
 	if(holder)
 		var/turf/T = get_turf(holder)
 		for (var/mob/living/M in range(src.effectrange,T))
 			var/weakness = GetAnomalySusceptibility(M)
 			if(prob(100 * weakness))
-				to_chat(M, "<font color='red'>You are displaced by a strange force!</font>")
+				to_chat(M, span_red("You are displaced by a strange force!"))
 				if(M.buckled)
-					M.buckled.unbuckle_mob()
+					M.buckled.unbuckle_mob(M)
 
 				var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
 				sparks.set_up(3, 0, get_turf(M))
@@ -44,12 +48,15 @@
 
 /datum/artifact_effect/teleport/DoEffectPulse()
 	var/atom/holder = get_master_holder()
+	if(istype(holder, /obj/item/anobattery))
+		var/obj/item/anobattery/battery = holder
+		battery.stored_charge = max(0, battery.stored_charge-500) //Slow your roll. This takes a LOT of energy.
 	if(holder)
 		var/turf/T = get_turf(holder)
 		for (var/mob/living/M in range(src.effectrange, T))
 			var/weakness = GetAnomalySusceptibility(M)
 			if(prob(100 * weakness))
-				to_chat(M, "<font color='red'>You are displaced by a strange force!</font>")
+				to_chat(M, span_red("You are displaced by a strange force!"))
 				if(M.buckled)
 					M.buckled.unbuckle_mob()
 

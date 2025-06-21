@@ -19,55 +19,12 @@
 
 	om_child_type = /obj/effect/overmap/visitable/simplemob/spacewhale
 
-	maxHealth = 100000
-	health = 100000
-	movement_cooldown = 50
-
-	see_in_dark = 10
-
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "punches"
-
-	harm_intent_damage = 1
-	melee_damage_lower = 50
-	melee_damage_upper = 100
-	attack_sharp = FALSE
 	attacktext = list("chomped", "bashed", "monched", "bumped")
 
 	ai_holder_type = /datum/ai_holder/simple_mob/melee/spacewhale
-
-	min_oxy = 0
-	max_oxy = 0
-	min_tox = 0
-	max_tox = 0
-	min_co2 = 0
-	max_co2 = 0
-	min_n2 = 0
-	max_n2 = 0
-	minbodytemp = 0
-	maxbodytemp = 900
-
-	loot_list = list(/obj/random/underdark/uncertain)
-
-	armor = list(
-			"melee" = 1000,
-			"bullet" = 1000,
-			"laser" = 1000,
-			"energy" = 1000,
-			"bomb" = 1000,
-			"bio" = 1000,
-			"rad" = 1000)
-
-	armor_soak = list(
-		"melee" = 1000,
-		"bullet" = 1000,
-		"laser" = 1000,
-		"energy" = 1000,
-		"bomb" = 1000,
-		"bio" = 1000,
-		"rad" = 1000
-		)
 
 	speak_emote = list("rumbles")
 
@@ -95,7 +52,11 @@
 	emote_see = list("ripples and flows", "flashes rhythmically","glows faintly","investigates something")
 
 /mob/living/simple_mob/vore/overmap/spacewhale/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "It's warm and wet, makes sense, considering it's inside of a space whale. You should take a moment to reflect upon how you got here, and how you might avoid situations like this in the future, while this whale attempts to mercilessly destroy you through various gastric processes."
@@ -104,7 +65,7 @@
 	B.digest_burn = 50
 	B.escapechance = 0
 
-/mob/living/simple_mob/vore/overmap/spacewhale/Initialize()
+/mob/living/simple_mob/vore/overmap/spacewhale/Initialize(mapload)
 	. = ..()
 	handle_restless()
 
@@ -154,7 +115,7 @@
 		restless = TRUE
 		hazard_pickup_chance *= 1.5
 		hazard_drop_chance *= 1.5
-		movement_cooldown = 1
+		movement_cooldown = -1
 		ai_holder.base_wander_delay = 2
 		ai_holder.wander_delay = 2
 		ai_holder.wander = TRUE
@@ -165,10 +126,10 @@
 	if(child_om_marker.known == TRUE)
 		if(restless)
 			child_om_marker.icon_state = "space_whale_restless"
-			visible_message("<span class='notice'>\The [child_om_marker.name] ripples excitedly.</span>")
+			visible_message(span_notice("\The [child_om_marker.name] ripples excitedly."))
 		else
 			child_om_marker.icon_state = "space_whale"
-			visible_message("<span class='notice'>\The [child_om_marker.name] settles down.</span>")
+			visible_message(span_notice("\The [child_om_marker.name] settles down."))
 
 /datum/ai_holder/simple_mob/melee/spacewhale
 	hostile = TRUE
@@ -184,7 +145,7 @@
 	. = ..()
 	var/mob/living/simple_mob/vore/overmap/spacewhale/W = holder
 	if(stance == STANCE_FIGHT)
-		W.movement_cooldown = 0
+		W.movement_cooldown = -2
 		W.child_om_marker.glide_size = 0
 	if(stance == STANCE_IDLE)
 		W.hazard_pickup_chance = initial(W.hazard_pickup_chance)
@@ -196,7 +157,7 @@
 
 /mob/living/simple_mob/vore/overmap/spacewhale/apply_melee_effects(var/atom/A)
 	. = ..()
-	if(istype(A, /mob/living))
+	if(isliving(A))
 		var/mob/living/L = A
 		if(L.stat == DEAD && !L.allowmobvore)
 			L.gib()

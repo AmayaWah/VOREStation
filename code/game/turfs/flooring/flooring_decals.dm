@@ -10,18 +10,12 @@ var/list/floor_decals = list()
 	layer = DECAL_LAYER
 	var/supplied_dir
 
-/obj/effect/floor_decal/New(var/newloc, var/newdir, var/newcolour)
+/obj/effect/floor_decal/Initialize(mapload, var/newdir, var/newcolour)
 	supplied_dir = newdir
 	if(newcolour)
 		color = newcolour
-	..(newloc)
-
-// TODO: identify what is causing these atoms to be qdeleted in New()/Initialize()
-// somewhere in this chain. Alternatively repath to /obj/floor_decal or some other
-// abstract handler that explicitly doesn't invoke any obj behavior.
-/obj/effect/floor_decal/Initialize()
 	add_to_turf_decals()
-	initialized = TRUE
+	..()
 	return INITIALIZE_HINT_QDEL
 
 // This is a separate proc from initialize() to facilitiate its caching and other stuff.  Look into it someday.
@@ -52,7 +46,7 @@ var/list/floor_decals = list()
 /obj/effect/floor_decal/reset
 	name = "reset marker"
 
-/obj/effect/floor_decal/reset/Initialize()
+/obj/effect/floor_decal/reset/Initialize(mapload)
 	..()
 	var/turf/T = get_turf(src)
 	if(T.decals && T.decals.len)
@@ -518,21 +512,23 @@ var/list/floor_decals = list()
 /obj/effect/floor_decal/spline/plain
 	name = "spline - plain"
 	icon_state = "spline_plain"
+/obj/effect/floor_decal/spline/plain/corner
+	icon_state = "spline_plain_corner"
+/obj/effect/floor_decal/spline/plain/cee
+	icon_state = "spline_plain_cee"
+/obj/effect/floor_decal/spline/plain/three_quarters
+	icon_state = "spline_plain_full"
 
 /obj/effect/floor_decal/spline/fancy
 	name = "spline - fancy"
 	icon_state = "spline_fancy"
-
 /obj/effect/floor_decal/spline/fancy/wood
 	name = "spline - wood"
 	color = "#CB9E04"
-
 /obj/effect/floor_decal/spline/fancy/wood/corner
 	icon_state = "spline_fancy_corner"
-
 /obj/effect/floor_decal/spline/fancy/wood/cee
 	icon_state = "spline_fancy_cee"
-
 /obj/effect/floor_decal/spline/fancy/wood/three_quarters
 	icon_state = "spline_fancy_full"
 
@@ -593,6 +589,10 @@ var/list/floor_decals = list()
 	name = "grey outline"
 	color = "#808080"
 
+/obj/effect/floor_decal/industrial/outline/red
+	name = "red outline"
+	color = COLOR_RED
+
 /obj/effect/floor_decal/industrial/loading
 	name = "loading area"
 	icon_state = "loadingarea"
@@ -620,9 +620,9 @@ var/list/floor_decals = list()
 	name = "random asteroid rubble"
 	icon_state = "asteroid0"
 
-/obj/effect/floor_decal/asteroid/New()
+/obj/effect/floor_decal/asteroid/Initialize(mapload, newdir, newcolour)
 	icon_state = "asteroid[rand(0,9)]"
-	..()
+	. = ..()
 
 /obj/effect/floor_decal/chapel
 	name = "chapel"
@@ -1248,4 +1248,3 @@ var/list/floor_decals = list()
 /obj/effect/floor_decal/arrows
 	name = "floor arrows"
 	icon_state = "arrows"
-

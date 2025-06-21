@@ -1,6 +1,3 @@
-/datum/category_item/catalogue/information/organization/solgov
-	name = "Government - Commonwealth of Sol-Procyon"
-
 //TODO: VIRGO_LORE_WRITING_WIP - this whole file
 
 /datum/category_item/catalogue/fauna/akula
@@ -93,6 +90,14 @@
 	comparable conditions as wealthy members of the Diaspora."
 	value = CATALOGUER_REWARD_TRIVIAL
 
+/datum/category_item/catalogue/fauna/altevian
+	name = "Sapients - Altevian"
+	desc = "The Altevian are a species of tall, rodent humanoids that are akin to rats for their features. \
+	The Altevian, unlike most species, do not have a home planet, nor system, adopting a fully nomadic lifestyle \
+	for their survival across the stars. Instead, they have opted to live in massive super capital-class colony-ships \
+	with a flagship as their place they would call home."
+	value = CATALOGUER_REWARD_TRIVIAL
+
 /datum/category_item/catalogue/fauna/shadekin
 	name = "Sapients - Shadekin"
 	desc = "ERROR : No DNA found. ERROR : Ambient energy signature detected. Likely origin from attempt of scanning \
@@ -124,7 +129,3 @@
 	in the dormant brain via direct electro-uploading. However, this technology is not perfect and small, but \
 	non-zero error margins exist. Handle with care! Or don't. Stress testing this stuff makes a lucrative market."
 	value = CATALOGUER_REWARD_TRIVIAL
-
-/datum/category_item/catalogue/information/organization/khi
-	name = "Independents - Kitsuhana Heavy Industries"
-	datum_to_copy = /datum/lore/organization/other/kitsuhana

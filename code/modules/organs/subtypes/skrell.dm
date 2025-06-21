@@ -25,7 +25,7 @@
 
 /obj/item/organ/internal/voicebox/skrell
 	icon_state = "skrell_larynx"
-	will_assist_languages = list(LANGUAGE_SKRELLIAN, LANGUAGE_SKRELLIANFAR)
+	will_assist_languages = list(LANGUAGE_SKRELLIAN)
 
 /obj/item/organ/internal/appendix/skrell
 	icon_state = "skrell_appendix"
@@ -36,6 +36,6 @@
 	parent_organ = BP_HEAD
 	spleen_efficiency = 0.5
 
-/obj/item/organ/internal/spleen/skrell/Initialize()
+/obj/item/organ/internal/spleen/skrell/Initialize(mapload)
 	. = ..()
 	adjust_scale(0.8,0.7)

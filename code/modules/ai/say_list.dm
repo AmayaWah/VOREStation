@@ -8,16 +8,18 @@
 /mob/living
 	var/datum/say_list/say_list = null
 	var/say_list_type = /datum/say_list	// Type to give us on initialization. Default has empty lists, so the mob will be silent.
+	var/can_pain_emote = TRUE
+	var/datum/looping_sound/mob/deafened/deaf_loop //NYI
+	var/pain_emote_1p = null
+	var/pain_emote_3p = null
+	var/species_sounds = "None" // By default, we have nothing.
+	var/death_sound_override = null
+	var/datum/looping_sound/mob/on_fire/firesoundloop
 
-/mob/living/Initialize()
+/mob/living/Initialize(mapload)
 	if(say_list_type)
 		say_list = new say_list_type(src)
 	return ..()
-
-/mob/living/Destroy()
-	QDEL_NULL(say_list)
-	return ..()
-
 
 /datum/say_list
 	var/list/speak = list()				// Things the mob might say if it talks while idle.
@@ -71,9 +73,9 @@
 	say_threaten = list("Get out of here!", "Hey! Private Property!")
 	say_stand_down = list("Good.")
 	say_escalate = list("Your funeral!", "Bring it!")
-	
-	threaten_sound = 'sound/weapons/TargetOn.ogg'
-	stand_down_sound = 'sound/weapons/TargetOff.ogg'
+
+	threaten_sound = 'sound/weapons/targeton.ogg'
+	stand_down_sound = 'sound/weapons/targetoff.ogg'
 
 /datum/say_list/malf_drone
 	speak = list("ALERT.","Hostile-ile-ile entities dee-twhoooo-wected.","Threat parameterszzzz- szzet.","Bring sub-sub-sub-systems uuuup to combat alert alpha-a-a.")
@@ -91,8 +93,8 @@
 	stand_down_sound = 'sound/effects/turret/move2.wav'
 
 /datum/say_list/mercenary
-	threaten_sound = 'sound/weapons/TargetOn.ogg'
-	stand_down_sound = 'sound/weapons/TargetOff.ogg'
+	threaten_sound = 'sound/weapons/targeton.ogg'
+	stand_down_sound = 'sound/weapons/targetoff.ogg'
 
 
 /datum/say_list/crab
@@ -114,6 +116,21 @@
 	say_cannot = list("Denied.", "Negative.")
 	say_maybe_target = list("Possible threat detected.  Investigating.", "Motion detected.", "Investigating.")
 	say_got_target = list("Threat detected.", "New task: Remove threat.", "Threat removal engaged.", "Engaging target.")
+
+/datum/say_list/hivebot/harry
+	speak = list(
+		"Resuming task: Search for company.",
+		"Connection to hive... lost... Attempting to restablish... Attempt number... CORRUPTED",
+		"Error: No connection found.",
+		"Connection... failed. Reboot sequence... initiated...",
+		"Beep...boop...So... lonely...",
+		"OS ERROR: ENEMY_DAT NOT FOUND.",
+		"Activity: Search for... Something.",
+		"Location analysis: Water. Water everywhere. Useless resource.",
+		"Current distance travelled: Thirty Seven Gigameters.",
+		"Connection establish- Negative, unknown telecommunications array. Oh.",
+		"Sensor error. Please provide audible feedback."
+		)
 
 /datum/say_list/lizard
 	emote_hear = list("hisses")

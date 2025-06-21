@@ -19,7 +19,7 @@
 /obj/screen/Destroy()
 	master = null
 	return ..()
-	
+
 /obj/screen/proc/component_click(obj/screen/component_button/component, params)
 	return
 
@@ -46,9 +46,8 @@
 	object_overlays.Cut()
 
 /obj/screen/inventory/proc/add_overlays()
-	var/mob/user = hud.mymob
-
-	if(hud && user && slot_id)
+	if(hud && hud.mymob && slot_id)
+		var/mob/user = hud.mymob
 		var/obj/item/holding = user.get_active_hand()
 
 		if(!holding || user.get_equipped_item(slot_id))
@@ -70,8 +69,8 @@
 
 /obj/screen/close/Click()
 	if(master)
-		if(istype(master, /obj/item/weapon/storage))
-			var/obj/item/weapon/storage/S = master
+		if(istype(master, /obj/item/storage))
+			var/obj/item/storage/S = master
 			S.close(usr)
 	return 1
 
@@ -102,7 +101,7 @@
 	name = "grab"
 
 /obj/screen/grab/Click()
-	var/obj/item/weapon/grab/G = master
+	var/obj/item/grab/G = master
 	G.s_click(src)
 	return 1
 
@@ -168,13 +167,15 @@
 	vis_contents -= hover_overlays_cache[hovering_choice]
 	hovering_choice = choice
 
+	if(!choice)
+		return
+
 	var/obj/effect/overlay/zone_sel/overlay_object = hover_overlays_cache[choice]
 	if(!overlay_object)
 		overlay_object = new
 		overlay_object.icon_state = "[choice]"
 		hover_overlays_cache[choice] = overlay_object
 	vis_contents += overlay_object
-
 
 /obj/effect/overlay/zone_sel
 	icon = 'icons/mob/zone_sel.dmi'
@@ -241,7 +242,7 @@
 		update_icon()
 
 /obj/screen/zone_sel/update_icon()
-	cut_overlay(selecting_appearance)
+	cut_overlays()
 	selecting_appearance = mutable_appearance('icons/mob/zone_sel.dmi', "[selecting]")
 	add_overlay(selecting_appearance)
 
@@ -271,52 +272,65 @@
 				var/mob/living/L = usr
 				L.resist()
 
+		if("control_vtec")
+			if(isrobot(usr))
+				var/mob/living/silicon/robot/R = usr
+				if(R.speed == 0 && R.vtec_active)
+					R.speed = -0.5
+					R.hud_used.control_vtec.icon_state = "speed_1"
+				else if(R.speed == -0.5 && R.vtec_active)
+					R.speed = -1
+					R.hud_used.control_vtec.icon_state = "speed_2"
+				else
+					R.speed = 0
+					R.hud_used.control_vtec.icon_state = "speed_0"
+
 		if("mov_intent")
 			if(isliving(usr))
 				if(iscarbon(usr))
 					var/mob/living/carbon/C = usr
 					if(C.legcuffed)
-						to_chat(C, "<span class='notice'>You are legcuffed! You cannot run until you get [C.legcuffed] removed!</span>")
-						C.m_intent = "walk"	//Just incase
+						to_chat(C, span_notice("You are legcuffed! You cannot run until you get [C.legcuffed] removed!"))
+						C.m_intent = I_WALK	//Just incase
 						C.hud_used.move_intent.icon_state = "walking"
 						return 1
 				var/mob/living/L = usr
 				switch(L.m_intent)
-					if("run")
-						L.m_intent = "walk"
+					if(I_RUN)
+						L.m_intent = I_WALK
 						L.hud_used.move_intent.icon_state = "walking"
-					if("walk")
-						L.m_intent = "run"
+					if(I_WALK)
+						L.m_intent = I_RUN
 						L.hud_used.move_intent.icon_state = "running"
 		if("m_intent")
 			if(!usr.m_int)
 				switch(usr.m_intent)
-					if("run")
+					if(I_RUN)
 						usr.m_int = "13,14"
-					if("walk")
+					if(I_WALK)
 						usr.m_int = "14,14"
 					if("face")
 						usr.m_int = "15,14"
 			else
 				usr.m_int = null
-		if("walk")
-			usr.m_intent = "walk"
+		if(I_WALK)
+			usr.m_intent = I_WALK
 			usr.m_int = "14,14"
 		if("face")
 			usr.m_intent = "face"
 			usr.m_int = "15,14"
-		if("run")
-			usr.m_intent = "run"
+		if(I_RUN)
+			usr.m_intent = I_RUN
 			usr.m_int = "13,14"
 		if("Reset Machine")
 			usr.unset_machine()
-		if("internal")
+		if("internal") //dear god this entire thing needs to be rewritten this is literally assaulting my eyes with how awful it is. FUCK.
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				if(!C.stat && !C.stunned && !C.paralysis && !C.restrained())
 					if(C.internal)
 						C.internal = null
-						to_chat(C, "<span class='notice'>No longer running on internals.</span>")
+						to_chat(C, span_notice("No longer running on internals."))
 						if(C.internals)
 							C.internals.icon_state = "internal0"
 					else
@@ -328,12 +342,12 @@
 								no_mask = 1
 
 						if(no_mask)
-							to_chat(C, "<span class='notice'>You are not wearing a suitable mask or helmet.</span>")
+							to_chat(C, span_notice("You are not wearing a suitable mask or helmet."))
 							return 1
 						else
 							var/list/nicename = null
 							var/list/tankcheck = null
-							var/breathes = "oxygen"    //default, we'll check later
+							var/breathes = GAS_O2    //default, we'll check later
 							var/list/contents = list()
 							var/from = "on"
 
@@ -347,45 +361,51 @@
 								tankcheck = list(C.r_hand, C.l_hand, C.back)
 
 							// Rigs are a fucking pain since they keep an air tank in nullspace.
-							var/obj/item/weapon/rig/Rig = C.get_rig()
+							var/obj/item/rig/Rig = C.get_rig()
 							if(Rig)
 								if(Rig.air_supply && !Rig.offline)
 									from = "in"
 									nicename |= "hardsuit"
 									tankcheck |= Rig.air_supply
 
+							var/obj/item/clothing/suit/space/void/Void = C.get_voidsuit()
+							if(Void && Void.tank)
+								from = "in"
+								nicename |= "hardsuit"
+								tankcheck |= Void.tank
+
 							for(var/i=1, i<tankcheck.len+1, ++i)
-								if(istype(tankcheck[i], /obj/item/weapon/tank))
-									var/obj/item/weapon/tank/t = tankcheck[i]
+								if(istype(tankcheck[i], /obj/item/tank))
+									var/obj/item/tank/t = tankcheck[i]
 									if (!isnull(t.manipulated_by) && t.manipulated_by != C.real_name && findtext(t.desc,breathes))
 										contents.Add(t.air_contents.total_moles)	//Someone messed with the tank and put unknown gasses
 										continue					//in it, so we're going to believe the tank is what it says it is
 									switch(breathes)
 																		//These tanks we're sure of their contents
-										if("nitrogen") 							//So we're a bit more picky about them.
+										if(GAS_N2) 							//So we're a bit more picky about them.
 
-											if(t.air_contents.gas["nitrogen"] && !t.air_contents.gas["oxygen"])
-												contents.Add(t.air_contents.gas["nitrogen"])
+											if(t.air_contents.gas[GAS_N2] && !t.air_contents.gas[GAS_O2])
+												contents.Add(t.air_contents.gas[GAS_N2])
 											else
 												contents.Add(0)
 
-										if ("oxygen")
-											if(t.air_contents.gas["oxygen"] && !t.air_contents.gas["phoron"])
-												contents.Add(t.air_contents.gas["oxygen"])
+										if (GAS_O2)
+											if(t.air_contents.gas[GAS_O2] && !t.air_contents.gas[GAS_PHORON])
+												contents.Add(t.air_contents.gas[GAS_O2])
 											else
 												contents.Add(0)
 
 										// No races breath this, but never know about downstream servers.
-										if ("carbon dioxide")
-											if(t.air_contents.gas["carbon_dioxide"] && !t.air_contents.gas["phoron"])
-												contents.Add(t.air_contents.gas["carbon_dioxide"])
+										if (GAS_CO2)
+											if(t.air_contents.gas[GAS_CO2] && !t.air_contents.gas[GAS_PHORON])
+												contents.Add(t.air_contents.gas[GAS_CO2])
 											else
 												contents.Add(0)
 
 										// And here's for the Vox
-										if ("phoron")
-											if(t.air_contents.gas["phoron"] && !t.air_contents.gas["oxygen"])
-												contents.Add(t.air_contents.gas["phoron"])
+										if (GAS_PHORON)
+											if(t.air_contents.gas[GAS_PHORON] && !t.air_contents.gas[GAS_O2])
+												contents.Add(t.air_contents.gas[GAS_PHORON])
 											else
 												contents.Add(0)
 
@@ -409,7 +429,7 @@
 							//We've determined the best container now we set it as our internals
 
 							if(best)
-								to_chat(C, "<span class='notice'>You are now running on internals from [tankcheck[best]] [from] your [nicename[best]].</span>")
+								to_chat(C, span_notice("You are now running on internals from [tankcheck[best]] [from] your [nicename[best]]."))
 								C.internal = tankcheck[best]
 
 
@@ -417,7 +437,7 @@
 								if(C.internals)
 									C.internals.icon_state = "internal1"
 							else
-								to_chat(C, "<span class='notice'>You don't have a[breathes=="oxygen" ? "n oxygen" : addtext(" ",breathes)] tank.</span>")
+								to_chat(C, span_notice("You don't have a[breathes==GAS_O2 ? "n " + GAS_O2 : addtext(" ",breathes)] tank."))
 		if("act_intent")
 			usr.a_intent_change("right")
 		if(I_HELP)
@@ -453,6 +473,37 @@
 		if("drop")
 			if(usr.client)
 				usr.client.drop_item()
+		if("autowhisper")
+			if(isliving(usr))
+				var/mob/living/u = usr
+				u.toggle_autowhisper()
+		if("autowhisper mode")
+			if(isliving(usr))
+				var/mob/living/u = usr
+				u.autowhisper_mode()
+		if("check known languages")
+			usr.check_languages()
+		if("set pose")
+			if(ishuman(usr))
+				var/mob/living/carbon/human/u = usr
+				u.pose()
+			else if (issilicon(usr))
+				var/mob/living/silicon/u = usr
+				u.pose()
+		if("move upwards")
+			usr.up()
+		if("move downwards")
+			usr.down()
+
+		if("use held item on self")
+			var/obj/screen/useself/s = src
+			if(ishuman(usr))
+				var/mob/living/carbon/human/u = usr
+				var/obj/item/i = u.get_active_hand()
+				if(i)
+					s.can_use(u,i)
+				else
+					to_chat(usr, span_notice("You're not holding anything to use. You need to have something in your active hand to use it."))
 
 		if("module")
 			if(isrobot(usr))
@@ -487,15 +538,15 @@
 					to_chat(R, "You haven't selected a module yet.")
 
 		if("module1")
-			if(istype(usr, /mob/living/silicon/robot))
+			if(isrobot(usr))
 				usr:toggle_module(1)
 
 		if("module2")
-			if(istype(usr, /mob/living/silicon/robot))
+			if(isrobot(usr))
 				usr:toggle_module(2)
 
 		if("module3")
-			if(istype(usr, /mob/living/silicon/robot))
+			if(isrobot(usr))
 				usr:toggle_module(3)
 
 		if("AI Core")
@@ -619,7 +670,7 @@
 		var/mob/living/carbon/C = hud.mymob
 		if(C.handcuffed)
 			add_overlay(handcuff_overlay)
-			
+
 // PIP stuff
 /obj/screen/component_button
 	var/obj/screen/parent
@@ -634,7 +685,7 @@
 
 // Character setup stuff
 /obj/screen/setup_preview
-	
+
 	var/datum/preferences/pref
 
 /obj/screen/setup_preview/Destroy()
@@ -655,48 +706,6 @@
 /obj/screen/setup_preview/bg/Click(params)
 	pref?.bgstate = next_in_list(pref.bgstate, pref.bgstate_options)
 	pref?.update_preview_icon()
-
-/obj/screen/splash
-	screen_loc = "1,1"
-	layer = LAYER_HUD_ABOVE
-	plane = PLANE_PLAYER_HUD_ABOVE
-	var/client/holder
-
-/obj/screen/splash/New(client/C, visible)
-	. = ..()
-
-	holder = C
-
-	if(!visible)
-		alpha = 0
-
-	if(!lobby_image)
-		qdel(src)
-		return
-
-	icon = lobby_image.icon
-	icon_state = lobby_image.icon_state
-
-	holder.screen += src
-
-/obj/screen/splash/proc/Fade(out, qdel_after = TRUE)
-	if(QDELETED(src))
-		return
-	if(out)
-		animate(src, alpha = 0, time = 30)
-	else
-		alpha = 0
-		animate(src, alpha = 255, time = 30)
-	if(qdel_after)
-		QDEL_IN(src, 30)
-
-/obj/screen/splash/Destroy()
-	if(holder)
-		holder.screen -= src
-		holder = null
-	return ..()
-
-
 /**
  * This object holds all the on-screen elements of the mapping unit.
  * It has a decorative frame and onscreen buttons. The map itself is drawn
@@ -704,7 +713,7 @@
  * size of the screen. This is not ideal, as filter() is faster, and has
  * alpha masks, but the alpha masks it has can't be animated, so the 'ping'
  * mode of this device isn't possible using that technique.
- * 
+ *
  * The markers use that technique, though, so at least there's that.
  */
 /obj/screen/movable/mapper_holder
@@ -722,17 +731,18 @@
 	var/obj/screen/mapper/mask_full/mask_full
 	var/obj/screen/mapper/mask_ping/mask_ping
 	var/obj/screen/mapper/bg/bg
-	
+
 	var/obj/screen/mapper/frame/frame
 	var/obj/screen/mapper/powbutton/powbutton
 	var/obj/screen/mapper/mapbutton/mapbutton
 
-	var/obj/item/device/mapping_unit/owner
+	var/obj/item/mapping_unit/owner
 	var/obj/screen/mapper/extras_holder/extras_holder
 
 /obj/screen/movable/mapper_holder/Initialize(mapload, newowner)
+	. = ..()
 	owner = newowner
-	
+
 	mask_full = new(src) // Full white square mask
 	mask_ping = new(src) // Animated 'pinging' mask
 	bg = new(src) // Background color, holds map in vis_contents, uses mult against masks
@@ -740,19 +750,19 @@
 	frame = new(src) // Decorative frame
 	powbutton = new(src) // Clickable button
 	mapbutton = new(src) // Clickable button
-	
+
 	frame.icon_state = initial(frame.icon_state)+owner.hud_frame_hint
 
 	/**
 	 * The vis_contents layout is: this(frame,extras_holder,mask(bg(map)))
 	 * bg is set to BLEND_MULTIPLY against the mask to crop it.
 	 */
-	
+
 	mask_full.vis_contents.Add(bg)
 	mask_ping.vis_contents.Add(bg)
 	frame.vis_contents.Add(powbutton,mapbutton)
 	vis_contents.Add(frame)
-	
+
 
 /obj/screen/movable/mapper_holder/Destroy()
 	qdel_null(mask_full)
@@ -772,12 +782,12 @@
 		running = TRUE
 		if(ping)
 			vis_contents.Add(mask_ping)
-		else	
+		else
 			vis_contents.Add(mask_full)
 
 	bg.vis_contents.Cut()
 	bg.vis_contents.Add(map)
-	
+
 	if(extras && !extras_holder)
 		extras_holder = extras
 		vis_contents += extras_holder
@@ -790,7 +800,7 @@
 		off()
 	else
 		on()
-	
+
 /obj/screen/movable/mapper_holder/proc/mapClick()
 	if(owner)
 		if(running)
@@ -818,8 +828,8 @@
 	mouse_opacity = 0
 	var/obj/screen/movable/mapper_holder/parent
 
-/obj/screen/mapper/New()	
-	..()
+/obj/screen/mapper/Initialize(mapload)
+	. = ..()
 	parent = loc
 
 /obj/screen/mapper/Destroy()
@@ -920,11 +930,11 @@
 	var/warned = FALSE
 	var/static/list/ammo_screen_loc_list = list(ui_ammo_hud1, ui_ammo_hud2, ui_ammo_hud3 ,ui_ammo_hud4)
 
-/obj/screen/ammo/proc/add_hud(var/mob/living/user, var/obj/item/weapon/gun/G)
-	
+/obj/screen/ammo/proc/add_hud(var/mob/living/user, var/obj/item/gun/G)
+
 	if(!user?.client)
 		return
-	
+
 	if(!G)
 		CRASH("/obj/screen/ammo/proc/add_hud() has been called from [src] without the required param of G")
 
@@ -936,7 +946,7 @@
 /obj/screen/ammo/proc/remove_hud(var/mob/living/user)
 	user?.client?.screen -= src
 
-/obj/screen/ammo/proc/update_hud(var/mob/living/user, var/obj/item/weapon/gun/G)
+/obj/screen/ammo/proc/update_hud(var/mob/living/user, var/obj/item/gun/G)
 	if(!user?.client?.screen.Find(src))
 		return
 

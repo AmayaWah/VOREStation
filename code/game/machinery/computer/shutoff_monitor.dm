@@ -4,16 +4,16 @@
 	icon_keyboard = "power_key"
 	icon_screen = "power_monitor"
 	light_color = "#a97faa"
-	circuit = /obj/item/weapon/circuitboard/shutoff_monitor
+	circuit = /obj/item/circuitboard/shutoff_monitor
 	var/datum/tgui_module/shutoff_monitor/monitor
 
-/obj/machinery/computer/shutoff_monitor/New()
-	..()
+/obj/machinery/computer/shutoff_monitor/Initialize(mapload)
+	. = ..()
 	monitor = new(src)
 
 /obj/machinery/computer/shutoff_monitor/Destroy()
 	QDEL_NULL(monitor)
-	..()
+	. = ..()
 
 /obj/machinery/computer/shutoff_monitor/attack_hand(var/mob/user as mob)
 	..()

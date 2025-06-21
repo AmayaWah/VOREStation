@@ -11,7 +11,7 @@
 	var/id_tag = null
 	var/chime_sound = 'sound/machines/doorbell.ogg'
 
-/obj/machinery/doorbell_chime/Initialize()
+/obj/machinery/doorbell_chime/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -51,12 +51,12 @@
 //		return
 	else if(default_part_replacement(user, W))
 		return
-	else if(panel_open && istype(W, /obj/item/device/multitool))
-		var/obj/item/device/multitool/M = W
+	else if(panel_open && istype(W, /obj/item/multitool))
+		var/obj/item/multitool/M = W
 		if(M.connectable && istype(M.connectable, /obj/machinery/button/doorbell))
 			var/obj/machinery/button/doorbell/B = M.connectable
 			id_tag = B.id
-			to_chat(user, "<span class='notice'>You upload the data from \the [W]'s buffer.</span>")
+			to_chat(user, span_notice("You upload the data from \the [W]'s buffer."))
 		return
 	..()
 
@@ -67,7 +67,7 @@
 	frame_class = "alarm"  // It isn't an alarm, but thats the construction flow we want.
 	frame_size = 3
 	frame_style = "wall"
-	circuit = /obj/item/weapon/circuitboard/doorbell_chime
+	circuit = /obj/item/circuitboard/doorbell_chime
 	icon_override = 'icons/obj/machines/doorbell_vr.dmi'
 	x_offset = 32
 	y_offset = 32
@@ -76,7 +76,7 @@
 // Makes some sense, its how the frame code knows what to actually build. Alternative
 // is to make building it a single-step process which is too quick I say.
 // This links up the frame_type to the acutal machine to build. Never seen by players.
-/obj/item/weapon/circuitboard/doorbell_chime
+/obj/item/circuitboard/doorbell_chime
 	build_path = /obj/machinery/doorbell_chime
 	board_type = new /datum/frame/frame_types/doorbell_chime
 	req_components = list()
@@ -90,8 +90,8 @@
 	icon_state = "doorbell-standby"
 	use_power = USE_POWER_OFF
 
-/obj/machinery/button/doorbell/New(var/loc, var/dir, var/building = 0)
-	..()
+/obj/machinery/button/doorbell/Initialize(mapload, var/dir, var/building = FALSE)
+	. = ..()
 	if(building)
 		pixel_x = (dir & 3)? 0 : (dir == 4 ? -32 : 32)
 		pixel_y = (dir & 3)? (dir ==1 ? -27 : 27) : 0
@@ -99,7 +99,7 @@
 		assign_uid()
 		id = num2text(uid)
 
-/obj/machinery/button/doorbell/Initialize()
+/obj/machinery/button/doorbell/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -120,7 +120,7 @@
 	use_power(5)
 	flick("doorbell-active", src)
 
-	for(var/obj/machinery/doorbell_chime/M in machines)
+	for(var/obj/machinery/doorbell_chime/M in GLOB.machines)
 		if(M.id_tag == id)
 			M.chime()
 
@@ -128,19 +128,19 @@
 	src.add_fingerprint(user)
 	if(default_deconstruction_screwdriver(user, W))
 		return
-	else if(panel_open && istype(W, /obj/item/weapon/pen))
+	else if(panel_open && istype(W, /obj/item/pen))
 		var/t = sanitizeSafe(tgui_input_text(user, "Enter the name for \the [src].", src.name, initial(src.name), MAX_NAME_LEN), MAX_NAME_LEN)
 		if(t && in_range(src, user))
 			name = t
-	else if(panel_open && istype(W, /obj/item/device/multitool))
-		var/obj/item/device/multitool/M = W
+	else if(panel_open && istype(W, /obj/item/multitool))
+		var/obj/item/multitool/M = W
 		M.connectable = src
-		to_chat(user, "<span class='caution'>You save the data in \the [M]'s buffer.</span>")
-	else if(W.is_wrench())
-		to_chat(user, "<span class='notice'>You start to unwrench \the [src].</span>")
+		to_chat(user, span_notice("You save the data in \the [M]'s buffer."))
+	else if(W.has_tool_quality(TOOL_WRENCH))
+		to_chat(user, span_notice("You start to unwrench \the [src]."))
 		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_after(user, 15) && !QDELETED(src))
-			to_chat(user, "<span class='notice'>You unwrench \the [src].</span>")
+			to_chat(user, span_notice("You unwrench \the [src]."))
 			new /obj/item/frame/doorbell(src.loc)
 			qdel(src)
 		return

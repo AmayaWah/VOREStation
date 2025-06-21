@@ -6,7 +6,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	update_canmove()
 	dead_mob_list -= src
 
@@ -32,7 +32,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 
 	animation = new(loc)
 	animation.icon_state = "blank"
@@ -53,7 +53,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 
 	animation = new(loc)
 	animation.icon_state = "blank"
@@ -72,13 +72,14 @@
 	if(stat == DEAD)
 		return 0
 	SEND_SIGNAL(src, COMSIG_MOB_DEATH, gibbed)
-	if(src.loc && istype(loc,/obj/belly) || istype(loc,/obj/item/device/dogborg/sleeper)) deathmessage = "no message" //VOREStation Add - Prevents death messages from inside mobs
+	if(src.loc && istype(loc,/obj/belly) || istype(loc,/obj/item/dogborg/sleeper)) deathmessage = "no message" //VOREStation Add - Prevents death messages from inside mobs
 	facing_dir = null
 
 	if(!gibbed && deathmessage != DEATHGASP_NO_MESSAGE)
-		src.visible_message("<b>\The [src.name]</b> [deathmessage]")
+		src.visible_message(span_infoplain(span_bold("\The [src.name]") + " [deathmessage]"))
 
 	set_stat(DEAD)
+	SSmotiontracker.ping(src,80)
 
 	update_canmove()
 
@@ -94,6 +95,16 @@
 	drop_r_hand()
 	drop_l_hand()
 
+	if(viruses)
+		for(var/datum/disease/D in viruses)
+			if(istype(D, /datum/disease/advance))
+				var/datum/disease/advance/AD = D
+				for(var/symptom in AD.symptoms)
+					var/datum/symptom/S = symptom
+					S.OnDeath(AD)
+			else
+				D.OnDeath()
+
 	if(healths)
 		healths.overlays = null // This is specific to humans but the relevant code is here; shouldn't mess with other mobs.
 		healths.icon_state = "health6"
@@ -104,7 +115,7 @@
 	dead_mob_list |= src
 
 	set_respawn_timer()
-	updateicon()
+	update_icon()
 	handle_regular_hud_updates()
 	handle_vision()
 

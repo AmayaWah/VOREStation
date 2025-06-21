@@ -14,7 +14,7 @@
 	maxHealth = 1
 	health = 1
 
-	movement_cooldown = 2.5
+	movement_cooldown = -1
 
 	mob_size = MOB_MINISCULE
 	pass_flags = PASSTABLE
@@ -52,19 +52,21 @@
 	if(ismob(AM))
 		if(isliving(AM))
 			var/mob/living/A = AM
+			if(A.is_incorporeal()) // Bad kin, no squishing the roach
+				return
 			if(A.mob_size > MOB_SMALL)
 				if(prob(squish_chance))
-					A.visible_message("<span class='notice'>[A] squashed [src].</span>", "<span class='notice'>You squashed [src].</span>")
+					A.visible_message(span_notice("[A] squashed [src]."), span_notice("You squashed [src]."))
 					adjustBruteLoss(1) //kills a normal cockroach
 				else
-					visible_message("<span class='notice'>[src] avoids getting crushed.</span>")
+					visible_message(span_notice("[src] avoids getting crushed."))
 	else
 		if(isstructure(AM))
 			if(prob(squish_chance))
-				AM.visible_message("<span class='notice'>[src] was crushed under [AM].</span>")
+				AM.visible_message(span_notice("[src] was crushed under [AM]."))
 				adjustBruteLoss(1)
 			else
-				visible_message("<span class='notice'>[src] avoids getting crushed.</span>")
+				visible_message(span_notice("[src] avoids getting crushed."))
 
 /mob/living/simple_mob/animal/passive/cockroach/ex_act() //Explosions are a terrible way to handle a cockroach.
 	return

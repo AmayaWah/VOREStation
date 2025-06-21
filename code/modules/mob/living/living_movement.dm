@@ -3,10 +3,13 @@
 		var/mob/moving_mob = mover
 		if ((other_mobs && moving_mob.other_mobs))
 			return TRUE
+		if(is_shifted && (abs(pixel_x) >= 8 || abs(pixel_y) >= 8))
+			// they're wallflowering, let 'em through
+			return TRUE
 	if(istype(mover, /obj/item/projectile))
 		var/obj/item/projectile/P = mover
 		return !P.can_hit_target(src, P.permutated, src == P.original, TRUE)
-	return (!mover.density || !density || lying)
+	return (!mover.density || !density || lying || is_incorporeal())
 
 /mob/CanZASPass(turf/T, is_zone)
 	return ATMOS_PASS_YES
@@ -14,18 +17,18 @@
 /mob/living/SelfMove(turf/n, direct, movetime)
 	// If on walk intent, don't willingly step into hazardous tiles.
 	// Unless the walker is confused.
-	if(m_intent == "walk" && confused <= 0)
+	if(m_intent == I_WALK && confused <= 0)
 		if(!n.is_safe_to_enter(src))
-			to_chat(src, span("warning", "\The [n] is dangerous to move into."))
+			to_chat(src, span_warning("\The [n] is dangerous to move into."))
 			return FALSE // In case any code wants to know if movement happened.
 	return ..() // Parent call should make the mob move.
 
 /*one proc, four uses
 swapping: if it's 1, the mobs are trying to switch, if 0, non-passive is pushing passive
 default behaviour is:
- - non-passive mob passes the passive version
- - passive mob checks to see if its mob_bump_flag is in the non-passive's mob_bump_flags
- - if si, the proc returns
+	- non-passive mob passes the passive version
+	- passive mob checks to see if its mob_bump_flag is in the non-passive's mob_bump_flags
+	- if si, the proc returns
 */
 /mob/living/proc/can_move_mob(var/mob/living/swapped, swapping = 0, passive = 0)
 	if(!swapped)
@@ -45,24 +48,24 @@ default behaviour is:
 		return 0
 
 /mob/living/Bump(atom/movable/AM)
-	if(now_pushing || !loc || buckled == AM)
+	if(now_pushing || !loc || buckled == AM || AM.is_incorporeal())
 		return
 	now_pushing = 1
-	if (istype(AM, /mob/living))
+	if (isliving(AM))
 		var/mob/living/tmob = AM
 
 		//Even if we don't push/swap places, we "touched" them, so spread fire
 		spread_fire(tmob)
 
 		for(var/mob/living/M in range(tmob, 1))
-			if(tmob.pinned.len ||  ((M.pulling == tmob && ( tmob.restrained() && !( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, tmob.grabbed_by.len)) )
+			if(tmob.pinned.len ||  ((M.pulling == tmob && ( tmob.restrained() && !( M.restrained() ) && M.stat == 0)) || locate(/obj/item/grab, tmob.grabbed_by.len)) )
 				if ( !(world.time % 5) )
-					to_chat(src, "<span class='warning'>[tmob] is restrained, you cannot push past</span>")
+					to_chat(src, span_warning("[tmob] is restrained, you cannot push past"))
 				now_pushing = 0
 				return
 			if( tmob.pulling == M && ( M.restrained() && !( tmob.restrained() ) && tmob.stat == 0) )
 				if ( !(world.time % 5) )
-					to_chat(src, "<span class='warning'>[tmob] is restraining [M], you cannot push past</span>")
+					to_chat(src, span_warning("[tmob] is restraining [M], you cannot push past"))
 				now_pushing = 0
 				return
 
@@ -123,12 +126,10 @@ default behaviour is:
 			tmob.forceMove(oldloc)
 			now_pushing = 0
 			return
-		//VOREStation Edit - Begin
 		else if((tmob.mob_always_swap || (tmob.a_intent == I_HELP || tmob.restrained()) && (a_intent == I_HELP || src.restrained())) && canmove && can_swap && handle_micro_bump_helping(tmob))
 			forceMove(tmob.loc)
 			now_pushing = 0
 			return
-		//VOREStation Edit - End
 
 		if(!can_move_mob(tmob, 0, 0))
 			now_pushing = 0
@@ -136,29 +137,29 @@ default behaviour is:
 		if(a_intent == I_HELP || src.restrained())
 			now_pushing = 0
 			return
-		// VOREStation Edit - Begin
 		// Plow that nerd.
 		if(ishuman(tmob))
 			var/mob/living/carbon/human/H = tmob
 			if(H.species.lightweight == 1 && prob(50))
-				H.visible_message("<span class='warning'>[src] bumps into [H], knocking them off balance!</span>")
+				if(HULK in H.mutations) //No knocking over the hulk
+					return
+				H.visible_message(span_warning("[src] bumps into [H], knocking them off balance!"))
 				H.Weaken(5)
 				now_pushing = 0
 				return
 		// Handle grabbing, stomping, and such of micros!
 		if(step_mechanics_pref && tmob.step_mechanics_pref)
 			if(handle_micro_bump_other(tmob)) return
-		// VOREStation Edit - End
-		if(istype(tmob, /mob/living/carbon/human) && (FAT in tmob.mutations))
+		if(ishuman(tmob) && (FAT in tmob.mutations))
 			if(prob(40) && !(FAT in src.mutations))
-				to_chat(src, "<span class='danger'>You fail to push [tmob]'s fat ass out of the way.</span>")
+				to_chat(src, span_danger("You fail to push [tmob]'s fat ass out of the way."))
 				now_pushing = 0
 				return
-		if(tmob.r_hand && istype(tmob.r_hand, /obj/item/weapon/shield/riot))
+		if(tmob.r_hand && istype(tmob.r_hand, /obj/item/shield/riot))
 			if(prob(99))
 				now_pushing = 0
 				return
-		if(tmob.l_hand && istype(tmob.l_hand, /obj/item/weapon/shield/riot))
+		if(tmob.l_hand && istype(tmob.l_hand, /obj/item/shield/riot))
 			if(prob(99))
 				now_pushing = 0
 				return
@@ -172,16 +173,16 @@ default behaviour is:
 	. = ..()
 	if (!istype(AM, /atom/movable) || AM.anchored)
 		//VOREStation Edit - object-specific proc for running into things
-		if(((confused || is_blind()) && stat == CONSCIOUS && prob(50) && m_intent=="run") || flying)
+		if(((confused || is_blind()) && stat == CONSCIOUS && prob(50) && m_intent==I_RUN) || flying)
 			AM.stumble_into(src)
 		//VOREStation Edit End
 		/* VOREStation Removal - See above
-		if(confused && prob(50) && m_intent=="run")
+		if(confused && prob(50) && m_intent==I_RUN)
 			Weaken(2)
 			playsound(src, "punch", 25, 1, -1)
-			visible_message("<span class='warning'>[src] [pick("ran", "slammed")] into \the [AM]!</span>")
+			visible_message(span_warning("[src] [pick("ran", "slammed")] into \the [AM]!"))
 			src.apply_damage(5, BRUTE)
-			to_chat(src, "<span class='warning'>You just [pick("ran", "slammed")] into \the [AM]!</span>")
+			to_chat(src, span_warning("You just [pick("ran", "slammed")] into \the [AM]!"))
 			*/ // VOREStation Removal End
 		return
 	if (!now_pushing)
@@ -208,7 +209,7 @@ default behaviour is:
 			Move(T, t, move_time)
 
 		if(ishuman(AM) && AM:grabbed_by)
-			for(var/obj/item/weapon/grab/G in AM:grabbed_by)
+			for(var/obj/item/grab/G in AM:grabbed_by)
 				step(G:assailant, get_dir(G:assailant, AM))
 				G.adjust_position()
 		now_pushing = 0
@@ -228,8 +229,10 @@ default behaviour is:
 		MB.runOver(src)
 
 	if(istype(AM, /obj/vehicle))
-		var/obj/vehicle/V = AM
-		V.RunOver(src)
+		if(!istype(buckled, /obj/vehicle) && !is_incorporeal()) // Don't run ourselves over, needed for going down stairs in vehicles!
+			// Checks if we are riding a vehicle instead of our buckled vehicle, so that our trailers don't flatten us either!
+			var/obj/vehicle/V = AM
+			V.RunOver(src)
 
 // Almost all of this handles pulling movables behind us
 /mob/living/Move(atom/newloc, direct, movetime)
@@ -261,19 +264,21 @@ default behaviour is:
 
 /mob/living/proc/dragged(var/mob/living/dragger, var/oldloc)
 	var/area/A = get_area(src)
-	if(lying && !buckled && pull_damage() && A.has_gravity() && (prob(getBruteLoss() * 200 / maxHealth)))
+	if(lying && !buckled && pull_damage() && A.get_gravity() && (prob(getBruteLoss() * 200 / maxHealth)))
 		adjustBruteLoss(2)
-		visible_message("<span class='danger'>\The [src]'s [isSynthetic() ? "state" : "wounds"] worsen terribly from being dragged!</span>")
+		visible_message(span_danger("\The [src]'s [isSynthetic() ? "state" : "wounds"] worsen terribly from being dragged!"))
 
 /mob/living/Moved(var/atom/oldloc, direct, forced, movetime)
 	. = ..()
 	handle_footstep(loc)
-	// Begin VOREstation edit
+	if(!forced && movetime && !is_incorporeal())
+		SSmotiontracker?.ping(src) // Incase of before init "turf enter gravity" this is ?, unfortunately.
 	if(is_shifted)
 		is_shifted = FALSE
 		pixel_x = default_pixel_x
 		pixel_y = default_pixel_y
-	// End VOREstation edit
+		layer = initial(layer)
+		plane = initial(plane)
 
 	if(pulling) // we were pulling a thing and didn't lose it during our move.
 		var/pull_dir = get_dir(src, pulling)
@@ -298,16 +303,23 @@ default behaviour is:
 
 	if(!isturf(loc))
 		return
-	else if(lastarea?.has_gravity == 0)
+	else if(lastarea?.get_gravity() == 0)
 		inertial_drift()
-	//VOREStation Edit Start
 	else if(flying)
 		inertial_drift()
 		make_floating(1)
-	//VOREStation Edit End
 	else if(!isspace(loc))
 		inertia_dir = 0
 		make_floating(0)
+	if(status_flags & HIDING)
+		layer = HIDING_LAYER
+		plane = OBJ_PLANE
+
+	// Update client color if we're moving from an indoor turf to an outdoor one or vice versa. Needed to make weather blending update in mixed indoor/outdoor turfed areas
+	var/turf/old_turf = oldloc
+	var/turf/new_turf = loc
+	if(istype(old_turf) && old_turf.is_outdoors() != new_turf.is_outdoors())
+		update_client_color()
 
 /mob/living/proc/inertial_drift()
 	if(x > 1 && x < (world.maxx) && y > 1 && y < (world.maxy))
@@ -315,16 +327,19 @@ default behaviour is:
 			inertia_dir = 0
 			return
 
-		var/locthen = loc
-		spawn(5)
-			if(!anchored && !pulledby && loc == locthen)
-				var/stepdir = inertia_dir ? inertia_dir : last_move
-				if(!stepdir)
-					return
-				var/turf/T = get_step(src, stepdir)
-				if(!T)
-					return
-				Move(T, stepdir, 5)
+		addtimer(CALLBACK(src, PROC_REF(handle_inertial_drift), loc), 0.5 SECONDS, TIMER_DELETE_ME)
+
+/mob/living/proc/handle_inertial_drift(var/locthen)
+	PRIVATE_PROC(TRUE)
+	SHOULD_NOT_OVERRIDE(TRUE)
+	if(!anchored && !pulledby && loc == locthen)
+		var/stepdir = inertia_dir ? inertia_dir : last_move
+		if(!stepdir)
+			return
+		var/turf/T = get_step(src, stepdir)
+		if(!T)
+			return
+		Move(T, stepdir, 5)
 
 /mob/living/proc/handle_footstep(turf/T)
 	return FALSE

@@ -80,7 +80,7 @@
 
 /datum/event2/event/mob_spawning/proc/spawn_one_mob(new_loc, mob_type)
 	var/mob/living/simple_mob/M = new mob_type(new_loc)
-	GLOB.destroyed_event.register(M, src, .proc/on_mob_destruction)
+	RegisterSignal(M, COMSIG_OBSERVER_DESTROYED, PROC_REF(on_mob_destruction))
 	spawned_mobs += M
 	return M
 
@@ -93,5 +93,6 @@
 
 // If simple_mob is bomphed, remove it from the list.
 /datum/event2/event/mob_spawning/proc/on_mob_destruction(mob/M)
+	SIGNAL_HANDLER
 	spawned_mobs -= M
-	GLOB.destroyed_event.unregister(M, src, .proc/on_mob_destruction)
+	UnregisterSignal(M, COMSIG_OBSERVER_DESTROYED)

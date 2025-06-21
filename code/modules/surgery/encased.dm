@@ -3,6 +3,7 @@
 //				GENERIC	RIBCAGE SURGERY							//
 //////////////////////////////////////////////////////////////////
 /datum/surgery_step/open_encased
+	surgery_name = "Open Encased"
 	priority = 2
 	can_infect = 1
 	blood_level = 1
@@ -21,9 +22,10 @@
 ///////////////////////////////////////////////////////////////
 
 /datum/surgery_step/open_encased/saw
+	surgery_name = "Cut Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/circular_saw = 100, \
-		/obj/item/weapon/material/knife/machete/hatchet = 75
+		/obj/item/surgical/circular_saw = 100, \
+		/obj/item/material/knife/machete/hatchet = 75
 	)
 
 	min_duration = 50
@@ -40,8 +42,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("[user] begins to cut through [target]'s [affected.encased] with \the [tool].", \
-	"You begin to cut through [target]'s [affected.encased] with \the [tool].")
+	user.visible_message(span_filter_notice("[user] begins to cut through [target]'s [affected.encased] with \the [tool]."), \
+	span_filter_notice("You begin to cut through [target]'s [affected.encased] with \the [tool]."))
+	user.balloon_alert_visible("begins to cut", "cutting through the [affected.encased]'s ")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 60)
 	..()
 
@@ -50,8 +53,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("<span class='notice'>[user] has cut [target]'s [affected.encased] open with \the [tool].</span>", \
-	"<span class='notice'>You have cut [target]'s [affected.encased] open with \the [tool].</span>")
+	user.visible_message(span_notice("[user] has cut [target]'s [affected.encased] open with \the [tool]."), \
+	span_notice("You have cut [target]'s [affected.encased] open with \the [tool]."))
+	user.balloon_alert_visible("cuts [target]'s [affected.encased] open.", "[affected.encased] cut open.")
 	affected.open = 2.5
 
 /datum/surgery_step/open_encased/saw/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
@@ -59,19 +63,21 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("<span class='danger'>[user]'s hand slips, cracking [target]'s [affected.encased] with \the [tool]!</span>" , \
-	"<span class='danger'>Your hand slips, cracking [target]'s [affected.encased] with \the [tool]!</span>" )
+	user.visible_message(span_danger("[user]'s hand slips, cracking [target]'s [affected.encased] with \the [tool]!") , \
+	span_danger("Your hand slips, cracking [target]'s [affected.encased] with \the [tool]!") )
+	user.balloon_alert_visible("slips, crackng [target]'s [affected.encased]","your hand slips.")
 
 	affected.createwound(CUT, 20)
 	affected.fracture()
 
 ///////////////////////////////////////////////////////////////
-// Rib Opening Surgery
+// Bone Opening Surgery
 ///////////////////////////////////////////////////////////////
 
 /datum/surgery_step/open_encased/retract
+	surgery_name = "Retract Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/retractor = 100
+		/obj/item/surgical/retractor = 100
 	)
 
 	allowed_procs = list(IS_CROWBAR = 75)
@@ -90,9 +96,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "[user] starts to force open the [affected.encased] in [target]'s [affected.name] with \the [tool]."
-	var/self_msg = "You start to force open the [affected.encased] in [target]'s [affected.name] with \the [tool]."
+	var/msg = span_filter_notice("[user] starts to force open the [affected.encased] in [target]'s [affected.name] with \the [tool].")
+	var/self_msg = span_filter_notice("You start to force open the [affected.encased] in [target]'s [affected.name] with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("starts to force open [target]'s [affected.encased]", "forcing open \the [affected.encased]")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 40)
 	..()
 
@@ -100,9 +107,10 @@
 	if (!hasorgans(target))
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
-	var/msg = "<span class='notice'>[user] forces open [target]'s [affected.encased] with \the [tool].</span>"
-	var/self_msg = "<span class='notice'>You force open [target]'s [affected.encased] with \the [tool].</span>"
+	var/msg = span_notice("[user] forces open [target]'s [affected.encased] with \the [tool].")
+	var/self_msg = span_notice("You force open [target]'s [affected.encased] with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("forces open the [affected.encased]", "forced open the [affected.encased]")
 
 	affected.open = 3
 
@@ -111,20 +119,22 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "<span class='danger'>[user]'s hand slips, cracking [target]'s [affected.encased]!</span>"
-	var/self_msg = "<span class='danger'>Your hand slips, cracking [target]'s  [affected.encased]!</span>"
+	var/msg = span_danger("[user]'s hand slips, cracking [target]'s [affected.encased]!")
+	var/self_msg = span_danger("Your hand slips, cracking [target]'s  [affected.encased]!")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("slips, cracking [affected.encased]", "you hand slips, cracking [affected.encased]")
 
 	affected.createwound(BRUISE, 20)
 	affected.fracture()
 
 ///////////////////////////////////////////////////////////////
-// Rib Closing Surgery
+// Retracted Bone Closing Surgery
 ///////////////////////////////////////////////////////////////
 
 /datum/surgery_step/open_encased/close
+	surgery_name = "Close Retracted Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/retractor = 100,
+		/obj/item/surgical/retractor = 100,
 	)
 
 	allowed_procs = list(IS_CROWBAR = 75)
@@ -143,9 +153,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "[user] starts bending [target]'s [affected.encased] back into place with \the [tool]."
-	var/self_msg = "You start bending [target]'s [affected.encased] back into place with \the [tool]."
+	var/msg = span_filter_notice("[user] starts bending [target]'s [affected.encased] back into place with \the [tool].")
+	var/self_msg = span_filter_notice("You start bending [target]'s [affected.encased] back into place with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("starts bending [affected.encased] into place.", "bending [affected.encased] into place")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 100)
 	..()
 
@@ -154,9 +165,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "<span class='notice'>[user] bends [target]'s [affected.encased] back into place with \the [tool].</span>"
-	var/self_msg = "<span class='notice'>You bend [target]'s [affected.encased] back into place with \the [tool].</span>"
+	var/msg = span_notice("[user] bends [target]'s [affected.encased] back into place with \the [tool].")
+	var/self_msg = span_notice("You bend [target]'s [affected.encased] back into place with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("bends [affected.encased] into place", "[affected.encased] bend into place.")
 
 	affected.open = 2.5
 
@@ -165,24 +177,26 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "<span class='danger'>[user]'s hand slips, bending [target]'s [affected.encased] the wrong way!</span>"
-	var/self_msg = "<span class='danger'>Your hand slips, bending [target]'s [affected.encased] the wrong way!</span>"
+	var/msg = span_danger("[user]'s hand slips, bending [target]'s [affected.encased] the wrong way!")
+	var/self_msg = span_danger("Your hand slips, bending [target]'s [affected.encased] the wrong way!")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("slips, bending [affected.encased] the wrong way.", "your hand slips, bending [affected.encased] the wrong way.")
 
 	affected.createwound(BRUISE, 20)
 	affected.fracture()
 
 	/*if (prob(40)) //TODO: ORGAN REMOVAL UPDATE.
-		user.visible_message("<span class='danger'> A rib pierces the lung!</span>")
+		user.visible_message(span_danger(" A rib pierces the lung!"))
 		target.rupture_lung()*/
 
 ///////////////////////////////////////////////////////////////
-// Rib Mending Surgery
+// Retracted Bone Mending Surgery
 ///////////////////////////////////////////////////////////////
 
 /datum/surgery_step/open_encased/mend
+	surgery_name = "Mend Retracted Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/bonegel = 100
+		/obj/item/surgical/bonegel = 100
 	)
 
 	allowed_procs = list(IS_SCREWDRIVER = 75)
@@ -201,9 +215,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "[user] starts applying \the [tool] to [target]'s [affected.encased]."
-	var/self_msg = "You start applying \the [tool] to [target]'s [affected.encased]."
+	var/msg = span_filter_notice("[user] starts applying \the [tool] to [target]'s [affected.encased].")
+	var/self_msg = span_filter_notice("You start applying \the [tool] to [target]'s [affected.encased].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("starts applying [tool] to \the [affected.encased]", "applying [tool] to \the [affected.encased]")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 100)
 	..()
 
@@ -212,9 +227,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "<span class='notice'>[user] applied \the [tool] to [target]'s [affected.encased].</span>"
-	var/self_msg = "<span class='notice'>You applied \the [tool] to [target]'s [affected.encased].</span>"
+	var/msg = span_notice("[user] applied \the [tool] to [target]'s [affected.encased].")
+	var/self_msg = span_notice("You applied \the [tool] to [target]'s [affected.encased].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("applies \the [tool] to [affected.encased]", "applied \the [tool] to [affected.encased]")
 
 	affected.open = 2
 
@@ -222,14 +238,16 @@
 // Saw/Retractor/Gel Combi-open and close.
 ///////////////////////////////////////////////////////////////
 /datum/surgery_step/open_encased/advancedsaw_open
+	surgery_name = "Advanced Cut Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/circular_saw/manager = 100
+		/obj/item/surgical/circular_saw/manager = 100
 	)
 
 	priority = 3
 
 	min_duration = 60
 	max_duration = 90
+	excludes_steps = list(/datum/surgery_step/open_encased/saw)
 
 /datum/surgery_step/open_encased/advancedsaw_open/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	if (!hasorgans(target))
@@ -242,8 +260,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("[user] begins to open [target]'s [affected.encased] with \the [tool].", \
-	"You begin to open [target]'s [affected.encased] with \the [tool].")
+	user.visible_message(span_filter_notice("[user] begins to open [target]'s [affected.encased] with \the [tool]."), \
+	span_filter_notice("You begin to open [target]'s [affected.encased] with \the [tool]."))
+	user.balloon_alert_visible("begins to open \the [affected.encased]", "opening \the [affected.encased]")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 60)
 	..()
 
@@ -252,8 +271,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("<span class='notice'>[user] has cut [target]'s [affected.encased] wide open with \the [tool].</span>", \
-	"<span class='notice'>You have cut [target]'s [affected.encased] wide open with \the [tool].</span>")
+	user.visible_message(span_notice("[user] has cut [target]'s [affected.encased] wide open with \the [tool]."), \
+	span_notice("You have cut [target]'s [affected.encased] wide open with \the [tool]."))
+	user.balloon_alert_visible("cuts \the [affected.encased] wide open.", "cut \the [affected.encased] wide open.")
 	affected.open = 3
 
 /datum/surgery_step/open_encased/advancedsaw_open/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
@@ -261,8 +281,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	user.visible_message("<span class='danger'>[user]'s hand slips, searing [target]'s [affected.encased] with \the [tool]!</span>" , \
-	"<span class='danger'>Your hand slips, searing [target]'s [affected.encased] with \the [tool]!</span>" )
+	user.visible_message(span_danger("[user]'s hand slips, searing [target]'s [affected.encased] with \the [tool]!") , \
+	span_danger("Your hand slips, searing [target]'s [affected.encased] with \the [tool]!") )
+	user.balloon_alert_visible("slips, searing \the [affected.encased]", "your hand slips, searing [affected.encased]")
 
 	affected.createwound(CUT, 20)
 	affected.createwound(BURN, 15)
@@ -271,8 +292,9 @@
 
 
 /datum/surgery_step/open_encased/advancedsaw_mend
+	surgery_name = "Advanced Mend Retracted Bone"
 	allowed_tools = list(
-		/obj/item/weapon/surgical/circular_saw/manager = 100
+		/obj/item/surgical/circular_saw/manager = 100
 	)
 
 	priority = 3
@@ -291,9 +313,10 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "[user] starts sealing \the [target]'s [affected.encased] with \the [tool]."
-	var/self_msg = "You start sealing \the [target]'s [affected.encased] with \the [tool]."
+	var/msg = span_filter_notice("[user] starts sealing \the [target]'s [affected.encased] with \the [tool].")
+	var/self_msg = span_filter_notice("You start sealing \the [target]'s [affected.encased] with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("starts sealing \the [affected.encased]", "sealing \the [affected.encased]")
 	target.custom_pain("Something hurts horribly in your [affected.name]!", 100)
 	..()
 
@@ -302,8 +325,9 @@
 		return
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-	var/msg = "<span class='notice'>[user] sealed \the [target]'s [affected.encased] with \the [tool].</span>"
-	var/self_msg = "<span class='notice'>You sealed \the [target]'s [affected.encased] with \the [tool].</span>"
+	var/msg = span_notice("[user] sealed \the [target]'s [affected.encased] with \the [tool].")
+	var/self_msg = span_notice("You sealed \the [target]'s [affected.encased] with \the [tool].")
 	user.visible_message(msg, self_msg)
+	user.balloon_alert_visible("seals \the [affected.encased]", "sealed \the [affected.encased]")
 
 	affected.open = 2

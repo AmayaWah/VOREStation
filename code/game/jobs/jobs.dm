@@ -11,9 +11,9 @@ var/const/ENGINEER			=(1<<6)
 var/const/ATMOSTECH			=(1<<7)
 var/const/AI				=(1<<8)
 var/const/CYBORG			=(1<<9)
-var/const/CLOWN				=(1<<13) //VOREStation Add
-var/const/MIME				=(1<<14) //VOREStation Add
-var/const/INTERN			=(1<<15) //VOREStation Add
+var/const/CLOWN				=(1<<13)
+var/const/MIME				=(1<<14)
+var/const/INTERN			=(1<<15)
 
 var/const/MEDSCI			=(1<<1)
 
@@ -28,10 +28,10 @@ var/const/PSYCHIATRIST		=(1<<7)
 var/const/ROBOTICIST		=(1<<8)
 var/const/XENOBIOLOGIST		=(1<<9)
 var/const/PARAMEDIC			=(1<<10)
-var/const/PATHFINDER 		=(1<<11) //VOREStation Add
-var/const/EXPLORER 			=(1<<12) //VOREStation Add
-var/const/SAR 				=(1<<13) //VOREStation Add
-var/const/XENOBOTANIST		=(1<<14) //VOREStation Add
+var/const/PATHFINDER 		=(1<<11)
+var/const/EXPLORER 			=(1<<12)
+var/const/SAR 				=(1<<13)
+var/const/XENOBOTANIST		=(1<<14)
 
 var/const/CIVILIAN			=(1<<2)
 
@@ -48,10 +48,14 @@ var/const/LAWYER			=(1<<9)
 var/const/CHAPLAIN			=(1<<10)
 var/const/ASSISTANT			=(1<<11)
 var/const/BRIDGE			=(1<<12)
-var/const/PILOT 			=(1<<13) //VOREStation Add
-var/const/ENTERTAINER		=(1<<14) //VOREStation Add
+var/const/PILOT 			=(1<<13)
+var/const/ENTERTAINER		=(1<<14)
+var/const/ENTREPRENEUR		=(1<<15)
 
-//VOREStation Add
+var/const/OTHER				=(1<<10) //VOREStation Note: Unused on VS. Used downstream.
+var/const/NONCREW			=(1<<0)
+var/const/ANOMALY			=(1<<0) //VOREStation Note: Unused on VS. Used downstream.
+
 var/const/TALON				=(1<<3)
 
 var/const/TALCAP			=(1<<0)
@@ -60,7 +64,17 @@ var/const/TALDOC			=(1<<2)
 var/const/TALSEC			=(1<<3)
 var/const/TALENG			=(1<<4)
 var/const/TALMIN			=(1<<5)
-//VOREStation Add End
+
+var/list/command_positions = list(
+	JOB_SITE_MANAGER,
+	JOB_HEAD_OF_PERSONNEL,
+	JOB_HEAD_OF_SECURITY,
+	JOB_CHIEF_ENGINEER,
+	JOB_RESEARCH_DIRECTOR,
+	JOB_CHIEF_MEDICAL_OFFICER,
+	JOB_COMMAND_SECRETARY
+	//JOB_BLUESHIELD_GUARD
+)
 
 /proc/guest_jobbans(var/job)
 	return ( (job in SSjob.get_job_titles_in_department(DEPARTMENT_COMMAND)) || (job in SSjob.get_job_titles_in_department(DEPARTMENT_SYNTHETIC)) || (job in SSjob.get_job_titles_in_department(DEPARTMENT_SECURITY)) )

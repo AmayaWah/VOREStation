@@ -78,9 +78,9 @@
 	anchored = TRUE
 	var/turf/last_valid_turf
 
-/obj/effect/dummy/spell_jaunt/New(var/location)
-	..()
-	last_valid_turf = get_turf(location)
+/obj/effect/dummy/spell_jaunt/Initialize(mapload)
+	. = ..()
+	last_valid_turf = get_turf(loc)
 
 /obj/effect/dummy/spell_jaunt/Destroy()
 	// Eject contents if deleted somehow
@@ -97,7 +97,7 @@
 		if(!T.contains_dense_objects())
 			last_valid_turf = T
 	else
-		to_chat(user, "<span class='warning'>Some strange aura is blocking the way!</span>")
+		to_chat(user, span_warning("Some strange aura is blocking the way!"))
 	src.canmove = 0
 	spawn(2) src.canmove = 1
 

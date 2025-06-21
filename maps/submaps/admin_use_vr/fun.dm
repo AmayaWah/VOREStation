@@ -3,8 +3,15 @@
 	requires_power = 0
 	dynamic_lighting = 0
 
+/area/submap/casino_event
+	name = "\improper Space Casino"
+	requires_power = 0
+	dynamic_lighting = 0
 
-
+/datum/map_template/admin_use/casino
+	name = "Lucky 7 Casino"
+	desc = "A casino to gamble your life away."
+	mappath = "maps/submaps/admin_use_vr/lucky_7.dmm"
 
 // NEVER EVER use these on an actual included map.
 // These are for admins to use when they make quick maps and upload the .dmm files for loading
@@ -41,6 +48,9 @@
 	power_equip = FALSE
 	power_environ = FALSE
 	power_light = FALSE
+
+/area/submap/admin_upload/AU2/req_no_power
+	requires_power = 0
 
 /area/submap/admin_upload/AU3
 	name = "\improper Unknown Area B"
@@ -208,7 +218,7 @@
 	known = FALSE
 
 // It notifies admins when you spawn it and gives you a 'JMP' and 'VV' link in the message so you can find it easily.
-/obj/effect/overmap/visitable/admin_use/Initialize()
+/obj/effect/overmap/visitable/admin_use/Initialize(mapload)
 	. = ..()
 	message_admins("An uploaded sector [ADMIN_JMP(src)][ADMIN_VV(src)] has been placed on the overmap. Don't forget to rename and set cool scanner info on it!")
 
@@ -266,8 +276,12 @@
 	start_y = 2
 	known = FALSE
 
+/obj/effect/overmap/visitable/ship/admin_use/rascal_pass
+	name = "Rascal Pass-Central Shuttle";
+	scanner_desc = @"[i]Registration[/i]: NTS Blueline[i]Class[/i]: Transport shuttle[i]Transponder[/i]: INACTIVE[b]Notice[/b]: High amounts of space carp detected near the shuttle."
+
 // Similarly notifies you
-/obj/effect/overmap/visitable/ship/admin_use/Initialize()
+/obj/effect/overmap/visitable/ship/admin_use/Initialize(mapload)
 	. = ..()
 	message_admins("An uploaded ship [ADMIN_JMP(src)][ADMIN_VV(src)] has been placed on the overmap. Don't forget to rename and set cool scanner info on it!")
 

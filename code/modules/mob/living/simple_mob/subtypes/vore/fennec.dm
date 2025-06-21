@@ -33,7 +33,7 @@
 	icon_rest = "fennec_rest"
 	icon = 'icons/mob/vore.dmi'
 
-	faction = "fennec"
+	faction = FACTION_FENNEC
 	maxHealth = 30
 	health = 30
 
@@ -42,7 +42,7 @@
 	response_harm = "hits"
 
 	meat_amount = 2
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat/fox
+	meat_type = /obj/item/reagent_containers/food/snacks/meat/fox
 
 	harm_intent_damage = 5
 	melee_damage_lower = 1
@@ -51,6 +51,11 @@
 
 	say_list_type = /datum/say_list/fennec
 	ai_holder_type = /datum/ai_holder/simple_mob/passive
+
+	allow_mind_transfer = TRUE
+	pain_emote_1p = list("yelp", "whine", "bark", "growl")
+	pain_emote_3p = list("yelps", "whines", "barks", "growls")
+	species_sounds = "Vulpine"
 
 // Activate Noms!
 /mob/living/simple_mob/vore/fennec
@@ -86,7 +91,7 @@
 	mob_bump_flag = HEAVY
 	grab_resist = 100
 	mob_class = MOB_CLASS_HUMANOID
-	movement_cooldown = 1
+	movement_cooldown = -1
 	melee_miss_chance = 10
 
 	old_x = -32
@@ -115,7 +120,7 @@
 	var/image/bigshadow
 	var/autodoom = TRUE
 
-/mob/living/simple_mob/vore/fennec/huge/Initialize()
+/mob/living/simple_mob/vore/fennec/huge/Initialize(mapload)
 	. = ..()
 	bigshadow = image(icon, icon_state = "shadow")
 	bigshadow.plane = MOB_PLANE
@@ -128,7 +133,11 @@
 	add_overlay(bigshadow)
 
 /mob/living/simple_mob/vore/fennec/huge/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "Stomach"
 	B.desc = "The slimy wet insides of a rather large fennec! Not quite as clean as the fen on the outside."
@@ -151,12 +160,12 @@
 		var/mob/living/L = A
 		if(will_eat(L))
 			var/obj/belly/B = vore_organs[1]
-			custom_emote(message = "snatches and devours [L]!")
+			automatic_custom_emote(message = "snatches and devours [L]!")
 			B.nom_mob(L)
 			ai_holder.find_target()
 			return
 		else if(L.size_multiplier <= 0.5 && L.step_mechanics_pref)
-			custom_emote(message = "stomps [L] into oblivion!")
+			automatic_custom_emote(message = "stomps [L] into oblivion!")
 			L.gib()
 			return
 		else

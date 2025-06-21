@@ -25,15 +25,19 @@
 		var/max_stored_power = 50000 //50 kW
 		use_power = USE_POWER_OFF	//Draws directly from power net. Does not use APC power.
 
+/obj/machinery/shieldwallgen/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/climbable)
+
 /obj/machinery/shieldwallgen/attack_hand(mob/user as mob)
 	if(state != 1)
-		to_chat(user, "<font color='red'>The shield generator needs to be firmly secured to the floor first.</font>")
+		to_chat(user, span_red("The shield generator needs to be firmly secured to the floor first."))
 		return 1
 	if(src.locked && !istype(user, /mob/living/silicon))
-		to_chat(user, "<font color='red'>The controls are locked!</font>")
+		to_chat(user, span_red("The controls are locked!"))
 		return 1
 	if(power != 1)
-		to_chat(user, "<font color='red'>The shield generator needs to be powered by wire underneath.</font>")
+		to_chat(user, span_red("The shield generator needs to be powered by wire underneath."))
 		return 1
 
 	if(src.active >= 1)
@@ -105,7 +109,7 @@
 		src.active = 2
 	if(src.active >= 1)
 		if(src.power == 0)
-			src.visible_message("<font color='red'>The [src.name] shuts down due to lack of power!</font>", \
+			src.visible_message(span_red("The [src.name] shuts down due to lack of power!"), \
 				"You hear heavy droning fade out")
 			icon_state = "Shield_Gen"
 			src.active = 0
@@ -151,13 +155,12 @@
 		var/field_dir = get_dir(T2,get_step(T2, NSEW))
 		T = get_step(T2, NSEW)
 		T2 = T
-		var/obj/machinery/shieldwall/CF = new/obj/machinery/shieldwall/(src, G) //(ref to this gen, ref to connected gen)
-		CF.loc = T
+		var/obj/machinery/shieldwall/CF = new/obj/machinery/shieldwall(T, src, G) //(ref to this gen, ref to connected gen)
 		CF.set_dir(field_dir)
 
 
 /obj/machinery/shieldwallgen/attackby(obj/item/W, mob/user)
-	if(W.is_wrench())
+	if(W.has_tool_quality(TOOL_WRENCH))
 		if(active)
 			to_chat(user, "Turn off the field generator first.")
 			return
@@ -176,16 +179,16 @@
 			src.anchored = FALSE
 			return
 
-	if(istype(W, /obj/item/weapon/card/id)||istype(W, /obj/item/device/pda))
+	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda))
 		if (src.allowed(user))
 			src.locked = !src.locked
 			to_chat(user, "Controls are now [src.locked ? "locked." : "unlocked."]")
 		else
-			to_chat(user, "<font color='red'>Access denied.</font>")
+			to_chat(user, span_red("Access denied."))
 
 	else
 		src.add_fingerprint(user)
-		visible_message("<font color='red'>The [src.name] has been hit with \the [W.name] by [user.name]!</font>")
+		visible_message(span_red("The [src.name] has been hit with \the [W.name] by [user.name]!"))
 
 /obj/machinery/shieldwallgen/proc/cleanup(var/NSEW)
 	var/obj/machinery/shieldwall/F
@@ -210,7 +213,7 @@
 	src.cleanup(2)
 	src.cleanup(4)
 	src.cleanup(8)
-	..()
+	. = ..()
 
 /obj/machinery/shieldwallgen/bullet_act(var/obj/item/projectile/Proj)
 	storedpower -= 400 * Proj.get_structure_damage()
@@ -239,23 +242,23 @@
 		var/power_usage = 2500	//how much power it takes to sustain the shield
 		var/generate_power_usage = 7500	//how much power it takes to start up the shield
 
-/obj/machinery/shieldwall/New(var/obj/machinery/shieldwallgen/A, var/obj/machinery/shieldwallgen/B)
-	..()
+/obj/machinery/shieldwall/Initialize(mapload, var/obj/machinery/shieldwallgen/A, var/obj/machinery/shieldwallgen/B)
+	. = ..()
 	update_nearby_tiles()
 	src.gen_primary = A
 	src.gen_secondary = B
-	if(A && B && A.active && B.active)
+	if(istype(A) && istype(B) && A.active && B.active)
 		needs_power = 1
 		if(prob(50))
 			A.storedpower -= generate_power_usage
 		else
 			B.storedpower -= generate_power_usage
 	else
-		qdel(src) //need at least two generator posts
+		return INITIALIZE_HINT_QDEL
 
 /obj/machinery/shieldwall/Destroy()
 	update_nearby_tiles()
-	..()
+	. = ..()
 
 /obj/machinery/shieldwall/attack_hand(mob/user as mob)
 	return

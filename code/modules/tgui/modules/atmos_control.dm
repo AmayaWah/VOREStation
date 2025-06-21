@@ -12,7 +12,7 @@
 	access.req_one_access = req_one_access
 
 	if(monitored_alarm_ids)
-		for(var/obj/machinery/alarm/alarm in machines)
+		for(var/obj/machinery/alarm/alarm in GLOB.machines)
 			if(alarm.alarm_id && (alarm.alarm_id in monitored_alarm_ids))
 				monitored_alarms += alarm
 		// machines may not yet be ordered at this point
@@ -25,19 +25,18 @@
 	switch(action)
 		if("alarm")
 			if(ui_ref)
-				var/obj/machinery/alarm/alarm = locate(params["alarm"]) in (monitored_alarms.len ? monitored_alarms : machines)
+				var/obj/machinery/alarm/alarm = locate(params["alarm"]) in (monitored_alarms.len ? monitored_alarms : GLOB.machines)
 				if(alarm)
 					var/datum/tgui_state/TS = generate_state(alarm)
-					alarm.tgui_interact(usr, parent_ui = ui_ref, state = TS)
+					alarm.tgui_interact(ui.user, parent_ui = ui_ref, state = TS)
 			return 1
 		if("setZLevel")
 			ui.set_map_z_level(params["mapZLevel"])
 			return TRUE
 
 /datum/tgui_module/atmos_control/ui_assets(mob/user)
-	return list(
-		get_asset_datum(/datum/asset/simple/nanomaps),
-	)
+	. = ..()
+	. += get_asset_datum(/datum/asset/simple/holo_nanomap)
 
 /datum/tgui_module/atmos_control/tgui_interact(mob/user, datum/tgui/ui = null)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -51,11 +50,11 @@
 	. = ..()
 
 	var/z = get_z(user)
-	var/list/map_levels = using_map.get_map_levels(z) 
+	var/list/map_levels = using_map.get_map_levels(z)
 
 	// TODO: Move these to a cache, similar to cameras
 	var/alarms[0]
-	for(var/obj/machinery/alarm/alarm in (monitored_alarms.len ? monitored_alarms : machines))
+	for(var/obj/machinery/alarm/alarm in (monitored_alarms.len ? monitored_alarms : GLOB.machines))
 		if(!monitored_alarms.len && alarm.alarms_hidden)
 			continue
 		if(!(alarm.z in map_levels))
@@ -73,7 +72,7 @@
 	var/list/data = list()
 
 	var/z = get_z(user)
-	var/list/map_levels = using_map.get_map_levels(z) 
+	var/list/map_levels = using_map.get_map_levels(z)
 	data["map_levels"] = map_levels
 
 	return data
@@ -106,6 +105,7 @@
 /datum/tgui_state/air_alarm_remote/Destroy()
 	atmos_control = null
 	air_alarm = null
+	return ..()
 
 /datum/tgui_module/atmos_control/ntos
 	ntos = TRUE

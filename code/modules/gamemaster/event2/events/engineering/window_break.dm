@@ -11,7 +11,7 @@
 	event_type = /datum/event2/event/window_break
 
 /datum/event2/meta/window_break/get_weight()
-	return (metric.count_people_in_department(DEPARTMENT_ENGINEERING) * 20) / (times_ran + 1)
+	return (GLOB.metric.count_people_in_department(DEPARTMENT_ENGINEERING) * 20) / (times_ran + 1)
 
 
 
@@ -78,7 +78,7 @@
 
 	chosen_window.take_damage(chosen_window.maxhealth * 0.8)
 	playsound(chosen_window, 'sound/effects/Glasshit.ogg', 100, 1)
-	chosen_window.visible_message(span("danger", "\The [chosen_window] suddenly begins to crack!"))
+	chosen_window.visible_message(span_danger("\The [chosen_window] suddenly begins to crack!"))
 
 /datum/event2/event/window_break/should_end()
 	. = ..()

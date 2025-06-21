@@ -2,14 +2,17 @@
 	name = "Show Last Signalers"
 
 /datum/admin_secret_item/admin_secret/show_signalers/name()
-	return "Show Last [length(lastsignalers)] Signaler\s"
+	return "Show Last [length(GLOB.lastsignalers)] Signaler\s"
 
 /datum/admin_secret_item/admin_secret/show_signalers/execute(var/mob/user)
 	. = ..()
 	if(!.)
 		return
 
-	var/dat = "<B>Showing last [length(lastsignalers)] signalers.</B><HR>"
-	for(var/sig in lastsignalers)
+	var/dat = span_bold("Showing last [length(GLOB.lastsignalers)] signalers.") + "<HR>"
+	for(var/sig in GLOB.lastsignalers)
 		dat += "[sig]<BR>"
-	user << browse(dat, "window=lastsignalers;size=800x500")
+
+	var/datum/browser/popup = new(user, "lastsignalers", "Last Signallers", 800, 500)
+	popup.set_content(dat)
+	popup.open()

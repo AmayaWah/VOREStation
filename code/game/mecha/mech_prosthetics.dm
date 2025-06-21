@@ -1,8 +1,8 @@
 /obj/machinery/mecha_part_fabricator/pros
-	icon = 'icons/obj/robotics.dmi'
+	icon = 'icons/obj/robotics_vr.dmi' //VOREStation Edit - New icon
 	icon_state = "prosfab"
 	name = "Prosthetics Fabricator"
-	desc = "A machine used for construction of prosthetics."
+	desc = "A machine used for the construction of prosthetics."
 	density = TRUE
 	anchored = TRUE
 	unacidable = TRUE
@@ -10,14 +10,14 @@
 	idle_power_usage = 20
 	active_power_usage = 5000
 	req_access = list(access_robotics)
-	circuit = /obj/item/weapon/circuitboard/prosthetics
+	circuit = /obj/item/circuitboard/prosthetics
 
 	// Prosfab specific stuff
 	var/manufacturer = null
 	var/species_types = list("Human")
 	var/species = "Human"
 
-	loading_icon_state = "prosfab_loading"
+	loading_icon_state = null
 
 	materials = list(
 		MAT_STEEL = 0,
@@ -29,6 +29,8 @@
 		MAT_SILVER = 0,
 		MAT_LEAD = 0,
 		MAT_OSMIUM = 0,
+		MAT_GOLD = 0,
+		MAT_PLATINUM = 0,
 		MAT_DIAMOND = 0,
 		MAT_DURASTEEL = 0,
 		MAT_PHORON = 0,
@@ -49,6 +51,8 @@
 					"Vehicle",
 					"Rigsuit",
 					"Phazon",
+					"Pinnace",
+					"Baron",
 					"Gopher", // VOREStation Add
 					"Polecat", // VOREStation Add
 					"Weasel", // VOREStation Add
@@ -61,15 +65,16 @@
 					"Cyborg Parts",
 					"Cyborg Internals",
 					"Cybernetics",
+					"pAI Parts", //VOREStation Add
 					"Implants",
 					"Control Interfaces",
 					"Other",
 					"Misc",
 					)
 
-/obj/machinery/mecha_part_fabricator/pros/Initialize()
+/obj/machinery/mecha_part_fabricator/pros/Initialize(mapload)
 	. = ..()
-	manufacturer = basic_robolimb.company
+	manufacturer = GLOB.basic_robolimb.company
 
 /obj/machinery/mecha_part_fabricator/pros/dispense_built_part(datum/design/D)
 	var/obj/item/I = ..()
@@ -83,10 +88,10 @@
 	data["species_types"] = species_types
 	data["species"] = species
 
-	if(all_robolimbs)
+	if(GLOB.all_robolimbs)
 		var/list/T = list()
-		for(var/A in all_robolimbs)
-			var/datum/robolimb/R = all_robolimbs[A]
+		for(var/A in GLOB.all_robolimbs)
+			var/datum/robolimb/R = GLOB.all_robolimbs[A]
 			if(R.unavailable_to_build)
 				continue
 			if(species in R.species_cannot_use)
@@ -104,27 +109,27 @@
 
 	. = TRUE
 
-	add_fingerprint(usr)
-	usr.set_machine(src)
+	add_fingerprint(ui.user)
+	ui.user.set_machine(src)
 
 	switch(action)
 		if("species")
-			var/new_species = tgui_input_list(usr, "Select a new species", "Prosfab Species Selection", species_types)
-			if(new_species && tgui_status(usr, state) == STATUS_INTERACTIVE)
+			var/new_species = tgui_input_list(ui.user, "Select a new species", "Prosfab Species Selection", species_types)
+			if(new_species && tgui_status(ui.user, state) == STATUS_INTERACTIVE)
 				species = new_species
 			return
 		if("manufacturer")
 			var/list/new_manufacturers = list()
-			for(var/A in all_robolimbs)
-				var/datum/robolimb/R = all_robolimbs[A]
+			for(var/A in GLOB.all_robolimbs)
+				var/datum/robolimb/R = GLOB.all_robolimbs[A]
 				if(R.unavailable_to_build)
 					continue
 				if(species in R.species_cannot_use)
 					continue
 				new_manufacturers += A
 
-			var/new_manufacturer = tgui_input_list(usr, "Select a new manufacturer", "Prosfab Species Selection", new_manufacturers)
-			if(new_manufacturer && tgui_status(usr, state) == STATUS_INTERACTIVE)
+			var/new_manufacturer = tgui_input_list(ui.user, "Select a new manufacturer", "Prosfab Species Selection", new_manufacturers)
+			if(new_manufacturer && tgui_status(ui.user, state) == STATUS_INTERACTIVE)
 				manufacturer = new_manufacturer
 			return
 	return FALSE
@@ -133,27 +138,27 @@
 	if(..())
 		return 1
 
-	if(istype(I,/obj/item/weapon/disk/limb))
-		var/obj/item/weapon/disk/limb/D = I
-		if(!D.company || !(D.company in all_robolimbs))
-			to_chat(user, "<span class='warning'>This disk seems to be corrupted!</span>")
+	if(istype(I,/obj/item/disk/limb))
+		var/obj/item/disk/limb/D = I
+		if(!D.company || !(D.company in GLOB.all_robolimbs))
+			to_chat(user, span_warning("This disk seems to be corrupted!"))
 		else
-			to_chat(user, "<span class='notice'>Installing blueprint files for [D.company]...</span>")
+			to_chat(user, span_notice("Installing blueprint files for [D.company]..."))
 			if(do_after(user,50,src))
-				var/datum/robolimb/R = all_robolimbs[D.company]
+				var/datum/robolimb/R = GLOB.all_robolimbs[D.company]
 				R.unavailable_to_build = 0
-				to_chat(user, "<span class='notice'>Installed [D.company] blueprints!</span>")
+				to_chat(user, span_notice("Installed [D.company] blueprints!"))
 				qdel(I)
 		return
 
-	if(istype(I,/obj/item/weapon/disk/species))
-		var/obj/item/weapon/disk/species/D = I
+	if(istype(I,/obj/item/disk/species))
+		var/obj/item/disk/species/D = I
 		if(!D.species || !(D.species in GLOB.all_species))
-			to_chat(user, "<span class='warning'>This disk seems to be corrupted!</span>")
+			to_chat(user, span_warning("This disk seems to be corrupted!"))
 		else
-			to_chat(user, "<span class='notice'>Uploading modification files for [D.species]...</span>")
+			to_chat(user, span_notice("Uploading modification files for [D.species]..."))
 			if(do_after(user,50,src))
 				species_types |= D.species
-				to_chat(user, "<span class='notice'>Uploaded [D.species] files!</span>")
+				to_chat(user, span_notice("Uploaded [D.species] files!"))
 				qdel(I)
 		return

@@ -4,7 +4,7 @@
 	desc = "A miniature nanite fabricator for a medigun."
 	catalogue_data = list(/datum/category_item/catalogue/information/organization/vey_med)
 	icon_state = "ml3m_batt"
-	origin_tech = list(TECH_BIO = 2, TECH_MATERIAL = 1, TECH_MAGNETS = 2)
+	origin_tech = list(TECH_BIO = 2, TECH_MATERIAL = 1, TECH_MAGNET = 2)
 
 /obj/item/projectile/beam/medical_cell
 	name = "\improper healing beam"
@@ -16,6 +16,8 @@
 	hud_state = "laser_disabler"
 
 	combustion = FALSE
+
+	can_miss = FALSE
 
 	muzzle_type = /obj/effect/projectile/muzzle/medigun
 	tracer_type = /obj/effect/projectile/tracer/medigun
@@ -31,7 +33,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/brute
 
 /obj/item/projectile/beam/medical_cell/brute/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-10)
 	else
@@ -44,7 +46,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/burn
 
 /obj/item/projectile/beam/medical_cell/burn/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustFireLoss(-10)
 	else
@@ -57,7 +59,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/stabilize
 
 /obj/item/projectile/beam/medical_cell/stabilize/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.adjustOxyLoss(-30)
 		for(var/name in list(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM, BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG, BP_GROIN, BP_TORSO))
 			var/obj/item/organ/external/O = target.organs_by_name[name]
@@ -85,7 +87,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/toxin
 
 /obj/item/projectile/beam/medical_cell/toxin/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustToxLoss(-10)
 	else
@@ -98,7 +100,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/omni
 
 /obj/item/projectile/beam/medical_cell/omni/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-5)
 			target.adjustFireLoss(-5)
@@ -114,7 +116,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/antirad
 
 /obj/item/projectile/beam/medical_cell/antirad/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustToxLoss(-5)
 			target.radiation = max(target.radiation - 350, 0) //same as 5 units of arithrazine, sans the brute damage
@@ -128,7 +130,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/brute2
 
 /obj/item/projectile/beam/medical_cell/brute2/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-20)
 	else
@@ -141,7 +143,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/burn2
 
 /obj/item/projectile/beam/medical_cell/burn2/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustFireLoss(-20)
 	else
@@ -154,7 +156,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/stabilize2
 
 /obj/item/projectile/beam/medical_cell/stabilize2/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.adjustOxyLoss(-200)
 		for(var/name in list(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM, BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG, BP_GROIN, BP_TORSO))
 			var/obj/item/organ/external/O = target.organs_by_name[name]
@@ -177,7 +179,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/omni2
 
 /obj/item/projectile/beam/medical_cell/omni2/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-10)
 			target.adjustFireLoss(-10)
@@ -193,7 +195,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/toxin2
 
 /obj/item/projectile/beam/medical_cell/toxin2/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustToxLoss(-20)
 	else
@@ -206,7 +208,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/haste
 
 /obj/item/projectile/beam/medical_cell/haste/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.add_modifier(/datum/modifier/ml3mhaste, 20 SECONDS)
 	else
 		return 1
@@ -226,7 +228,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/resist
 
 /obj/item/projectile/beam/medical_cell/resist/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.add_modifier(/datum/modifier/resistance, 20 SECONDS)
 	else
 		return 1
@@ -246,7 +248,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/corpse_mend
 
 /obj/item/projectile/beam/medical_cell/corpse_mend/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat == DEAD)
 			target.adjustBruteLoss(-50)
 			target.adjustFireLoss(-50)
@@ -262,7 +264,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/brute3
 
 /obj/item/projectile/beam/medical_cell/brute3/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-40)
 	else
@@ -275,7 +277,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/burn3
 
 /obj/item/projectile/beam/medical_cell/burn3/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustFireLoss(-40)
 	else
@@ -288,7 +290,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/toxin3
 
 /obj/item/projectile/beam/medical_cell/toxin3/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustToxLoss(-40)
 	else
@@ -301,7 +303,7 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/omni3
 
 /obj/item/projectile/beam/medical_cell/omni3/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		if(target.stat != DEAD)
 			target.adjustBruteLoss(-20)
 			target.adjustFireLoss(-20)
@@ -318,10 +320,10 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/shrink
 
 /obj/item/projectile/beam/medical_cell/shrink/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.resize(0.5)
-		target.show_message("<font color='blue'>The beam fires into your body, changing your size!</font>")
-		target.updateicon()
+		target.show_message(span_blue("The beam fires into your body, changing your size!"))
+		target.update_icon()
 	else
 		return 1
 
@@ -332,10 +334,10 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/grow
 
 /obj/item/projectile/beam/medical_cell/grow/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.resize(2.0)
-		target.show_message("<font color='blue'>The beam fires into your body, changing your size!</font>")
-		target.updateicon()
+		target.show_message(span_blue("The beam fires into your body, changing your size!"))
+		target.update_icon()
 	else
 		return 1
 
@@ -346,9 +348,9 @@
 	projectile_type = /obj/item/projectile/beam/medical_cell/normalsize
 
 /obj/item/projectile/beam/medical_cell/normalsize/on_hit(var/mob/living/carbon/human/target)
-	if(istype(target, /mob/living/carbon/human))
+	if(ishuman(target))
 		target.resize(1)
-		target.show_message("<font color='blue'>The beam fires into your body, changing your size!</font>")
-		target.updateicon()
+		target.show_message(span_blue("The beam fires into your body, changing your size!"))
+		target.update_icon()
 	else
 		return 1

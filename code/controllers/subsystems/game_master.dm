@@ -36,13 +36,13 @@ SUBSYSTEM_DEF(game_master)
 	if(config && !config.enable_game_master)
 		can_fire = FALSE
 
-	return ..()
+	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/game_master/fire(resumed)
 	adjust_staleness(1)
 	adjust_danger(-1)
 
-	var/global_afk = metric.assess_all_living_mobs()
+	var/global_afk = GLOB.metric.assess_all_living_mobs()
 	global_afk = abs(global_afk - 100)
 	global_afk = round(global_afk / 100, 0.1)
 	adjust_staleness(global_afk) // Staleness increases faster if more people are less active.
@@ -98,7 +98,7 @@ SUBSYSTEM_DEF(game_master)
 /datum/controller/subsystem/game_master/proc/pre_event_checks(quiet = FALSE)
 	if(!ticker || ticker.current_state != GAME_STATE_PLAYING)
 		if(!quiet)
-			log_game_master("Unable to start event: Ticker is nonexistant, or the game is not ongoing.")
+			log_game_master("Unable to start event: Ticker is nonexistent, or the game is not ongoing.")
 		return FALSE
 	if(GM.ignore_time_restrictions)
 		return TRUE
@@ -156,7 +156,7 @@ SUBSYSTEM_DEF(game_master)
 	if(check_rights(R_ADMIN|R_EVENT|R_DEBUG))
 		SSgame_master.interact(usr)
 	else
-		to_chat(usr, span("warning", "You do not have sufficent rights to view the GM panel, sorry."))
+		to_chat(usr, span_warning("You do not have sufficient rights to view the GM panel, sorry."))
 
 /datum/controller/subsystem/game_master/proc/interact(var/client/user)
 	if(!user)
@@ -212,22 +212,22 @@ SUBSYSTEM_DEF(game_master)
 
 	dat += "<tr>"
 	dat += "<td>All Living Mobs</td>"
-	dat += "<td>[metric.assess_all_living_mobs()]%</td>"
+	dat += "<td>[GLOB.metric.assess_all_living_mobs()]%</td>"
 	dat += "</tr>"
 
 	dat += "<tr>"
 	dat += "<td>All Ghosts</td>"
-	dat += "<td>[metric.assess_all_dead_mobs()]%</td>"
+	dat += "<td>[GLOB.metric.assess_all_dead_mobs()]%</td>"
 	dat += "</tr>"
 
 	dat += "<tr>"
 	dat += "<th colspan='2'>Departments</td>"
 	dat += "</tr>"
 
-	for(var/D in metric.departments)
+	for(var/D in GLOB.metric.departments)
 		dat += "<tr>"
 		dat += "<td>[D]</td>"
-		dat += "<td>[metric.assess_department(D)]%</td>"
+		dat += "<td>[GLOB.metric.assess_department(D)]%</td>"
 		dat += "</tr>"
 
 	dat += "<tr>"
@@ -237,7 +237,7 @@ SUBSYSTEM_DEF(game_master)
 	for(var/mob/M as anything in player_list)
 		dat += "<tr>"
 		dat += "<td>[M] ([M.ckey])</td>"
-		dat += "<td>[metric.assess_player_activity(M)]%</td>"
+		dat += "<td>[GLOB.metric.assess_player_activity(M)]%</td>"
 		dat += "</tr>"
 	dat += "</table>"
 

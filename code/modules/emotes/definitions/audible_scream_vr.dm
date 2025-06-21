@@ -1,12 +1,16 @@
 /decl/emote/audible/scream/get_emote_sound(var/atom/user)
-	var/mob/living/carbon/human/H = user
-	if(H.get_gender() == FEMALE)
+	..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/vol = H.species.scream_volume
 		return list(
-			"sound" = H.species.female_scream_sound,
-			"vol" = emote_volume
-		)
-	else
-		return list(
-			"sound" = H.species.male_scream_sound,
-			"vol" = emote_volume
-		)
+				"sound" = get_species_sound(get_gendered_sound(H))["scream"],
+				"vol" = vol,
+				"exr" = 20,
+				"volchannel" = VOLUME_CHANNEL_SPECIES_SOUNDS
+			)
+
+/decl/emote/audible/malehumanscream
+	key = "malehumanscream"
+	emote_message_3p = "screams!"
+	emote_sound = 'sound/voice/malescream_2.ogg'

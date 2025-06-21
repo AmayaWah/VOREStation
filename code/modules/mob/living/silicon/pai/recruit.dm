@@ -31,12 +31,13 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 /datum/paiController/Topic(href, href_list[])
 	if(href_list["download"])
 		var/datum/paiCandidate/candidate = locate(href_list["candidate"])
-		var/obj/item/device/paicard/card = locate(href_list["device"])
+		var/obj/item/paicard/card = locate(href_list["device"])
 		if(card.pai)
 			return
-		if(istype(card,/obj/item/device/paicard) && istype(candidate,/datum/paiCandidate))
+		if(istype(card,/obj/item/paicard) && istype(candidate,/datum/paiCandidate))
 			var/mob/living/silicon/pai/pai = new(card)
 			pai.key = candidate.key
+			paikeys |= pai.ckey
 			card.setPersonality(pai)
 			if(!candidate.name)
 				pai.SetName(pick(ninja_names))
@@ -101,7 +102,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 			if("submit")
 				if(candidate)
 					candidate.ready = 1
-					for(var/obj/item/device/paicard/p in all_pai_cards)
+					for(var/obj/item/paicard/p in GLOB.all_pai_cards)
 						if(p.looking_for_personality == 1)
 							p.alertUpdate()
 				usr << browse(null, "window=paiRecruit")
@@ -236,12 +237,12 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 			</table><br>
 			"}
 	dat += {"
-	<body>
+	</body>
 	"}
 
-	M << browse(dat, "window=paiRecruit;size=580x580;")
+	M << browse("<html>[dat]</html>", "window=paiRecruit;size=580x580;")
 
-/datum/paiController/proc/findPAI(var/obj/item/device/paicard/p, var/mob/user)
+/datum/paiController/proc/findPAI(var/obj/item/paicard/p, var/mob/user)
 	requestRecruits(user)
 	var/list/available = list()
 	for(var/datum/paiCandidate/c in paiController.pai_candidates)
@@ -379,6 +380,16 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 		if(!C)	return
 		asked.Add(C.key)
 		asked[C.key] = world.time
+
+		var/mob/ourmob = C.mob
+		if(ourmob)
+			var/time_till_respawn = ourmob.time_till_respawn()
+			if(time_till_respawn == -1 || time_till_respawn)
+				return
+		for(var/ourkey in paikeys)
+			if(ourkey == ourmob.ckey)
+				return
+
 		var/response = tgui_alert(C, "[inquirer] is requesting a pAI personality. Would you like to play as a personal AI?", "pAI Request", list("Yes", "No", "Never for this round"))
 		if(!C)	return		//handle logouts that happen whilst the alert is waiting for a response.
 		if(response == "Yes")

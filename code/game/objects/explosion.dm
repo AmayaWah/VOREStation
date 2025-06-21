@@ -1,7 +1,7 @@
 //TODO: Flash range does nothing currently
 
 /proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, z_transfer = UP|DOWN, shaped)
-	var/multi_z_scalar = config.multi_z_explosion_scalar
+	var/multi_z_scalar = CONFIG_GET(number/multi_z_explosion_scalar)
 	spawn(0)
 		var/start = world.timeofday
 		epicenter = get_turf(epicenter)
@@ -54,7 +54,7 @@
 							M << 'sound/effects/explosionfar.ogg'
 
 		if(adminlog)
-			message_admins("Explosion with [shaped ? "shaped" : "non-shaped"] size ([devastation_range], [heavy_impact_range], [light_impact_range]) in area [epicenter.loc.name] ([epicenter.x],[epicenter.y],[epicenter.z]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[epicenter.x];Y=[epicenter.y];Z=[epicenter.z]'>JMP</a>)")
+			message_admins("Explosion with [shaped ? "shaped" : "non-shaped"] size ([devastation_range], [heavy_impact_range], [light_impact_range]) in area [epicenter.loc.name] ([epicenter.x],[epicenter.y],[epicenter.z]) (<A href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[epicenter.x];Y=[epicenter.y];Z=[epicenter.z]'>JMP</a>)")
 			log_game("Explosion with [shaped ? "shaped" : "non-shaped"] size ([devastation_range], [heavy_impact_range], [light_impact_range]) in area [epicenter.loc.name] ")
 
 		var/approximate_intensity = (devastation_range * 3) + (heavy_impact_range * 2) + light_impact_range
@@ -71,7 +71,7 @@
 		var/x0 = epicenter.x
 		var/y0 = epicenter.y
 		var/z0 = epicenter.z
-		if(config.use_recursive_explosions)
+		if(CONFIG_GET(flag/use_recursive_explosions))
 			var/power = devastation_range * 2 + heavy_impact_range + light_impact_range //The ranges add up, ie light 14 includes both heavy 7 and devestation 3. So this calculation means devestation counts for 4, heavy for 2 and light for 1 power, giving us a cap of 27 power.
 			explosion_rec(epicenter, power, shaped)
 		else
@@ -93,11 +93,11 @@
 
 		var/took = (world.timeofday-start)/10
 		//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes  to explosion code using this please so we can compare
-		if(Debug2) to_world_log("## DEBUG: Explosion([x0],[y0],[z0])(d[devastation_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
+		if(GLOB.Debug2) to_world_log("## DEBUG: Explosion([x0],[y0],[z0])(d[devastation_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
 
 		//Machines which report explosions.
-		for(var/i,i<=doppler_arrays.len,i++)
-			var/obj/machinery/doppler_array/Array = doppler_arrays[i]
+		for(var/i, i <= GLOB.doppler_arrays.len, i++)
+			var/obj/machinery/doppler_array/Array = GLOB.doppler_arrays[i]
 			if(Array)
 				Array.sense_explosion(x0,y0,z0,devastation_range,heavy_impact_range,light_impact_range,took)
 		sleep(8)

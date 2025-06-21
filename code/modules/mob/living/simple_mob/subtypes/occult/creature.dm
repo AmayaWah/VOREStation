@@ -8,7 +8,7 @@
 
 	mob_class = MOB_CLASS_ABERRATION
 
-	faction = "creature"
+	faction = FACTION_CREATURE
 
 	maxHealth = 40
 	health = 40
@@ -29,6 +29,9 @@
 	speak_emote = list("gibbers")
 
 	ai_holder_type = /datum/ai_holder/simple_mob/melee
+	can_be_drop_prey = FALSE
+	can_pain_emote = FALSE
+
 
 // Strong Variant
 /mob/living/simple_mob/creature/strong
@@ -43,7 +46,7 @@
 /mob/living/simple_mob/creature/cult
 	mob_class = MOB_CLASS_DEMONIC
 
-	faction = "cult"
+	faction = FACTION_CULT
 
 	min_oxy = 0
 	max_oxy = 0

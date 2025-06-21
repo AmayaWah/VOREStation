@@ -5,10 +5,13 @@
 	. = ..()
 	if(!.)
 		return
-	var/dat = "<B>Showing DNA from blood.</B><HR>"
+	var/dat = span_bold("Showing DNA from blood.") + "<HR>"
 	dat += "<table cellspacing=5><tr><th>Name</th><th>DNA</th><th>Blood Type</th></tr>"
 	for(var/mob/living/carbon/human/H in mob_list)
 		if(H.dna && H.ckey)
-			dat += "<tr><td>[H]</td><td>[H.dna.unique_enzymes]</td><td>[H.b_type]</td></tr>"
+			dat += "<tr><td>[H]</td><td>[H.dna.unique_enzymes]</td><td>[H.dna ? H.dna.b_type : DEFAULT_BLOOD_TYPE]</td></tr>"
 	dat += "</table>"
-	user << browse(dat, "window=DNA;size=440x410")
+
+	var/datum/browser/popup = new(user, "DNA", "DNA", 440, 410)
+	popup.set_content(dat)
+	popup.open()

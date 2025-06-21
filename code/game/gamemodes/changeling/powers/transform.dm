@@ -14,7 +14,7 @@
 	if(!changeling)	return
 
 	if(!isturf(loc))
-		to_chat(src, "<span class='warning'>Transforming here would be a bad idea.</span>")
+		to_chat(src, span_warning("Transforming here would be a bad idea."))
 		return 0
 
 	var/list/names = list()
@@ -29,24 +29,24 @@
 		return
 
 	changeling.chem_charges -= 5
-	src.visible_message("<span class='warning'>[src] transforms!</span>")
+	src.visible_message(span_warning("[src] transforms!"))
 	changeling.geneticdamage = 5
 
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		var/newSpecies = chosen_dna.speciesName
-		H.set_species(newSpecies,1)
+		H.set_species(newSpecies)
 
-	src.dna = chosen_dna.dna.Clone()
+	qdel_swap(src.dna, chosen_dna.dna.Clone())
 	src.dna.b_type = "AB+" //This is needed to avoid blood rejection bugs.  The fact that the blood type might not match up w/ records could be a *FEATURE* too.
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		H.b_type = "AB+" //For some reason we have two blood types on the mob.
 		H.identifying_gender = chosen_dna.identifying_gender
 		H.flavor_texts = chosen_dna.flavour_texts ? chosen_dna.flavour_texts.Copy() : null
 	src.real_name = chosen_dna.name
 	src.UpdateAppearance()
 	domutcheck(src, null)
+	UpdateAppearance()
 	changeling_update_languages(changeling.absorbed_languages)
 	if(chosen_dna.genMods)
 		var/mob/living/carbon/human/self = src
@@ -56,9 +56,9 @@
 		for(var/datum/modifier/mod in chosen_dna.genMods)
 			self.modifiers.Add(mod.type)
 
-	src.verbs -= /mob/proc/changeling_transform
+	remove_verb(src, /mob/proc/changeling_transform)
 	spawn(10)
-		src.verbs += /mob/proc/changeling_transform
+		add_verb(src, /mob/proc/changeling_transform)
 		src.regenerate_icons()
 
 	feedback_add_details("changeling_powers","TR")

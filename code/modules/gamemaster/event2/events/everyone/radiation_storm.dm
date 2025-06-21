@@ -6,8 +6,8 @@
 	event_type = /datum/event2/event/radiation_storm
 
 /datum/event2/meta/radiation_storm/get_weight()
-	var/medical_factor = metric.count_people_in_department(DEPARTMENT_MEDICAL) * 10
-	var/population_factor = metric.count_people_in_department(DEPARTMENT_EVERYONE) * 5 // Note medical people will get counted twice at 25 weight.
+	var/medical_factor = GLOB.metric.count_people_in_department(DEPARTMENT_MEDICAL) * 10
+	var/population_factor = GLOB.metric.count_people_in_department(DEPARTMENT_EVERYONE) * 5 // Note medical people will get counted twice at 25 weight.
 	return 20 + medical_factor + population_factor
 
 
@@ -38,7 +38,7 @@
 	Please allow for up to one minute while radiation levels dissipate, and report to \
 	medbay if you experience any unusual symptoms. Maintenance will lose all \
 	access again shortly.", "Anomaly Alert")
-	addtimer(CALLBACK(src, .proc/maint_callback), 2 MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(maint_callback)), 2 MINUTES)
 
 /datum/event2/event/radiation_storm/proc/maint_callback()
 	revoke_maint_all_access()

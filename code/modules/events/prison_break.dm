@@ -48,10 +48,10 @@
 	if(areas && areas.len > 0)
 		var/my_department = "[station_name()] firewall subroutines"
 		var/rc_message = "An unknown malicious program has been detected in the [english_list(areaName)] lighting and airlock control systems at [stationtime2text()]. Systems will be fully compromised within approximately three minutes. Direct intervention is required immediately.<br>"
-		for(var/obj/machinery/message_server/MS in machines)
+		for(var/obj/machinery/message_server/MS in GLOB.machines)
 			MS.send_rc_message("Engineering", my_department, rc_message, "", "", 2)
 		for(var/mob/living/silicon/ai/A in player_list)
-			to_chat(A, "<span class='danger'>Malicious program detected in the [english_list(areaName)] lighting and airlock control systems by [my_department].</span>")
+			to_chat(A, span_danger("Malicious program detected in the [english_list(areaName)] lighting and airlock control systems by [my_department]."))
 
 	else
 		to_world_log("ERROR: Could not initate grey-tide. Unable to find suitable containment area.")
@@ -64,7 +64,7 @@
 			var/obj/machinery/power/apc/theAPC = null
 			for(var/area/A in areas)
 				theAPC = A.get_apc()
-				if(theAPC.operating)	//If the apc's off, it's a little hard to overload the lights.
+				if(theAPC && theAPC.operating)	//If the apc's off, it's a little hard to overload the lights.
 					for(var/obj/machinery/light/L in A)
 						L.flicker(10)
 

@@ -68,6 +68,7 @@
 
 	return heard
 
+
 /proc/isStationLevel(var/level)
 	return level in using_map.station_levels
 
@@ -172,7 +173,7 @@
 
 		if(ismob(I))
 			if(!sight_check || isInSight(I, O))
-				L |= recursive_content_check(I, L, recursion_limit - 1, client_check, sight_check, include_mobs, include_objects)
+				L |= recursive_content_check(I, L, recursion_limit - 1, client_check, sight_check, include_mobs, include_objects, ignore_show_messages)
 				if(include_mobs)
 					if(client_check)
 						var/mob/M = I
@@ -185,7 +186,7 @@
 			var/obj/check_obj = I
 			if(ignore_show_messages || check_obj.show_messages)
 				if(!sight_check || isInSight(I, O))
-					L |= recursive_content_check(I, L, recursion_limit - 1, client_check, sight_check, include_mobs, include_objects)
+					L |= recursive_content_check(I, L, recursion_limit - 1, client_check, sight_check, include_mobs, include_objects, ignore_show_messages)
 					if(include_objects)
 						L |= I
 
@@ -218,27 +219,22 @@
 
 	return hear
 
-
-/proc/get_mobs_in_radio_ranges(var/list/obj/item/device/radio/radios)
-
-	set background = 1
+/proc/get_mobs_in_radio_ranges(var/list/obj/item/radio/radios)
 
 	. = list()
 	// Returns a list of mobs who can hear any of the radios given in @radios
-	var/list/speaker_coverage = list()
-	for(var/obj/item/device/radio/R as anything in radios)
-		var/turf/speaker = get_turf(R)
-		if(speaker)
-			for(var/turf/T in hear(R.canhear_range,speaker))
-				speaker_coverage[T] = R
+	for(var/obj/item/radio/R as anything in radios)
+		if(get_turf(R))
+			for(var/turf/T in R.can_broadcast_to())
+				for (var/atom/movable/hearing in T)
+					if (hearing.recursive_listeners)
+						. |= hearing.recursive_listeners
 
-
-	// Try to find all the players who can hear the message
-	for(var/i = 1; i <= player_list.len; i++)
-		var/mob/M = player_list[i]
-		if(M.can_hear_radio(speaker_coverage))
-			. += M
-	return .
+	for (var/mob/M as anything in .)
+		if (!istype(M) || !M.client)
+			. -= M
+	for (var/mob/observer/O in player_list)
+		. |= O
 
 /mob/proc/can_hear_radio(var/list/hearturfs)
 	return FALSE
@@ -248,7 +244,7 @@
 
 /mob/living/silicon/robot/can_hear_radio(var/list/hearturfs)
 	var/turf/T = get_turf(src)
-	var/obj/item/device/radio/borg/R = hearturfs[T] // this should be an assoc list of turf-to-radio
+	var/obj/item/radio/borg/R = hearturfs[T] // this should be an assoc list of turf-to-radio
 
 	// We heard it on our own radio? We use power for that.
 	if(istype(R) && R.myborg == src)
@@ -259,7 +255,7 @@
 	return R // radio, true, false, what's the difference
 
 /mob/observer/dead/can_hear_radio(var/list/hearturfs)
-	return is_preference_enabled(/datum/client_preference/ghost_radio)
+	return client?.prefs?.read_preference(/datum/preference/toggle/ghost_radio)
 
 
 //Uses dview to quickly return mobs and objects in view,
@@ -313,10 +309,10 @@
 		if(M && M.stat == DEAD && remote_ghosts && !M.forbid_seeing_deadchat)
 			switch(type)
 				if(1) //Audio messages use ghost_ears
-					if(M.is_preference_enabled(/datum/client_preference/ghost_ears))
+					if(M.client?.prefs?.read_preference(/datum/preference/toggle/ghost_ears))
 						mobs |= M
 				if(2) //Visual messages use ghost_sight
-					if(M.is_preference_enabled(/datum/client_preference/ghost_sight))
+					if(M.client?.prefs?.read_preference(/datum/preference/toggle/ghost_sight))
 						mobs |= M
 
 	//For objects below the top level who still want to hear
@@ -385,7 +381,7 @@
 	else
 		return 0
 
-/proc/get_cardinal_step_away(atom/start, atom/finish) //returns the position of a step from start away from finish, in one of the cardinal directions
+/proc/get_cardinal_step_away(atom/start, atom/finish) //returns the position of a step from start away from finish, in one of the GLOB.cardinal directions
 	//returns only NORTH, SOUTH, EAST, or WEST
 	var/dx = finish.x - start.x
 	var/dy = finish.y - start.y
@@ -553,7 +549,7 @@
 	return mixedcolor
 
 /**
-* Gets the highest and lowest pressures from the tiles in cardinal directions
+* Gets the highest and lowest pressures from the tiles in GLOB.cardinal directions
 * around us, then checks the difference.
 */
 /proc/getOPressureDifferential(var/turf/loc)
@@ -702,3 +698,51 @@
 			hear |= recursive_mob_check(A, hear, 3, 1, 0, 1)
 
 	return hear
+
+/proc/get_belly(var/atom/A)				// return a belly we're in, one way or another; and if we aren't (or are too deep to comprehend being in belly), returns null
+	var/atom/loc_check = A.loc
+	var/recursion_level = 0
+	while(loc_check && !isbelly(loc_check) && !isturf(loc_check))
+		if(recursion_level > 7)		// abstractly picked number, but basically means we tried going 8 levels up. Something is wrong if youre THAT deep anyway
+			break
+		loc_check = loc_check.loc
+		recursion_level++
+	if(isbelly(loc_check))
+		return loc_check
+	return null
+
+/proc/get_all_prey_recursive(var/mob/living/L, var/client_check = 1)			// returns all prey inside the target as well all prey of target's prey, as well as all prey inside target's prey, etc.
+	var/list/result = list()
+
+	if(!istype(L) || !(L.vore_organs) || !(L.vore_organs.len))
+		return result
+
+	for(var/obj/belly/B in L.vore_organs)
+		for(var/mob/living/P in B.contents)
+			if(istype(P))
+				if(client_check && P.client)
+					result |= P
+				result |= get_all_prey_recursive(P, client_check)
+
+	return result
+
+/proc/random_color(saturated)	//Returns a random color. If saturated is true, it will avoid pure white or pure black
+	var/r = rand(1,255)
+	var/g = rand(1,255)
+	var/b = rand(1,255)
+
+	if(saturated)	//Let's make sure we don't get too close to pure black or pure white, as they won't look good with grayscale sprites
+		if(r + g + b < 50)
+			r = r + rand(5,20)
+			g = g + rand(5,20)
+			b = b + rand(5,20)
+		else if (r + g + b > 700)
+			r = r - rand(5,50)
+			g = g - rand(5,50)
+			b = b - rand(5,50)
+
+	var/color = rgb(r, g, b)
+	return color
+
+/proc/remove_image_from_client(image/image, client/remove_from)
+	remove_from?.images -= image

@@ -36,22 +36,20 @@
 	maptext_height = 26
 	maptext_width = 32
 
-/obj/machinery/door_timer/Initialize()
+/obj/machinery/door_timer/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/door_timer/LateInitialize()
-	. = ..()
-
-	for(var/obj/machinery/door/window/brigdoor/M in machines)
+	for(var/obj/machinery/door/window/brigdoor/M in GLOB.machines)
 		if(M.id == id)
 			LAZYADD(targets,M)
 
-	for(var/obj/machinery/flasher/F in machines)
+	for(var/obj/machinery/flasher/F in GLOB.machines)
 		if(F.id == id)
 			LAZYADD(targets,F)
 
-	for(var/obj/structure/closet/secure_closet/brig/C in all_brig_closets)
+	for(var/obj/structure/closet/secure_closet/brig/C in GLOB.all_brig_closets)
 		if(C.id == id)
 			LAZYADD(targets,C)
 
@@ -94,7 +92,7 @@
 	for(var/obj/machinery/door/window/brigdoor/door in targets)
 		if(door.density)
 			continue
-		INVOKE_ASYNC(door, /obj/machinery/door/window/brigdoor.proc/close)
+		INVOKE_ASYNC(door, TYPE_PROC_REF(/obj/machinery/door/window/brigdoor, close))
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)
@@ -118,7 +116,7 @@
 	for(var/obj/machinery/door/window/brigdoor/door in targets)
 		if(!door.density)
 			continue
-		INVOKE_ASYNC(door, /obj/machinery/door/window/brigdoor.proc/open)
+		INVOKE_ASYNC(door, TYPE_PROC_REF(/obj/machinery/door/window/brigdoor, open))
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)
@@ -173,13 +171,13 @@
 			break
 	return data
 
-/obj/machinery/door_timer/tgui_act(action, params)
+/obj/machinery/door_timer/tgui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
 	. = TRUE
 
-	if(!allowed(usr))
-		to_chat(usr, "<span class='warning'>Access denied.</span>")
+	if(!allowed(ui.user))
+		to_chat(ui.user, span_warning("Access denied."))
 		return FALSE
 
 	switch(action)
@@ -292,3 +290,9 @@
 #undef FONT_COLOR
 #undef FONT_STYLE
 #undef CHARS_PER_LINE
+
+#undef MAX_TIMER
+
+#undef PRESET_SHORT
+#undef PRESET_MEDIUM
+#undef PRESET_LONG

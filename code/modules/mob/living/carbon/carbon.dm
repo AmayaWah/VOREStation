@@ -1,4 +1,4 @@
-/mob/living/carbon/Initialize()
+/mob/living/carbon/Initialize(mapload)
 	. = ..()
 	//setup reagent holders
 	bloodstr = new/datum/reagents/metabolism/bloodstream(500, src)
@@ -8,23 +8,20 @@
 	if (!default_language && species_language)
 		default_language = GLOB.all_languages[species_language]
 
+	AddElement(/datum/element/footstep, custom_footstep, 1, -6)
+
 /mob/living/carbon/Life()
 	..()
-
-	handle_viruses()
 
 	// Increase germ_level regularly
 	if(germ_level < GERM_LEVEL_AMBIENT && prob(30))	//if you're just standing there, you shouldn't get more germs beyond an ambient level
 		germ_level++
 
 /mob/living/carbon/Destroy()
-	qdel(ingested)
-	qdel(touching)
+	QDEL_NULL(ingested)
+	QDEL_NULL(touching)
 	// We don't qdel(bloodstr) because it's the same as qdel(reagents)
-	for(var/guts in internal_organs)
-		qdel(guts)
-	for(var/food in stomach_contents)
-		qdel(food)
+	bloodstr = null
 	return ..()
 
 /mob/living/carbon/rejuvenate()
@@ -37,61 +34,33 @@
 	. = ..()
 	if(src.nutrition && src.stat != 2)
 		adjust_nutrition(-DEFAULT_HUNGER_FACTOR / 10)
-		if(src.m_intent == "run")
+		if(src.m_intent == I_RUN)
 			adjust_nutrition(-DEFAULT_HUNGER_FACTOR / 10)
 
-	if((FAT in src.mutations) && src.m_intent == "run" && src.bodytemperature <= 360)
+	if((FAT in src.mutations) && src.m_intent == I_RUN && src.bodytemperature <= 360)
 		src.bodytemperature += 2
 
 	// Moving around increases germ_level faster
 	if(germ_level < GERM_LEVEL_MOVE_CAP && prob(8))
 		germ_level++
-
-/mob/living/carbon/relaymove(var/mob/living/user, direction)
-	if((user in src.stomach_contents) && istype(user))
-		if(user.last_special <= world.time)
-			user.last_special = world.time + 50
-			src.visible_message("<span class='danger'>You hear something rumbling inside [src]'s stomach...</span>")
-			var/obj/item/I = user.get_active_hand()
-			if(I && I.force)
-				var/d = rand(round(I.force / 4), I.force)
-				if(istype(src, /mob/living/carbon/human))
-					var/mob/living/carbon/human/H = src
-					var/obj/item/organ/external/organ = H.get_organ(BP_TORSO)
-					if (istype(organ))
-						if(organ.take_damage(d, 0))
-							H.UpdateDamageIcon()
-					H.updatehealth()
-				else
-					src.take_organ_damage(d)
-				user.visible_message("<span class='danger'>[user] attacks [src]'s stomach wall with the [I.name]!</span>")
-				playsound(user, 'sound/effects/attackblob.ogg', 50, 1)
-
-				if(prob(src.getBruteLoss() - 50))
-					for(var/atom/movable/A in stomach_contents)
-						A.loc = loc
-						stomach_contents.Remove(A)
-					src.gib()
 */
 /mob/living/carbon/gib()
 	for(var/mob/M in src)
-		if(M in src.stomach_contents)
-			src.stomach_contents.Remove(M)
 		M.loc = src.loc
 		for(var/mob/N in viewers(src, null))
 			if(N.client)
-				N.show_message(text("<font color='red'><B>[M] bursts out of [src]!</B></font>"), 2)
+				N.show_message(span_bolddanger("[M] bursts out of [src]!"), 2)
 	..()
 
 /mob/living/carbon/attack_hand(mob/M as mob)
 	if(!istype(M, /mob/living/carbon)) return
 	if (ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 		if (H.hand)
-			temp = H.organs_by_name["l_hand"]
+			temp = H.organs_by_name[BP_L_HAND]
 		if(temp && !temp.is_usable())
-			to_chat(H, "<font color='red'>You can't use your [temp.name]</font>")
+			to_chat(H, span_warning("You can't use your [temp.name]"))
 			return
 
 	return
@@ -108,21 +77,21 @@
 	var/weaken_dur = (rand(2,4)-severity)*species.emp_stun_mod //0-3 knockdown, on par with.. you get the idea
 	var/blind_dur = (rand(3,6)-severity)*species.emp_stun_mod //0-5 blind
 	if(species.emp_sensitivity) //receive warning message and basic effects
-		to_chat(src, "<span class='danger'><B>*BZZZT*</B></span>")
+		to_chat(src, span_bolddanger("*BZZZT*"))
 		switch(severity)
 			if(1)
-				to_chat(src, "<span class='danger'>DANGER: Extreme EM flux detected!</span>")
+				to_chat(src, span_danger("DANGER: Extreme EM flux detected!"))
 			if(2)
-				to_chat(src, "<span class='danger'>Danger: High EM flux detected!</span>")
+				to_chat(src, span_danger("Danger: High EM flux detected!"))
 			if(3)
-				to_chat(src, "<span class='danger'>Warning: Moderate EM flux detected!</span>")
+				to_chat(src, span_danger("Warning: Moderate EM flux detected!"))
 			if(4)
-				to_chat(src, "<span class='danger'>Warning: Minor EM flux detected!</span>")
+				to_chat(src, span_danger("Warning: Minor EM flux detected!"))
 		if(prob(90-(10*severity))) //50-80% chance to fire an emote. most are harmless, but vomit might reduce your nutrition level which could suck (so the whole thing is padded out with extras)
 			src.emote(pick("twitch", "twitch_v", "choke", "pale", "blink", "blink_r", "shiver", "sneeze", "vomit", "gasp", "cough", "drool"))
 		//stun effects block, effects vary wildly
 		if(species.emp_sensitivity & EMP_PAIN)
-			to_chat(src, "<span class='danger'>A wave of intense pain washes over you.</span>")
+			to_chat(src, span_danger("A wave of intense pain washes over you."))
 			src.adjustHalLoss(agony_str)
 		if(species.emp_sensitivity & EMP_BLIND)
 			if(blind_dur >= 1) //don't flash them unless they actually roll a positive blind duration
@@ -133,11 +102,11 @@
 			src.ear_deaf = max(src.ear_deaf,deafen_dur)
 		if(species.emp_sensitivity & EMP_CONFUSE)
 			if(confuse_dur >= 1)
-				to_chat(src, "<span class='danger'>Oh god, everything's spinning!</span>")
+				to_chat(src, span_danger("Oh god, everything's spinning!"))
 			Confuse(max(0,confuse_dur))
 		if(species.emp_sensitivity & EMP_WEAKEN)
 			if(weaken_dur >= 1)
-				to_chat(src, "<span class='danger'>Your limbs go slack!</span>")
+				to_chat(src, span_danger("Your limbs go slack!"))
 			Weaken(max(0,weaken_dur))
 		//physical damage block, deals (minor-4) 5-15, 10-20, 15-25, 20-30 (extreme-1) of *each* type
 		if(species.emp_sensitivity & EMP_BRUTE_DMG)
@@ -152,30 +121,30 @@
 
 /mob/living/carbon/electrocute_act(var/shock_damage, var/obj/source, var/siemens_coeff = 1.0, var/def_zone = null, var/stun = 1)
 	if(status_flags & GODMODE)	return 0	//godmode
-	if(def_zone == "l_hand" || def_zone == "r_hand") //Diona (And any other potential plant people) hands don't get shocked.
+	if(def_zone == BP_L_HAND || def_zone == BP_R_HAND) //Diona (And any other potential plant people) hands don't get shocked.
 		if(species.flags & IS_PLANT)
 			return 0
 	shock_damage *= siemens_coeff
 	if (shock_damage<1)
 		return 0
 
-	src.apply_damage(0.2 * shock_damage, BURN, def_zone, used_weapon="Electrocution") //shock the target organ
-	src.apply_damage(0.4 * shock_damage, BURN, BP_TORSO, used_weapon="Electrocution") //shock the torso more
-	src.apply_damage(0.2 * shock_damage, BURN, null, used_weapon="Electrocution") //shock a random part!
-	src.apply_damage(0.2 * shock_damage, BURN, null, used_weapon="Electrocution") //shock a random part!
+	src.apply_damage(0.2 * shock_damage, BURN, def_zone) //shock the target organ
+	src.apply_damage(0.4 * shock_damage, BURN, BP_TORSO) //shock the torso more
+	src.apply_damage(0.2 * shock_damage, BURN, null) //shock a random part!
+	src.apply_damage(0.2 * shock_damage, BURN, null) //shock a random part!
 
 	playsound(src, "sparks", 50, 1, -1)
 	if (shock_damage > 15)
 		src.visible_message(
-			"<span class='warning'>[src] was electrocuted[source ? " by the [source]" : ""]!</span>", \
-			"<span class='danger'>You feel a powerful shock course through your body!</span>", \
-			"<span class='warning'>You hear a heavy electrical crack.</span>" \
+			span_warning("[src] was electrocuted[source ? " by the [source]" : ""]!"), \
+			span_danger("You feel a powerful shock course through your body!"), \
+			span_warning("You hear a heavy electrical crack.") \
 		)
 	else
 		src.visible_message(
-			"<span class='warning'>[src] was shocked[source ? " by the [source]" : ""].</span>", \
-			"<span class='warning'>You feel a shock course through your body.</span>", \
-			"<span class='warning'>You hear a zapping sound.</span>" \
+			span_warning("[src] was shocked[source ? " by the [source]" : ""]."), \
+			span_warning("You feel a shock course through your body."), \
+			span_warning("You hear a zapping sound.") \
 		)
 
 	if(stun)
@@ -196,13 +165,13 @@
 	return shock_damage
 
 /mob/living/carbon/proc/help_shake_act(mob/living/carbon/M)
-	if (src.health >= config.health_threshold_crit)
-		if(src == M && istype(src, /mob/living/carbon/human))
+	if (health >= get_crit_point() || on_fire)
+		if(src == M && ishuman(src))
 			var/mob/living/carbon/human/H = src
-			var/datum/gender/T = gender_datums[H.get_visible_gender()]
-			src.visible_message( \
-				"<span class='notice'>[src] examines [T.himself].</span>", \
-				"<span class='notice'>You check yourself for injuries.</span>" \
+			var/datum/gender/T = GLOB.gender_datums[H.get_visible_gender()]
+			visible_message( \
+				span_notice("[src] examines [T.himself]."), \
+				span_notice("You check yourself for injuries.") \
 				)
 
 			for(var/obj/item/organ/external/org in H.organs)
@@ -236,7 +205,7 @@
 					status += "MISSING"
 				if(org.status & ORGAN_MUTATED)
 					status += "weirdly shapen"
-				if(org.dislocated == 2)
+				if(org.dislocated == 1) //VOREStation Edit Bugfix
 					status += "dislocated"
 				if(org.status & ORGAN_BROKEN)
 					status += "hurts when touched"
@@ -245,72 +214,72 @@
 				if(!org.is_usable() || org.is_dislocated())
 					status += "dangling uselessly"
 				if(status.len)
-					src.show_message("My [org.name] is <span class='warning'> [english_list(status)].</span>",1)
+					src.show_message("My [org.name] is " + span_warning("[english_list(status)]."),1)
 				else
-					src.show_message("My [org.name] is <span class='notice'> OK.</span>",1)
+					src.show_message("My [org.name] is " + span_notice("OK."),1)
 
 			if((SKELETON in H.mutations) && (!H.w_uniform) && (!H.wear_suit))
 				H.play_xylophone()
 		else if (on_fire)
 			playsound(src, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 			if (M.on_fire)
-				M.visible_message("<span class='warning'>[M] tries to pat out [src]'s flames, but to no avail!</span>",
-				"<span class='warning'>You try to pat out [src]'s flames, but to no avail! Put yourself out first!</span>")
+				M.visible_message(span_warning("[M] tries to pat out [src]'s flames, but to no avail!"),
+				span_warning("You try to pat out [src]'s flames, but to no avail! Put yourself out first!"))
 			else
-				M.visible_message("<span class='warning'>[M] tries to pat out [src]'s flames!</span>",
-				"<span class='warning'>You try to pat out [src]'s flames! Hot!</span>")
+				M.visible_message(span_warning("[M] tries to pat out [src]'s flames!"),
+				span_warning("You try to pat out [src]'s flames! Hot!"))
 				if(do_mob(M, src, 15))
 					src.adjust_fire_stacks(-0.5)
 					if (prob(10) && (M.fire_stacks <= 0))
 						M.adjust_fire_stacks(1)
 					M.IgniteMob()
 					if (M.on_fire)
-						M.visible_message("<span class='danger'>The fire spreads from [src] to [M]!</span>",
-						"<span class='danger'>The fire spreads to you as well!</span>")
+						M.visible_message(span_danger("The fire spreads from [src] to [M]!"),
+						span_danger("The fire spreads to you as well!"))
 					else
 						src.adjust_fire_stacks(-0.5) //Less effective than stop, drop, and roll - also accounting for the fact that it takes half as long.
 						if (src.fire_stacks <= 0)
-							M.visible_message("<span class='warning'>[M] successfully pats out [src]'s flames.</span>",
-							"<span class='warning'>You successfully pat out [src]'s flames.</span>")
+							M.visible_message(span_warning("[M] successfully pats out [src]'s flames."),
+							span_warning("You successfully pat out [src]'s flames."))
 							src.ExtinguishMob()
 							src.fire_stacks = 0
 		else
-			if (istype(src,/mob/living/carbon/human) && src:w_uniform)
+			if (ishuman(src) && src:w_uniform)
 				var/mob/living/carbon/human/H = src
 				H.w_uniform.add_fingerprint(M)
 
 			var/show_ssd
 			var/mob/living/carbon/human/H = src
-			var/datum/gender/T = gender_datums[H.get_visible_gender()] // make sure to cast to human before using get_gender() or get_visible_gender()!
+			var/datum/gender/T = GLOB.gender_datums[H.get_visible_gender()] // make sure to cast to human before using get_gender() or get_visible_gender()!
 			if(istype(H)) show_ssd = H.species.show_ssd
 			if(show_ssd && !client && !teleop)
-				M.visible_message("<span class='notice'>[M] shakes [src] trying to wake [T.him] up!</span>", \
-				"<span class='notice'>You shake [src], but [T.he] [T.does] not respond... Maybe [T.he] [T.has] S.S.D?</span>")
+				M.visible_message(span_notice("[M] shakes [src] trying to wake [T.him] up!"), \
+				span_notice("You shake [src], but [T.he] [T.does] not respond... Maybe [T.he] [T.has] S.S.D?"))
 			else if(lying || src.sleeping)
 				AdjustSleeping(-5)
 				if(src.sleeping == 0)
 					src.resting = 0
 				if(H) H.in_stasis = 0 //VOREStation Add - Just In Case
-				M.visible_message("<span class='notice'>[M] shakes [src] trying to wake [T.him] up!</span>", \
-									"<span class='notice'>You shake [src] trying to wake [T.him] up!</span>")
+				M.visible_message(span_notice("[M] shakes [src] trying to wake [T.him] up!"), \
+									span_notice("You shake [src] trying to wake [T.him] up!"))
 			else
 				var/mob/living/carbon/human/hugger = M
-				var/datum/gender/TM = gender_datums[M.get_visible_gender()]
+				var/datum/gender/TM = GLOB.gender_datums[M.get_visible_gender()]
 				if(M.resting == 1) //Are they resting on the ground?
-					M.visible_message("<span class='notice'>[M] grabs onto [src] and pulls [TM.himself] up</span>", \
-							"<span class='notice'>You grip onto [src] and pull yourself up off the ground!</span>")
+					M.visible_message(span_notice("[M] grabs onto [src] and pulls [TM.himself] up"), \
+							span_notice("You grip onto [src] and pull yourself up off the ground!"))
 					if(M.fire_stacks >= (src.fire_stacks + 3)) //Fire checks.
 						src.adjust_fire_stacks(1)
 						M.adjust_fire_stacks(-1)
 					if(M.on_fire)
 						src.IgniteMob()
-					if(do_after(M, 0.5 SECONDS)) //.5 second delay. Makes it a bit stronger than just typing rest.
-						M.resting = 0 //Hoist yourself up up off the ground. No para/stunned/weakened removal.
+					M.resting = 0 //Hoist yourself up up off the ground. No para/stunned/weakened removal.
+					update_canmove()
 				else if(istype(hugger))
 					hugger.species.hug(hugger,src)
 				else
-					M.visible_message("<span class='notice'>[M] hugs [src] to make [T.him] feel better!</span>", \
-								"<span class='notice'>You hug [src] to make [T.him] feel better!</span>")
+					M.visible_message(span_notice("[M] hugs [src] to make [T.him] feel better!"), \
+								span_notice("You hug [src] to make [T.him] feel better!"))
 				if(M.fire_stacks >= (src.fire_stacks + 3))
 					src.adjust_fire_stacks(1)
 					M.adjust_fire_stacks(-1)
@@ -395,22 +364,15 @@
 			return method ? ">250" : "extremely weak and fast, patient's artery feels like a thread"
 //			output for machines^	^^^^^^^output for people^^^^^^^^^
 
-/mob/living/carbon/verb/mob_sleep()
-	set name = "Sleep"
-	set category = "IC"
-
-	if(usr.sleeping)
-		to_chat(usr, "<font color='red'>You are already sleeping</font>")
-		return
-	if(tgui_alert(src,"You sure you want to sleep for a while?","Sleep",list("Yes","No")) == "Yes")
-		usr.AdjustSleeping(20)
-
 /mob/living/carbon/Bump(atom/A)
 	if(now_pushing)
 		return
 	..()
 	if(istype(A, /mob/living/carbon) && prob(10))
-		spread_disease_to(A, "Contact")
+		var/mob/living/carbon/human/H = A
+		for(var/datum/disease/D in GetViruses())
+			if(D.spread_flags & DISEASE_SPREAD_CONTACT)
+				H.ContractDisease(D)
 
 /mob/living/carbon/cannot_use_vents()
 	return
@@ -419,7 +381,7 @@
 	if(buckled)
 		return 0
 	stop_pulling()
-	to_chat(src, "<span class='warning'>You slipped on [slipped_on]!</span>")
+	to_chat(src, span_warning("You slipped on [slipped_on]!"))
 	playsound(src, 'sound/misc/slip.ogg', 50, 1, -3)
 	Weaken(FLOOR(stun_duration/2, 1))
 	return 1
@@ -467,18 +429,18 @@
 		throw_alert("handcuffed", /obj/screen/alert/restrained/handcuffed, new_master = handcuffed)
 	else
 		clear_alert("handcuffed")
-	update_action_buttons() //some of our action buttons might be unusable when we're handcuffed.
+	update_mob_action_buttons() //some of our action buttons might be unusable when we're handcuffed.
 	update_inv_handcuffed()
 
 // Clears blood overlays
-/mob/living/carbon/clean_blood()
+/mob/living/carbon/wash(clean_types)
 	. = ..()
 	if(src.r_hand)
-		src.r_hand.clean_blood()
+		src.r_hand.wash(clean_types)
 	if(src.l_hand)
-		src.l_hand.clean_blood()
+		src.l_hand.wash(clean_types)
 	if(src.back)
-		if(src.back.clean_blood())
+		if(src.back.wash(clean_types))
 			src.update_inv_back(0)
 
 	if(ishuman(src))
@@ -505,46 +467,61 @@
 				washglasses = !(H.wear_mask.flags_inv & HIDEEYES)
 
 		if(H.head)
-			if(H.head.clean_blood())
+			if(H.head.wash(clean_types))
 				H.update_inv_head()
 
 		if(H.wear_suit)
-			if(H.wear_suit.clean_blood())
+			if(H.wear_suit.wash(clean_types))
 				H.update_inv_wear_suit()
 
 		else if(H.w_uniform)
-			if(H.w_uniform.clean_blood())
+			if(H.w_uniform.wash(clean_types))
 				H.update_inv_w_uniform()
 
 		if(H.gloves && washgloves)
-			if(H.gloves.clean_blood())
+			if(H.gloves.wash(clean_types))
 				H.update_inv_gloves(0)
 
 		if(H.shoes && washshoes)
-			if(H.shoes.clean_blood())
+			if(H.shoes.wash(clean_types))
 				H.update_inv_shoes(0)
 
 		if(H.wear_mask && washmask)
-			if(H.wear_mask.clean_blood())
+			if(H.wear_mask.wash(clean_types))
 				H.update_inv_wear_mask(0)
 
 		if(H.glasses && washglasses)
-			if(H.glasses.clean_blood())
+			if(H.glasses.wash(clean_types))
 				H.update_inv_glasses(0)
 
 		if(H.l_ear && washears)
-			if(H.l_ear.clean_blood())
+			if(H.l_ear.wash(clean_types))
 				H.update_inv_ears(0)
 
 		if(H.r_ear && washears)
-			if(H.r_ear.clean_blood())
+			if(H.r_ear.wash(clean_types))
 				H.update_inv_ears(0)
 
 		if(H.belt)
-			if(H.belt.clean_blood())
+			if(H.belt.wash(clean_types))
 				H.update_inv_belt(0)
 
 	else
 		if(src.wear_mask)						//if the mob is not human, it cleans the mask without asking for bitflags
-			if(src.wear_mask.clean_blood())
+			if(src.wear_mask.wash(clean_types))
 				src.update_inv_wear_mask(0)
+
+/mob/living/carbon/proc/food_preference(var/allergen_type) //RS edit
+
+	if(allergen_type in species.food_preference)
+		return species.food_preference_bonus
+	return 0
+
+/mob/living/carbon/handle_diseases()
+	for(var/thing in GetViruses())
+		var/datum/disease/D = thing
+		if(prob(D.infectivity))
+			D.spread()
+
+		if(stat != DEAD || global_flag_check(D.virus_modifiers, SPREAD_DEAD))
+			D.stage_act()

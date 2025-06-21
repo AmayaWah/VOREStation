@@ -45,7 +45,7 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 	//Clothing and backpacks can be contaminated.
 	if(flags & PHORONGUARD)
 		return 0
-	else if(istype(src,/obj/item/weapon/storage/backpack))
+	else if(istype(src,/obj/item/storage/backpack))
 		return 0 //Cannot be washed :(
 	//VOREStation Addition start
 	else if(isbelly(loc))
@@ -65,10 +65,6 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 			contaminated = 1
 			add_overlay(contamination_overlay)
 
-/obj/item/proc/decontaminate()
-	contaminated = 0
-	cut_overlay(contamination_overlay)
-
 /mob/proc/contaminate()
 
 /mob/living/carbon/human/contaminate()
@@ -82,7 +78,7 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 			suit_contamination() //Phoron can sometimes get through such an open suit.
 
 //Cannot wash backpacks currently.
-//	if(istype(back,/obj/item/weapon/storage/backpack))
+//	if(istype(back,/obj/item/storage/backpack))
 //		back.contaminate()
 
 /mob/proc/pl_effects()
@@ -99,15 +95,15 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 		return
 
 	//Burn skin if exposed.
-	if(vsc.plc.SKIN_BURNS && (species.breath_type != "phoron"))
+	if(vsc.plc.SKIN_BURNS && (species.breath_type != GAS_PHORON))
 		if(!pl_head_protected() || !pl_suit_protected())
 			burn_skin(0.75)
-			if(prob(20)) 
-				to_chat(src, "<span class='danger'>Your skin burns!</span>")
+			if(prob(20))
+				to_chat(src, span_danger("Your skin burns!"))
 			updatehealth()
 
 	//Burn eyes if exposed.
-	if(vsc.plc.EYE_BURNS && species.breath_type && (species.breath_type != "phoron"))		//VOREStation Edit: those who don't breathe
+	if(vsc.plc.EYE_BURNS && species.breath_type && (species.breath_type != GAS_PHORON))		//VOREStation Edit: those who don't breathe
 		var/burn_eyes = 1
 
 		//Check for protective glasses
@@ -131,21 +127,22 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 			burn_eyes()
 
 	//Genetic Corruption
-	if(vsc.plc.GENETIC_CORRUPTION && (species.breath_type != "phoron"))
+	if(vsc.plc.GENETIC_CORRUPTION && (species.breath_type != GAS_PHORON))
 		if(rand(1,10000) < vsc.plc.GENETIC_CORRUPTION)
 			randmutb(src)
-			to_chat(src, "<span class='danger'>High levels of toxins cause you to spontaneously mutate!</span>")
+			to_chat(src, span_danger("High levels of toxins cause you to spontaneously mutate!"))
 			domutcheck(src,null)
+			UpdateAppearance()
 
 /mob/living/carbon/human/proc/burn_eyes()
 	var/obj/item/organ/internal/eyes/E = internal_organs_by_name[O_EYES]
 	if(E)
 		if(prob(20))
-			to_chat(src, "<span class='danger'>Your eyes burn!</span>")
+			to_chat(src, span_danger("Your eyes burn!"))
 		E.damage += 2.5
 		eye_blurry = min(eye_blurry+1.5,50)
 		if (prob(max(0,E.damage - 15) + 1) &&!eye_blind)
-			to_chat(src, "<span class='danger'>You are blinded!</span>")
+			to_chat(src, span_danger("You are blinded!"))
 			Blind(20)
 
 /mob/living/carbon/human/proc/pl_head_protected()
@@ -171,7 +168,7 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 	if(vsc.plc.PHORONGUARD_ONLY)
 		return 1
 
-	return BIT_TEST_ALL(coverage, UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS)
+	return BIT_TEST_ALL(coverage, CHEST|LEGS|FEET|ARMS|HANDS)
 
 /mob/living/carbon/human/proc/suit_contamination()
 	//Runs over the things that can be contaminated and does so.
@@ -191,6 +188,6 @@ var/image/contamination_overlay = image('icons/effects/contamination.dmi')
 		if(!env)
 			return
 		for(var/g in env.gas)
-			if(gas_data.flags[g] & XGM_GAS_CONTAMINANT && env.gas[g] > gas_data.overlay_limit[g] + 1)
+			if(GLOB.gas_data.flags[g] & XGM_GAS_CONTAMINANT && env.gas[g] > GLOB.gas_data.overlay_limit[g] + 1)
 				I.contaminate()
 				break

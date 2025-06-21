@@ -15,6 +15,23 @@
 /turf/simulated/wall/dungeon/take_damage()	//These things are suppose to be unbreakable
 	return
 
+/turf/simulated/wall/update_icon()
+	if(!material)
+		return
+
+	if(!damage_overlays[1]) //list hasn't been populated
+		generate_overlays()
+
+	cut_overlays()
+	var/image/I
+
+	if(!density)
+		I = image(wall_masks, "rockvault")
+		I.color = material.icon_colour
+		add_overlay(I)
+		return
+	..()
+
 /turf/simulated/wall/solidrock //for more stylish anti-cheese.
 	description_info = "Probably not going to be able to drill or bomb your way through this, best to try and find a way around."
 	var/rock_side = "rock_side"
@@ -23,7 +40,7 @@
 /turf/simulated/wall/solidrock/Initialize(mapload)
 	. = ..(mapload, "bedrock")
 
-/turf/simulated/wall/solidrock/Initialize()
+/turf/simulated/wall/solidrock/Initialize(mapload)
 	. = ..()
 	update_icon(1)
 
@@ -54,13 +71,13 @@
 		for(var/i = 1 to 4)
 			I = image('icons/turf/wall_masks.dmi', "rock[wall_connections[i]]", dir = 1<<(i-1))
 			add_overlay(I)
-		for(var/direction in cardinal)
+		for(var/direction in GLOB.cardinal)
 			var/turf/T = get_step(src,direction)
 			if(istype(T) && !T.density)
 				add_overlay(get_cached_border(rock_side,direction,icon,rock_side))
 
 	else if(update_neighbors)
-		for(var/direction in alldirs)
+		for(var/direction in GLOB.alldirs)
 			if(istype(get_step(src, direction), /turf/simulated/wall/solidrock))
 				var/turf/simulated/wall/solidrock/M = get_step(src, direction)
 				M.update_icon()
@@ -90,13 +107,13 @@
 		for(var/i = 1 to 4)
 			I = image('icons/turf/wall_masks.dmi', "mossyrock[wall_connections[i]]", dir = 1<<(i-1))
 			add_overlay(I)
-		for(var/direction in cardinal)
+		for(var/direction in GLOB.cardinal)
 			var/turf/T = get_step(src,direction)
 			if(istype(T) && !T.density)
 				add_overlay(get_cached_border(mossyrock_side,direction,icon,mossyrock_side))
 
 	else if(update_neighbors)
-		for(var/direction in alldirs)
+		for(var/direction in GLOB.alldirs)
 			if(istype(get_step(src, direction), /turf/simulated/wall/solidrock/mossyrockpoi))
 				var/turf/simulated/wall/solidrock/mossyrockpoi/M = get_step(src, direction)
 				M.update_icon()

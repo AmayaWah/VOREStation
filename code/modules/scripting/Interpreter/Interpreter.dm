@@ -132,7 +132,7 @@ Runs each statement in a block of code.
 			else if(istype(S, /node/statement/FunctionCall))
 				RunFunction(S)
 			else if(istype(S, /node/statement/FunctionDefinition))
-				//do nothing
+				pass() //do nothing
 			else if(istype(S, /node/statement/WhileLoop))
 				RunWhile(S)
 			else if(istype(S, /node/statement/IfStatement))
@@ -307,3 +307,6 @@ S     - The scope the variable resides in. If it is null, a scope with the varia
 	//TODO: check for invalid name
 	S.variables["[name]"] = value
 
+#undef RETURNING
+#undef BREAKING
+#undef CONTINUING

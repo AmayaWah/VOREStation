@@ -13,7 +13,8 @@
 	var/intialOxy = 0
 	var/timer = 240 //eventually the person will be freed
 
-/obj/structure/closet/statue/New(loc, var/mob/living/L)
+/obj/structure/closet/statue/Initialize(mapload, var/mob/living/L)
+	. = ..()
 	if(L && (ishuman(L) || L.isMonkey() || iscorgi(L)))
 		if(L.buckled)
 			L.buckled = 0
@@ -41,11 +42,9 @@
 			desc = "If it takes forever, I will wait for you..."
 
 	if(health == 0) //meaning if the statue didn't find a valid target
-		qdel(src)
-		return
+		return INITIALIZE_HINT_QDEL
 
 	START_PROCESSING(SSobj, src)
-	..()
 
 /obj/structure/closet/statue/process()
 	timer--
@@ -106,7 +105,7 @@
 /obj/structure/closet/statue/attackby(obj/item/I as obj, mob/user as mob)
 	health -= I.force
 	user.do_attack_animation(src)
-	visible_message("<span class='danger'>[user] strikes [src] with [I].</span>")
+	visible_message(span_danger("[user] strikes [src] with [I]."))
 	check_health()
 
 /obj/structure/closet/statue/MouseDrop_T()
@@ -128,5 +127,5 @@
 	if (user)
 		user.dust()
 	dump_contents()
-	visible_message("<span class='warning'>[src] shatters!.</span>")
+	visible_message(span_warning("[src] shatters!."))
 	qdel(src)

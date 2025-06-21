@@ -17,7 +17,7 @@
 		"plant-13"
 	)
 
-/obj/machinery/holoplant/Initialize()
+/obj/machinery/holoplant/Initialize(mapload)
 	. = ..()
 	activate()
 
@@ -26,7 +26,7 @@
 		return
 
 	if(!anchored)
-		to_chat(user,"<span class='warning'>\The [src] must be anchored before activation!</span>")
+		to_chat(user,span_warning("\The [src] must be anchored before activation!"))
 		return
 
 	if(!plant)
@@ -102,5 +102,5 @@
 
 /obj/machinery/holoplant/shipped
 	anchored = FALSE
-/obj/machinery/holoplant/shipped/Initialize()
+/obj/machinery/holoplant/shipped/Initialize(mapload)
 	. = ..()

@@ -19,11 +19,11 @@
 
 // Decide which area will be targeted!
 /datum/event/atmos_leak/setup()
-	var/gas_choices = list("carbon_dioxide", "nitrous_oxide") // Annoying
+	var/gas_choices = list(GAS_CO2, GAS_N2O) // Annoying
 	if(severity >= EVENT_LEVEL_MODERATE)
-		gas_choices += "phoron" // Dangerous
+		gas_choices += GAS_PHORON // Dangerous
 	// if(severity >= EVENT_LEVEL_MAJOR)
-	// 	gas_choices += "volatile_fuel" // Dangerous and no default atmos setup!
+	// 	gas_choices += GAS_VOLATILE_FUEL // Dangerous and no default atmos setup!
 	gas_type = pick(gas_choices)
 
 	var/list/area/grand_list_of_areas = get_station_areas(excluded)
@@ -52,7 +52,7 @@
 		return
 
 /datum/event/atmos_leak/announce()
-	command_announcement.Announce("Warning, hazardous [gas_data.name[gas_type]] gas leak detected in \the [target_area], evacuate the area and contain the damage!", "Hazard Alert")
+	command_announcement.Announce("Warning, hazardous [GLOB.gas_data.name[gas_type]] gas leak detected in \the [target_area], evacuate the area and contain the damage!", "Hazard Alert")
 
 /datum/event/atmos_leak/start()
 	// Okay, time to actually put the gas in the room!

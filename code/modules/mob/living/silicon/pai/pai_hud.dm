@@ -142,7 +142,7 @@
 	using = new /obj/screen()
 	using.name = "mov_intent"
 	using.icon = ui_style
-	using.icon_state = (m_intent == "run" ? "running" : "walking")
+	using.icon_state = (m_intent == I_RUN ? "running" : "walking")
 	using.screen_loc = ui_movi
 	using.color = ui_color
 	using.alpha = ui_alpha
@@ -324,6 +324,48 @@
 	using.color = ui_color
 	using.alpha = ui_alpha
 	other |= using
+
+	autowhisper_display = new /obj/screen()
+	autowhisper_display.icon = 'icons/mob/screen/minimalist.dmi'
+	autowhisper_display.icon_state = "autowhisper"
+	autowhisper_display.name = "autowhisper"
+	autowhisper_display.screen_loc = "EAST-1:28,CENTER-2:13"
+	hud_elements |= autowhisper_display
+
+	var/obj/screen/aw = new /obj/screen()
+	aw.icon = 'icons/mob/screen/minimalist.dmi'
+	aw.icon_state = "aw-select"
+	aw.name = "autowhisper mode"
+	aw.screen_loc = "EAST-1:28,CENTER-2:13"
+	hud_elements |= aw
+
+	aw = new /obj/screen()
+	aw.icon = 'icons/mob/screen/minimalist.dmi'
+	aw.icon_state = "lang"
+	aw.name = "check known languages"
+	aw.screen_loc = ui_under_health
+	hud_elements |= aw
+
+	aw = new /obj/screen()
+	aw.icon = 'icons/mob/screen/minimalist.dmi'
+	aw.icon_state = "pose"
+	aw.name = "set pose"
+	aw.screen_loc = ui_under_health
+	hud_elements |= aw
+
+	aw = new /obj/screen()
+	aw.icon = 'icons/mob/screen/minimalist.dmi'
+	aw.icon_state = "up"
+	aw.name = "move upwards"
+	aw.screen_loc = ui_under_health
+	hud_elements |= aw
+
+	aw = new /obj/screen()
+	aw.icon = 'icons/mob/screen/minimalist.dmi'
+	aw.icon_state = "down"
+	aw.name = "move downwards"
+	aw.screen_loc = ui_under_health
+	hud_elements |= aw
 
 	if(client)
 		client.screen = list()

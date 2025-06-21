@@ -11,7 +11,7 @@
 	icon = 'icons/mob/fish.dmi'
 	item_state = "fish"
 
-	catalogue_data = list(/datum/category_item/catalogue/fauna/invasive_fish)
+	//catalogue_data = list(/datum/category_item/catalogue/fauna/invasive_fish)		 //TODO: write non-sif lore
 
 	mob_size = MOB_SMALL
 	// So fish are actually underwater.
@@ -20,9 +20,9 @@
 
 	organ_names = /decl/mob_organ_names/fish
 
-	holder_type = /obj/item/weapon/holder/fish
+	holder_type = /obj/item/holder/fish
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/fish
 	meat_amount = 3
 
 	// By default they can be in any water turf.  Subtypes might restrict to deep/shallow etc
@@ -36,7 +36,7 @@
 
 	var/randomize_location = TRUE
 
-/mob/living/simple_mob/animal/passive/fish/Initialize()
+/mob/living/simple_mob/animal/passive/fish/Initialize(mapload)
 	. = ..()
 
 	if(!default_pixel_x && randomize_location)
@@ -132,7 +132,7 @@
 
 	catalogue_data = list(/datum/category_item/catalogue/fauna/javelin)
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish/sif
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/fish/sif
 
 /datum/category_item/catalogue/fauna/icebass
 	name = "Sivian Fauna - Glitter Bass"
@@ -159,7 +159,7 @@
 
 	catalogue_data = list(/datum/category_item/catalogue/fauna/icebass)
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish/sif
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/fish/sif
 
 	var/max_red = 150
 	var/min_red = 50
@@ -176,7 +176,7 @@
 	var/image/dorsal_image
 	var/image/belly_image
 
-/mob/living/simple_mob/animal/passive/fish/icebass/Initialize()
+/mob/living/simple_mob/animal/passive/fish/icebass/Initialize(mapload)
 	. = ..()
 	dorsal_color = rgb(rand(min_red,max_red), rand(min_green,max_green), rand(min_blue,max_blue))
 	belly_color = rgb(rand(min_red,max_red), rand(min_green,max_green), rand(min_blue,max_blue))
@@ -248,9 +248,9 @@
 
 	var/image/head_image
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish/sif
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/fish/sif
 
-/mob/living/simple_mob/animal/passive/fish/rockfish/Initialize()
+/mob/living/simple_mob/animal/passive/fish/rockfish/Initialize(mapload)
 	. = ..()
 	head_color = rgb(rand(min_red,max_red), rand(min_green,max_green), rand(min_blue,max_blue))
 	update_icon()
@@ -295,7 +295,7 @@
 
 	has_eye_glow = TRUE
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish/sif
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/fish/sif
 
 /datum/category_item/catalogue/fauna/murkin
 	name = "Sivian Fauna - Murkfish"
@@ -322,7 +322,7 @@
 
 	catalogue_data = list(/datum/category_item/catalogue/fauna/murkin)
 
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/carpmeat/sif/murkfish
+	meat_type = /obj/item/reagent_containers/food/snacks/carpmeat/sif/murkfish
 
 /decl/mob_organ_names/fish
 	hit_zones = list("head", "body", "dorsal fin", "left pectoral fin", "right pectoral fin", "tail fin")

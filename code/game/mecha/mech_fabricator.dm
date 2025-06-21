@@ -1,15 +1,15 @@
 /obj/machinery/mecha_part_fabricator
 	icon = 'icons/obj/robotics_vr.dmi' //VOREStation Edit - New icon
-	icon_state = "mechfab-idle"
+	icon_state = "mechfab"
 	name = "Exosuit Fabricator"
-	desc = "A machine used for construction of mechas."
+	desc = "A machine used for the construction of mechas."
 	density = TRUE
 	anchored = TRUE
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 20
 	active_power_usage = 5000
 	req_access = list(access_robotics)
-	circuit = /obj/item/weapon/circuitboard/mechfab
+	circuit = /obj/item/circuitboard/mechfab
 
 	/// Current items in the build queue.
 	var/list/queue = list()
@@ -51,7 +51,9 @@
 		MAT_VERDANTIUM = 0,
 		MAT_MORPHIUM = 0,
 		MAT_METALHYDROGEN = 0,
-		MAT_SUPERMATTER = 0)
+		MAT_SUPERMATTER = 0,
+		MAT_TITANIUM = 0)
+
 	var/res_max_amount = 200000
 
 	var/datum/research/files
@@ -67,6 +69,8 @@
 								"Vehicle",
 								"Rigsuit",
 								"Phazon",
+								"Pinnace",
+								"Baron",
 								"Gopher", // VOREStation Add
 								"Polecat", // VOREStation Add
 								"Weasel", // VOREStation Add
@@ -81,15 +85,8 @@
 								"Misc",
 								)
 
-/obj/machinery/mecha_part_fabricator/Initialize()
+/obj/machinery/mecha_part_fabricator/Initialize(mapload)
 	. = ..()
-
-// Go through all materials, and add them to the possible storage, but hide them unless we contain them.
-	for(var/Name in name_to_material)
-		if(Name in materials)
-			continue
-
-		materials[Name] = 0
 
 	default_apply_parts()
 	files = new /datum/research(src) //Setup the research data holder.
@@ -101,25 +98,25 @@
 
 /obj/machinery/mecha_part_fabricator/RefreshParts()
 	res_max_amount = 0
-	for(var/obj/item/weapon/stock_parts/matter_bin/M in component_parts)
+	for(var/obj/item/stock_parts/matter_bin/M in component_parts)
 		res_max_amount += M.rating * 100000 // 200k -> 600k
 	var/T = 0
-	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		T += M.rating
 	component_coeff = max(1 - (T - 1) / 4, 0.2) // 1 -> 0.2
-	for(var/obj/item/weapon/stock_parts/micro_laser/M in component_parts) // Not resetting T is intended; time_coeff is affected by both
+	for(var/obj/item/stock_parts/micro_laser/M in component_parts) // Not resetting T is intended; time_coeff is affected by both
 		T += M.rating
 	time_coeff = T / 2 // 1 -> 3
 	update_tgui_static_data(usr)
 
 
 /**
-  * Generates an info list for a given part.
-  *
-  * Returns a list of part information.
-  * * D - Design datum to get information on.
-  * * categories - Boolean, whether or not to parse snowflake categories into the part information list.
-  */
+ * Generates an info list for a given part.
+ *
+ * Returns a list of part information.
+ * * D - Design datum to get information on.
+ * * categories - Boolean, whether or not to parse snowflake categories into the part information list.
+ */
 /obj/machinery/mecha_part_fabricator/proc/output_part_info(datum/design/D, var/categories = FALSE)
 	var/cost = list()
 	for(var/c in D.materials)
@@ -138,6 +135,12 @@
 			var/module_types = initial(U.module_flags)
 			sub_category = list()
 			if(module_types)
+				if(module_types & BORG_UTILITY)
+					sub_category += "All Cyborgs - Utility"
+				if(module_types & BORG_BASIC)
+					sub_category += "All Cyborgs - Basic"
+				if(module_types & BORG_ADVANCED)
+					sub_category += "All Cyborgs - Advanced"
 				if(module_types & BORG_MODULE_SECURITY)
 					sub_category += "Security"
 				if(module_types & BORG_MODULE_MINER)
@@ -150,9 +153,16 @@
 					sub_category += "Engineering"
 				if(module_types & BORG_MODULE_SCIENCE)
 					sub_category += "Science"
-
+				if(module_types & BORG_MODULE_SERVICE)
+					sub_category += "Service"
+				if(module_types & BORG_MODULE_CLERIC)
+					sub_category += "Cleric"
+				if(module_types & BORG_MODULE_COMBAT)
+					sub_category += "Combat"
+				if(module_types & BORG_MODULE_EXPLO)
+					sub_category += "Exploration"
 			else
-				sub_category += "All Cyborgs"
+				sub_category += "This shouldn't be here, bother a dev!"
 		// Else check if this design builds a piece of exosuit equipment.
 		else if(built_item in typesof(/obj/item/mecha_parts/mecha_equipment))
 			var/obj/item/mecha_parts/mecha_equipment/E = built_item
@@ -170,6 +180,10 @@
 					category_override += "Durand"
 				if(mech_types & EXOSUIT_MODULE_PHAZON)
 					category_override += "Phazon"
+				if(mech_types & EXOSUIT_MODULE_PINNACE)
+					category_override += "Pinnace"
+				if(mech_types & EXOSUIT_MODULE_BARON)
+					category_override += "Baron"
 
 	var/list/part = list(
 		"name" = D.name,
@@ -186,11 +200,11 @@
 
 
 /**
-  * Generates a list of resources / materials available to this Exosuit Fab
-  *
-  * Returns null if there is no material container available.
-  * List format is list(material_name = list(amount = ..., ref = ..., etc.))
-  */
+ * Generates a list of resources / materials available to this Exosuit Fab
+ *
+ * Returns null if there is no material container available.
+ * List format is list(material_name = list(amount = ..., ref = ..., etc.))
+ */
 /obj/machinery/mecha_part_fabricator/proc/output_available_resources()
 	var/list/material_data = list()
 
@@ -208,31 +222,31 @@
 	return material_data
 
 /**
-  * Intended to be called when an item starts printing.
-  *
-  * Adds the overlay to show the fab working and sets active power usage settings.
-  */
+ * Intended to be called when an item starts printing.
+ *
+ * Adds the overlay to show the fab working and sets active power usage settings.
+ */
 /obj/machinery/mecha_part_fabricator/proc/on_start_printing()
-	add_overlay("fab-active")
+	add_overlay("[icon_state]-active")
 	use_power = USE_POWER_ACTIVE
 
 /**
-  * Intended to be called when the exofab has stopped working and is no longer printing items.
-  *
-  * Removes the overlay to show the fab working and sets idle power usage settings. Additionally resets the description and turns off queue processing.
-  */
+ * Intended to be called when the exofab has stopped working and is no longer printing items.
+ *
+ * Removes the overlay to show the fab working and sets idle power usage settings. Additionally resets the description and turns off queue processing.
+ */
 /obj/machinery/mecha_part_fabricator/proc/on_finish_printing()
-	cut_overlay("fab-active")
+	cut_overlay("[icon_state]-active")
 	use_power = USE_POWER_IDLE
 	desc = initial(desc)
 	process_queue = FALSE
 
 /**
-  * Calculates resource/material costs for printing an item based on the machine's resource coefficient.
-  *
-  * Returns a list of k,v resources with their amounts.
-  * * D - Design datum to calculate the modified resource cost of.
-  */
+ * Calculates resource/material costs for printing an item based on the machine's resource coefficient.
+ *
+ * Returns a list of k,v resources with their amounts.
+ * * D - Design datum to calculate the modified resource cost of.
+ */
 /obj/machinery/mecha_part_fabricator/proc/get_resources_w_coeff(datum/design/D)
 	var/list/resources = list()
 	for(var/mat_id in D.materials)
@@ -240,12 +254,12 @@
 	return resources
 
 /**
-  * Checks if the Exofab has enough resources to print a given item.
-  *
-  * Returns FALSE if the design has no reagents used in its construction (?) or if there are insufficient resources.
-  * Returns TRUE if there are sufficient resources to print the item.
-  * * D - Design datum to calculate the modified resource cost of.
-  */
+ * Checks if the Exofab has enough resources to print a given item.
+ *
+ * Returns FALSE if the design has no reagents used in its construction (?) or if there are insufficient resources.
+ * Returns TRUE if there are sufficient resources to print the item.
+ * * D - Design datum to calculate the modified resource cost of.
+ */
 /obj/machinery/mecha_part_fabricator/proc/check_resources(datum/design/D)
 	if(length(D.chemicals)) // No reagents storage - no reagent designs.
 		return FALSE
@@ -256,12 +270,12 @@
 			return FALSE
 
 /**
-  * Attempts to build the next item in the build queue.
-  *
-  * Returns FALSE if either there are no more parts to build or the next part is not buildable.
-  * Returns TRUE if the next part has started building.
-  * * verbose - Whether the machine should use say() procs. Set to FALSE to disable the machine saying reasons for failure to build.
-  */
+ * Attempts to build the next item in the build queue.
+ *
+ * Returns FALSE if either there are no more parts to build or the next part is not buildable.
+ * Returns TRUE if the next part has started building.
+ * * verbose - Whether the machine should use say() procs. Set to FALSE to disable the machine saying reasons for failure to build.
+ */
 /obj/machinery/mecha_part_fabricator/proc/build_next_in_queue(verbose = TRUE)
 	if(!length(queue))
 		return FALSE
@@ -274,13 +288,13 @@
 	return FALSE
 
 /**
-  * Starts the build process for a given design datum.
-  *
-  * Returns FALSE if the procedure fails. Returns TRUE when being_built is set.
-  * Uses materials.
-  * * D - Design datum to attempt to print.
-  * * verbose - Whether the machine should use say() procs. Set to FALSE to disable the machine saying reasons for failure to build.
-  */
+ * Starts the build process for a given design datum.
+ *
+ * Returns FALSE if the procedure fails. Returns TRUE when being_built is set.
+ * Uses materials.
+ * * D - Design datum to attempt to print.
+ * * verbose - Whether the machine should use say() procs. Set to FALSE to disable the machine saying reasons for failure to build.
+ */
 /obj/machinery/mecha_part_fabricator/proc/build_part(datum/design/D, verbose = TRUE)
 	if(!D)
 		return FALSE
@@ -331,12 +345,12 @@
 
 
 /**
-  * Dispenses a part to the tile infront of the Exosuit Fab.
-  *
-  * Returns FALSE is the machine cannot dispense the part on the appropriate turf.
-  * Return TRUE if the part was successfully dispensed.
-  * * D - Design datum to attempt to dispense.
-  */
+ * Dispenses a part to the tile infront of the Exosuit Fab.
+ *
+ * Returns FALSE is the machine cannot dispense the part on the appropriate turf.
+ * Return TRUE if the part was successfully dispensed.
+ * * D - Design datum to attempt to dispense.
+ */
 /obj/machinery/mecha_part_fabricator/proc/dispense_built_part(datum/design/D)
 	var/obj/item/I = D.Fabricate(src, src)
 	// I.material_flags |= MATERIAL_NO_EFFECTS //Find a better way to do this.
@@ -356,23 +370,23 @@
 	return I
 
 /**
-  * Adds a list of datum designs to the build queue.
-  *
-  * Will only add designs that are in this machine's stored techweb.
-  * Does final checks for datum IDs and makes sure this machine can build the designs.
-  * * part_list - List of datum design ids for designs to add to the queue.
-  */
+ * Adds a list of datum designs to the build queue.
+ *
+ * Will only add designs that are in this machine's stored techweb.
+ * Does final checks for datum IDs and makes sure this machine can build the designs.
+ * * part_list - List of datum design ids for designs to add to the queue.
+ */
 /obj/machinery/mecha_part_fabricator/proc/add_part_set_to_queue(list/part_list)
 	for(var/datum/design/D in files.known_designs)
 		if((D.build_type & valid_buildtype) && (D.id in part_list))
 			add_to_queue(D)
 
 /**
-  * Adds a datum design to the build queue.
-  *
-  * Returns TRUE if successful and FALSE if the design was not added to the queue.
-  * * D - Datum design to add to the queue.
-  */
+ * Adds a datum design to the build queue.
+ *
+ * Returns TRUE if successful and FALSE if the design was not added to the queue.
+ * * D - Datum design to add to the queue.
+ */
 /obj/machinery/mecha_part_fabricator/proc/add_to_queue(datum/design/D)
 	if(!istype(queue))
 		queue = list()
@@ -382,11 +396,11 @@
 	return FALSE
 
 /**
-  * Removes datum design from the build queue based on index.
-  *
-  * Returns TRUE if successful and FALSE if a design was not removed from the queue.
-  * * index - Index in the build queue of the element to remove.
-  */
+ * Removes datum design from the build queue based on index.
+ *
+ * Returns TRUE if successful and FALSE if a design was not removed from the queue.
+ * * index - Index in the build queue of the element to remove.
+ */
 /obj/machinery/mecha_part_fabricator/proc/remove_from_queue(index)
 	if(!isnum(index) || !ISINTEGER(index) || !istype(queue) || (index<1 || index>length(queue)))
 		return FALSE
@@ -394,10 +408,10 @@
 	return TRUE
 
 /**
-  * Generates a list of parts formatted for tgui based on the current build queue.
-  *
-  * Returns a formatted list of lists containing formatted part information for every part in the build queue.
-  */
+ * Generates a list of parts formatted for tgui based on the current build queue.
+ *
+ * Returns a formatted list of lists containing formatted part information for every part in the build queue.
+ */
 /obj/machinery/mecha_part_fabricator/proc/list_queue()
 	if(!istype(queue) || !length(queue))
 		return null
@@ -425,23 +439,23 @@
 	return
 
 /**
-  * Calculates the coefficient-modified resource cost of a single material component of a design's recipe.
-  *
-  * Returns coefficient-modified resource cost for the given material component.
-  * * D - Design datum to pull the resource cost from.
-  * * resource - Material datum reference to the resource to calculate the cost of.
-  * * roundto - Rounding value for round() proc
-  */
+ * Calculates the coefficient-modified resource cost of a single material component of a design's recipe.
+ *
+ * Returns coefficient-modified resource cost for the given material component.
+ * * D - Design datum to pull the resource cost from.
+ * * resource - Material datum reference to the resource to calculate the cost of.
+ * * roundto - Rounding value for round() proc
+ */
 /obj/machinery/mecha_part_fabricator/proc/get_resource_cost_w_coeff(datum/design/D, var/amt, roundto = 1)
 	return round(amt * component_coeff, roundto)
 
 /**
-  * Calculates the coefficient-modified build time of a design.
-  *
-  * Returns coefficient-modified build time of a given design.
-  * * D - Design datum to calculate the modified build time of.
-  * * roundto - Rounding value for round() proc
-  */
+ * Calculates the coefficient-modified build time of a design.
+ *
+ * Returns coefficient-modified build time of a given design.
+ * * D - Design datum to calculate the modified build time of.
+ * * roundto - Rounding value for round() proc
+ */
 /obj/machinery/mecha_part_fabricator/proc/get_construction_time_w_coeff(construction_time, roundto = 1) //aran
 	return round(construction_time * time_coeff, roundto)
 
@@ -454,7 +468,7 @@
 	if(..())
 		return
 	if(!allowed(user))
-		to_chat(user, SPAN_WARNING("\The [src] rejects your use due to lack of access!"))
+		to_chat(user, span_warning("\The [src] rejects your use due to lack of access!"))
 		return
 	tgui_interact(user)
 
@@ -523,14 +537,14 @@
 
 	return data
 
-/obj/machinery/mecha_part_fabricator/tgui_act(action, var/list/params)
+/obj/machinery/mecha_part_fabricator/tgui_act(action, list/params, datum/tgui/ui)
 	if(..())
 		return TRUE
 
 	. = TRUE
 
-	add_fingerprint(usr)
-	usr.set_machine(src)
+	add_fingerprint(ui.user)
+	ui.user.set_machine(src)
 
 	switch(action)
 		if("sync_rnd")
@@ -611,7 +625,7 @@
 
 /obj/machinery/mecha_part_fabricator/attackby(var/obj/item/I, var/mob/user)
 	if(being_built)
-		to_chat(user, "<span class='notice'>\The [src] is busy. Please wait for completion of previous operation.</span>")
+		to_chat(user, span_notice("\The [src] is busy. Please wait for completion of previous operation."))
 		return 1
 	if(default_deconstruction_screwdriver(user, I))
 		return
@@ -623,7 +637,7 @@
 	if(istype(I,/obj/item/stack/material))
 		var/obj/item/stack/material/S = I
 		if(!(S.material.name in materials))
-			to_chat(user, "<span class='warning'>The [src] doesn't accept [S.material]!</span>")
+			to_chat(user, span_warning("The [src] doesn't accept [material_display_name(S.material)]!"))
 			return
 
 		var/sname = "[S.name]"
@@ -632,11 +646,9 @@
 			if(S && S.get_amount() >= 1)
 				var/count = 0
 				flick("[loading_icon_state]", src)
-				// yess hacky but whatever
+				// yess hacky but whatever //even more hacky now, but at least it works
 				if(loading_icon_state == "mechfab-idle")
-					add_overlay("mechfab-load-metal")
-					spawn(10)
-						cut_overlays("mechfab-load-metal")
+					flick("mechfab-load-metal", src)
 				while(materials[S.material.name] + amnt <= res_max_amount && S.get_amount() >= 1)
 					materials[S.material.name] += amnt
 					S.use(1)
@@ -653,20 +665,20 @@
 	switch(emagged)
 		if(0)
 			emagged = 0.5
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"DB error \[Code 0x00F1\]\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"DB error \[Code 0x00F1\]\"")
 			sleep(10)
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"Attempting auto-repair\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"Attempting auto-repair\"")
 			sleep(15)
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"User DB corrupted \[Code 0x00FA\]. Truncating data structure...\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"User DB corrupted \[Code 0x00FA\]. Truncating data structure...\"")
 			sleep(30)
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"User DB truncated. Please contact your [using_map.company_name] system operator for future assistance.\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"User DB truncated. Please contact your [using_map.company_name] system operator for future assistance.\"")
 			req_access = null
 			emagged = 1
 			return 1
 		if(0.5)
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"DB not responding \[Code 0x0003\]...\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"DB not responding \[Code 0x0003\]...\"")
 		if(1)
-			visible_message("[bicon(src)] <b>[src]</b> beeps: \"No records in User DB\"")
+			visible_message("[icon2html(src,viewers(src))] <b>[src]</b> beeps: \"No records in User DB\"")
 
 /obj/machinery/mecha_part_fabricator/proc/eject_materials(var/material, var/amount) // 0 amount = 0 means ejecting a full stack; -1 means eject everything
 	var/recursive = amount == -1 ? TRUE : FALSE

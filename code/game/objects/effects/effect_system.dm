@@ -38,6 +38,7 @@ would spawn and follow the beaker, even if it is carried or thrown.
 /datum/effect/effect/system/proc/start()
 
 /datum/effect/effect/system/Destroy()
+	location = null
 	holder = null
 	return ..()
 
@@ -78,9 +79,9 @@ steam.start() -- spawns the effect
 			var/obj/effect/effect/steam/steam = new /obj/effect/effect/steam(src.location)
 			var/direction
 			if(src.cardinals)
-				direction = pick(cardinal)
+				direction = pick(GLOB.cardinal)
 			else
-				direction = pick(alldirs)
+				direction = pick(GLOB.alldirs)
 			for(i=0, i<pick(1,2,3), i++)
 				sleep(5)
 				step(steam,direction)
@@ -101,7 +102,7 @@ steam.start() -- spawns the effect
 	anchored = TRUE
 	mouse_opacity = 0
 
-/obj/effect/effect/sparks/Initialize()
+/obj/effect/effect/sparks/Initialize(mapload)
 	. = ..()
 	playsound(src, "sparks", 100, 1)
 	var/turf/T = src.loc
@@ -146,9 +147,9 @@ steam.start() -- spawns the effect
 			src.total_sparks++
 			var/direction
 			if(src.cardinals)
-				direction = pick(cardinal)
+				direction = pick(GLOB.cardinal)
 			else
-				direction = pick(alldirs)
+				direction = pick(GLOB.alldirs)
 			for(i=0, i<pick(1,2,3), i++)
 				sleep(5)
 				step(sparks,direction)
@@ -178,12 +179,10 @@ steam.start() -- spawns the effect
 	pixel_x = -32
 	pixel_y = -32
 
-/obj/effect/effect/smoke/New()
-	..()
+/obj/effect/effect/smoke/Initialize(mapload)
+	. = ..()
 	if(time_to_live)
-		spawn (time_to_live)
-			if(!QDELETED(src))
-				qdel(src)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), src), time_to_live, TIMER_DELETE_ME)
 
 /obj/effect/effect/smoke/Crossed(mob/living/carbon/M as mob )
 	if(M.is_incorporeal())
@@ -197,7 +196,7 @@ steam.start() -- spawns the effect
 		return 0
 	if(M.wear_mask && (M.wear_mask.item_flags & AIRTIGHT))
 		return 0
-	if(istype(M,/mob/living/carbon/human))
+	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.head && (H.head.item_flags & AIRTIGHT))
 			return 0
@@ -213,9 +212,9 @@ steam.start() -- spawns the effect
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "sparks"
 
-/obj/effect/effect/smoke/illumination/New(var/newloc, var/lifetime=10, var/range=null, var/power=null, var/color=null)
+/obj/effect/effect/smoke/illumination/Initialize(mapload, var/lifetime=10, var/range=null, var/power=null, var/color=null)
 	time_to_live=lifetime
-	..()
+	. = ..()
 	set_light(range, power, color)
 
 /////////////////////////////////////////////
@@ -289,7 +288,7 @@ steam.start() -- spawns the effect
 	opacity = FALSE
 	var/strength = 5 // How much damage to do inside each affect()
 
-/obj/effect/effect/smoke/elemental/Initialize()
+/obj/effect/effect/smoke/elemental/Initialize(mapload)
 	START_PROCESSING(SSobj, src)
 	return ..()
 
@@ -338,9 +337,11 @@ steam.start() -- spawns the effect
 /obj/effect/effect/smoke/elemental/mist
 	name = "misty cloud"
 	desc = "A cloud filled with water vapor."
-	color = "#CCFFFF"
+	color = "#F0FFFF"
 	alpha = 128
 	strength = 1
+	plane = MOB_PLANE
+	layer = ABOVE_MOB_LAYER
 
 /obj/effect/effect/smoke/elemental/mist/affect(mob/living/L)
 	L.water_act(strength)
@@ -381,9 +382,9 @@ steam.start() -- spawns the effect
 			var/direction = src.direction
 			if(!direction)
 				if(src.cardinals)
-					direction = pick(cardinal)
+					direction = pick(GLOB.cardinal)
 				else
-					direction = pick(alldirs)
+					direction = pick(GLOB.alldirs)
 			for(i=0, i<pick(0,1,1,1,2,2,2,3), i++)
 				sleep(10)
 				step(smoke,direction)
@@ -428,6 +429,10 @@ steam.start() -- spawns the effect
 	var/turf/oldposition
 	var/processing = 1
 	var/on = 1
+
+/datum/effect/effect/system/ion_trail_follow/Destroy()
+	oldposition = null
+	. = ..()
 
 /datum/effect/effect/system/ion_trail_follow/set_up(atom/atom)
 	attach(atom)
@@ -484,6 +489,10 @@ steam.start() -- spawns the effect
 	var/turf/oldposition
 	var/processing = 1
 	var/on = 1
+
+/datum/effect/effect/system/steam_trail_follow/Destroy()
+	oldposition = null
+	. = ..()
 
 /datum/effect/effect/system/steam_trail_follow/set_up(atom/atom)
 	attach(atom)
@@ -542,10 +551,10 @@ steam.start() -- spawns the effect
 		s.start()
 
 		for(var/mob/M in viewers(5, location))
-			to_chat(M, "<span class='warning'>The solution violently explodes.</span>")
+			to_chat(M, span_warning("The solution violently explodes."))
 		for(var/mob/M in viewers(1, location))
 			if (prob (50 * amount))
-				to_chat(M, "<span class='warning'>The explosion knocks you down.</span>")
+				to_chat(M, span_warning("The explosion knocks you down."))
 				M.Weaken(rand(1,5))
 		return
 	else
@@ -568,7 +577,7 @@ steam.start() -- spawns the effect
 			flash = (amount/4) * flashing_factor
 
 		for(var/mob/M in viewers(8, location))
-			to_chat(M, "<span class='warning'>The solution violently explodes.</span>")
+			to_chat(M, span_warning("The solution violently explodes."))
 
 		explosion(
 			location,
@@ -577,3 +586,30 @@ steam.start() -- spawns the effect
 			round(min(light, BOMBCAP_LIGHT_RADIUS)),
 			round(min(flash, BOMBCAP_FLASH_RADIUS))
 			)
+
+/obj/effect/effect/teleport_greyscale
+	name = "teleportation"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "teleport_greyscale"
+	anchored = 1
+	mouse_opacity = 0
+	plane = MOB_PLANE
+	layer = ABOVE_MOB_LAYER
+
+/obj/effect/effect/teleport_greyscale/Initialize(mapload)
+	. = ..()
+	QDEL_IN(src, 2 SECONDS)
+
+/datum/effect/effect/system/teleport_greyscale
+	var/color = "#FFFFFF"
+
+/datum/effect/effect/system/teleport_greyscale/set_up(cl, loca)
+	if(istype(loca, /turf/))
+		location = loca
+	else
+		location = get_turf(loca)
+	color = cl
+
+/datum/effect/effect/system/teleport_greyscale/start()
+	var/obj/effect/effect/teleport_greyscale/tele = new /obj/effect/effect/teleport_greyscale(src.location)
+	tele.color = color

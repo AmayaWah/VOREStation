@@ -22,13 +22,12 @@
 		return
 
 	if(flipped < 0 || !flip(get_cardinal_dir(usr,src)))
-		to_chat(usr, "<span class='notice'>It won't budge.</span>")
+		to_chat(usr, span_notice("It won't budge."))
 		return
 
-	usr.visible_message("<span class='warning'>[usr] flips \the [src]!</span>")
+	usr.visible_message(span_warning("[usr] flips \the [src]!"))
 
-	if(climbable)
-		structure_shaken()
+	SEND_SIGNAL(src, COMSIG_CLIMBABLE_SHAKE_CLIMBERS, usr)
 
 	return
 
@@ -37,9 +36,9 @@
 	for(var/mob/M in oview(src,0))
 		return 0
 
-	var/obj/occupied = turf_is_crowded()
+	var/obj/occupied = can_climb_turf(src)
 	if(occupied)
-		to_chat(usr, "There's \a [occupied] in the way.")
+		to_chat(usr, span_filter_notice("There's \a [occupied] in the way."))
 		return 0
 
 	var/list/L = list()
@@ -65,7 +64,7 @@
 		return
 
 	if (!unflipping_check())
-		to_chat(usr, "<span class='notice'>It won't budge.</span>")
+		to_chat(usr, span_notice("It won't budge."))
 		return
 	unflip()
 

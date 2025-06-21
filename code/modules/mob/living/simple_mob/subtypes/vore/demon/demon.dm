@@ -9,10 +9,10 @@
 	icon = 'icons/mob/demon_vr.dmi'
 	vis_height = 47
 
-	faction = "demon"
+	faction = FACTION_DEMON
 	maxHealth = 30
 	health = 30
-	movement_cooldown = 0
+	movement_cooldown = -2
 
 	see_in_dark = 10
 	seedarkness = FALSE
@@ -45,7 +45,11 @@
 	var/is_shifting = FALSE
 
 /mob/living/simple_mob/vore/demon/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "Stomach"
 	B.desc = "You slide down the slick, slippery gullet of the creature. It's warm, and the air is thick. You can feel the doughy walls of the creatures gut push and knead into your form! Slimy juices coat your form stinging against your flesh as they waste no time to start digesting you. The creature's heartbeat and the gurgling of their stomach are all you can hear as your jostled about, treated like nothing but food."

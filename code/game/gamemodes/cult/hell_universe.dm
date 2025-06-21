@@ -16,7 +16,7 @@ In short:
 	return 1
 	/*
 	if(user)
-		to_chat(user, "<span class='sinister'>All you hear on the frequency is static and panicked screaming. There will be no shuttle call today.</span>")
+		to_chat(user, span_sinister("All you hear on the frequency is static and panicked screaming. There will be no shuttle call today."))
 	return 0
 	*/
 
@@ -50,7 +50,7 @@ In short:
 	OverlayAndAmbientSet()
 	lightsout(0,0)
 
-	runedec += 9000	//basically removing the rune cap
+	GLOB.runedec += 9000	//basically removing the rune cap
 
 
 /datum/universal_state/hell/proc/AreaSet()
@@ -58,7 +58,7 @@ In short:
 		if(!istype(A,/area) || istype(A, /area/space))
 			continue
 
-		A.updateicon()
+		A.update_icon()
 
 /datum/universal_state/hell/OverlayAndAmbientSet()
 	spawn(0)
@@ -73,7 +73,7 @@ In short:
 		if(!T.holy && prob(1))
 			new /obj/effect/gateway/active/cult(T)
 
-	for (var/obj/machinery/firealarm/alm in machines)
+	for (var/obj/machinery/firealarm/alm in GLOB.machines)
 		if (!(alm.stat & BROKEN))
 			alm.ex_act(2)
 

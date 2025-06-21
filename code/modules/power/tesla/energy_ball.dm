@@ -23,12 +23,9 @@
 	var/energy_to_raise = 32
 	var/energy_to_lower = -20
 
-/obj/singularity/energy_ball/New(loc, starting_energy = 50, is_miniball = FALSE)
-	..()
-	miniball = is_miniball
-
-/obj/singularity/energy_ball/Initialize()
+/obj/singularity/energy_ball/Initialize(mapload, starting_energy = 50, is_miniball = FALSE)
 	. = ..()
+	miniball = is_miniball
 	if(!miniball)
 		set_light(10, 7, "#EEEEFF")
 
@@ -36,8 +33,8 @@
 	return
 
 /obj/singularity/energy_ball/Destroy()
-	if(orbiting && istype(orbiting.orbiting, /obj/singularity/energy_ball))
-		var/obj/singularity/energy_ball/EB = orbiting.orbiting
+	if(orbiting && istype(orbiting.parent, /obj/singularity/energy_ball))
+		var/obj/singularity/energy_ball/EB = orbiting.parent
 		EB.orbiting_balls -= src
 
 	for(var/obj/singularity/energy_ball/EB as anything in orbiting_balls)
@@ -78,7 +75,7 @@
 	//we face the last thing we zapped, so this lets us favor that direction a bit
 	var/move_bias = dir
 	for(var/i in 0 to move_amount)
-		var/move_dir = pick(global.alldirs + move_bias) //ensures large-ball teslas don't just sit around
+		var/move_dir = pick(global.GLOB.alldirs + move_bias) //ensures large-ball teslas don't just sit around
 		if(target && prob(10))
 			move_dir = get_dir(src,target)
 		var/turf/T = get_step(src, move_dir)
@@ -101,7 +98,7 @@
 		energy_to_raise = energy_to_raise * 1.25
 
 		playsound(src, 'sound/effects/lightning_chargeup.ogg', 100, 1, extrarange = 30)
-		//addtimer(CALLBACK(src, .proc/new_mini_ball), 100)
+		//addtimer(CALLBACK(src, PROC_REF(new_mini_ball)), 100)
 		spawn(100) new_mini_ball()
 
 	else if(energy < energy_to_lower && orbiting_balls.len)
@@ -118,7 +115,7 @@
 	if(!loc)
 		return
 	var/obj/singularity/energy_ball/EB = new(loc, 0, TRUE)
-	all_singularities -= EB //why are these miniballs even singularities in the first place, they don't do anything
+	GLOB.all_singularities -= EB //why are these miniballs even singularities in the first place, they don't do anything
 
 	EB.transform *= pick(0.3, 0.4, 0.5, 0.6, 0.7)
 	var/icon/I = icon(icon,icon_state,dir)
@@ -146,8 +143,8 @@
 
 	. = ..()
 /obj/singularity/energy_ball/stop_orbit()
-	if (orbiting && istype(orbiting.orbiting, /obj/singularity/energy_ball))
-		var/obj/singularity/energy_ball/orbitingball = orbiting.orbiting
+	if (orbiting && istype(orbiting.parent, /obj/singularity/energy_ball))
+		var/obj/singularity/energy_ball/orbitingball = orbiting.parent
 		orbitingball.orbiting_balls -= src
 		orbitingball.dissipate_strength = orbitingball.orbiting_balls.len + 1
 	..()
@@ -156,7 +153,7 @@
 
 
 /obj/singularity/energy_ball/proc/dust_mob(mob/living/L)
-	if(!istype(L) || L.incorporeal_move)
+	if(!istype(L) || L.is_incorporeal())
 		return
 	// L.dust() - Changing to do fatal elecrocution instead
 	L.electrocute_act(500, src, def_zone = BP_TORSO)
@@ -314,3 +311,6 @@
 		if (EB.energy > 0)
 			EB.energy -= min(EB.energy, max(10, round(EB.energy * 0.05)))
 	// VOREStation Edit End
+
+#undef TESLA_DEFAULT_POWER
+#undef TESLA_MINI_POWER

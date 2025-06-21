@@ -4,6 +4,8 @@
 
 #define NUM_E 2.71828183
 
+#define SQRT_2 (1.41421356237)
+#define ONE_OVER_SQRT_2 (0.707106781188095) // not 1/sqrt(2), instead it is 1/SQRT_2 (1/1.41421356237)
 #define M_PI						(3.14159265)
 #define INFINITY				(1.#INF)	//closer then enough
 
@@ -16,6 +18,7 @@
 #define TICK_USAGE_TO_MS(starting_tickusage) (TICK_DELTA_TO_MS(world.tick_usage - starting_tickusage))
 
 #define PERCENT(val) (round((val)*100, 0.1))
+#define CLAMP01(x) clamp(x, 0, 1)
 
 //time of day but automatically adjusts to the server going into the next day within the same round.
 //for when you need a reliable time number that doesn't depend on byond time.
@@ -24,6 +27,7 @@
 
 #define SIGN(x) ( (x)!=0 ? (x) / abs(x) : 0 )
 
+#define ROUND_UP(x) ( -round(-(x)))
 #define CEILING(x, y) ( -round(-(x) / (y)) * (y) )
 
 // round() acts like floor(x, 1) by default but can't handle other values
@@ -218,3 +222,16 @@
 #define ROUNDUPTOPOWEROFTWO(x) (2 ** -round(-log(2,x)))
 
 #define DEFAULT(a, b) (a? a : b)
+
+// sqrt, but if you give it a negative number, you get 0 instead of a runtime
+/proc/sqrtor0(num)
+	if(num < 0)
+		return 0
+	return sqrt(num)
+
+//Proc to check if a flag is active to use in universal math
+/proc/global_flag_check(element, flag)
+	if(element & flag)
+		return 1
+	else
+		return 0

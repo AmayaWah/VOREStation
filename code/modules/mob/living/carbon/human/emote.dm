@@ -9,6 +9,8 @@ var/list/_human_default_emotes = list(
 	/decl/emote/audible/synth/dwoop,
 	/decl/emote/audible/synth/boop,
 	/decl/emote/audible/synth/robochirp,
+	/decl/emote/audible/synth/ding,
+	/decl/emote/audible/synth/microwave,
 	/decl/emote/visible/nod,
 	/decl/emote/visible/shake,
 	/decl/emote/visible/shiver,
@@ -40,6 +42,7 @@ var/list/_human_default_emotes = list(
 	/decl/emote/human/deathgasp,
 	/decl/emote/audible/giggle,
 	/decl/emote/audible/scream,
+	/decl/emote/audible/pain,
 	/decl/emote/visible/airguitar,
 	/decl/emote/visible/blink_r,
 	/decl/emote/visible/bow,
@@ -59,6 +62,7 @@ var/list/_human_default_emotes = list(
 	/decl/emote/visible/stare,
 	/decl/emote/visible/look,
 	/decl/emote/visible/point,
+	/decl/emote/visible/bellyrub,
 	/decl/emote/visible/raise,
 	/decl/emote/visible/grin,
 	/decl/emote/visible/shrug,
@@ -96,6 +100,15 @@ var/list/_human_default_emotes = list(
 	/decl/emote/visible/floorspin,
 	/decl/emote/visible/flip,
 	//VOREStation Add
+	/decl/emote/audible/bug_hiss,
+	/decl/emote/audible/bug_buzz,
+	/decl/emote/audible/bug_chitter,
+	/decl/emote/audible/hiss,
+	/decl/emote/audible/chirp,
+	/decl/emote/audible/warble,
+	/decl/emote/audible/vox_shriek,
+	/decl/emote/audible/purr,
+	/decl/emote/audible/purrlong,
 	/decl/emote/audible/awoo,
 	/decl/emote/audible/awoo2,
 	/decl/emote/audible/belch,
@@ -145,7 +158,26 @@ var/list/_human_default_emotes = list(
 	/decl/emote/audible/coyawoo4,
 	/decl/emote/audible/coyawoo5,
 	/decl/emote/audible/fennecscream,
-	/decl/emote/audible/zoom
+	/decl/emote/audible/zoom,
+	/decl/emote/audible/mothscream,
+	/decl/emote/audible/mothchitter,
+	/decl/emote/audible/mothlaugh,
+	/decl/emote/audible/multichirp,
+	/decl/emote/audible/gnarl,
+	/decl/emote/audible/teshsqueak,
+	/decl/emote/audible/teshchirp,
+	/decl/emote/audible/teshtrill,
+	/decl/emote/audible/teshscream,
+	/decl/emote/visible/bounce,
+	/decl/emote/visible/jiggle,
+	/decl/emote/visible/lightup,
+	/decl/emote/visible/vibrate,
+	/decl/emote/audible/croon,
+	/decl/emote/audible/lwarble,
+	/decl/emote/audible/croak_skrell,
+	/decl/emote/audible/roarbark,
+	/decl/emote/audible/dook
+
 	//VOREStation Add End
 )
 
@@ -184,6 +216,7 @@ var/list/_simple_mob_default_emotes = list(
 	/decl/emote/human/deathgasp,
 	/decl/emote/audible/giggle,
 	/decl/emote/audible/scream,
+	/decl/emote/audible/pain,
 	/decl/emote/visible/airguitar,
 	/decl/emote/visible/blink_r,
 	/decl/emote/visible/bow,
@@ -203,6 +236,7 @@ var/list/_simple_mob_default_emotes = list(
 	/decl/emote/visible/stare,
 	/decl/emote/visible/look,
 	/decl/emote/visible/point,
+	/decl/emote/visible/bellyrub,
 	/decl/emote/visible/raise,
 	/decl/emote/visible/grin,
 	/decl/emote/visible/shrug,
@@ -277,36 +311,46 @@ var/list/_simple_mob_default_emotes = list(
 	/decl/emote/audible/gyoh,
 	/decl/emote/audible/rumble,
 	/decl/emote/audible/fennecscream,
-	/decl/emote/audible/zoom
+	/decl/emote/audible/zoom,
+	/decl/emote/audible/bug_hiss,
+	/decl/emote/audible/bug_buzz,
+	/decl/emote/audible/bug_chitter,
+	/decl/emote/audible/hiss,
+	/decl/emote/audible/chirp,
+	/decl/emote/audible/warble,
+	/decl/emote/audible/vox_shriek,
+	/decl/emote/audible/purr,
+	/decl/emote/audible/purrlong,
+	/decl/emote/audible/dook
 
 	)
 	//VOREStation Add End
 
 /mob/living/carbon/human/get_available_emotes()
-	. = global._human_default_emotes
+	. = global._human_default_emotes.Copy()
 	if(length(species?.default_emotes))
-		. |= species.default_emotes
+		return . | species.default_emotes
 
 /mob/living/simple_mob/get_available_emotes()
-	. = global._simple_mob_default_emotes
+	. = global._simple_mob_default_emotes.Copy()
 
 /mob/living/carbon/human/verb/pose()
 	set name = "Set Pose"
 	set desc = "Sets a description which will be shown when someone examines you."
-	set category = "IC"
+	set category = "IC.Settings"
 
-	var/datum/gender/T = gender_datums[get_visible_gender()]
+	var/datum/gender/T = GLOB.gender_datums[get_visible_gender()]
 
-	pose = sanitize(tgui_input_text(usr, "This is [src]. [T.he]...", "Pose", null))
+	pose = strip_html_simple(tgui_input_text(src, "This is [src]. [T.he]...", "Pose", null))
 
 /mob/living/carbon/human/verb/set_flavor()
 	set name = "Set Flavour Text"
 	set desc = "Sets an extended description of your character's features."
-	set category = "IC"
+	set category = "IC.Settings"
 
-	var/HTML = "<body>"
+	var/HTML = "<html><body>"
 	HTML += "<tt><center>"
-	HTML += "<b>Update Flavour Text</b> <hr />"
+	HTML += span_bold("Update Flavour Text") + " <hr />"
 	HTML += "<br></center>"
 	HTML += "<a href='byond://?src=\ref[src];flavor_change=general'>General:</a> "
 	HTML += TextPreview(flavor_texts["general"])
@@ -336,14 +380,17 @@ var/list/_simple_mob_default_emotes = list(
 	HTML += TextPreview(flavor_texts["feet"])
 	HTML += "<br>"
 	HTML += "<hr />"
-	HTML +="<a href='?src=\ref[src];flavor_change=done'>\[Done\]</a>"
-	HTML += "<tt>"
-	src << browse(HTML, "window=flavor_changes;size=430x300")
+	HTML +="<a href='byond://?src=\ref[src];flavor_change=done'>\[Done\]</a>"
+	HTML += "<tt></body></html>"
+
+	var/datum/browser/popup = new(src, "flavor_changes", "Change Flavortexts", 430, 300)
+	popup.set_content(HTML)
+	popup.open()
 
 /mob/living/carbon/human/proc/toggle_tail(var/setting,var/message = 0)
 	if(!tail_style || !tail_style.ani_state)
 		if(message)
-			to_chat(src, "<span class='warning'>You don't have a tail that supports this.</span>")
+			to_chat(src, span_warning("You don't have a tail that supports this."))
 		return 0
 
 	var/new_wagging = isnull(setting) ? !wagging : setting
@@ -355,11 +402,11 @@ var/list/_simple_mob_default_emotes = list(
 /mob/living/carbon/human/proc/toggle_wing(var/setting,var/message = 0)
 	if(!wing_style || !wing_style.ani_state)
 		if(message)
-			to_chat(src, "<span class='warning'>You don't have a wingtype that supports this.</span>")
+			to_chat(src, span_warning("You don't have a wingtype that supports this."))
 		return 0
 
 	var/new_flapping = isnull(setting) ? !flapping : setting
 	if(new_flapping != flapping)
-		flapping = setting
+		flapping = new_flapping
 		update_wing_showing()
 	return 1

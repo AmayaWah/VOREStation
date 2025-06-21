@@ -8,6 +8,7 @@
 #define TURF_HAS_CORNERS        128
 #define TURF_IS_FRAGILE         256
 #define TURF_ACID_IMMUNE        512
+// The 0x800000 is blocked by INITIALIZED, do NOT use it!
 
 //Used for floor/wall smoothing
 #define SMOOTH_NONE 0	//Smooth only with itself
@@ -28,3 +29,12 @@
 #define OUTDOORS_NO			0	// Ditto.
 #define OUTDOORS_AREA		-1	// If a turf has this, it will defer to the area's settings on init.
 								// Note that after init, it will be either YES or NO.
+
+//supposedly the fastest way to do this according to https://gist.github.com/Giacom/be635398926bb463b42a
+///Returns a list of turf in a square
+
+#define RECT_TURFS(H_RADIUS, V_RADIUS, CENTER) \
+	block( \
+	locate(max(CENTER.x-(H_RADIUS),1),          max(CENTER.y-(V_RADIUS),1),          CENTER.z), \
+	locate(min(CENTER.x+(H_RADIUS),world.maxx), min(CENTER.y+(V_RADIUS),world.maxy), CENTER.z) \
+	)

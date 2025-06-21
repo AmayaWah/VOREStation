@@ -31,7 +31,7 @@
 	desc = "A machine that generates a field of energy optimized for blocking meteorites when activated.  This version comes with a more efficent shield matrix."
 	energy_conversion_rate = 0.0012
 
-/obj/machinery/shield_gen/Initialize()
+/obj/machinery/shield_gen/Initialize(mapload)
 	if(anchored)
 		for(var/obj/machinery/shield_capacitor/cap in range(1, src))
 			if(!cap.anchored)
@@ -41,7 +41,8 @@
 			if(get_dir(cap, src) == cap.dir)
 				capacitors |= cap
 				cap.owned_gen = src
-	return ..()
+	. = ..()
+	AddElement(/datum/element/climbable)
 
 /obj/machinery/shield_gen/Destroy()
 	QDEL_LIST_NULL(field)
@@ -58,18 +59,18 @@
 	s.start()
 
 /obj/machinery/shield_gen/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/weapon/card/id))
-		var/obj/item/weapon/card/id/C = W
-		if((access_captain in C.access) || (access_security in C.access) || (access_engine in C.access))
+	if(istype(W, /obj/item/card/id))
+		var/obj/item/card/id/C = W
+		if((access_captain in C.GetAccess()) || (access_security in C.GetAccess()) || (access_engine in C.GetAccess()))
 			src.locked = !src.locked
 			to_chat(user, "Controls are now [src.locked ? "locked." : "unlocked."]")
 			updateDialog()
 		else
-			to_chat(user, "<font color='red'>Access denied.</font>")
-	else if(W.is_wrench())
+			to_chat(user, span_red("Access denied."))
+	else if(W.has_tool_quality(TOOL_WRENCH))
 		src.anchored = !src.anchored
 		playsound(src, W.usesound, 75, 1)
-		src.visible_message("<font color='blue'>[bicon(src)] [src] has been [anchored?"bolted to the floor":"unbolted from the floor"] by [user].</font>")
+		src.visible_message(span_blue("[icon2html(src,viewers(src))] [src] has been [anchored?"bolted to the floor":"unbolted from the floor"] by [user]."))
 
 		if(active)
 			toggle()
@@ -122,7 +123,7 @@
 				"failing" = (C.time_since_fail <= 2),
 			)))
 		lockedData["capacitors"] = caps
-		
+
 		lockedData["active"] = active
 		lockedData["failing"] = (time_since_fail <= 2)
 		lockedData["radius"] = field_radius
@@ -197,14 +198,14 @@
 	else
 		average_field_strength = 0
 
-/obj/machinery/shield_gen/tgui_act(action, params)
+/obj/machinery/shield_gen/tgui_act(action, params, datum/tgui/ui)
 	if(..())
 		return TRUE
 
 	switch(action)
 		if("toggle")
 			if (!active && !anchored)
-				to_chat(usr, "<font color='red'>The [src] needs to be firmly secured to the floor first.</font>")
+				to_chat(ui.user, span_red("The [src] needs to be firmly secured to the floor first."))
 				return
 			toggle()
 			. = TRUE
@@ -242,7 +243,7 @@
 		covered_turfs = null
 
 		for(var/mob/M in view(5,src))
-			to_chat(M, "[bicon(src)] You hear heavy droning start up.")
+			to_chat(M, "[icon2html(src, M.client)] You hear heavy droning start up.")
 		for(var/obj/effect/energy_field/E in field) // Update the icons here to ensure all the shields have been made already.
 			E.update_icon()
 	else
@@ -252,7 +253,7 @@
 			qdel(D)
 
 		for(var/mob/M in view(5,src))
-			to_chat(M, "[bicon(src)] You hear heavy droning fade out.")
+			to_chat(M, "[icon2html(src, M.client)] You hear heavy droning fade out.")
 
 /obj/machinery/shield_gen/update_icon()
 	if(stat & BROKEN)

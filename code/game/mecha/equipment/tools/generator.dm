@@ -16,7 +16,7 @@
 
 	equip_type = EQUIP_UTILITY
 
-/obj/item/mecha_parts/mecha_equipment/generator/Initialize()
+/obj/item/mecha_parts/mecha_equipment/generator/Initialize(mapload)
 	. = ..()
 	fuel = new fuel_type(src, 0)
 
@@ -67,7 +67,7 @@
 /obj/item/mecha_parts/mecha_equipment/generator/get_equip_info()
 	var/output = ..()
 	if(output)
-		return "[output] \[[fuel]: [round(fuel.get_amount()*fuel.perunit,0.1)] cm<sup>3</sup>\] - <a href='?src=\ref[src];toggle=1'>[(datum_flags & DF_ISPROCESSING)?"Dea":"A"]ctivate</a>"
+		return "[output] \[[fuel]: [round(fuel.get_amount()*fuel.perunit,0.1)] cm<sup>3</sup>\] - <a href='byond://?src=\ref[src];toggle=1'>[(datum_flags & DF_ISPROCESSING)?"Dea":"A"]ctivate</a>"
 	return
 
 /obj/item/mecha_parts/mecha_equipment/generator/action(target)
@@ -75,7 +75,7 @@
 		var/result = load_fuel(target)
 		var/message
 		if(isnull(result))
-			message = "<span class='warning'>[fuel] traces in target minimal. [target] cannot be used as fuel.</span>"
+			message = span_warning("[fuel] traces in target minimal. [target] cannot be used as fuel.")
 		else if(!result)
 			message = "Unit is full."
 		else
@@ -100,7 +100,7 @@
 /obj/item/mecha_parts/mecha_equipment/generator/attackby(weapon,mob/user)
 	var/result = load_fuel(weapon)
 	if(isnull(result))
-		user.visible_message("[user] tries to shove [weapon] into [src]. What a dumb-ass.","<span class='warning'>[fuel] traces minimal. [weapon] cannot be used as fuel.</span>")
+		user.visible_message("[user] tries to shove [weapon] into [src]. What a dumb-ass.",span_warning("[fuel] traces minimal. [weapon] cannot be used as fuel."))
 	else if(!result)
 		to_chat(user, "Unit is full.")
 	else
@@ -114,11 +114,11 @@
 		return
 	var/datum/gas_mixture/GM = new
 	if(prob(10))
-		T.assume_gas("phoron", 100, 1500+T0C)
+		T.assume_gas(GAS_PHORON, 100, 1500+T0C)
 		T.visible_message("The [src] suddenly disgorges a cloud of heated phoron.")
 		destroy()
 	else
-		T.assume_gas("phoron", 5, istype(T) ? T.air.temperature : T20C)
+		T.assume_gas(GAS_PHORON, 5, istype(T) ? T.air.temperature : T20C)
 		T.visible_message("The [src] suddenly disgorges a cloud of phoron.")
 	T.assume_air(GM)
 	return

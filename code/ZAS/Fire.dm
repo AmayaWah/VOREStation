@@ -6,8 +6,6 @@ The more pressure, the more boom.
 If it gains pressure too slowly, it may leak or just rupture instead of exploding.
 */
 
-//#define FIREDBG
-
 /turf/var/obj/fire/fire = null
 
 //Some legacy definitions so fires can be started.
@@ -60,7 +58,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 		fuel_objs.Cut()
 
 	if(!fire_tiles.len)
-		air_master.active_fire_zones.Remove(src)
+		SSair.active_fire_zones.Remove(src)
 
 /zone/proc/remove_liquidfuel(var/used_liquid_fuel, var/remove_fire=0)
 	if(!fuel_objs.len)
@@ -96,7 +94,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 		return 1
 
 	fire = new(src, fl)
-	air_master.active_fire_zones |= zone
+	SSair.active_fire_zones |= zone
 
 	var/obj/effect/decal/cleanable/liquid_fuel/fuel = locate() in src
 	zone.fire_tiles |= src
@@ -142,14 +140,15 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 		set_light(3, 1)
 
 	for(var/mob/living/L in loc)
-		L.FireBurn(firelevel, air_contents.temperature, air_contents.return_pressure())  //Burn the mobs!
+		if(!L.is_incorporeal())
+			L.FireBurn(firelevel, air_contents.temperature, air_contents.return_pressure())  //Burn the mobs!
 
 	loc.fire_act(air_contents, air_contents.temperature, air_contents.volume)
 	for(var/atom/A in loc)
 		A.fire_act(air_contents, air_contents.temperature, air_contents.volume)
 
 	//spread
-	for(var/direction in cardinal)
+	for(var/direction in GLOB.cardinal)
 		var/turf/simulated/enemy_tile = get_step(my_tile, direction)
 
 		if(istype(enemy_tile))
@@ -167,6 +166,8 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 				//reduce firelevel.
 				if(enemy_tile.fire_protection > world.time-30)
 					firelevel -= 1.5
+					if(firelevel < 0)
+						firelevel = 0
 					continue
 
 				//Spread the fire.
@@ -179,21 +180,21 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 	animate(src, color = fire_color(air_contents.temperature), 5)
 	set_light(l_color = color)
 
-/obj/fire/New(newLoc,fl)
-	..()
+/obj/fire/Initialize(mapload, fl)
+	. = ..()
 
 	if(!istype(loc, /turf))
 		qdel(src)
 		return
 
-	set_dir(pick(cardinal))
+	set_dir(pick(GLOB.cardinal))
 
 	var/datum/gas_mixture/air_contents = loc.return_air()
 	color = fire_color(air_contents.temperature)
 	set_light(3, 1, color)
 
 	firelevel = fl
-	air_master.active_hotspots.Add(src)
+	SSair.active_hotspots.Add(src)
 
 /obj/fire/proc/fire_color(var/env_temperature)
 	var/temperature = max(4000*sqrt(firelevel/vsc.fire_firelevel_multiplier), env_temperature)
@@ -202,7 +203,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 /obj/fire/Destroy()
 	RemoveFire()
 
-	..()
+	. = ..()
 
 /obj/fire/proc/RemoveFire()
 	var/turf/T = loc
@@ -211,7 +212,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 
 		T.fire = null
 		loc = null
-	air_master.active_hotspots.Remove(src)
+	SSair.active_hotspots.Remove(src)
 
 
 /turf/simulated/var/fire_protection = 0 //Protects newly extinguished tiles from being overrun again.
@@ -236,9 +237,9 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 
 		//*** Get the fuel and oxidizer amounts
 		for(var/g in gas)
-			if(gas_data.flags[g] & XGM_GAS_FUEL)
+			if(GLOB.gas_data.flags[g] & XGM_GAS_FUEL)
 				gas_fuel += gas[g]
-			if(gas_data.flags[g] & XGM_GAS_OXIDIZER)
+			if(GLOB.gas_data.flags[g] & XGM_GAS_OXIDIZER)
 				total_oxidizers += gas[g]
 		gas_fuel *= group_multiplier
 		total_oxidizers *= group_multiplier
@@ -303,13 +304,14 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 		//remove_by_flag() and adjust_gas() handle the group_multiplier for us.
 		remove_by_flag(XGM_GAS_OXIDIZER, used_oxidizers)
 		remove_by_flag(XGM_GAS_FUEL, used_gas_fuel)
-		adjust_gas("carbon_dioxide", used_oxidizers)
+		adjust_gas(GAS_CO2, used_oxidizers)
 
 		if(zone)
 			zone.remove_liquidfuel(used_liquid_fuel, !check_combustability())
 
 		//calculate the energy produced by the reaction and then set the new temperature of the mix
-		temperature = (starting_energy + vsc.fire_fuel_energy_release * (used_gas_fuel + used_liquid_fuel)) / heat_capacity()
+		if(heat_capacity() > 0)
+			temperature = min((starting_energy + vsc.fire_fuel_energy_release * (used_gas_fuel + used_liquid_fuel)) / heat_capacity(), MAX_ATMOS_TEMPERATURE)
 		update_values()
 
 		#ifdef FIREDBG
@@ -322,7 +324,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 /datum/gas_mixture/proc/check_recombustability(list/fuel_objs)
 	. = 0
 	for(var/g in gas)
-		if(gas_data.flags[g] & XGM_GAS_OXIDIZER && gas[g] >= 0.1)
+		if(GLOB.gas_data.flags[g] & XGM_GAS_OXIDIZER && gas[g] >= 0.1)
 			. = 1
 			break
 
@@ -334,14 +336,14 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 
 	. = 0
 	for(var/g in gas)
-		if(gas_data.flags[g] & XGM_GAS_FUEL && gas[g] >= 0.1)
+		if(GLOB.gas_data.flags[g] & XGM_GAS_FUEL && gas[g] >= 0.1)
 			. = 1
 			break
 
 /datum/gas_mixture/proc/check_combustability(obj/effect/decal/cleanable/liquid_fuel/liquid=null)
 	. = 0
 	for(var/g in gas)
-		if(gas_data.flags[g] & XGM_GAS_OXIDIZER && QUANTIZE(gas[g] * vsc.fire_consuption_rate) >= 0.1)
+		if(GLOB.gas_data.flags[g] & XGM_GAS_OXIDIZER && QUANTIZE(gas[g] * vsc.fire_consuption_rate) >= 0.1)
 			. = 1
 			break
 
@@ -353,7 +355,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 
 	. = 0
 	for(var/g in gas)
-		if(gas_data.flags[g] & XGM_GAS_FUEL && QUANTIZE(gas[g] * vsc.fire_consuption_rate) >= 0.005)
+		if(GLOB.gas_data.flags[g] & XGM_GAS_FUEL && QUANTIZE(gas[g] * vsc.fire_consuption_rate) >= 0.005)
 			. = 1
 			break
 
@@ -365,7 +367,7 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 	var/total_combustables = (total_fuel + total_oxidizers)
 	var/active_combustables = (FIRE_REACTION_OXIDIZER_AMOUNT/FIRE_REACTION_FUEL_AMOUNT + 1)*reaction_limit
 
-	if(total_combustables > 0)
+	if(total_combustables > 0 && total_moles > 0)
 		//slows down the burning when the concentration of the reactants is low
 		var/damping_multiplier = min(1, active_combustables / (total_moles/group_multiplier))
 
@@ -424,10 +426,10 @@ If it gains pressure too slowly, it may leak or just rupture instead of explodin
 
 	//Always check these damage procs first if fire damage isn't working. They're probably what's wrong.
 
-	apply_damage(2.5*mx*head_exposure,  BURN, BP_HEAD,  0, 0, "Fire")
-	apply_damage(2.5*mx*chest_exposure, BURN, BP_TORSO, 0, 0, "Fire")
-	apply_damage(2.0*mx*groin_exposure, BURN, BP_GROIN, 0, 0, "Fire")
-	apply_damage(0.6*mx*legs_exposure,  BURN, BP_L_LEG, 0, 0, "Fire")
-	apply_damage(0.6*mx*legs_exposure,  BURN, BP_R_LEG, 0, 0, "Fire")
-	apply_damage(0.4*mx*arms_exposure,  BURN, BP_L_ARM, 0, 0, "Fire")
-	apply_damage(0.4*mx*arms_exposure,  BURN, BP_R_ARM, 0, 0, "Fire")
+	apply_damage(2.5*mx*head_exposure,  BURN, BP_HEAD,  0, 0)
+	apply_damage(2.5*mx*chest_exposure, BURN, BP_TORSO, 0, 0)
+	apply_damage(2.0*mx*groin_exposure, BURN, BP_GROIN, 0, 0)
+	apply_damage(0.6*mx*legs_exposure,  BURN, BP_L_LEG, 0, 0)
+	apply_damage(0.6*mx*legs_exposure,  BURN, BP_R_LEG, 0, 0)
+	apply_damage(0.4*mx*arms_exposure,  BURN, BP_L_ARM, 0, 0)
+	apply_damage(0.4*mx*arms_exposure,  BURN, BP_R_ARM, 0, 0)

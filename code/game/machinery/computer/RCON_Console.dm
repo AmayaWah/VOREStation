@@ -10,19 +10,19 @@
 	icon_keyboard = "power_key"
 	icon_screen = "ai-fixer"
 	light_color = "#a97faa"
-	circuit = /obj/item/weapon/circuitboard/rcon_console
+	circuit = /obj/item/circuitboard/rcon_console
 	req_one_access = list(access_engine)
 	var/current_tag = null
 	var/datum/tgui_module/rcon/rcon
 
-/obj/machinery/computer/rcon/New()
-	..()
+/obj/machinery/computer/rcon/Initialize(mapload)
+	. = ..()
 	rcon = new(src)
 
 /obj/machinery/computer/rcon/Destroy()
 	qdel(rcon)
 	rcon = null
-	..()
+	. = ..()
 
 // Proc: attack_hand()
 // Parameters: 1 (user - Person which clicked this computer)

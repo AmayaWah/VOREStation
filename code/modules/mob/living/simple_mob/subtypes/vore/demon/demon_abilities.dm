@@ -1,19 +1,19 @@
 /mob/living/simple_mob/vore/demon/verb/blood_crawl()
 	set name = "Bloodcrawl"
 	set desc = "Shift out of reality using blood as your gateway"
-	set category = "Abilities"
+	set category = "Abilities.Demon"
 
 	var/turf/T = get_turf(src)
 	if(!T.CanPass(src,T) || loc != T)
-		to_chat(src,"<span class='warning'>You can't use that here!</span>")
+		to_chat(src,span_warning("You can't use that here!"))
 		return FALSE
 
 	if(shift_state && shift_state == AB_SHIFT_ACTIVE)
-		to_chat(src,"<span class='warning'>You can't do a shift while actively shifting!</span>")
+		to_chat(src,span_warning("You can't do a shift while actively shifting!"))
 		return FALSE
 
 	if(!(locate(/obj/effect/decal/cleanable/blood) in src.loc))
-		to_chat(src,"<span class='warning'>You need blood to shift between realities!</span>")
+		to_chat(src,span_warning("You need blood to shift between realities!"))
 		return FALSE
 
 	forceMove(T)
@@ -45,7 +45,7 @@
 
 		//Cosmetics mostly
 		flick("phasein",src)
-		custom_emote(1,"phases in!")
+		automatic_custom_emote(VISIBLE_MESSAGE,"phases in!")
 		sleep(30) //The duration of the TP animation
 		is_shifting = FALSE
 		canmove = original_canmove
@@ -57,7 +57,7 @@
 				var/mob/living/target = pick(potentials)
 				if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
 					target.forceMove(vore_selected)
-					to_chat(target,"<span class='warning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
+					to_chat(target,span_vwarning("\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!"))
 
 		// Do this after the potential vore, so we get the belly
 		update_icon()
@@ -68,7 +68,7 @@
 		//Affect nearby lights
 		var/destroy_lights = 0
 
-		for(var/obj/machinery/light/L in machines)
+		for(var/obj/machinery/light/L in GLOB.machines)
 			if(L.z != z || get_dist(src,L) > 10)
 				continue
 
@@ -83,7 +83,7 @@
 	else
 		shifted_out = TRUE
 		shift_state = AB_SHIFT_PASSIVE
-		custom_emote(1,"phases out!")
+		automatic_custom_emote(VISIBLE_MESSAGE,"phases out!")
 		real_name = name
 		name = "Something"
 		health = maxHealth	//Fullheal
@@ -108,21 +108,21 @@
 /mob/living/simple_mob/vore/demon/verb/phase_shift()
 	set name = "Phase Shift"
 	set desc = "Shift out of reality temporarily"
-	set category = "Abilities"
+	set category = "Abilities.Demon"
 
 
 	var/turf/T = get_turf(src)
 
 	if(shift_state && shift_state == AB_SHIFT_PASSIVE)
-		to_chat(src,"<span class='warning'>You can't do a shift while passively shifting!</span>")
+		to_chat(src,span_warning("You can't do a shift while passively shifting!"))
 		return FALSE
 
 	if(shifted_out)
-		to_chat(src,"<span class='warning'>You can't return to the physical world yet!</span>")
+		to_chat(src,span_warning("You can't return to the physical world yet!"))
 		return FALSE
 
 	if(world.time - last_shift < 600)
-		to_chat(src,"<span class='warning'>You can't temporarily shift so soon! You need to wait [round(((last_shift+600)-world.time)/10)] second\s!</span>")
+		to_chat(src,span_warning("You can't temporarily shift so soon! You need to wait [round(((last_shift+600)-world.time)/10)] second\s!"))
 		return FALSE
 
 	shift_state = AB_SHIFT_ACTIVE
@@ -139,7 +139,7 @@
 	is_shifting = TRUE
 
 	shifted_out = TRUE
-	custom_emote(1,"phases out!")
+	automatic_custom_emote(VISIBLE_MESSAGE,"phases out!")
 	real_name = name
 	name = "Something"
 
@@ -179,7 +179,7 @@
 
 		//Cosmetics mostly
 		flick("phasein",src)
-		custom_emote(1,"phases in!")
+		automatic_custom_emote(VISIBLE_MESSAGE,"phases in!")
 		sleep(30) //The duration of the TP animation
 		is_shifting = FALSE
 		canmove = original_canmove
@@ -201,7 +201,7 @@
 				var/mob/living/target = pick(potentials)
 				if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
 					target.forceMove(vore_selected)
-					to_chat(target,"<span class='warning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
+					to_chat(target,span_vwarning("\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!"))
 
 		// Do this after the potential vore, so we get the belly
 		update_icon()

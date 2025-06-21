@@ -54,7 +54,7 @@
 
 /obj/item/clothing/under/rank/mailman
 	name = "mailman's jumpsuit"
-	desc = "<i>'Special delivery!'</i>"
+	desc = span_italics("'Special delivery!'")
 	icon_state = "mailman"
 	item_state_slots = list(slot_r_hand_str = "blue", slot_l_hand_str = "blue")
 	rolled_sleeves = 0
@@ -64,12 +64,12 @@
 	desc = "It makes you look HONKable!"
 	icon_state = "sexyclown"
 	item_state_slots = list(slot_r_hand_str = "clown", slot_l_hand_str = "clown")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 	rolled_sleeves = -1 //Please never
 
 /obj/item/clothing/under/clown //i'm only putting it here to make subtypes of it, since the original suit is under/rank/clown
 	name = "clown suit"
-	desc = "<i><font face='comic sans ms'>Honk!</i></font>"
+	desc = span_italics("<font face='comic sans ms'>Honk!</font>")
 	icon_state = "clown"
 	rolled_sleeves = -1
 
@@ -138,7 +138,7 @@
 	w_class = ITEMSIZE_LARGE//bulky item
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.02
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+	body_parts_covered = CHEST|LEGS|FEET|ARMS|HANDS
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | ARMS //Needs gloves and shoes with cold protection to be fully protected.
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
 	rolled_sleeves = 0
@@ -150,7 +150,7 @@
 	desc = "it's a cybernetically enhanced jumpsuit used for administrative duties."
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+	body_parts_covered = CHEST|LEGS|FEET|ARMS|HANDS
 	armor = list(melee = 100, bullet = 100, laser = 100,energy = 100, bomb = 100, bio = 100, rad = 100)
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
@@ -176,7 +176,7 @@
 	desc = "A thick, layered grey undersuit lined with power cables. Feels a little like wearing an electrical storm."
 	icon_state = "psysuit"
 	item_state_slots = list(slot_r_hand_str = "black", slot_l_hand_str = "black")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+	body_parts_covered = CHEST|LEGS|FEET|ARMS|HANDS
 
 /obj/item/clothing/under/gentlesuit
 	name = "gentlemans suit"
@@ -218,7 +218,7 @@
 /obj/item/clothing/under/suit_jacket/female/skirt
 	name = "executive skirt"
 	desc = "A formal suit skirt  for women, intended for the station's finest."
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	body_parts_covered = CHEST|ARMS
 	icon_state = "black_suit_fem"
 	item_state = "black_formal_skirt"
 
@@ -227,7 +227,7 @@
 	desc = "It's just like one of my Japanese animes!"
 	icon_state = "schoolgirl"
 	item_state_slots = list(slot_r_hand_str = "blue", slot_l_hand_str = "blue")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/overalls
 	name = "laborer's overalls"
@@ -239,13 +239,33 @@
 	name = "sleek overalls"
 	desc = "A set of modern pleather reinforced overalls."
 	icon_state = "overalls_sleek"
+	body_parts_covered = CHEST|LEGS
+
+/obj/item/clothing/under/overalls/service
+	name = "workman overalls"
+	desc = "The very image of a working man. Not that you're probably doing work."
+	icon_state = "mechanic_over"
+	item_state_slots = list(slot_r_hand_str = "cargo", slot_l_hand_str = "cargo")
+	rolled_sleeves = 0
+
+/obj/item/clothing/under/overalls/frontier
+	name = "frontier overalls"
+	desc = "Simple denim overalls. A popular style among frontier colonists, when paired with a flannel."
+	icon_state = "frontier_over"
+	worn_state = "frontier_over"
+
+/obj/item/clothing/under/overalls/rustler
+	name = "rustler overalls"
+	desc = "A rugged pair of overalls for rustling cattle out on the frontier."
+	icon_state = "rustler_over"
+	worn_state = "rustler_over"
 
 /obj/item/clothing/under/pirate
 	name = "pirate outfit"
 	desc = "Yarr."
 	icon_state = "pirate"
 	item_state_slots = list(slot_r_hand_str = "sl_suit", slot_l_hand_str = "sl_suit")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/soviet
 	name = "soviet uniform"
@@ -263,7 +283,7 @@
 	name = "kilt"
 	desc = "Includes shoes and plaid"
 	icon_state = "kilt"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|FEET
+	body_parts_covered = CHEST|FEET
 	rolled_sleeves = 0
 
 /obj/item/clothing/under/sexymime
@@ -271,7 +291,7 @@
 	desc = "The only time when you DON'T enjoy looking at someone's rack."
 	icon_state = "sexymime"
 	item_state_slots = list(slot_r_hand_str = "mime", slot_l_hand_str = "mime")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 	rolled_sleeves = -1 //Please never
 
 /obj/item/clothing/under/sexymime/dress //another style of dress closer to the jumpsuit than the sexy outfit
@@ -292,32 +312,12 @@
 	icon_state = "ascetic"
 	item_state_slots = list(slot_r_hand_str = "white", slot_l_hand_str = "white")
 
-/obj/item/clothing/under/robe
-	name = "black robe"
-	desc = "A black robe. It gives off uncomfortable cult vibes."
-	icon_state = "robe"
-
-/obj/item/clothing/under/whiterobe
-	name = "white robe"
-	desc = "A white robe. It gives off uncomfortable cult vibes."
-	icon_state = "whiterobe"
-
-/obj/item/clothing/under/goldrobe
-	name = "black gold-lined robe"
-	desc = "A gold-lined black robe. It gives off uncomfortable cult vibes, but fancy."
-	icon_state = "goldrobe"
-
-/obj/item/clothing/under/whitegoldrobe
-	name = "white gold-lined robe"
-	desc = "A gold-lined white robe. It gives off uncomfortable cult vibes, but fancy."
-	icon_state = "whitegoldrobe"
-
 /*
  * Dress Stuff
  */
 
 /obj/item/clothing/under/dress
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/blacktango
 	name = "black tango dress"
@@ -360,6 +360,11 @@
 	desc = "You must be a bit risque teasing all of them in a maid uniform!"
 	icon_state = "sexymaid"
 
+/obj/item/clothing/under/dress/maid/under_maid
+	name = "modern maid costume"
+	desc = "You're going to use this for housekeeping, right?"
+	icon_state = "under_maid"
+
 /obj/item/clothing/under/dress/dress_fire
 	name = "flame dress"
 	desc = "A small black dress with blue flames print on it."
@@ -393,36 +398,39 @@
 
 /obj/item/clothing/under/dress/dress_cap
 	name = "site manager's dress uniform"
-	desc = "Feminine fashion for the style conscious Site Manager."
+	desc = "Feminine fashion for the style conscious " + JOB_SITE_MANAGER + "."
 	icon_state = "dress_cap"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	body_parts_covered = CHEST|ARMS
 
 /obj/item/clothing/under/dress/dress_hop
 	name = "head of personnel dress uniform"
 	desc = "Feminine fashion for the style conscious HoP."
 	icon_state = "dress_hop"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	body_parts_covered = CHEST|ARMS
 
 /obj/item/clothing/under/dress/dress_hr
 	name = "human resources director uniform"
 	desc = "Superior class for the nosy H.R. Director."
 	icon_state = "huresource"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	body_parts_covered = CHEST|ARMS
 
 /obj/item/clothing/under/dress/black_corset
 	name = "black corset"
 	desc = "A black corset and skirt for those fancy nights out."
 	icon_state = "black_corset"
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/flower_dress
 	name = "flower dress"
 	desc = "A beautiful dress with a skirt of flowers."
 	icon_state = "flower_dress"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/red_swept_dress
 	name = "red swept dress"
 	desc = "A red dress that sweeps to the side."
 	icon_state = "red_swept_dress"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/flamenco
 	name = "flamenco dress"
@@ -485,11 +493,13 @@
 	name = "polka dot dress"
 	desc = "A sleeveless, cream colored dress with red polka dots."
 	icon_state = "polka"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/twistfront
 	name = "twistfront crop dress"
 	desc = "A black skirt and red twistfront croptop. Fancy!"
 	icon_state = "twistfront"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/cropdress
 	name = "crop dress"
@@ -515,26 +525,31 @@
 	name = "little black dress"
 	desc = "A little strapless black dress with a red ribbon and flower accessory."
 	icon_state = "littleblackdress"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/pinktutu
 	name = "pink tutu"
 	desc = "A black leotard with a pink mesh tutu. Perfect for ballet practice."
 	icon_state = "pinktutu"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/festivedress
 	name = "festive dress"
 	desc = "A red and white dress themed after some winter holidays. Tastefully festive!"
 	icon_state = "festivedress"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/revealingdress
 	name = "revealing dress"
 	desc = "A very revealing black and blue dress. Is this work appropriate?"
 	icon_state = "revealingdress"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/gothic
 	name = "gothic dress"
 	desc = "A black dress with a sheer mesh over it, tastefully old school goth."
 	icon_state = "gothic"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/formalred
 	name = "formal red dress"
@@ -558,14 +573,9 @@
 	icon_state = "countess"
 
 /obj/item/clothing/under/dress/verglasdress
-    name = "verglas dress"
-    desc = "The modern twist on a forgotten pattern, the Verglas style utilizes comfortable velvet and silver white satin to create an otherworldly effect evocative of winter, or the void."
-    icon_state = "verglas_dress"
-
-/obj/item/clothing/under/dress/goddess
-	name = "goddess dress"
-	desc = "A blue and orange dress fit for a goddess."
-	icon_state = "goddess"
+	name = "verglas dress"
+	desc = "The modern twist on a forgotten pattern, the Verglas style utilizes comfortable velvet and silver white satin to create an otherworldly effect evocative of winter, or the void."
+	icon_state = "verglas_dress"
 
 /obj/item/clothing/under/dress/alpine
 	name = "alpine dress"
@@ -581,18 +591,39 @@
 	name = "golden wrap"
 	desc = "An outfit so ostentatious that you feel poorer just looking at it."
 	icon_state = "goldwrap"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/hightrousers
 	name = "high-waisted trousers"
 	desc = "A waistline this high is just made for ripping bodices, swashing buckles, or - just occasionally - sucking blood."
 	icon_state = "gayvampire"
 
+/obj/item/clothing/under/dress/singer
+	name = "blue singer dress"
+	desc = "Just looking at this makes you want to sing."
+	icon_state = "bsing"
+
+/obj/item/clothing/under/dress/singer/yellow
+	name = "yellow singer dress"
+	desc = "Just looking at this makes you want to sing."
+	icon_state = "ysing"
+
+/obj/item/clothing/under/dress/tabard
+	name = "white tabard-dress"
+	desc = "A gold-trimmed white tabard-dress with a large V-shaped boob window. For when you want to show off your hips and look classy at the same time."
+	icon_state = "white_tabard"
+
+/obj/item/clothing/under/dress/tabard/black
+	name = "black tabard-dress"
+	desc = "A gold-trimmed black tabard-dress with a large circular boob window. For when you want to show off your hips and look classy at the same time."
+	icon_state = "black_tabard"
+
 /*
  * Wedding Stuff
  */
 
 /obj/item/clothing/under/wedding
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/wedding/bride_orange
 	name = "orange wedding dress"
@@ -623,7 +654,7 @@
 	desc = "A white wedding gown made from the finest silk."
 	icon_state = "bride_white"
 	flags_inv = HIDESHOES
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/wedding/floofdress
 	name = "floofy dress"
@@ -644,49 +675,49 @@
 	name = "sundress"
 	desc = "Makes you want to frolic in a field of daisies."
 	icon_state = "sundress"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/sundress_white
 	name = "flowery white sundress"
 	desc = "A white sundress decorated with purple lilies."
 	icon_state = "sundress_white"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/sundress_pink
 	name = "pink stripied sundress"
 	desc = "A cute pink sundress."
 	icon_state = "pinksun"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/sundress_white
 	name = "white sundress"
 	desc = "A white sundress, it's short."
 	icon_state = "whitesun"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/sundress_pinkbow
 	name = "bowed pink sundress"
 	desc = "A cute pink sundress with a bow."
 	icon_state = "bowsun"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/sundress_blue
 	name = "long blue sundress"
 	desc = "A long blue sun dress with white frills towards the bottom."
 	icon_state = "bluesun"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/dress/sundress_pinkshort
 	name = "short pink sundress"
 	desc = "A very short pink sundress, it's more like a chemise."
 	icon_state = "shortpink"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/twopiece
 	name = "two-piece dress"
 	desc = "A fancy two-piece dress, the pieces are sewn together."
 	icon_state = "twopiece"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/dress/gothic2
 	name = "lacey gothic dress"
@@ -695,7 +726,7 @@
 
 /obj/item/clothing/under/captainformal
 	name = "site manager's formal uniform"
-	desc = "A Site Manager's formal-wear, for special occasions."
+	desc = "A " + JOB_SITE_MANAGER + "'s formal-wear, for special occasions."
 	icon_state = "captain_formal"
 	item_state_slots = list(slot_r_hand_str = "lawyer_blue", slot_l_hand_str = "lawyer_blue")
 
@@ -781,7 +812,7 @@
 
 /obj/item/clothing/under/gov
 	name = "green formal uniform"
-	desc = "A neat proper uniform of someone on offical business. The collar is <i>immaculately</i> starched."
+	desc = "A neat proper uniform of someone on offical business. The collar is " + span_italics("immaculately") + " starched."
 	icon_state = "greensuit"
 	item_state_slots = list(slot_r_hand_str = "centcom", slot_l_hand_str = "centcom")
 	starting_accessories = list(/obj/item/clothing/accessory/tie/darkgreen)
@@ -836,7 +867,7 @@
 	name = "white cheongsam"
 	desc = "It is a white cheongsam dress."
 	icon_state = "cheongsam-white"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/cheongsam/red
 	name = "red cheongsam"
@@ -872,18 +903,6 @@
 	name = "dark blue cheongsam"
 	desc = "It is a dark blue cheongsam dress."
 	icon_state = "cheongsam-darkblue"
-
-/obj/item/clothing/under/qipao_colorable
-	name = "qipao"
-	desc = "A traditional Chinese women's garment, typically made from silk."
-	icon_state = "qipao"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
-
-/obj/item/clothing/under/qipao2_colorable
-	name = "slim qipao"
-	desc = "A traditional Chinese women's garment, typically made from silk. This one is fairly slim."
-	icon_state = "qipao2"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 
 /obj/item/clothing/under/blazer
 	name = "blue blazer"
@@ -937,6 +956,11 @@
 	desc = "Jean shorts and a black halter top. Perfect for casual Fridays!"
 	icon_state = "haltertop"
 
+/obj/item/clothing/under/tanktop
+	name = "tank top"
+	desc = "The most versatile top ever created."
+	icon_state = "tanktop"
+
 /obj/item/clothing/under/rippedpunk
 	name = "ripped punk jeans"
 	desc = "Black ripped jeans and a fishnet top. How punk."
@@ -946,11 +970,13 @@
 	name = "green asymmetrical jumpsuit"
 	desc = "A green futuristic uniform with asymmetrical pants. Trendy!"
 	icon_state = "greenasym"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/cyberpunkharness
 	name = "cyberpunk strapped harness"
 	desc = "A cyberpunk styled harness and pants. Perfect for your dystopian future."
 	icon_state = "cyberhell"
+	body_parts_covered = CHEST|LEGS
 
 /obj/item/clothing/under/blackngold
 	name = "black and gold gown"
@@ -971,11 +997,13 @@
 	name = "flower skirt"
 	desc = "A flowery skirt that comes in a variety of colors."
 	icon_state = "flowerskirt"
+	body_parts_covered = LOWER_TORSO
 
 /obj/item/clothing/under/fashionminiskirt
 	name = "fashionable miniskirt"
 	desc = "An impractically short miniskirt allegedly making waves through the local fashion scene."
 	icon_state = "miniskirt_fashion"
+	body_parts_covered = LOWER_TORSO
 
 /obj/item/clothing/under/retrosweater
 	name = "retro sweater"
@@ -1055,25 +1083,20 @@
 	desc = "A rather skimpy cow patterned swimsuit."
 	icon_state = "swim_cow"
 
-/obj/item/clothing/under/wetsuit
-	name = "wetsuit"
-	desc = "For when you need to scuba dive your way into an enemy base."
-	icon_state = "wetsuit"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
-	cold_protection = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+/obj/item/clothing/under/swimsuit/highclass
+	name = "high class swimsuit"
+	desc = "An elegant swimsuit with a white bikini top and black bikini bottom. Thin black silk drapes down the back and goes to the upper thighs, and authentic gold rings hold the top together at the bust and back."
+	icon_state = "swim_highclass"
 
-/obj/item/clothing/under/wetsuit_skimpy
-	name = "tactical wetsuit"
-	desc = "For when you need to scuba dive your way into an enemy base but still want to show off a little skin."
-	icon_state = "wetsuit_skimpy"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+/obj/item/clothing/under/swimsuit/risque
+	name = "risque swimsuit"
+	desc = "This fits a bit too snug in all the right places. Comes with a collar, for inscrutable reasons."
+	icon_state = "swim_risque"
 
-/obj/item/clothing/under/wetsuit_rec
-	name = "recreational wetsuit"
-	desc = "For when you need to kayak your way into an enemy base."
-	icon_state = "wetsuit_rec"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
-	cold_protection = UPPER_TORSO|LOWER_TORSO
+/obj/item/clothing/under/swimsuit/streamlined
+	name = "streamlined swimsuit"
+	desc = "An all white one-piece that maintains modesty without sacrificing class."
+	icon_state = "swim_stream"
 
 /*
  * Pyjamas
@@ -1084,14 +1107,14 @@
 	desc = "Slightly old-fashioned sleepwear."
 	icon_state = "blue_pyjamas"
 	item_state_slots = list(slot_r_hand_str = "blue", slot_l_hand_str = "blue")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+	body_parts_covered = CHEST|ARMS|LEGS
 
 /obj/item/clothing/under/redpyjamas
 	name = "red pyjamas"
 	desc = "Slightly old-fashioned sleepwear."
 	icon_state = "red_pyjamas"
 	item_state_slots = list(slot_r_hand_str = "red", slot_l_hand_str = "red")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+	body_parts_covered = CHEST|ARMS|LEGS
 
 /obj/item/clothing/under/rank/psych/turtleneck/sweater
 	desc = "A warm looking sweater and a pair of dark blue slacks."
@@ -1104,7 +1127,7 @@
 	desc = "A flimsy examination gown, the back ties never close."
 	icon_state = "medicalgown"
 	worn_state = "medicalgown"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/bathrobe
 	name = "bathrobe"
@@ -1114,7 +1137,7 @@
 
 /obj/item/clothing/under/explorer
 	desc = "A green uniform for operating in hazardous environments."
-	name = "explorer's jumpsuit"
+	name = "away team's jumpsuit"
 	icon_state = "explorer"
 
 /obj/item/clothing/under/explorer/armored
@@ -1148,6 +1171,11 @@
 	desc = "An orange cohesion suit with yellow hazard stripes intended to assist Prometheans in maintaining their form and prevent direct skin exposure."
 	icon_state = "cohesionsuit_hazard"
 
+/obj/item/clothing/under/vampirehunter
+	name = "18th century outfit"
+	desc = "A flashy, if rather stiff set of ancient-styled slacks and tabard. The unyielding nature of the clothes often make one walk stiffly, but with divine purpose."
+	icon_state = "belmont"
+
 //Ranger uniforms
 //On-mob sprites go in icons\mob\uniform.dmi with the format "white_ranger_uniform_s" - with 'white' replaced with green, cyan, etc... of course! Note the _s - this is not optional.
 //Item sprites go in icons\obj\clothing\ranger.dmi with the format "white_ranger_uniform"
@@ -1161,7 +1189,7 @@
 	rolled_down = 0
 	rolled_sleeves = 0
 
-/obj/item/clothing/under/color/ranger/Initialize()
+/obj/item/clothing/under/color/ranger/Initialize(mapload)
 	. = ..()
 	if(icon_state == "ranger_uniform") //allows for custom items
 		name = "[unicolor] ranger uniform"
@@ -1300,12 +1328,13 @@
  */
 
 /obj/item/clothing/under/moderncoat
-	name = "modern wrapped coat"
+	name = "modern wrapped coat (pants)"
 	desc = "The cutting edge of fashion."
-	icon_state = "mod_coat"
-	worn_state = "mod_coat"
+	icon_state = "mod_coat_pants"
+	worn_state = "mod_coat_pants"
 	item_state_slots = list(slot_r_hand_str = "red", slot_l_hand_str = "red")
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	body_parts_covered = CHEST|LEGS
+	starting_accessories = list(/obj/item/clothing/accessory/jacket/modwrap)
 
 /obj/item/clothing/under/modjump
 	name = "modern jumpsuit"
@@ -1502,3 +1531,183 @@
 	name = "green crop-top christmas suit"
 	desc = "A simple green christmas suit that doesn't quite looks like Mrs Claus'. Smells minty!"
 	icon_state = "christmascroppedgreen"
+
+//leotards
+/obj/item/clothing/under/leotard
+	name = "black leotard"
+	desc = "A black leotard with a piece of semi-transparent cloth near the bust. Perfect for showing off cleavage. Bunny ears not included."
+	icon_state = "leotard"
+
+/obj/item/clothing/under/leotardcolor
+	name = "colored leotard"
+	desc = "A colorable leotard with a piece of semi-transparent cloth near the bust. Perfect for showing off cleavage. Bunny ears not included."
+	icon_state = "leotard_color"
+
+//skinsuits
+/obj/item/clothing/under/skinsuit
+	name = "skinsuit"
+	desc = "Similar to other form-fitting latex bodysuits in design and function, skinsuits typically feature integrated hardpoints around common wear areas."
+	icon_state = "skinsuit"
+
+/obj/item/clothing/under/skinsuit/gray
+	name = "gray skinsuit"
+	icon_state = "skinsuit_g"
+
+/obj/item/clothing/under/skinsuit/leotard
+	name = "leotard skinsuit"
+	desc = "The skinsuit's leotard variant has long since eclipsed its initial function as a breathable undersuit for submersible hardsuits. Although still utilized in this role, it has become rather fashionable to wear outside of deep water operations."
+	icon_state = "skinsuitleo"
+
+
+/obj/item/clothing/under/skinsuit/leotard/gray
+	name = "gray leotard skinsuit"
+	icon_state = "skinsuitleo_g"
+
+/obj/item/clothing/under/skinsuit/fem
+	name = "feminine skinsuit"
+	desc = "Similar to other form-fitting latex bodysuits in design and function, skinsuits typically feature integrated hardpoints around common wear areas."
+	icon_state = "skinsuitfem"
+
+/obj/item/clothing/under/skinsuit/fem/gray
+	name = "feminine gray skinsuit"
+	icon_state = "skinsuitfem_g"
+
+/obj/item/clothing/under/skinsuit/fem/leotard
+	name = "feminine leotard skinsuit"
+	desc = "The skinsuit's leotard variant has long since eclipsed its initial function as a breathable undersuit for submersible hardsuits. Although still utilized in this role, it has become rather fashionable to wear outside of deep water operations."
+	icon_state = "skinsuitfemleo"
+
+/obj/item/clothing/under/skinsuit/fem/leotard/gray
+	name = "feminine gray leotard skinsuit"
+	icon_state = "skinsuitfemleo_g"
+
+//baggy turtlenecks
+/obj/item/clothing/under/turtlebaggy
+	name = "cream baggy turtleneck (cream)"
+	desc = "A cozy knit turtleneck. It's too baggy and comfortable to be tactical."
+	icon_state = "bb_turtle"
+	body_parts_covered = CHEST|ARMS
+
+
+/obj/item/clothing/under/turtlebaggy/cream_fem
+	name = "feminine cream baggy turtleneck"
+	icon_state = "bb_turtle_fem"
+
+
+/obj/item/clothing/under/turtlebaggy/purple
+	name = "purple baggy turtleneck"
+	icon_state = "bb_turtlepur"
+
+
+/obj/item/clothing/under/turtlebaggy/purple_fem
+	name = "feminine purple baggy turtleneck"
+	icon_state = "bb_turtlepur_fem"
+
+
+/obj/item/clothing/under/turtlebaggy/red
+	name = "red baggy turtleneck"
+	icon_state = "bb_turtlered"
+
+
+/obj/item/clothing/under/turtlebaggy/red_fem
+	name = "feminine red baggy turtleneck"
+	icon_state = "bb_turtlered_fem"
+
+
+/obj/item/clothing/under/turtlebaggy/blue
+	name = "blue baggy turtleneck"
+	icon_state = "bb_turtleblu"
+
+
+/obj/item/clothing/under/turtlebaggy/blue_fem
+	name = "feminine blue baggy turtleneck"
+	icon_state = "bb_turtleblu_fem"
+
+
+/obj/item/clothing/under/turtlebaggy/green
+	name = "green baggy turtleneck"
+	icon_state = "bb_turtlegrn"
+
+
+/obj/item/clothing/under/turtlebaggy/green_fem
+	name = "feminine green baggy turtleneck"
+	icon_state = "bb_turtlegrn_fem"
+
+
+/obj/item/clothing/under/turtlebaggy/black
+	name = "black baggy turtleneck"
+	icon_state = "bb_turtleblk"
+
+
+/obj/item/clothing/under/turtlebaggy/black_fem
+	name = "feminine black baggy turtleneck"
+	icon_state = "bb_turtleblk_fem"
+
+//more big sweaters
+
+/obj/item/clothing/under/bigsweater
+	name = "cableknit sweater"
+	desc = "Why trade style for comfort?"
+	icon_state = "cableknit"
+	body_parts_covered = CHEST|ARMS
+
+/obj/item/clothing/under/bigsweater/keyhole
+	icon_state = "keyhole"
+
+/obj/item/clothing/under/keyhole
+	name = "cableknit sweater"
+	desc = "Why trade style for comfort?."
+	icon_state = "cableknit"
+	body_parts_covered = CHEST|ARMS
+
+
+//half-moon outfit
+/obj/item/clothing/under/half_moon
+	name = "half moon outfit"
+	desc = "This eminently fashionable outfit consists of a tailored latex leotard and daringly cut white shorts. Paired with plunging off-color stockings, it's to die for."
+	icon_state = "half_moon"
+
+//fiend clothes
+/obj/item/clothing/under/fiendsuit
+	name = "fiendish suit"
+	desc = "A red and black suit befitting someone from the dark pits themselves… Or someone way too edgy."
+	icon_state = "fiendsuit"
+
+
+/obj/item/clothing/under/fienddress
+	name = "fiendish dress"
+	desc = "A red and black dress befitting someone from the dark pits themselves… Or someone way too edgy."
+	icon_state = "fienddress"
+
+//bunny suits
+
+/obj/item/clothing/under/bunnysuit_maid
+	name = "bunny suit"
+	desc = "A black and white bunny suit, extremely skimpy. Tails and ears sold seperately."
+	icon_state = "bunnysuit_maid"
+
+/obj/item/clothing/under/bunnysuit
+	name = "bunny suit"
+	desc = "A bunny suit, extremely skimpy. Tails and ears sold seperately."
+	icon_state = "bunnysuit_colour"
+
+
+/obj/item/clothing/under/reverse_bunnysuit
+	name = "reverse bunny suit"
+	desc = "A reverse bunny suit, literally just covers everything except the bits you're supposed to. Tails and ears sold seperately."
+	icon_state = "reverse_bunnysuit_colour"
+
+/obj/item/clothing/under/reverse_bunnysuit_maid
+	name = "reverse bunny suit"
+	desc = "A maid themed reverse bunny suit, literally just covers everything except the bits you're supposed to. Tails and ears sold seperately."
+	icon_state = "reverse_bunnysuit_maid"
+
+/obj/item/clothing/under/reverse_bunnytop
+	name = "reverse bunny suit"
+	desc = "A reverse bunny suit, literally just covers everything except the bits you're supposed to. Tails and ears sold seperately."
+	icon_state = "reverse_bunnytop_colour"
+
+/obj/item/clothing/under/reverse_bunnytop_maid
+	name = "reverse bunny suit"
+	desc = "A maid themed reverse bunny suit, literally just covers everything except the bits you're supposed to. Tails and ears sold seperately."
+	icon_state = "reverse_bunnytop_maid"

@@ -26,6 +26,13 @@
 	return name
 
 /datum/species/proc/get_icobase(var/mob/living/carbon/human/H, var/get_deform)
+	if(base_species == name) //We don't have a custom base_species? Return the normal icobase.
+		return (get_deform ? deform : icobase)
+	else
+		var/datum/species/S = GLOB.all_species[base_species]
+		if(S) //So species can have multiple iconbases.
+			return S.get_icobase(H, get_deform)
+	//fallback
 	return (get_deform ? deform : icobase)
 
 /datum/species/proc/get_station_variant()
@@ -41,7 +48,7 @@
 	return ((H && H.isSynthetic()) ? "encounters a hardware fault and suddenly reboots!" : knockout_message)
 
 /datum/species/proc/get_death_message(var/mob/living/carbon/human/H)
-	if(config.show_human_death_message)
+	if(CONFIG_GET(flag/show_human_death_message))
 		return ((H && H.isSynthetic()) ? "gives one shrill beep before falling lifeless." : death_message)
 	else
 		return DEATHGASP_NO_MESSAGE
@@ -90,21 +97,31 @@
 	*/
 
 	var/discomfort_message
+	var/list/custom_cold = H.custom_cold
+	var/list/custom_heat = H.custom_heat
 	if(msg_type == ENVIRONMENT_COMFORT_MARKER_COLD && length(cold_discomfort_strings) /*&& !covered*/)
-		discomfort_message = pick(cold_discomfort_strings)
+		if(custom_cold && custom_cold.len > 0)
+			discomfort_message = pick(custom_cold)
+		else
+			discomfort_message = pick(cold_discomfort_strings)
 	else if(msg_type == ENVIRONMENT_COMFORT_MARKER_HOT && length(heat_discomfort_strings) /*&& covered*/)
-		discomfort_message = pick(heat_discomfort_strings)
+		if(custom_heat && custom_heat.len > 0)
+			discomfort_message = pick(custom_heat)
+		else
+			discomfort_message = pick(heat_discomfort_strings)
 
 	if(discomfort_message && prob(5))
-		to_chat(H, SPAN_DANGER(discomfort_message))
+		to_chat(H, span_danger(discomfort_message))
 	return !!discomfort_message
 
 /datum/species/proc/get_random_name(var/gender)
 	if(!name_language)
 		if(gender == FEMALE)
 			return capitalize(pick(first_names_female)) + " " + capitalize(pick(last_names))
-		else
+		else if(gender == MALE)
 			return capitalize(pick(first_names_male)) + " " + capitalize(pick(last_names))
+		else
+			return capitalize(prob(50) ? pick(first_names_male) : pick(first_names_female)) + " " + capitalize(pick(last_names))
 
 	var/datum/language/species_language = GLOB.all_languages[name_language]
 	if(!species_language)
@@ -115,3 +132,16 @@
 
 /datum/species/proc/get_vision_flags(var/mob/living/carbon/human/H)
 	return vision_flags
+
+/datum/species/proc/get_wing_hair(var/mob/living/carbon/human/H) //I have no idea what this is even used for other than teshari, but putting it in just in case.
+	return wing_hair //Since the tail has it.
+/datum/species/proc/get_wing(var/mob/living/carbon/human/H)
+		return wing
+/datum/species/proc/get_wing_animation(var/mob/living/carbon/human/H)
+	return wing_animation
+
+/datum/species/proc/get_perfect_belly_air_type(var/mob/living/carbon/human/H)
+	if(ideal_air_type)
+		return ideal_air_type						//Whatever we want
+	else
+		return /datum/gas_mixture/belly_air 		//Default

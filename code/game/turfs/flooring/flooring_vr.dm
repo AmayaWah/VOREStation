@@ -74,12 +74,6 @@
 	plating_type = /decl/flooring/eris_plating/under
 	can_paint = 1
 	can_engrave = TRUE
-	footstep_sounds = list("human" = list(
-		'sound/effects/footstep/floor1.ogg',
-		'sound/effects/footstep/floor2.ogg',
-		'sound/effects/footstep/floor3.ogg',
-		'sound/effects/footstep/floor4.ogg',
-		'sound/effects/footstep/floor5.ogg'))
 
 /turf/simulated/floor/tiled/milspec
 	name = "milspec floor"

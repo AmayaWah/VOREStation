@@ -1,23 +1,24 @@
 //A system to manage and display alerts on screen without needing you to do it yourself
 
-//PUBLIC -  call these wherever you want
+//PUBLIC - call these wherever you want
 
 
 /mob/proc/throw_alert(category, type, severity, obj/new_master)
 
-/* Proc to create or update an alert. Returns the alert if the alert is new or updated, 0 if it was thrown already
- category is a text string. Each mob may only have one alert per category; the previous one will be replaced
- path is a type path of the actual alert type to throw
- severity is an optional number that will be placed at the end of the icon_state for this alert
- For example, high pressure's icon_state is "highpressure" and can be serverity 1 or 2 to get "highpressure1" or "highpressure2"
- new_master is optional and sets the alert's icon state to "template" in the ui_style icons with the master as an overlay.
- Clicks are forwarded to master */
+/** Proc to create or update an alert. Returns the alert if the alert is new or updated, 0 if it was thrown already
+ * category is a text string. Each mob may only have one alert per category; the previous one will be replaced
+ * path is a type path of the actual alert type to throw
+ * severity is an optional number that will be placed at the end of the icon_state for this alert
+ * For example, high pressure's icon_state is "highpressure" and can be serverity 1 or 2 to get "highpressure1" or "highpressure2"
+ * new_master is optional and sets the alert's icon state to "template" in the ui_style icons with the master as an overlay.
+ * Clicks are forwarded to master
+ */
 
 	if(!category)
 		return
 
 	var/obj/screen/alert/alert
-	if(alerts[category])
+	if(LAZYACCESS(alerts, category))
 		alert = alerts[category]
 		if(new_master && new_master != alert.master)
 			WARNING("[src] threw alert [category] with new_master [new_master] while already having that alert with master [alert.master]")
@@ -46,28 +47,28 @@
 		alert.icon_state = "[initial(alert.icon_state)][severity]"
 		alert.severity = severity
 
-	alerts[category] = alert
+	LAZYSET(alerts, category, alert)
 	if(client && hud_used)
 		hud_used.reorganize_alerts()
 	alert.transform = matrix(32, 6, MATRIX_TRANSLATE)
 	animate(alert, transform = matrix(), time = 2.5, easing = CUBIC_EASING)
 
 	if(alert.timeout)
-		addtimer(CALLBACK(src, .proc/alert_timeout, alert, category), alert.timeout)
+		addtimer(CALLBACK(src, PROC_REF(alert_timeout), alert, category), alert.timeout)
 		alert.timeout = world.time + alert.timeout - world.tick_lag
 	return alert
 
 /mob/proc/alert_timeout(obj/screen/alert/alert, category)
-	if(alert.timeout && alerts[category] == alert && world.time >= alert.timeout)
+	if(alert.timeout && LAZYACCESS(alerts, category) == alert && world.time >= alert.timeout)
 		clear_alert(category)
 
 // Proc to clear an existing alert.
 /mob/proc/clear_alert(category)
-	var/obj/screen/alert/alert = alerts[category]
+	var/obj/screen/alert/alert = LAZYACCESS(alerts, category)
 	if(!alert)
 		return 0
 
-	alerts -= category
+	LAZYREMOVE(alerts, category)
 	if(client && hud_used)
 		hud_used.reorganize_alerts()
 		client.screen -= alert
@@ -150,16 +151,21 @@ The box in your backpack has an oxygen tank and gas mask in it."
 	name = "Choking (No Sleeping Gas)"
 	desc = "You're not getting enough sleeping gas. Find some good air before you pass out!"
 	icon_state = "not_enough_tox"
+
+/obj/screen/alert/not_enough_atmos
+	name = "Choking (No Breath)"
+	desc = "The atmosphere around you lacks any form of breathable air! Find some good air before you pass out!"
+	icon_state = "not_enough_oxy"
 //End gas alerts
 
 
 /obj/screen/alert/fat
-	name = "Fat"
-	desc = "You ate too much food, lardass. Run around the station and lose some weight."
+	name = "Full"
+	desc = "You've eaten more than you can handle, maybe you should slow down?"
 	icon_state = "fat"
 
 /obj/screen/alert/fat/vampire
-	desc = "You drank too much blood, lardass. Run around the station and lose some weight."
+	desc = "You've had more than enough blood, for now."
 	icon_state = "v_fat"
 
 /obj/screen/alert/fat/synth
@@ -172,7 +178,7 @@ The box in your backpack has an oxygen tank and gas mask in it."
 	icon_state = "hungry"
 
 /obj/screen/alert/hungry/vampire
-	desc = "You could use a bloodsnack or two."
+	desc = "You could go for a bite right now..."
 	icon_state = "v_hungry"
 
 /obj/screen/alert/hungry/synth
@@ -180,8 +186,8 @@ The box in your backpack has an oxygen tank and gas mask in it."
 	icon_state = "c_hungry"
 
 /obj/screen/alert/starving
-	name = "Starving"
-	desc = "You're severely malnourished. The hunger pains make moving around a chore."
+	name = "Very Hungry"
+	desc = "You're starving. You barely have enough energy to move around."
 	icon_state = "starving"
 
 /obj/screen/alert/starving/vampire
@@ -256,7 +262,7 @@ or something covering your eyes."
 
 /obj/screen/alert/high
 	name = "High"
-	desc = "Whoa man, you're tripping balls! Careful you don't get addicted... if you aren't already."
+	desc = "Whoa, you're tripping balls!"
 	icon_state = "high"
 
 /obj/screen/alert/embeddedobject
@@ -297,8 +303,8 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 //ALIENS
 
 /obj/screen/alert/alien_tox
-	name = "Plasma"
-	desc = "There's flammable plasma in the air. If it lights up, you'll be toast."
+	name = "Phoron"
+	desc = "There's flammable phoron in the air. If it lights up, you'll be toast."
 	icon_state = "alien_tox"
 	alerttooltipstyle = "alien"
 
@@ -350,7 +356,7 @@ Recharging stations are available in robotics, the dormitory bathrooms, and the 
 
 /obj/screen/alert/locked
 	name = "Locked Down"
-	desc = "Unit has been remotely locked down. Usage of a Robotics Control Console like the one in the Research Director's \
+	desc = "Unit has been remotely locked down. Usage of a Robotics Control Console like the one in the " + JOB_RESEARCH_DIRECTOR + "'s \
 office by your AI master or any qualified human may resolve this matter. Robotics may provide further assistance if necessary."
 	icon_state = "locked"
 	no_underlay = TRUE
@@ -428,21 +434,21 @@ so as to remain in compliance with the most up-to-date laws."
 /datum/hud/proc/reorganize_alerts()
 	var/list/alerts = mymob.alerts
 	if(!hud_shown)
-		for(var/i = 1, i <= alerts.len, i++)
-			mymob.client.screen -= alerts[alerts[i]]
-		return 1
-	for(var/i = 1, i <= alerts.len, i++)
+		for(var/i in 1 to length(alerts))
+			mymob?.client?.screen -= alerts[alerts[i]]
+		return TRUE
+	for(var/i in 1 to length(alerts))
 		var/obj/screen/alert/alert = alerts[alerts[i]]
-		
+
 		if(alert.icon_state in cached_icon_states(ui_style))
 			alert.icon = ui_style
-		
+
 		else if(!alert.no_underlay)
 			var/image/I = image(icon = ui_style, icon_state = "template")
 			I.color = ui_color
 			I.alpha = ui_alpha
 			alert.underlays = list(I)
-		
+
 		switch(i)
 			if(1)
 				. = ui_alert1
@@ -461,14 +467,14 @@ so as to remain in compliance with the most up-to-date laws."
 	return 1
 
 /mob
-	var/list/alerts = list() // contains /obj/screen/alert only // On /mob so clientless mobs will throw alerts properly
+	var/list/alerts = null // contains /obj/screen/alert only // On /mob so clientless mobs will throw alerts properly
 
 /obj/screen/alert/Click(location, control, params)
 	if(!usr || !usr.client)
 		return
 	var/paramslist = params2list(params)
 	if(paramslist["shift"]) // screen objects don't do the normal Click() stuff so we'll cheat
-		to_chat(usr,"<span class='boldnotice'>[name]</span> - <span class='info'>[desc]</span>")
+		to_chat(usr,span_boldnotice(name) + " - " + span_info(desc))
 		return
 	if(master)
 		return usr.client.Click(master, location, control, params)

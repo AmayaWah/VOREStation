@@ -17,10 +17,10 @@
 	icon_living = "space_mouse"
 	icon_dead = "space_mouse_dead"
 
-	faction = "space mouse"
+	faction = FACTION_SPACE_MOUSE
 	maxHealth = 20
 	health = 20
-	movement_cooldown = 1
+	movement_cooldown = -1
 
 	see_in_dark = 10
 
@@ -62,7 +62,11 @@
 	vore_default_item_mode = IM_DIGEST
 
 /mob/living/simple_mob/vore/alienanimals/dustjumper/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "You've been packed into the impossibly tight stomach of the dust jumper!!! The broiling heat seeps into you while the walls churn in powerfully, forcing you to curl up in the darkness."
@@ -77,11 +81,12 @@
 	. = ..()
 	if(!.)
 		return
-	if(vore_fullness == 0 && movement_cooldown == 50)
+	if(vore_fullness == 0 && movement_cooldown == 10)
 		movement_cooldown = initial(movement_cooldown)
-/mob/living/simple_mob/vore/alienanimals/dustjumper/perform_the_nom(mob/living/user, mob/living/prey, mob/living/pred, obj/belly/belly, delay)
+
+/mob/living/simple_mob/vore/alienanimals/dustjumper/perform_the_nom(mob/living/user, mob/living/prey, mob/living/pred, obj/belly/belly, delay_time)
 	. = ..()
-	movement_cooldown = 50
+	movement_cooldown = 10
 
 /datum/ai_holder/simple_mob/melee/evasive/dustjumper
 	hostile = FALSE

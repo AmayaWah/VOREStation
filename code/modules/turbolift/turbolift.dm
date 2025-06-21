@@ -9,7 +9,7 @@
 	var/floor_wait_delay = 85                           // Time to wait at floor stops.
 	var/obj/structure/lift/panel/control_panel_interior // Lift control panel.
 	var/doors_closing = 0								// Whether doors are in the process of closing
-	var/list/music = null								// Elevator music to set on areas
+	var/list/music = list('sound/music/elevator.ogg')	// Elevator music to set on areas
 	var/priority_mode = FALSE							// Flag to block buttons from calling the elevator if in priority mode.
 	var/fire_mode = FALSE								// Flag to indicate firefighter mode is active.
 
@@ -28,7 +28,7 @@
 	priority_mode = TRUE
 	cancel_pending_floors()
 	update_ext_panel_icons()
-	control_panel_interior.audible_message("<span class='info'>This turbolift is responding to a priority call.  Please exit the lift when it stops and make way.</span>", runemessage = "BUZZ")
+	control_panel_interior.audible_message(span_info("This turbolift is responding to a priority call.  Please exit the lift when it stops and make way."), runemessage = "BUZZ")
 	spawn(time)
 		priority_mode = FALSE
 		update_ext_panel_icons()
@@ -118,7 +118,7 @@
 				return PROCESS_KILL
 		if(LIFT_WAITING_A)
 			var/area/turbolift/origin = locate(current_floor.area_ref)
-			control_panel_interior.visible_message("<b>The elevator</b> announces, \"[origin.lift_announce_str]\"")
+			control_panel_interior.visible_message(span_infoplain(span_bold("The elevator") + " announces, \"[origin.lift_announce_str]\""))
 			next_process = world.time + floor_wait_delay
 			busy_state = LIFT_WAITING_B
 		if(LIFT_WAITING_B)
@@ -192,7 +192,7 @@
 
 	for(var/turf/T in destination)
 		for(var/atom/movable/AM in T)
-			if(istype(AM, /mob/living) && !(AM.is_incorporeal()))
+			if(isliving(AM) && !(AM.is_incorporeal()))
 				var/mob/living/M = AM
 				M.gib()
 			else if(AM.simulated && !(istype(AM, /mob/observer)) && !(AM.is_incorporeal()))

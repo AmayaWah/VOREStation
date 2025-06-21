@@ -13,12 +13,20 @@
 
 import { perf } from 'common/perf';
 import { createAction } from 'common/redux';
+import type { BooleanLike } from 'tgui-core/react';
+
 import { setupDrag } from './drag';
 import { focusMap } from './focus';
 import { createLogger } from './logging';
 import { resumeRenderer, suspendRenderer } from './renderer';
 
 const logger = createLogger('backend');
+
+export let globalStore;
+
+export const setGlobalStore = (store) => {
+  globalStore = store;
+};
 
 export const backendUpdate = createAction('backend/update');
 export const backendSetSharedState = createAction('backend/setSharedState');
@@ -58,12 +66,11 @@ export const backendReducer = (state = initialState, action) => {
     // Merge shared states
     const shared = { ...state.shared };
     if (payload.shared) {
-      for (let key of Object.keys(payload.shared)) {
+      for (const key of Object.keys(payload.shared)) {
         const value = payload.shared[key];
         if (value === '') {
           shared[key] = undefined;
-        }
-        else {
+        } else {
           shared[key] = JSON.parse(value);
         }
       }
@@ -115,11 +122,11 @@ export const backendReducer = (state = initialState, action) => {
   return state;
 };
 
-export const backendMiddleware = store => {
+export const backendMiddleware = (store) => {
   let fancyState;
   let suspendInterval;
 
-  return next => action => {
+  return (next) => (action) => {
     const { suspended } = selectBackend(store.getState());
     const { type, payload } = action;
 
@@ -134,7 +141,7 @@ export const backendMiddleware = store => {
     }
 
     if (type === 'ping') {
-      Byond.sendMessage('pingReply');
+      Byond.sendMessage('ping/reply');
       return;
     }
 
@@ -154,7 +161,7 @@ export const backendMiddleware = store => {
       Byond.winset(Byond.windowId, {
         'is-visible': false,
       });
-      setImmediate(() => focusMap());
+      setTimeout(() => focusMap());
     }
 
     if (type === 'backend/update') {
@@ -184,7 +191,7 @@ export const backendMiddleware = store => {
       setupDrag();
       // We schedule this for the next tick here because resizing and unhiding
       // during the same tick will flash with a white background.
-      setImmediate(() => {
+      setTimeout(() => {
         perf.mark('resume/start');
         // Doublecheck if we are not re-suspended.
         const { suspended } = selectBackend(store.getState());
@@ -194,10 +201,13 @@ export const backendMiddleware = store => {
         Byond.winset(Byond.windowId, {
           'is-visible': true,
         });
+        Byond.sendMessage('visible');
         perf.mark('resume/finish');
         if (process.env.NODE_ENV !== 'production') {
-          logger.log('visible in',
-            perf.measure('render/finish', 'resume/finish'));
+          logger.log(
+            'visible in',
+            perf.measure('render/finish', 'resume/finish'),
+          );
         }
       });
     }
@@ -212,6 +222,7 @@ export const backendMiddleware = store => {
  */
 export const sendAct = (action: string, payload: object = {}) => {
   // Validate that payload is an object
+  // prettier-ignore
   const isObject = typeof payload === 'object'
     && payload !== null
     && !Array.isArray(payload);
@@ -224,47 +235,56 @@ export const sendAct = (action: string, payload: object = {}) => {
 
 type BackendState<TData> = {
   config: {
-    title: string,
-    status: number,
-    interface: string,
-    refreshing: boolean,
+    title: string;
+    status: number;
+    interface: {
+      name: string;
+      layout: string;
+    };
+    refreshing: boolean;
+    map: string; // Vorestation Add
+    mapZLevel: number; // Vorestation Add
+    mapInfo: {
+      maxx: number; // Vorestation Add
+      maxy: number; // Vorestation Add
+    }; // Vorestation Add
     window: {
-      key: string,
-      size: [number, number],
-      fancy: boolean,
-      locked: boolean,
-    },
+      key: string;
+      size: [number, number];
+      fancy: BooleanLike;
+      locked: BooleanLike;
+      scale: BooleanLike;
+    };
     client: {
-      ckey: string,
-      address: string,
-      computer_id: string,
-    },
+      ckey: string;
+      address: string;
+      computer_id: string;
+    };
     user: {
-      name: string,
-      observer: number,
-    },
-  },
-  data: TData,
-  shared: Record<string, any>,
-  suspending: boolean,
-  suspended: boolean,
+      name: string;
+      observer: number;
+    };
+  };
+  data: TData;
+  shared: Record<string, any>;
+  suspending: boolean;
+  suspended: boolean;
 };
 
 /**
  * Selects a backend-related slice of Redux state
  */
-export const selectBackend = <TData>(state: any): BackendState<TData> => (
-  state.backend || {}
-);
+export const selectBackend = <TData>(state: any): BackendState<TData> =>
+  state.backend || {};
 
 /**
  * Get data from tgui backend.
  *
  * Includes the `act` function for performing DM actions.
  */
-export const useBackend = <TData>(context: any) => {
-  const { store } = context;
-  const state = selectBackend<TData>(store.getState());
+export const useBackend = <TData>() => {
+  const state: BackendState<TData> = globalStore?.getState()?.backend;
+
   return {
     ...state,
     act: sendAct,
@@ -275,45 +295,6 @@ export const useBackend = <TData>(context: any) => {
  * A tuple that contains the state and a setter function for it.
  */
 type StateWithSetter<T> = [T, (nextState: T) => void];
-
-/**
- * Allocates state on Redux store without sharing it with other clients.
- *
- * Use it when you want to have a stateful variable in your component
- * that persists between renders, but will be forgotten after you close
- * the UI.
- *
- * It is a lot more performant than `setSharedState`.
- *
- * @param context React context.
- * @param key Key which uniquely identifies this state in Redux store.
- * @param initialState Initializes your global variable with this value.
- */
-export const useLocalState = <T>(
-  context: any,
-  key: string,
-  initialState: T,
-): StateWithSetter<T> => {
-  const { store } = context;
-  const state = selectBackend(store.getState());
-  const sharedStates = state.shared ?? {};
-  const sharedState = (key in sharedStates)
-    ? sharedStates[key]
-    : initialState;
-  return [
-    sharedState,
-    nextState => {
-      store.dispatch(backendSetSharedState({
-        key,
-        nextState: (
-          typeof nextState === 'function'
-            ? nextState(sharedState)
-            : nextState
-        ),
-      }));
-    },
-  ];
-};
 
 /**
  * Allocates state on Redux store, and **shares** it with other clients
@@ -330,28 +311,33 @@ export const useLocalState = <T>(
  * @param initialState Initializes your global variable with this value.
  */
 export const useSharedState = <T>(
-  context: any,
   key: string,
   initialState: T,
 ): StateWithSetter<T> => {
-  const { store } = context;
-  const state = selectBackend(store.getState());
-  const sharedStates = state.shared ?? {};
-  const sharedState = (key in sharedStates)
-    ? sharedStates[key]
-    : initialState;
+  const state = globalStore?.getState()?.backend;
+  const sharedStates = state?.shared ?? {};
+  const sharedState = key in sharedStates ? sharedStates[key] : initialState;
   return [
     sharedState,
-    nextState => {
+    (nextState) => {
       Byond.sendMessage({
         type: 'setSharedState',
         key,
-        value: JSON.stringify(
-          typeof nextState === 'function'
-            ? nextState(sharedState)
-            : nextState
-        ) || '',
+        value:
+          JSON.stringify(
+            typeof nextState === 'function'
+              ? nextState(sharedState)
+              : nextState,
+          ) || '',
       });
     },
   ];
+};
+
+export const useDispatch = () => {
+  return globalStore.dispatch;
+};
+
+export const useSelector = (selector: (state: any) => any) => {
+  return selector(globalStore?.getState());
 };

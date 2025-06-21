@@ -16,13 +16,13 @@ var/global/list/narsie_list = list()
 	consume_range = 3 //How many tiles out do we eat
 
 
-/obj/singularity/narsie/New()
-	..()
+/obj/singularity/narsie/Initialize(mapload)
+	. = ..()
 	narsie_list.Add(src)
 
 /obj/singularity/narsie/Destroy()
 	narsie_list.Remove(src)
-	..()
+	. = ..()
 
 /obj/singularity/narsie/large
 	name = "Nar-Sie"
@@ -40,10 +40,10 @@ var/global/list/narsie_list = list()
 	var/announce=1
 	var/cause_hell = 1
 
-/obj/singularity/narsie/large/New()
-	..()
+/obj/singularity/narsie/large/Initialize(mapload)
+	. = ..()
 	if(announce)
-		to_world("<font size='15' color='red'><b>[uppertext(name)] HAS RISEN</b></font>")
+		to_world(span_world(span_narsie(span_red("[uppertext(name)] HAS RISEN"))))
 		world << sound('sound/effects/weather/wind/wind_5_1.ogg')
 
 	narsie_spawn_animation()
@@ -79,7 +79,7 @@ var/global/list/narsie_list = list()
 			if(M.status_flags & GODMODE)
 				continue
 			if(!iscultist(M))
-				to_chat(M, "<span class='danger'> You feel your sanity crumble away in an instant as you gaze upon [src.name]...</span>")
+				to_chat(M, span_danger("You feel your sanity crumble away in an instant as you gaze upon [src.name]..."))
 				M.apply_effect(3, STUN)
 
 
@@ -101,7 +101,7 @@ var/global/list/narsie_list = list()
 	if(!move_self)
 		return 0
 
-	var/movement_dir = pick(alldirs - last_failed_movement)
+	var/movement_dir = pick(GLOB.alldirs - last_failed_movement)
 
 	if(force_move)
 		movement_dir = force_move
@@ -119,7 +119,7 @@ var/global/list/narsie_list = list()
 	if(!move_self)
 		return 0
 
-	var/movement_dir = pick(alldirs - last_failed_movement)
+	var/movement_dir = pick(GLOB.alldirs - last_failed_movement)
 
 	if(force_move)
 		movement_dir = force_move
@@ -313,13 +313,13 @@ var/global/list/narsie_list = list()
 /obj/singularity/narsie/proc/acquire(const/mob/food)
 	var/capname = uppertext(name)
 
-	to_chat(target, "<span class='notice'><b>[capname] HAS LOST INTEREST IN YOU.</b></span>")
+	to_chat(target, span_boldnotice("[capname] HAS LOST INTEREST IN YOU."))
 	target = food
 
 	if (ishuman(target))
-		to_chat(target, "<span class='danger'>[capname] HUNGERS FOR YOUR SOUL.</span>")
+		to_chat(target, span_danger("[capname] HUNGERS FOR YOUR SOUL."))
 	else
-		to_chat(target, "<span class='danger'>[capname] HAS CHOSEN YOU TO LEAD HIM TO HIS NEXT MEAL.</span>")
+		to_chat(target, span_danger("[capname] HAS CHOSEN YOU TO LEAD HIM TO HIS NEXT MEAL."))
 
 /obj/singularity/narsie/on_capture()
 	chained = 1
@@ -362,6 +362,8 @@ var/global/list/narsie_list = list()
 	dir = SOUTH
 	move_self = 0
 	flick("narsie_spawn_anim",src)
-	sleep(11)
+	addtimer(CALLBACK(src, PROC_REF(after_animation)), 1.1 SECONDS, TIMER_DELETE_ME)
+
+/obj/singularity/narsie/proc/after_animation()
 	move_self = 1
 	icon = initial(icon)

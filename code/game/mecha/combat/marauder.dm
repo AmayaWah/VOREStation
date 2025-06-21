@@ -8,7 +8,6 @@
 	health = 350
 	maxhealth = 350		//Don't forget to update the /old variant if  you change this number.
 	deflect_chance = 25
-	damage_absorption = list("brute"=0.5,"fire"=0.7,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
 	max_temperature = 60000
 	infra_luminosity = 3
 	operation_req_access = list(access_cent_specops)
@@ -129,9 +128,9 @@
 	var/output = {"<div class='wr'>
 						<div class='header'>Special</div>
 						<div class='links'>
-						<a href='?src=\ref[src];toggle_thrusters=1'>Toggle thrusters</a><br>
-						<a href='?src=\ref[src];toggle_zoom=1'>Toggle zoom mode</a><br>
-						<a href='?src=\ref[src];smoke=1'>Smoke</a>
+						<a href='byond://?src=\ref[src];toggle_thrusters=1'>Toggle thrusters</a><br>
+						<a href='byond://?src=\ref[src];toggle_zoom=1'>Toggle zoom mode</a><br>
+						<a href='byond://?src=\ref[src];smoke=1'>Smoke</a>
 						</div>
 						</div>
 						"}
@@ -144,8 +143,8 @@
 
 	starting_equipment = null
 
-/obj/mecha/combat/marauder/old/New()
-	..()
+/obj/mecha/combat/marauder/old/Initialize(mapload)
+	. = ..()
 	health = 25
 	maxhealth = 300	//Just slightly worse.
 	cell.charge = rand(0, (cell.charge/2))

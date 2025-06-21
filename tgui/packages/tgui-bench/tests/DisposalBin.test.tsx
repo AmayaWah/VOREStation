@@ -1,20 +1,9 @@
-import { backendUpdate } from 'tgui/backend';
+import { backendUpdate, setGlobalStore } from 'tgui/backend';
 import { DisposalBin } from 'tgui/interfaces/DisposalBin';
-import { createRenderer } from 'tgui/renderer';
-import { configureStore, StoreProvider } from 'tgui/store';
+import { render } from 'tgui/renderer';
+import { configureStore } from 'tgui/store';
 
-const store = configureStore({ sideEffets: false });
-
-const renderUi = createRenderer((dataJson: string) => {
-  store.dispatch(backendUpdate({
-    data: Byond.parseJson(dataJson),
-  }));
-  return (
-    <StoreProvider store={store}>
-      <DisposalBin />
-    </StoreProvider>
-  );
-});
+const store = configureStore({ sideEffects: false });
 
 export const data = JSON.stringify({
   flush: 0,
@@ -25,4 +14,14 @@ export const data = JSON.stringify({
   isai: 0,
 });
 
-export const Default = () => renderUi(data);
+export function Default() {
+  setGlobalStore(store);
+
+  store.dispatch(
+    backendUpdate({
+      data: Byond.parseJson(data),
+    }),
+  );
+
+  return render(<DisposalBin />);
+}

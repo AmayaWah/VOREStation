@@ -51,9 +51,9 @@
 		var/area/A = control_area
 		if(A && istype(A))
 			A.turret_controls -= src
-	..()
+	. = ..()
 
-/obj/machinery/turretid/Initialize()
+/obj/machinery/turretid/Initialize(mapload)
 	if(!control_area)
 		control_area = get_area(src)
 	else if(ispath(control_area))
@@ -77,7 +77,7 @@
 /obj/machinery/turretid/proc/isLocked(mob/user)
 	if(isrobot(user) || isAI(user))
 		if(ailock)
-			to_chat(user, "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>")
+			to_chat(user, span_notice("There seems to be a firewall preventing you from accessing this device."))
 			return TRUE
 		else
 			return FALSE
@@ -94,23 +94,23 @@
 
 	return FALSE
 
-/obj/machinery/turretid/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/turretid/attackby(obj/item/W, mob/user)
 	if(stat & BROKEN)
 		return
 
-	if(istype(W, /obj/item/weapon/card/id)||istype(W, /obj/item/device/pda))
-		if(allowed(usr))
+	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda))
+		if(allowed(user))
 			if(emagged)
-				to_chat(user, "<span class='notice'>The turret control is unresponsive.</span>")
+				to_chat(user, span_notice("The turret control is unresponsive."))
 			else
 				locked = !locked
-				to_chat(user, "<span class='notice'>You [ locked ? "lock" : "unlock"] the panel.</span>")
+				to_chat(user, span_notice("You [ locked ? "lock" : "unlock"] the panel."))
 		return
 	return ..()
 
 /obj/machinery/turretid/emag_act(var/remaining_charges, var/mob/user)
 	if(!emagged)
-		to_chat(user, "<span class='danger'>You short out the turret controls' access analysis module.</span>")
+		to_chat(user, span_danger("You short out the turret controls' access analysis module."))
 		emagged = TRUE
 		locked = FALSE
 		ailock = FALSE
@@ -128,7 +128,7 @@
 /obj/machinery/turretid/tgui_interact(mob/user, datum/tgui/ui = null)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "PortableTurret", name) // 500, 400
+		ui = new(user, src, "PortableTurret", name, ui_x = 500, ui_y = 400) // 500, 400
 		ui.open()
 
 /obj/machinery/turretid/tgui_data(mob/user)
@@ -152,10 +152,10 @@
 	)
 	return data
 
-/obj/machinery/turretid/tgui_act(action, params)
+/obj/machinery/turretid/tgui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(isLocked(usr))
+	if(isLocked(ui.user))
 		return
 
 	. = TRUE

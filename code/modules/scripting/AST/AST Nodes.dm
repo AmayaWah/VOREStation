@@ -12,8 +12,7 @@
 	Articles:
 	- <http://en.wikipedia.org/wiki/Abstract_syntax_tree>
 */
-var
-	const
+
 /*
 	Constants: Operator Precedence
 	OOP_OR				- Logical or
@@ -27,16 +26,16 @@ var
 	OOP_UNARY			- Unary Operators
 	OOP_GROUP			- Parentheses
 */
-		OOP_OR      = 							1   //||
-		OOP_AND     = OOP_OR			+ 1   	//&&
-		OOP_BIT     = OOP_AND			+ 1   //&, |
-		OOP_EQUAL   = OOP_BIT			+ 1   //==, !=
-		OOP_COMPARE = OOP_EQUAL		+ 1   //>, <, >=, <=
-		OOP_ADD     = OOP_COMPARE	+ 1 	//+, -
-		OOP_MULTIPLY= OOP_ADD			+ 1   //*, /, %
-		OOP_POW     = OOP_MULTIPLY+ 1		//^
-		OOP_UNARY   = OOP_POW			+ 1   //!
-		OOP_GROUP   = OOP_UNARY		+ 1   //()
+var/const/OOP_OR      = 				  1   	// ||
+var/const/OOP_AND     = OOP_OR			+ 1   	// &&
+var/const/OOP_BIT     = OOP_AND			+ 1   	// &, |
+var/const/OOP_EQUAL   = OOP_BIT			+ 1   	// ==, !=
+var/const/OOP_COMPARE = OOP_EQUAL		+ 1   	// >, <, >=, <=
+var/const/OOP_ADD     = OOP_COMPARE		+ 1 	// +, -
+var/const/OOP_MULTIPLY= OOP_ADD			+ 1   	// *, /, %
+var/const/OOP_POW     = OOP_MULTIPLY	+ 1		// ^
+var/const/OOP_UNARY   = OOP_POW			+ 1   	// !
+var/const/OOP_GROUP   = OOP_UNARY		+ 1   	// ()
 
 /*
 	Class: node
@@ -64,16 +63,16 @@ var
 	Class: operator
 	See <Binary Operators> and <Unary Operators> for subtypes.
 */
-/node/expression/operator
+/node/expression/op
 	var/node/expression/exp
 	var/tmp/name
 	var/tmp/precedence
 
-/node/expression/operator/New()
+/node/expression/op/New()
 	.=..()
 	if(!src.name) src.name="[src.type]"
 
-/node/expression/operator/ToString()
+/node/expression/op/ToString()
 	return "operator: [name]"
 
 /*

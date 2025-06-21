@@ -7,16 +7,16 @@
 	desc = "A big stompy mech!"
 	icon = 'icons/mecha/mecha.dmi'
 
-	faction = "syndicate"
-	movement_cooldown = 5
+	faction = FACTION_SYNDICATE
+	movement_cooldown = 1.5
 	movement_sound = "mechstep" // This gets fed into playsound(), which can also take strings as a 'group' of sound files.
 	turn_sound = 'sound/mecha/mechturn.ogg'
 	maxHealth = 300
 	mob_size = MOB_LARGE
+	damage_threshold = 5 //Anything that's 5 or less damage will not do damage.
 
 	organ_names = /decl/mob_organ_names/mecha
 
-	// Very close to the base 'damage_absorption' var on the base mecha class.
 	armor = list(
 				"melee"		= 20,
 				"bullet"	= 10,
@@ -42,7 +42,7 @@
 	var/has_repair_droid = FALSE // If true, heals 2 damage every tick and gets a repair droid overlay.
 
 
-/mob/living/simple_mob/mechanical/mecha/Initialize()
+/mob/living/simple_mob/mechanical/mecha/Initialize(mapload)
 	sparks = new (src)
 	sparks.set_up(3, 1, src)
 	sparks.attach(src)
@@ -74,7 +74,8 @@
 		var/mob/living/L = new pilot_type(loc)
 		L.faction = src.faction
 
-	new wreckage(loc) // Leave some wreckage.
+	if(wreckage)
+		new wreckage(loc) // Leave some wreckage.
 
 	qdel(src) // Then delete us since we don't actually have a body.
 
@@ -115,7 +116,7 @@
 
 /mob/living/simple_mob/mechanical/mecha/bullet_act(obj/item/projectile/P)
 	if(prob(deflect_chance))
-		visible_message(span("warning", "\The [P] is deflected by \the [src]'s armor!"))
+		visible_message(span_warning("\The [P] is deflected by \the [src]'s armor!"))
 		deflect_sprite()
 		return 0
 	return ..()
@@ -130,7 +131,7 @@
 
 /mob/living/simple_mob/mechanical/mecha/attackby(obj/item/I, mob/user)
 	if(prob(deflect_chance))
-		visible_message(span("warning", "\The [user]'s [I] bounces off \the [src]'s armor!"))
+		visible_message(span_warning("\The [user]'s [I] bounces off \the [src]'s armor!"))
 		deflect_sprite()
 		user.setClickCooldown(user.get_attack_speed(I))
 		return

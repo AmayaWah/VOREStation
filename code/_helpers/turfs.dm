@@ -121,7 +121,7 @@
 	if(istype(T,/turf/simulated/shuttle))
 		shuttlework = 1
 		var/turf/simulated/shuttle/SS = T
-		if(!SS.landed_holder) SS.landed_holder = new(turf = SS)
+		if(!SS.landed_holder) SS.landed_holder = new(SS)
 		X = SS.landed_holder.land_on(B)
 
 	//Generic non-shuttle turf move.
@@ -156,7 +156,8 @@
 	for(var/obj/O in T)
 		if(O.simulated)
 			O.loc = X
-			O.update_light()
+			if(O.light_system == STATIC_LIGHT)
+				O.update_light()
 			if(z_level_change) // The objects still need to know if their z-level changed.
 				O.onTransitZ(T.z, X.z)
 

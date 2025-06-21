@@ -31,6 +31,9 @@
 
 //////////////////////////////////////////////////////////////////
 
+/// Signal that gets sent when a ghost query is completed
+#define COMSIG_GHOST_QUERY_COMPLETE "ghost_query_complete"
+
 // /datum signals
 /// when a component is added to a datum: (/datum/component)
 #define COMSIG_COMPONENT_ADDED "component_added"
@@ -58,6 +61,12 @@
 #define COMSIG_ATOM_CREATED "atom_created"
 //from SSatoms InitAtom - Only if the  atom was not deleted or failed initialization
 #define COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZE "atom_init_success"
+//from SSatoms InitAtom - Only if the  atom was not deleted or failed initialization and has a loc
+#define COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZED_ON "atom_init_success_on"
+
+/// called post /obj/item initialize (obj/item/created_item)
+#define COMSIG_GLOB_ATOM_AFTER_POST_INIT "!atom_after_post_init"
+
 ///from base of atom/attackby(): (/obj/item, /mob/living, params)
 #define COMSIG_PARENT_ATTACKBY "atom_attackby"
 ///Return this in response if you don't want later item attack procs to be called.
@@ -128,7 +137,7 @@
 #define COMSIG_ATOM_DIR_CHANGE "atom_dir_change"
 ///from base of atom/handle_atom_del(): (atom/deleted)
 #define COMSIG_ATOM_CONTENTS_DEL "atom_contents_del"
-///from base of atom/has_gravity(): (turf/location, list/forced_gravities)
+///from base of atom/get_gravity(): (turf/location, list/forced_gravities)
 #define COMSIG_ATOM_HAS_GRAVITY "atom_has_gravity"
 ///from proc/get_rad_contents(): ()
 #define COMSIG_ATOM_RAD_PROBE "atom_rad_probe"
@@ -138,7 +147,7 @@
 	#define COMPONENT_BLOCK_CONTAMINATION (1<<0)
 ///from base of datum/radiation_wave/check_obstructions(): (datum/radiation_wave, width)
 #define COMSIG_ATOM_RAD_WAVE_PASSING "atom_rad_wave_pass"
-  #define COMPONENT_RAD_WAVE_HANDLED (1<<0)
+	#define COMPONENT_RAD_WAVE_HANDLED (1<<0)
 ///from internal loop in atom/movable/proc/CanReach(): (list/next)
 #define COMSIG_ATOM_CANREACH "atom_can_reach"
 	#define COMPONENT_BLOCK_REACH (1<<0)
@@ -174,8 +183,6 @@
 ///from base of atom/attack_hand(): (mob/user)
 #define COMSIG_ATOM_ATTACK_HAND "atom_attack_hand"
 ///from base of atom/attack_paw(): (mob/user)
-#define COMSIG_ATOM_ATTACK_PAW "atom_attack_paw"
-	#define COMPONENT_NO_ATTACK_HAND (1<<0)								//works on all 3.
 //This signal return value bitflags can be found in __DEFINES/misc.dm
 
 ///called for each movable in a turf contents on /turf/zImpact(): (atom/movable/A, levels)
@@ -184,6 +191,8 @@
 #define COMSIG_ATOM_START_PULL "movable_start_pull"
 ///called on /living when someone starts pulling it (atom/movable/puller, state, force)
 #define COMSIG_LIVING_START_PULL "living_start_pull"
+///from base atom/Exited(): (mob/user, obj/item/extrapolator/extrapolator, dry_run, list/result)
+#define COMSIG_ATOM_EXTRAPOLATOR_ACT "atom_extrapolator_act"
 
 /////////////////
 
@@ -191,6 +200,8 @@
 #define COMSIG_ENTER_AREA "enter_area"
 ///from base of area/Exited(): (/area)
 #define COMSIG_EXIT_AREA "exit_area"
+///from base of client/Click(): (atom/target, atom/location, control, params, mob/user)
+#define COMSIG_CLIENT_CLICK "atom_client_click"
 ///from base of atom/Click(): (location, control, params, mob/user)
 #define COMSIG_CLICK "atom_click"
 ///from base of atom/ShiftClick(): (/mob)
@@ -219,7 +230,7 @@
 
 ///from base of turf/ChangeTurf(): (path, list/new_baseturfs, flags, list/transferring_comps)
 #define COMSIG_TURF_CHANGE "turf_change"
-///from base of atom/has_gravity(): (atom/asker, list/forced_gravities)
+///from base of atom/get_gravity(): (atom/asker, list/forced_gravities)
 #define COMSIG_TURF_HAS_GRAVITY "turf_has_gravity"
 ///from base of turf/multiz_turf_del(): (turf/source, direction)
 #define COMSIG_TURF_MULTIZ_DEL "turf_multiz_del"
@@ -267,6 +278,8 @@
 	/* #define HEARING_RADIO_FREQ 5
 	#define HEARING_SPANS 6
 	#define HEARING_MESSAGE_MODE 7 */
+///from /datum/controller/subsystem/motion_tracker/notice() (/datum/weakref/source_atom,/turf/echo_turf_location)
+#define COMSIG_MOVABLE_MOTIONTRACKER "move_motiontracker"
 
 ///called when the movable is added to a disposal holder object for disposal movement: (obj/structure/disposalholder/holder, obj/machinery/disposal/source)
 #define COMSIG_MOVABLE_DISPOSING "movable_disposing"
@@ -363,6 +376,10 @@
 #define COMSIG_MOB_CLIENT_LOGIN "comsig_mob_client_login"
 ///sent from borg mobs to itself, for tools to catch an upcoming destroy() due to safe decon (rather than detonation)
 #define COMSIG_BORG_SAFE_DECONSTRUCT "borg_safe_decon"
+///From living/Life().
+#define COMSIG_LIVING_LIFE "living_life"
+///From /living/handle_disabilities().
+#define COMSIG_HANDLE_DISABILITIES "handle_disabilities"
 
 //ALL OF THESE DO NOT TAKE INTO ACCOUNT WHETHER AMOUNT IS 0 OR LOWER AND ARE SENT REGARDLESS!
 
@@ -400,10 +417,6 @@
 ///called when removing a given item from a mob, from mob/living/carbon/remove_embedded_object(mob/living/carbon/target, /obj/item)
 #define COMSIG_CARBON_EMBED_REMOVAL "item_embed_remove_safe"
 
-// /mob/living/simple_animal/hostile signals
-#define COMSIG_HOSTILE_ATTACKINGTARGET "hostile_attackingtarget"
-	#define COMPONENT_HOSTILE_NO_ATTACK (1<<0)
-
 // /obj signals
 
 ///from base of obj/deconstruct(): (disassembled)
@@ -416,6 +429,13 @@
 #define COMSIG_OBJ_HIDE	"obj_hide"
 ///called in /obj/update_icon()
 #define COMSIG_OBJ_UPDATE_ICON "obj_update_icon"
+
+// climbable signals
+
+///called when a mob is mousedropped onto, or uses a verb to climb an object
+#define COMSIG_CLIMBABLE_START_CLIMB "starting_climb_action"
+///called when an object is considered unsafe to climb on
+#define COMSIG_CLIMBABLE_SHAKE_CLIMBERS "shaking_climbing_mobs"
 
 // /obj/machinery signals
 
@@ -579,6 +599,8 @@
 #define COMSIG_HUMAN_DISARM_HIT	"human_disarm_hit"
 ///Whenever EquipRanked is called, called after job is set
 #define COMSIG_JOB_RECEIVED "job_received"
+///When the mob's dna and species have been fully applied
+#define COMSIG_HUMAN_DNA_FINALIZED "human_dna_finished"
 
 // /datum/species signals
 
@@ -601,8 +623,6 @@
 #define COMSIG_TURF_IS_WET "check_turf_wet"
 ///(max_strength, immediate, duration_decrease = INFINITY): Returns bool.
 #define COMSIG_TURF_MAKE_DRY "make_turf_try"
-///called on an object to clean it of cleanables. Usualy with soap: (num/strength)
-#define COMSIG_COMPONENT_CLEAN_ACT "clean_act"
 
 //Creamed
 
@@ -718,6 +738,16 @@
 ///from base of datum/action/proc/Trigger(): (datum/action)
 #define COMSIG_ACTION_TRIGGER "action_trigger"
 	#define COMPONENT_ACTION_BLOCK_TRIGGER (1<<0)
+/// From /datum/action/Grant(): (mob/grant_to)
+#define COMSIG_ACTION_GRANTED "action_grant"
+/// From /datum/action/Remove(): (mob/removed_from)
+#define COMSIG_ACTION_REMOVED "action_removed"
+/// From /datum/action/Grant(): (datum/action)
+#define COMSIG_MOB_GRANTED_ACTION "mob_action_grant"
+/// From /datum/action/Remove(): (datum/action)
+#define COMSIG_MOB_REMOVED_ACTION "mob_action_removed"
+/// From /datum/action/apply_button_overlay()
+#define COMSIG_ACTION_OVERLAY_APPLY "action_overlay_applied"
 
 //Xenobio hotkeys
 
@@ -783,3 +813,60 @@
 	#define ELEMENT_CONFLICT_FOUND	(1<<0)
 //From reagents touch_x.
 #define COMSIG_REAGENTS_TOUCH "reagent_touch"
+
+
+//Moved observer stuff to DCS
+#define COMSIG_OBSERVER_MOVED "observer_move"
+#define COMSIG_OBSERVER_DESTROYED "observer_destroyed"
+#define COMSIG_OBSERVER_SHUTTLE_ADDED "observer_shuttle_added"
+#define COMSIG_OBSERVER_SHUTTLE_PRE_MOVE "observer_shuttle_premove"
+#define COMSIG_OBSERVER_SHUTTLE_MOVED "observer_shuttle_moved"
+#define COMSIG_OBSERVER_TURF_ENTERED "observer_turf_entered"
+#define COMSIG_OBSERVER_TURF_EXITED "observer_turf_exited"
+#define COMSIG_OBSERVER_Z_MOVED "observer_z_moved"
+#define COMSIG_OBSERVER_MOB_EQUIPPED "observer_mob_equipped"
+#define COMSIG_OBSERVER_ITEM_EQUIPPED "observer_item_equipped"
+#define COMSIG_OBSERVER_MOB_UNEQUIPPED "observer_mob_unequipped"
+#define COMSIG_OBSERVER_ITEM_UNEQUIPPED "observer_item_unequipped"
+#define COMSIG_OBSERVER_APC "observer_apc"
+#define COMSIG_OBSERVER_GLOBALMOVED "observer_global_move"
+
+// Bellies
+///from /obj/belly/HandleBellyReagents() and /obj/belly/update_internal_overlay()
+#define COMSIG_BELLY_UPDATE_VORE_FX "update_vore_fx"
+///from /obj/belly/process()
+#define COMSIG_BELLY_UPDATE_PREY_LOOP "update_prey_loop"
+/// COMSIG used to get messages where they need to go
+#define COMSIG_VISIBLE_MESSAGE "visible_message"
+
+// Weaver Component
+///from /mob/living/proc/check_silk_amount()
+#define COMSIG_CHECK_SILK_AMOUNT "check_silk_amount"
+///from /mob/living/proc/weave_structure()
+#define COMSIG_WEAVE_STRUCTURE "weave_structure"
+///from /mob/living/proc/toggle_silk_production()
+#define COMSIG_TOGGLE_SILK_PRODUCTION "toggle_silk_production"
+///from /mob/living/proc/weave_item()
+#define COMSIG_WEAVE_ITEM "weave_item"
+///from /mob/living/proc/set_silk_color()
+#define COMSIG_SET_SILK_COLOR "set_silk_color"
+
+// Gargoyle Component
+///from /mob/living/carbon/human/proc/gargoyle_transformation()
+#define COMSIG_GARGOYLE_TRANSFORMATION "gargoyle_transformation"
+///from /mob/living/carbon/human/proc/gargoyle_pause()
+#define COMSIG_GARGOYLE_PAUSE "gargoyle_pause"
+///from /mob/living/carbon/human/proc/gargoyle_checkenergy()
+#define COMSIG_GARGOYLE_CHECK_ENERGY "gargoyle_check_energy"
+
+// Species Components
+///from /datum/species/xenochimera/handle_environment_special()
+#define COMSIG_XENOCHIMERA_COMPONENT "xenochimera_component"
+
+// Hose Connector Component
+#define COMSIG_HOSE_FORCEPUMP "hose_force_pump"
+
+//Unittest data update
+#ifdef UNIT_TEST
+#define COMSIG_UNITTEST_DATA "unittest_send_data"
+#endif

@@ -16,9 +16,9 @@
 	var/moved_recently = 0
 	var/mob/pulledby = null
 	var/item_state = null // Used to specify the item state for the on-mob overlays.
-	var/icon_scale_x = 1 // Used to scale icons up or down horizonally in update_transform().
-	var/icon_scale_y = 1 // Used to scale icons up or down vertically in update_transform().
-	var/icon_rotation = 0 // Used to rotate icons in update_transform()
+	var/icon_scale_x = DEFAULT_ICON_SCALE_X // Used to scale icons up or down horizonally in update_transform().
+	var/icon_scale_y = DEFAULT_ICON_SCALE_Y // Used to scale icons up or down vertically in update_transform().
+	var/icon_rotation = DEFAULT_ICON_ROTATION // Used to rotate icons in update_transform()
 	var/icon_expected_height = 32
 	var/icon_expected_width = 32
 	var/old_x = 0
@@ -29,6 +29,10 @@
 
 	var/cloaked = FALSE //If we're cloaked or not
 	var/image/cloaked_selfimage //The image we use for our client to let them see where we are
+	var/belly_cycles = 0 // Counting current belly process cycles for autotransfer.
+	var/autotransferable = TRUE // Toggle for autotransfer mechanics.
+	var/recursive_listeners
+	var/listening_recursive = NON_LISTENING_ATOM
 
 /atom/movable/Initialize(mapload)
 	. = ..()
@@ -43,8 +47,11 @@
 			render_target = ref(src)
 			em_block = new(src, render_target)
 			add_overlay(list(em_block), TRUE)
+			RegisterSignal(em_block, COMSIG_PARENT_QDELETING, PROC_REF(emblocker_gc))
 	if(opacity)
 		AddElement(/datum/element/light_blocking)
+	if(icon_scale_x != DEFAULT_ICON_SCALE_X || icon_scale_y != DEFAULT_ICON_SCALE_Y || icon_rotation != DEFAULT_ICON_ROTATION)
+		update_transform()
 	switch(light_system)
 		if(STATIC_LIGHT)
 			update_light()
@@ -52,9 +59,19 @@
 			AddComponent(/datum/component/overlay_lighting, starts_on = light_on)
 		if(MOVABLE_LIGHT_DIRECTIONAL)
 			AddComponent(/datum/component/overlay_lighting, is_directional = TRUE, starts_on = light_on)
+	if (listening_recursive)
+		set_listening(listening_recursive)
+
 
 /atom/movable/Destroy()
+	if(em_block)
+		cut_overlay(em_block)
+		UnregisterSignal(em_block, COMSIG_PARENT_QDELETING)
+		QDEL_NULL(em_block)
 	. = ..()
+
+	unbuckle_all_mobs()
+
 	for(var/atom/movable/AM in contents)
 		qdel(AM)
 
@@ -72,7 +89,8 @@
 
 	if(orbiting)
 		stop_orbit()
-	QDEL_NULL(riding_datum) //VOREStation Add
+	QDEL_NULL(riding_datum)
+	set_listening(NON_LISTENING_ATOM)
 
 /atom/movable/vv_edit_var(var_name, var_value)
 	if(var_name in GLOB.VVpixelmovement)			//Pixel movement is not yet implemented, changing this will break everything irreversibly.
@@ -95,7 +113,7 @@
 	if(loc != newloc)
 		if(!direct)
 			direct = get_dir(oldloc, newloc)
-		if (IS_CARDINAL(direct)) //Cardinal move
+		if (IS_CARDINAL(direct)) //GLOB.cardinal move
 			// Track our failure if any in this value
 			. = TRUE
 
@@ -155,7 +173,7 @@
 			else if(. && newloc)
 				. = doMove(newloc)
 
-		//Diagonal move, split it into cardinal moves
+		//Diagonal move, split it into GLOB.cardinal moves
 		else
 			moving_diagonally = FIRST_DIAG_STEP
 			var/first_step_dir
@@ -216,7 +234,7 @@
 
 	// If we moved, call Moved() on ourselves
 	if(.)
-		Moved(oldloc, direct, FALSE, movetime ? movetime : ( (TICKS2DS(WORLD_ICON_SIZE/glide_size)) * (moving_diagonally ? (0.5) : 1) ) )
+		Moved(oldloc, direct, FALSE, movetime ? movetime : MOVE_GLIDE_CALC(glide_size, moving_diagonally) )
 
 	// Update timers/cooldown stuff
 	move_speed = world.time - l_move_time
@@ -372,7 +390,7 @@
 		return TRUE
 
 /atom/movable/proc/onTransitZ(old_z,new_z)
-	GLOB.z_moved_event.raise_event(src, old_z, new_z)
+	SEND_SIGNAL(src, COMSIG_OBSERVER_Z_MOVED, old_z, new_z)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_Z_CHANGED, old_z, new_z)
 	for(var/atom/movable/AM as anything in src) // Notify contents of Z-transition. This can be overridden IF we know the items contents do not care.
 		AM.onTransitZ(old_z,new_z)
@@ -389,7 +407,7 @@
 
 //called when src is thrown into hit_atom
 /atom/movable/proc/throw_impact(atom/hit_atom, var/speed)
-	if(istype(hit_atom,/mob/living))
+	if(isliving(hit_atom))
 		var/mob/living/M = hit_atom
 		if(M.buckled == src)
 			return // Don't hit the thing we're buckled to.
@@ -410,9 +428,14 @@
 /atom/movable/proc/hit_check(var/speed)
 	if(src.throwing)
 		for(var/atom/A in get_turf(src))
-			if(A == src) continue
-			if(istype(A,/mob/living))
-				if(A:lying) continue
+			if(A == src)
+				continue
+			if(A.is_incorporeal())
+				continue
+			if(isliving(A))
+				var/mob/living/M = A
+				if(M.lying)
+					continue
 				src.throw_impact(A,speed)
 			if(isobj(A))
 				if(!A.density || A.throwpass)
@@ -451,10 +474,10 @@
 	var/atom/master = null
 	anchored = TRUE
 
-/atom/movable/overlay/New()
+/atom/movable/overlay/Initialize(mapload)
+	. = ..()
 	for(var/x in src.verbs)
 		src.verbs -= x
-	..()
 
 /atom/movable/overlay/attackby(a, b)
 	if (src.master)
@@ -637,4 +660,66 @@
 	return selfimage
 
 /atom/movable/proc/get_cell()
+	return
+
+/atom/movable/proc/emblocker_gc(var/datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
+	cut_overlay(source)
+	if(em_block == source)
+		em_block = null
+
+/atom/movable/proc/abstract_move(atom/new_loc)
+	var/atom/old_loc = loc
+	var/direction = get_dir(old_loc, new_loc)
+	loc = new_loc
+	Moved(old_loc, direction, TRUE)
+
+// Helper procs called on entering/exiting a belly. Does nothing by default, override on children for special behavior.
+/atom/movable/proc/enter_belly(obj/belly/B)
+	return
+
+/atom/movable/proc/exit_belly(obj/belly/B)
+	return
+
+/atom/movable/proc/set_listening(var/set_to)
+	if (listening_recursive && !set_to)
+		LAZYREMOVE(recursive_listeners, src)
+		if (!LAZYLEN(recursive_listeners))
+			for (var/atom/movable/location as anything in get_nested_locs(src))
+				LAZYREMOVE(location.recursive_listeners, src)
+	if (!listening_recursive && set_to)
+		LAZYOR(recursive_listeners, src)
+		for (var/atom/movable/location as anything in get_nested_locs(src))
+			LAZYOR(location.recursive_listeners, src)
+	listening_recursive = set_to
+
+///Returns a list of all locations (except the area) the movable is within.
+/proc/get_nested_locs(atom/movable/atom_on_location, include_turf = FALSE)
+	. = list()
+	var/atom/location = atom_on_location.loc
+	var/turf/our_turf = get_turf(atom_on_location)
+	while(location && location != our_turf)
+		. += location
+		location = location.loc
+	if(our_turf && include_turf) //At this point, only the turf is left, provided it exists.
+		. += our_turf
+
+/atom/movable/Exited(atom/movable/gone, atom/new_loc)
+	. = ..()
+
+	if (!LAZYLEN(gone.recursive_listeners))
+		return
+	for (var/atom/movable/location as anything in get_nested_locs(src)|src)
+		LAZYREMOVE(location.recursive_listeners, gone.recursive_listeners)
+
+/atom/movable/Entered(atom/movable/arrived, atom/old_loc)
+	. = ..()
+
+	if (!LAZYLEN(arrived.recursive_listeners))
+		return
+	for (var/atom/movable/location as anything in get_nested_locs(src)|src)
+		LAZYOR(location.recursive_listeners, arrived.recursive_listeners)
+
+/atom/movable/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
 	return

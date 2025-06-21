@@ -22,10 +22,10 @@
 	hovering = TRUE
 	pass_flags = PASSTABLE
 
-	faction = "space ghost"
+	faction = FACTION_SPACE_GHOST
 	maxHealth = 50
 	health = 50
-	movement_cooldown = 3.25
+	movement_cooldown = 0
 
 	see_in_dark = 10
 
@@ -71,7 +71,7 @@
 		"rad" = 100
 		)
 
-	loot_list = list(/obj/item/weapon/ore/diamond = 100, /obj/item/weapon/ectoplasm = 3)
+	loot_list = list(/obj/item/ore/diamond = 100, /obj/item/ectoplasm = 3)
 
 	speak_emote = list("rumbles")
 
@@ -97,7 +97,8 @@
 
 /mob/living/simple_mob/vore/alienanimals/space_ghost/apply_melee_effects(var/atom/A)
 	var/mob/living/L = A
-	L.hallucination += 50
+	if(L.hallucination <= 100)
+		L.hallucination += rand(1,10)
 
 /mob/living/simple_mob/vore/alienanimals/space_ghost/shoot(atom/A) //We're shooting ghosts at people and need them to have the same faction as their parent, okay?
 	if(!projectiletype)
@@ -134,10 +135,10 @@
 	hovering = TRUE
 	pass_flags = PASSTABLE
 
-	faction = "space ghost"
+	faction = FACTION_SPACE_GHOST
 	maxHealth = 5
 	health = 5
-	movement_cooldown = 1
+	movement_cooldown = -1
 
 	see_in_dark = 10
 	alpha = 128
@@ -188,11 +189,11 @@
 
 	ai_holder_type = /datum/ai_holder/simple_mob/melee/space_ghost
 
-/mob/living/simple_mob/vore/alienanimals/spooky_ghost/Initialize()
+/mob/living/simple_mob/vore/alienanimals/spooky_ghost/Initialize(mapload)
 	. = ..()
 	icon_living = "spookyghost-[rand(1,2)]"
 	icon_state = icon_living
-	addtimer(CALLBACK(src, .proc/death), 2 MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(death)), 35 SECONDS)
 	update_icon()
 
 /datum/ai_holder/simple_mob/melee/space_ghost
@@ -208,7 +209,9 @@
 
 /mob/living/simple_mob/vore/alienanimals/spooky_ghost/apply_melee_effects(var/atom/A)
 	var/mob/living/L = A
-	L.hallucination += rand(1,50)
+	if(L && istype(L))
+		if(L.hallucination <= 100)
+			L.hallucination += rand(1,10)
 
 /mob/living/simple_mob/vore/alienanimals/spooky_ghost/Life()
 	. = ..()

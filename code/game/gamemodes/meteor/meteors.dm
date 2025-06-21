@@ -1,4 +1,4 @@
-/var/const/meteor_wave_delay = 625 //minimum wait between waves in tenths of seconds
+GLOBAL_VAR_INIT(meteor_wave_delay, 625) //minimum wait between waves in tenths of seconds
 //set to at least 100 unless you want evarr ruining every round
 
 //Meteors probability of spawning during a given wave
@@ -44,7 +44,7 @@
 
 /proc/spawn_meteor(var/list/meteortypes, var/startSide, var/startLevel)
 	if(isnull(startSide))
-		startSide = pick(cardinal)
+		startSide = pick(GLOB.cardinal)
 	if(isnull(startLevel))
 		startLevel = pick(using_map.station_levels - using_map.sealed_levels)
 
@@ -118,7 +118,7 @@
 	var/heavy = FALSE
 	var/z_original
 
-	var/meteordrop = /obj/item/weapon/ore/iron
+	var/meteordrop = /obj/item/ore/iron
 	var/dropamt = 2
 
 	// How much damage it does to walls, using take_damage().
@@ -126,7 +126,7 @@
 	// Multiply this and the hits var to get a rough idea of how penetrating a meteor is.
 	var/wall_power = 100
 
-/obj/effect/meteor/Initialize()
+/obj/effect/meteor/Initialize(mapload)
 	. = ..()
 	z_original = z
 	GLOB.meteor_list += src
@@ -151,8 +151,8 @@
 	GLOB.meteor_list -= src
 	return ..()
 
-/obj/effect/meteor/New()
-	..()
+/obj/effect/meteor/Initialize(mapload)
+	. = ..()
 	SpinAnimation()
 
 /obj/effect/meteor/Bump(atom/A)
@@ -200,8 +200,8 @@
 /obj/effect/meteor/ex_act()
 	return
 
-/obj/effect/meteor/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
-	if(istype(W, /obj/item/weapon/pickaxe))
+/obj/effect/meteor/attackby(obj/item/W as obj, mob/user as mob, params)
+	if(istype(W, /obj/item/pickaxe))
 		qdel(src)
 		return
 	..()
@@ -247,7 +247,7 @@
 	pass_flags = PASSTABLE | PASSGRILLE
 	hits = 1
 	hitpwr = 3
-	meteordrop = /obj/item/weapon/ore/glass
+	meteordrop = /obj/item/ore/glass
 	wall_power = 50
 
 // Medium-sized meteors aren't very special and can be stopped easily by r-walls.
@@ -281,7 +281,7 @@
 	icon_state = "flaming"
 	hits = 5
 	heavy = 1
-	meteordrop = /obj/item/weapon/ore/phoron
+	meteordrop = /obj/item/ore/phoron
 	wall_power = 100
 
 /obj/effect/meteor/flaming/meteor_effect(var/explode)
@@ -294,7 +294,7 @@
 	name = "glowing meteor"
 	icon_state = "glowing"
 	heavy = 1
-	meteordrop = /obj/item/weapon/ore/uranium
+	meteordrop = /obj/item/ore/uranium
 	wall_power = 75
 
 
@@ -310,7 +310,7 @@
 	name = "conducting meteor"
 	icon_state = "glowing_blue"
 	desc = "Hide your floppies!"
-	meteordrop = /obj/item/weapon/ore/osmium
+	meteordrop = /obj/item/ore/osmium
 	dropamt = 3
 	wall_power = 80
 
@@ -331,7 +331,7 @@
 	hits = 30
 	hitpwr = 1
 	heavy = 1
-	meteordrop = /obj/item/weapon/ore/phoron
+	meteordrop = /obj/item/ore/phoron
 	wall_power = 150
 
 /obj/effect/meteor/tunguska/meteor_effect(var/explode)

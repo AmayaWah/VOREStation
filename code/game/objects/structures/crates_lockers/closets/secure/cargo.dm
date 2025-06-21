@@ -11,19 +11,20 @@
 		/obj/item/clothing/suit/storage/hooded/wintercoat/cargo,
 		/obj/item/clothing/shoes/boots/winter/supply,
 		/obj/item/clothing/shoes/black,
-		/obj/item/device/radio/headset/headset_cargo,
-		/obj/item/device/radio/headset/headset_cargo/alt,
+		/obj/item/radio/headset/cargo,
+		/obj/item/radio/headset/alt/cargo,
+		/obj/item/radio/headset/earbud/cargo,
 		/obj/item/clothing/gloves/black,
 		/obj/item/clothing/gloves/fingerless,
 		/obj/item/clothing/head/soft)
 
-/obj/structure/closet/secure_closet/cargotech/Initialize()
+/obj/structure/closet/secure_closet/cargotech/Initialize(mapload)
 	if(prob(75))
-		starts_with += /obj/item/weapon/storage/backpack
+		starts_with += /obj/item/storage/backpack
 	else
-		starts_with += /obj/item/weapon/storage/backpack/satchel/norm
+		starts_with += /obj/item/storage/backpack/satchel/norm
 	if(prob(25))
-		starts_with += /obj/item/weapon/storage/backpack/dufflebag
+		starts_with += /obj/item/storage/backpack/dufflebag
 	return ..()
 
 /obj/structure/closet/secure_closet/quartermaster
@@ -37,11 +38,20 @@
 		/obj/item/clothing/under/rank/cargo/jeans,
 		/obj/item/clothing/under/rank/cargo/jeans/female,
 		/obj/item/clothing/shoes/brown,
-		/obj/item/device/radio/headset/headset_qm, //VOREStation Edit,
-		/obj/item/device/radio/headset/headset_qm/alt, //VOREStation Edit,
+		/obj/item/radio/headset/qm,
+		/obj/item/radio/headset/alt/qm,
+		/obj/item/radio/headset/earbud/qm,
+		/obj/item/clothing/under/rank/neo_qm,
+		/obj/item/clothing/under/rank/neo_qm_skirt,
+		/obj/item/clothing/under/rank/neo_qm_jacket,
+		/obj/item/clothing/under/rank/neo_qm_white,
+		/obj/item/clothing/under/rank/neo_qm_white_skirt,
+		/obj/item/clothing/under/rank/neo_qm_turtle,
+		/obj/item/clothing/under/rank/neo_qm_turtle_skirt,
+		/obj/item/clothing/under/rank/neo_gorka/qm,
 		/obj/item/clothing/gloves/black,
 		/obj/item/clothing/gloves/fingerless,
-		/obj/item/weapon/tank/emergency/oxygen,
+		/obj/item/tank/emergency/oxygen,
 		/obj/item/clothing/mask/gas,
 		/obj/item/clothing/glasses/meson,
 		/obj/item/clothing/head/soft,
@@ -50,13 +60,13 @@
 		/obj/item/clothing/head/beret/qm,
 		/obj/item/clothing/shoes/boots/winter/supply)
 
-/obj/structure/closet/secure_closet/quartermaster/Initialize()
+/obj/structure/closet/secure_closet/quartermaster/Initialize(mapload)
 	if(prob(75))
-		starts_with += /obj/item/weapon/storage/backpack
+		starts_with += /obj/item/storage/backpack
 	else
-		starts_with += /obj/item/weapon/storage/backpack/satchel/norm
+		starts_with += /obj/item/storage/backpack/satchel/norm
 	if(prob(25))
-		starts_with += /obj/item/weapon/storage/backpack/dufflebag
+		starts_with += /obj/item/storage/backpack/dufflebag
 	return ..()
 
 /obj/structure/closet/secure_closet/miner
@@ -65,24 +75,27 @@
 	closet_appearance = /decl/closet_appearance/secure_closet/mining
 
 	starts_with = list(
-		/obj/item/device/radio/headset/headset_mine,
+		/obj/item/radio/headset/miner,
 		/obj/item/clothing/under/rank/miner,
 		/obj/item/clothing/gloves/black,
 		/obj/item/clothing/shoes/black,
-		/obj/item/device/analyzer,
-		/obj/item/weapon/storage/bag/ore,
-		/obj/item/weapon/storage/belt/miner,
-		/obj/item/device/flashlight/lantern,
-		/obj/item/weapon/shovel,
-		/obj/item/weapon/pickaxe/drill,
+		/obj/item/analyzer,
+		/obj/item/storage/bag/ore,
+		/obj/item/storage/belt/miner,
+		/obj/item/flashlight/lantern,
+		/obj/item/shovel,
+		/obj/item/pickaxe/drill,
+		/obj/item/kinetic_crusher,
 		/obj/item/clothing/glasses/material,
 		/obj/item/clothing/suit/storage/hooded/wintercoat/miner,
 		/obj/item/clothing/shoes/boots/winter/mining,
-		/obj/item/stack/marker_beacon/thirty)
+		/obj/item/emergency_beacon,
+		/obj/item/stack/marker_beacon/thirty,
+		/obj/item/storage/sample_container)
 
-/obj/structure/closet/secure_closet/miner/Initialize()
+/obj/structure/closet/secure_closet/miner/Initialize(mapload)
 	if(prob(50))
-		starts_with += /obj/item/weapon/storage/backpack/industrial
+		starts_with += /obj/item/storage/backpack/industrial
 	else
-		starts_with += /obj/item/weapon/storage/backpack/satchel/eng
+		starts_with += /obj/item/storage/backpack/satchel/eng
 	return ..()

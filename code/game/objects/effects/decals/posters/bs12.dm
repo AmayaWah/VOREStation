@@ -5,6 +5,7 @@
 	var/name = "PSA: Unlucky Space Explorer"
 	var/desc = "This grim PSA depicts a skeletal form within a space suit. Thousands die every year as a result of failing to follow EVA safety guidelines."
 	var/listing_name = "PSA - EVA Accidents"
+	var/icon_override = null // If set to an icon path, replaces the icon upon wall placement. Used for modular posters downstream that should not edit upstream dmis
 
 /decl/poster/bay_2
 	icon_state="bsposter2"
@@ -45,7 +46,7 @@
 /decl/poster/bay_8
 	icon_state="bsposter8"
 	name = "Pinup Girl Cindy"
-	desc = "This is a vintage 2450s pin-up of NanoTrasen's PR girl, Cindy, in a particularly feminine pose."
+	desc = "This is a vintage 2250's pin-up of NanoTrasen's PR girl, Cindy, in a particularly feminine pose."
 	listing_name = "Pin-up - Cindi"
 
 /decl/poster/bay_9
@@ -346,4 +347,3 @@
 	name = "space carp information poster"
 	desc = "This poster showcases an old spacer saying on the dangers of migrant space carp."
 	listing_name = "Safety - Carp Information"
-

@@ -4,8 +4,10 @@
 	plane_masters[VIS_CH_HEALTH_VR] 	= new /obj/screen/plane_master{plane = PLANE_CH_HEALTH_VR}			//Health bar but transparent at 100
 	plane_masters[VIS_CH_BACKUP] 		= new /obj/screen/plane_master{plane = PLANE_CH_BACKUP}				//Backup implant status
 	plane_masters[VIS_CH_VANTAG] 		= new /obj/screen/plane_master{plane = PLANE_CH_VANTAG}				//Vore Antags
+	plane_masters[VIS_CH_STOMACH] 		= new /obj/screen/plane_master{plane = PLANE_CH_STOMACH}			//Stomach
+	plane_masters[VIS_SOULCATCHER] 		= new /obj/screen/plane_master{plane = PLANE_SOULCATCHER}			// Soulcatcher
 
-	plane_masters[VIS_AUGMENTED]		= new /obj/screen/plane_master/augmented(my_mob)					//Augmented reality
+	plane_masters[VIS_AUGMENTED]		= new /obj/screen/plane_master/augmented(null, my_mob)				//Augmented reality
 	..()
 
 /////////////////
@@ -15,13 +17,14 @@
 	var/state = FALSE //Saves cost with the lists
 	var/mob/my_mob
 
-/obj/screen/plane_master/augmented/New(var/mob/M)
-	..()
+/obj/screen/plane_master/augmented/Initialize(mapload, var/mob/M)
+	. = ..()
 	my_mob = M
 
 /obj/screen/plane_master/augmented/Destroy()
+	entopic_users -= my_mob
 	my_mob = null
-	return ..()
+	. = ..()
 
 /obj/screen/plane_master/augmented/set_visibility(var/want = FALSE)
 	. = ..()
@@ -40,3 +43,7 @@
 		entopic_users -= my_mob
 		if(my_mob.client)
 			my_mob.client.images -= entopic_images
+
+/mob/Destroy()
+	. = ..()
+	entopic_users -= src

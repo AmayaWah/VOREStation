@@ -60,6 +60,26 @@
 	icon_state = "oracarpet"
 	initial_flooring = /decl/flooring/carpet/oracarpet
 
+/turf/simulated/floor/carpet/brown
+	name = "brown carpet"
+	icon_state = "brncarpet"
+	initial_flooring = /decl/flooring/carpet/browncarpet
+
+/turf/simulated/floor/carpet/blue2
+	name = "blue carpet"
+	icon_state = "blue1"
+	initial_flooring = /decl/flooring/carpet/blucarpet2
+
+/turf/simulated/floor/carpet/green
+	name = "green carpet"
+	icon_state = "green"
+	initial_flooring = /decl/flooring/carpet/greencarpet
+
+/turf/simulated/floor/carpet/purple
+	name = "purple carpet"
+	icon_state = "purple"
+	initial_flooring = /decl/flooring/carpet/purplecarpet
+
 /turf/simulated/floor/carpet/geo
 	name = "geometric carpet"
 	icon_state = "geocarpet"
@@ -97,6 +117,11 @@
 	icon = 'icons/turf/flooring/wood_vr.dmi'
 	icon_state = "wood"
 	initial_flooring = /decl/flooring/wood
+
+/turf/simulated/floor/wood/airless
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
 
 /turf/simulated/floor/wood/broken
 	icon_state = "wood-broken0" // This gets changed when spawned.
@@ -167,6 +192,9 @@
 	icon_state = "grass0"
 	can_dirty = FALSE //VOREStation Edit
 	initial_flooring = /decl/flooring/grass
+	footstep = FOOTSTEP_GRASS
+	barefootstep = FOOTSTEP_GRASS
+	clawfootstep = FOOTSTEP_GRASS
 
 /turf/simulated/floor/tiled
 	name = "floor"
@@ -251,6 +279,7 @@
 
 /turf/simulated/floor/tiled/kafel_full
 	name = "floor"
+	desc = "Ceramic tile flooring."
 	icon_state = "kafel_full"
 	initial_flooring = /decl/flooring/tiling/new_tile/kafel
 /turf/simulated/floor/tiled/kafel_full/white
@@ -312,10 +341,10 @@
 	oxygen = 0
 	nitrogen = 0
 
-/turf/simulated/floor/reinforced/n20/Initialize()
+/turf/simulated/floor/reinforced/n20/Initialize(mapload)
 	. = ..()
 	if(!air) make_air()
-	air.adjust_gas("nitrous_oxide", ATMOSTANK_NITROUSOXIDE)
+	air.adjust_gas(GAS_N2O, ATMOSTANK_NITROUSOXIDE)
 
 /turf/simulated/floor/cult
 	name = "engraved floor"
@@ -469,6 +498,12 @@
 	initial_flooring = /decl/flooring/snow
 	var/list/crossed_dirs = list()
 
+/turf/simulated/floor/fakesnow
+	name = "fake snow"
+	icon = 'icons/turf/outdoors.dmi'
+	icon_state = "snow"
+	initial_flooring = /decl/flooring/snow/fake
+
 /turf/simulated/floor/snow/snow2
 	name = "snow"
 	icon = 'icons/turf/snow.dmi'
@@ -494,7 +529,9 @@
 /turf/simulated/floor/snow/Entered(atom/A)
 	if(isliving(A))
 		var/mob/living/L = A
-		if(L.hovering) // Flying things shouldn't make footprints.
+		if(L.hovering || L.flying) // Flying things shouldn't make footprints.
+			if(L.flying)
+				L.adjust_nutrition(-0.5)
 			return ..()
 		var/mdir = "[A.dir]"
 		crossed_dirs[mdir] = 1
@@ -507,3 +544,9 @@
 		add_overlay(image(icon = 'icons/turf/outdoors.dmi', icon_state = "snow_footprints", dir = text2num(d)))
 
 //**** Here ends snow ****
+
+/turf/simulated/floor/concrete
+	name = "concrete"
+	icon = 'icons/turf/concrete.dmi'
+	icon_state = "concrete"
+	initial_flooring = /decl/flooring/concrete

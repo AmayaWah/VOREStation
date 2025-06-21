@@ -22,7 +22,7 @@
 	return GLOB.tgui_always_state
 
 /datum/pai_software/tgui_status(mob/user)
-	if(!istype(user, /mob/living/silicon/pai))
+	if(!ispAI(user))
 		return STATUS_CLOSE
 	return ..()
 
@@ -50,7 +50,7 @@
 	return data
 
 /datum/pai_software/directives/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
-	var/mob/living/silicon/pai/P = usr
+	var/mob/living/silicon/pai/P = ui.user
 	if(!istype(P))
 		return TRUE
 	if(..())
@@ -61,29 +61,29 @@
 
 		var/count = 0
 		// Find the carrier
-		while(!istype(M, /mob/living))
+		while(!isliving(M))
 			if(!M || !M.loc || count > 6)
 				//For a runtime where M ends up in nullspace (similar to bluespace but less colourful)
-				to_chat(src, "You are not being carried by anyone!")
+				to_chat(src, span_infoplain("You are not being carried by anyone!"))
 				return 0
 			M = M.loc
 			count++
 
 		// Check the carrier
-		var/datum/gender/TM = gender_datums[M.get_visible_gender()]
+		var/datum/gender/TM = GLOB.gender_datums[M.get_visible_gender()]
 		var/answer = tgui_alert(M, "[P] is requesting a DNA sample from you. Will you allow it to confirm your identity?", "[P] Check DNA", list("Yes", "No"))
 		if(answer == "Yes")
 			var/turf/T = get_turf(P.loc)
 			for (var/mob/v in viewers(T))
-				v.show_message("<span class='notice'>[M] presses [TM.his] thumb against [P].</span>", 3, "<span class='notice'>[P] makes a sharp clicking sound as it extracts DNA material from [M].</span>", 2)
+				v.show_message(span_notice("[M] presses [TM.his] thumb against [P]."), 3, span_notice("[P] makes a sharp clicking sound as it extracts DNA material from [M]."), 2)
 			var/datum/dna/dna = M.dna
-			to_chat(P, "<font color = red><h3>[M]'s UE string : [dna.unique_enzymes]</h3></font>")
+			to_chat(P, span_infoplain(span_red("<h3>[M]'s UE string : [dna.unique_enzymes]</h3>")))
 			if(dna.unique_enzymes == P.master_dna)
-				to_chat(P, "<b>DNA is a match to stored Master DNA.</b>")
+				to_chat(P, span_infoplain(span_bold("DNA is a match to stored Master DNA.")))
 			else
-				to_chat(P, "<b>DNA does not match stored Master DNA.</b>")
+				to_chat(P, span_infoplain(span_bold("DNA does not match stored Master DNA.")))
 		else
-			to_chat(P, "[M] does not seem like [TM.he] is going to provide a DNA sample willingly.")
+			to_chat(P, span_infoplain("[M] does not seem like [TM.he] is going to provide a DNA sample willingly."))
 		return TRUE
 
 /datum/pai_software/radio_config
@@ -111,9 +111,9 @@
 
 /datum/pai_software/crew_manifest/tgui_data(mob/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-	if(data_core)
-		data_core.get_manifest_list()
-	data["manifest"] = PDA_Manifest
+	if(GLOB.data_core)
+		GLOB.data_core.get_manifest_list()
+	data["manifest"] = GLOB.PDA_Manifest
 	return data
 
 /datum/pai_software/messenger
@@ -140,9 +140,9 @@
 
 /datum/pai_software/med_records/tgui_data(mob/living/silicon/pai/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-	
+
 	var/list/records = list()
-	for(var/datum/data/record/general in sortRecord(data_core.general))
+	for(var/datum/data/record/general in sortRecord(GLOB.data_core.general))
 		var/list/record = list()
 		record["name"] = general.fields["name"]
 		record["ref"] = "\ref[general]"
@@ -160,7 +160,7 @@
 
 /datum/pai_software/med_records/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
 	. = ..()
-	var/mob/living/silicon/pai/P = usr
+	var/mob/living/silicon/pai/P = ui.user
 	if(!istype(P))
 		return
 
@@ -169,11 +169,11 @@
 		if(record)
 			var/datum/data/record/R = record
 			var/datum/data/record/M = null
-			if (!( data_core.general.Find(R) ))
+			if (!( GLOB.data_core.general.Find(R) ))
 				P.medical_cannotfind = 1
 			else
 				P.medical_cannotfind = 0
-				for(var/datum/data/record/E in data_core.medical)
+				for(var/datum/data/record/E in GLOB.data_core.medical)
 					if ((E.fields["name"] == R.fields["name"] || E.fields["id"] == R.fields["id"]))
 						M = E
 				P.medicalActive1 = R
@@ -196,9 +196,9 @@
 
 /datum/pai_software/sec_records/tgui_data(mob/living/silicon/pai/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-	
+
 	var/list/records = list()
-	for(var/datum/data/record/general in sortRecord(data_core.general))
+	for(var/datum/data/record/general in sortRecord(GLOB.data_core.general))
 		var/list/record = list()
 		record["name"] = general.fields["name"]
 		record["ref"] = "\ref[general]"
@@ -216,7 +216,7 @@
 
 /datum/pai_software/sec_records/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
 	. = ..()
-	var/mob/living/silicon/pai/P = usr
+	var/mob/living/silicon/pai/P = ui.user
 	if(!istype(P))
 		return
 
@@ -225,13 +225,13 @@
 		if(record)
 			var/datum/data/record/R = record
 			var/datum/data/record/S = null
-			if (!( data_core.general.Find(R) ))
+			if (!( GLOB.data_core.general.Find(R) ))
 				P.securityActive1 = null
 				P.securityActive2 = null
 				P.security_cannotfind = 1
 			else
 				P.security_cannotfind = 0
-				for(var/datum/data/record/E in data_core.security)
+				for(var/datum/data/record/E in GLOB.data_core.security)
 					if ((E.fields["name"] == R.fields["name"] || E.fields["id"] == R.fields["id"]))
 						S = E
 				P.securityActive1 = R
@@ -267,7 +267,7 @@
 	return data
 
 /datum/pai_software/door_jack/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
-	var/mob/living/silicon/pai/P = usr
+	var/mob/living/silicon/pai/P = ui.user
 	if(!istype(P) || ..())
 		return TRUE
 
@@ -283,19 +283,19 @@
 		if("cable")
 			var/turf/T = get_turf(P)
 			P.hack_aborted = 0
-			P.cable = new /obj/item/weapon/pai_cable(T)
+			P.cable = new /obj/item/pai_cable(T)
 			for(var/mob/M in viewers(T))
-				M.show_message("<span class='warning'>A port on [P] opens to reveal [P.cable], which promptly falls to the floor.</span>", 3,
-								"<span class='warning'>You hear the soft click of something light and hard falling to the ground.</span>", 2)
+				M.show_message(span_warning("A port on [P] opens to reveal [P.cable], which promptly falls to the floor."), 3,
+								span_warning("You hear the soft click of something light and hard falling to the ground."), 2)
 			return 1
 
 /mob/living/silicon/pai/proc/hackloop()
 	var/turf/T = get_turf(src)
 	for(var/mob/living/silicon/ai/AI in player_list)
 		if(T.loc)
-			to_chat(AI, "<font color = red><b>Network Alert: Brute-force encryption crack in progress in [T.loc].</b></font>")
+			to_chat(AI, span_bolddanger("Network Alert: Brute-force encryption crack in progress in [T.loc]."))
 		else
-			to_chat(AI, "<font color = red><b>Network Alert: Brute-force encryption crack in progress. Unable to pinpoint location.</b></font>")
+			to_chat(AI, span_bolddanger("Network Alert: Brute-force encryption crack in progress. Unable to pinpoint location."))
 	var/obj/machinery/door/D = cable.machine
 	if(!istype(D))
 		hack_aborted = 1
@@ -340,10 +340,10 @@
 		var/pressure = environment.return_pressure()
 		var/total_moles = environment.total_moles
 		if (total_moles)
-			var/o2_level = environment.gas["oxygen"]/total_moles
-			var/n2_level = environment.gas["nitrogen"]/total_moles
-			var/co2_level = environment.gas["carbon_dioxide"]/total_moles
-			var/phoron_level = environment.gas["phoron"]/total_moles
+			var/o2_level = environment.gas[GAS_O2]/total_moles
+			var/n2_level = environment.gas[GAS_N2]/total_moles
+			var/co2_level = environment.gas[GAS_CO2]/total_moles
+			var/phoron_level = environment.gas[GAS_PHORON]/total_moles
 			var/unknown_level =  1-(o2_level+n2_level+co2_level+phoron_level)
 
 			// entry is what the element is describing
@@ -404,7 +404,6 @@
 		user.add_language(LANGUAGE_ZADDAT)
 		user.add_language(LANGUAGE_SCHECHI)
 		user.add_language(LANGUAGE_DRUDAKAR)
-		user.add_language(LANGUAGE_SLAVIC)
 		user.add_language(LANGUAGE_BIRDSONG)
 		user.add_language(LANGUAGE_SAGARU)
 		user.add_language(LANGUAGE_CANILUNZT)
@@ -413,25 +412,17 @@
 		user.add_language(LANGUAGE_ENOCHIAN)
 		user.add_language(LANGUAGE_VESPINAE)
 		user.add_language(LANGUAGE_SPACER)
-		user.add_language(LANGUAGE_CLOWNISH)
 		user.add_language(LANGUAGE_TAVAN)
 		user.add_language(LANGUAGE_ECHOSONG)
-		user.add_language(LANGUAGE_CHIMPANZEE)
-		user.add_language(LANGUAGE_NEAERA)
-		user.add_language(LANGUAGE_STOK)
-		user.add_language(LANGUAGE_FARWA)
 		user.add_language(LANGUAGE_ROOTLOCAL)
 		user.add_language(LANGUAGE_VOX)
-		user.add_language(LANGUAGE_SKRELLIANFAR)
 		user.add_language(LANGUAGE_MINBUS)
 		user.add_language(LANGUAGE_ALAI)
 		user.add_language(LANGUAGE_PROMETHEAN)
 		user.add_language(LANGUAGE_GIBBERISH)
-		user.add_language("Mouse")
-		user.add_language("Cat")
-		user.add_language("Bird")
-		user.add_language("Dog")
-		user.add_language("Teppi")
+		user.add_language(LANGUAGE_MOUSE)
+		user.add_language(LANGUAGE_ANIMAL)
+		user.add_language(LANGUAGE_TEPPI)
 	else
 		user.remove_language(LANGUAGE_UNATHI)
 		user.remove_language(LANGUAGE_SIIK)
@@ -440,7 +431,6 @@
 		user.remove_language(LANGUAGE_ZADDAT)
 		user.remove_language(LANGUAGE_SCHECHI)
 		user.remove_language(LANGUAGE_DRUDAKAR)
-		user.remove_language(LANGUAGE_SLAVIC)
 		user.remove_language(LANGUAGE_BIRDSONG)
 		user.remove_language(LANGUAGE_SAGARU)
 		user.remove_language(LANGUAGE_CANILUNZT)
@@ -449,25 +439,17 @@
 		user.remove_language(LANGUAGE_ENOCHIAN)
 		user.remove_language(LANGUAGE_VESPINAE)
 		user.remove_language(LANGUAGE_SPACER)
-		user.remove_language(LANGUAGE_CLOWNISH)
 		user.remove_language(LANGUAGE_TAVAN)
 		user.remove_language(LANGUAGE_ECHOSONG)
-		user.remove_language(LANGUAGE_CHIMPANZEE)
-		user.remove_language(LANGUAGE_NEAERA)
-		user.remove_language(LANGUAGE_STOK)
-		user.remove_language(LANGUAGE_FARWA)
 		user.remove_language(LANGUAGE_ROOTLOCAL)
 		user.remove_language(LANGUAGE_VOX)
-		user.remove_language(LANGUAGE_SKRELLIANFAR)
 		user.remove_language(LANGUAGE_MINBUS)
 		user.remove_language(LANGUAGE_ALAI)
 		user.remove_language(LANGUAGE_PROMETHEAN)
 		user.remove_language(LANGUAGE_GIBBERISH)
-		user.remove_language("Mouse")
-		user.remove_language("Cat")
-		user.remove_language("Bird")
-		user.remove_language("Dog")
-		user.remove_language("Teppi")
+		user.remove_language(LANGUAGE_MOUSE)
+		user.remove_language(LANGUAGE_ANIMAL)
+		user.remove_language(LANGUAGE_TEPPI)
 
 /datum/pai_software/translator/is_active(mob/living/silicon/pai/user)
 	return user.translator_on
@@ -486,7 +468,7 @@
 
 /datum/pai_software/signaller/tgui_data(mob/living/silicon/pai/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-	
+
 	var/obj/item/radio/integrated/signal/R = user.sradio
 
 	data["frequency"] = R.frequency
@@ -500,7 +482,7 @@
 	if(..())
 		return TRUE
 
-	var/mob/living/silicon/pai/user = usr
+	var/mob/living/silicon/pai/user = ui.user
 	if(istype(user))
 		var/obj/item/radio/integrated/signal/R = user.sradio
 
@@ -509,7 +491,7 @@
 				spawn(0)
 					R.send_signal("ACTIVATE")
 				for(var/mob/O in hearers(1, R.loc))
-					O.show_message("[bicon(R)] *beep* *beep*", 3, "*beep* *beep*", 2)
+					O.show_message("[icon2html(R,O.client)] *beep* *beep*", 3, "*beep* *beep*", 2)
 			if("freq")
 				var/frequency = unformat_frequency(params["freq"])
 				frequency = sanitize_frequency(frequency, RADIO_LOW_FREQ, RADIO_HIGH_FREQ)

@@ -36,7 +36,7 @@ SUBSYSTEM_DEF(transcore)
 			warning("Instantiated transcore DB without a key: [t]")
 			continue
 		databases[db.key] = db
-	return ..()
+	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/transcore/fire(resumed = 0)
 	var/timer = TICK_USAGE
@@ -50,12 +50,12 @@ SUBSYSTEM_DEF(transcore)
 		src.current_run.Cut()
 		for(var/key in databases)
 			var/datum/transcore_db/db = databases[key]
-			for(var/obj/item/weapon/implant/backup/imp as anything in db.implants)
+			for(var/obj/item/implant/backup/imp as anything in db.implants)
 				src.current_run[imp] = db
 
 	var/list/current_run = src.current_run
 	while(current_run.len)
-		var/obj/item/weapon/implant/backup/imp = current_run[current_run.len]
+		var/obj/item/implant/backup/imp = current_run[current_run.len]
 		var/datum/transcore_db/db = current_run[imp]
 		current_run.len--
 
@@ -76,7 +76,6 @@ SUBSYSTEM_DEF(transcore)
 
 		if(H == imp.imp_in && H.mind && H.stat < DEAD)
 			db.m_backup(H.mind,H.nif)
-			persist_nif_data(H)
 
 		if(MC_TICK_CHECK)
 			return
@@ -122,9 +121,8 @@ SUBSYSTEM_DEF(transcore)
 		if(MC_TICK_CHECK)
 			return
 
-/datum/controller/subsystem/transcore/stat_entry()
-	var/msg = list()
-	msg += "$:{"
+/datum/controller/subsystem/transcore/stat_entry(msg)
+	msg = "$:{"
 	msg += "IM:[round(cost_implants,1)]|"
 	msg += "BK:[round(cost_backups,1)]"
 	msg += "} "
@@ -137,7 +135,7 @@ SUBSYSTEM_DEF(transcore)
 		msg += "DFB:[default_db.body_scans.len]|"
 		msg += "DFI:[default_db.implants.len]"
 	msg += "} "
-	..(jointext(msg, null))
+	return ..()
 
 /datum/controller/subsystem/transcore/Recover()
 	for(var/key in SStranscore.databases)
@@ -183,7 +181,7 @@ SUBSYSTEM_DEF(transcore)
 			return db
 
 // These are now just interfaces to databases
-/datum/controller/subsystem/transcore/proc/m_backup(var/datum/mind/mind, var/obj/item/device/nif/nif, var/one_time = FALSE, var/database_key)
+/datum/controller/subsystem/transcore/proc/m_backup(var/datum/mind/mind, var/obj/item/nif/nif, var/one_time = FALSE, var/database_key)
 	var/datum/transcore_db/db = db_by_key(database_key)
 	db.m_backup(mind=mind, nif=nif, one_time=one_time)
 
@@ -203,7 +201,7 @@ SUBSYSTEM_DEF(transcore)
 	var/datum/transcore_db/db = db_by_key(database_key)
 	db.remove_body(BR=BR)
 
-/datum/controller/subsystem/transcore/proc/core_dump(var/obj/item/weapon/disk/transcore/disk, var/database_key)
+/datum/controller/subsystem/transcore/proc/core_dump(var/obj/item/disk/transcore/disk, var/database_key)
 	var/datum/transcore_db/db = db_by_key(database_key)
 	db.core_dump(disk=disk)
 
@@ -212,12 +210,12 @@ SUBSYSTEM_DEF(transcore)
 	var/list/datum/transhuman/mind_record/backed_up = list()	// All known mind records, indexed by MR.mindname/mind.name
 	var/list/datum/transhuman/mind_record/has_left = list()		// Why do we even have this?
 	var/list/datum/transhuman/body_record/body_scans = list()	// All known body records, indexed by BR.mydna.name
-	var/list/obj/item/weapon/implant/backup/implants = list()	// All OPERATING implants that are being ticked
+	var/list/obj/item/implant/backup/implants = list()	// All OPERATING implants that are being ticked
 
 	var/core_dumped = FALSE
 	var/key // Key for this DB
 
-/datum/transcore_db/proc/m_backup(var/datum/mind/mind, var/obj/item/device/nif/nif, var/one_time = FALSE)
+/datum/transcore_db/proc/m_backup(var/datum/mind/mind, var/obj/item/nif/nif, var/one_time = FALSE)
 	ASSERT(mind)
 	if(!mind.name || core_dumped)
 		return 0
@@ -257,9 +255,9 @@ SUBSYSTEM_DEF(transcore)
 	var/datum/transcore_db/db = SStranscore.db_by_mind_name(MR.mindname)
 	var/datum/transhuman/body_record/BR = db.body_scans[MR.mindname]
 	if(!BR)
-		global_announcer.autosay("[MR.mindname] is past-due for a mind backup, but lacks a corresponding body record.", "TransCore Oversight", "Medical")
+		GLOB.global_announcer.autosay("[MR.mindname] is past-due for a mind backup, but lacks a corresponding body record.", "TransCore Oversight", "Medical")
 		return
-	global_announcer.autosay("[MR.mindname] is past-due for a mind backup.", "TransCore Oversight", BR.synthetic ? "Science" : "Medical")
+	GLOB.global_announcer.autosay("[MR.mindname] is past-due for a mind backup.", "TransCore Oversight", BR.synthetic ? "Science" : "Medical")
 
 // Called from mind_record to add itself to the transcore.
 /datum/transcore_db/proc/add_backup(var/datum/transhuman/mind_record/MR)
@@ -279,6 +277,8 @@ SUBSYSTEM_DEF(transcore)
 // Called from body_record to add itself to the transcore.
 /datum/transcore_db/proc/add_body(var/datum/transhuman/body_record/BR)
 	ASSERT(BR)
+	if(body_scans[BR.mydna.name])
+		qdel(body_scans[BR.mydna.name])
 	body_scans[BR.mydna.name] = BR
 	body_scans = sortAssoc(body_scans)
 	log_debug("Added [BR.mydna.name] to transcore body DB.")
@@ -290,10 +290,10 @@ SUBSYSTEM_DEF(transcore)
 	log_debug("Removed [BR.mydna.name] from transcore body DB.")
 
 // Moves all mind records from the databaes into the disk and shuts down all backup canary processing.
-/datum/transcore_db/proc/core_dump(var/obj/item/weapon/disk/transcore/disk)
+/datum/transcore_db/proc/core_dump(var/obj/item/disk/transcore/disk)
 	ASSERT(disk)
-	global_announcer.autosay("An emergency core dump has been initiated!", "TransCore Oversight", "Command")
-	global_announcer.autosay("An emergency core dump has been initiated!", "TransCore Oversight", "Medical")
+	GLOB.global_announcer.autosay("An emergency core dump has been initiated!", "TransCore Oversight", "Command")
+	GLOB.global_announcer.autosay("An emergency core dump has been initiated!", "TransCore Oversight", "Medical")
 
 	disk.stored += backed_up
 	backed_up.Cut()

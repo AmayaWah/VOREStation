@@ -2,10 +2,6 @@
 	layer = TURF_LAYER //This was here when I got here. Why though?
 	var/level = 2
 	var/flags = 0
-	var/list/fingerprints
-	var/list/fingerprintshidden
-	var/fingerprintslast = null
-	var/list/blood_DNA
 	var/was_bloodied
 	var/blood_color
 	var/pass_flags = 0
@@ -14,6 +10,7 @@
 	var/simulated = TRUE //filter for actions - used by lighting overlays
 	var/atom_say_verb = "says"
 	var/bubble_icon = "normal" ///what icon the atom uses for speechbubbles
+	var/datum/forensics_crime/forensic_data
 	var/fluorescent // Shows up under a UV light.
 
 	var/last_bumped = 0
@@ -39,7 +36,7 @@
 	//Detective Work, used for the duplicate data points kept in the scanners
 	var/list/original_atom
 	// Track if we are already had initialize() called to prevent double-initialization.
-	var/initialized = FALSE
+	//var/initialized = FALSE // using the atom flags
 
 	/// Last name used to calculate a color for the chatmessage overlays
 	var/chat_color_name
@@ -49,56 +46,25 @@
 	var/chat_color_darkened
 	/// The chat color var, without alpha.
 	var/chat_color_hover
-
-/atom/New(loc, ...)
-	// Don't call ..() unless /datum/New() ever exists
-
-	// During dynamic mapload (reader.dm) this assigns the var overrides from the .dmm file
-	// Native BYOND maploading sets those vars before invoking New(), by doing this FIRST we come as close to that behavior as we can.
-	if(GLOB.use_preloader && (src.type == GLOB._preloader.target_path))//in case the instanciated atom is creating other atoms in New()
-		GLOB._preloader.load(src)
-
-	// Pass our arguments to InitAtom so they can be passed to initialize(), but replace 1st with if-we're-during-mapload.
-	var/do_initialize = SSatoms.initialized
-	if(do_initialize > INITIALIZATION_INSSATOMS)
-		args[1] = (do_initialize == INITIALIZATION_INNEW_MAPLOAD)
-		if(SSatoms.InitAtom(src, args))
-			// We were deleted. No sense continuing
-			return
-
-	// Uncomment if anything ever uses the return value of SSatoms.InitializeAtoms ~Leshana
-	// If a map is being loaded, it might want to know about newly created objects so they can be handled.
-	// var/list/created = SSatoms.created_atoms
-	// if(created)
-	// 	created += src
-
-// Note: I removed "auto_init" feature (letting types disable auto-init) since it shouldn't be needed anymore.
-// 	You can replicate the same by checking the value of the first parameter to initialize() ~Leshana
-
-// Called after New if the map is being loaded, with mapload = TRUE
-// Called from base of New if the map is not being loaded, with mapload = FALSE
-// This base must be called or derivatives must set initialized to TRUE
-// Must not sleep!
-// Other parameters are passed from New (excluding loc), this does not happen if mapload is TRUE
-// Must return an Initialize hint. Defined in code/__defines/subsystems.dm
-/atom/proc/Initialize(mapload, ...)
-	if(QDELETED(src))
-		stack_trace("GC: -- [type] had initialize() called after qdel() --")
-	if(initialized)
-		stack_trace("Warning: [src]([type]) initialized multiple times!")
-	initialized = TRUE
-	return INITIALIZE_HINT_NORMAL
+	//! Colors
+	/**
+	 * used to store the different colors on an atom
+	 *
+	 * its inherent color, the colored paint applied on it, special color effect etc...
+	 */
+	var/list/atom_colours
+	/// Lazylist of all images to update when we change z levels
+	/// You will need to manage adding/removing from this yourself, but I'll do the updating for you
+	var/list/image/update_on_z
 
 /atom/Destroy()
 	if(reagents)
 		QDEL_NULL(reagents)
 	if(light)
 		QDEL_NULL(light)
+	if(forensic_data)
+		QDEL_NULL(forensic_data)
 	return ..()
-
-// Called after all object's normal initialize() if initialize() returns INITIALIZE_HINT_LATELOAD
-/atom/proc/LateInitialize()
-	return
 
 /atom/proc/reveal_blood()
 	return
@@ -118,7 +84,7 @@
 //return flags that should be added to the viewer's sight var.
 //Otherwise return a negative number to indicate that the view should be cancelled.
 /atom/proc/check_eye(user as mob)
-	if (istype(user, /mob/living/silicon/ai)) // WHYYYY
+	if (isAI(user)) // WHYYYY
 		return 0
 	return -1
 
@@ -144,7 +110,8 @@
 
 // Used to be for the PROXMOVE flag, but that was terrible, so instead it's just here as a stub for
 // all the atoms that still have the proc, but get events other ways.
-/atom/proc/HasProximity(turf/T, atom/movable/AM, old_loc)
+/atom/proc/HasProximity(turf/T, datum/weakref/WF, old_loc)
+	SIGNAL_HANDLER
 	return
 
 //Register listeners on turfs in a certain range
@@ -153,7 +120,7 @@
 	ASSERT(isturf(loc))
 	var/list/turfs = trange(range, src)
 	for(var/turf/T as anything in turfs)
-		GLOB.turf_entered_event.register(T, src, callback)
+		RegisterSignal(T, COMSIG_OBSERVER_TURF_ENTERED, callback)
 
 //Unregister from prox listening in a certain range. You should do this BEFORE you move, but if you
 // really can't, then you can set the center where you moved from.
@@ -161,7 +128,7 @@
 	ASSERT(isturf(center) || isturf(loc))
 	var/list/turfs = trange(range, center ? center : src)
 	for(var/turf/T as anything in turfs)
-		GLOB.turf_entered_event.unregister(T, src, callback)
+		UnregisterSignal(T, COMSIG_OBSERVER_TURF_ENTERED)
 
 
 /atom/proc/emp_act(var/severity)
@@ -211,34 +178,33 @@
 			found += A.search_contents_for(path,filter_path)
 	return found
 
+/atom/proc/get_examine_desc()
+	return desc
+
 //All atoms
 /atom/proc/examine(mob/user, var/infix = "", var/suffix = "")
+	SHOULD_CALL_PARENT(TRUE)
 	//This reformat names to get a/an properly working on item descriptions when they are bloody
 	var/f_name = "\a [src][infix]."
-	if(src.blood_DNA && !istype(src, /obj/effect/decal))
+	if(forensic_data?.has_blooddna() && !istype(src, /obj/effect/decal))
 		if(gender == PLURAL)
 			f_name = "some "
 		else
 			f_name = "a "
 		if(blood_color != SYNTH_BLOOD_COLOUR)
-			f_name += "<span class='danger'>blood-stained</span> [name][infix]!"
+			f_name += "[span_danger("blood-stained")] [name][infix]!"
 		else
 			f_name += "oil-stained [name][infix]."
 
-	var/list/output = list("[bicon(src)] That's [f_name] [suffix]", desc)
-
-	if(user.client?.prefs.examine_text_mode == EXAMINE_MODE_INCLUDE_USAGE)
-		output += description_info
-
-	if(user.client?.prefs.examine_text_mode == EXAMINE_MODE_SWITCH_TO_PANEL)
-		user.client.statpanel = "Examine" // Switch to stat panel
+	var/examine_text = replacetext(get_examine_desc(), "||", "")
+	var/list/output = list("[icon2html(src,user.client)] That's [f_name] [suffix]", examine_text)
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, output)
 	return output
 
 // Don't make these call bicon or anything, these are what bicon uses. They need to return an icon.
 /atom/proc/examine_icon()
-	return icon(icon=src.icon, icon_state=src.icon_state, dir=SOUTH, frame=1, moving=0)
+	return src // 99% of the time just returning src will be sufficient. More complex examine icon things are available where they are needed
 
 // called by mobs when e.g. having the atom as their machine, pulledby, loc (AKA mob being inside the atom) or buckled var set.
 // see code/modules/mob/mob_movement.dm for more.
@@ -278,10 +244,13 @@
 // Returns an assoc list of RCD information.
 // Example would be: list(RCD_VALUE_MODE = RCD_DECONSTRUCT, RCD_VALUE_DELAY = 50, RCD_VALUE_COST = RCD_SHEETS_PER_MATTER_UNIT * 4)
 // This occurs before rcd_act() is called, and it won't be called if it returns FALSE.
-/atom/proc/rcd_values(mob/living/user, obj/item/weapon/rcd/the_rcd, passed_mode)
+/atom/proc/rcd_values(mob/living/user, obj/item/rcd/the_rcd, passed_mode)
 	return FALSE
 
-/atom/proc/rcd_act(mob/living/user, obj/item/weapon/rcd/the_rcd, passed_mode)
+/atom/proc/rcd_act(mob/living/user, obj/item/rcd/the_rcd, passed_mode)
+	return
+
+/atom/proc/occult_act(mob/living/user)
 	return
 
 /atom/proc/melt()
@@ -297,162 +266,11 @@
 		AM.throwing = 0
 	return
 
-/atom/proc/add_hiddenprint(mob/living/M as mob)
-	if(isnull(M)) return
-	if(isnull(M.key)) return
-	if (ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if (!istype(H.dna, /datum/dna))
-			return 0
-		if (H.gloves)
-			if(src.fingerprintslast != H.key)
-				src.fingerprintshidden += text("\[[time_stamp()]\] (Wearing gloves). Real name: [], Key: []",H.real_name, H.key)
-				src.fingerprintslast = H.key
-			return 0
-		if (!( src.fingerprints ))
-			if(src.fingerprintslast != H.key)
-				src.fingerprintshidden += text("\[[time_stamp()]\] Real name: [], Key: []",H.real_name, H.key)
-				src.fingerprintslast = H.key
-			return 1
-	else
-		if(src.fingerprintslast != M.key)
-			src.fingerprintshidden += text("\[[time_stamp()]\] Real name: [], Key: []",M.real_name, M.key)
-			src.fingerprintslast = M.key
-	return
-
-/atom/proc/add_fingerprint(mob/living/M as mob, ignoregloves = 0)
-	if(isnull(M)) return
-	if(isAI(M)) return
-	if(isnull(M.key)) return
-	if (ishuman(M))
-		//Add the list if it does not exist.
-		if(!fingerprintshidden)
-			fingerprintshidden = list()
-
-		//Fibers~
-		add_fibers(M)
-
-		//He has no prints!
-		if (mFingerprints in M.mutations)
-			if(fingerprintslast != M.key)
-				fingerprintshidden += "[time_stamp()]: [key_name(M)] (No fingerprints mutation)"
-				fingerprintslast = M.key
-			return 0		//Now, lets get to the dirty work.
-		//First, make sure their DNA makes sense.
-		var/mob/living/carbon/human/H = M
-		if (!istype(H.dna, /datum/dna) || !H.dna.uni_identity || (length(H.dna.uni_identity) != 32))
-			if(!istype(H.dna, /datum/dna))
-				H.dna = new /datum/dna(null)
-				H.dna.real_name = H.real_name
-		H.check_dna()
-
-		//Now, deal with gloves.
-		if (H.gloves && H.gloves != src)
-			if(fingerprintslast != H.key)
-				fingerprintshidden += "[time_stamp()]: [key_name(H)] (Wearing [H.gloves])"
-				fingerprintslast = H.key
-			H.gloves.add_fingerprint(M)
-
-		//Deal with gloves the pass finger/palm prints.
-		if(!ignoregloves)
-			if(H.gloves && H.gloves != src)
-				if(istype(H.gloves, /obj/item/clothing/gloves))
-					var/obj/item/clothing/gloves/G = H.gloves
-					if(!prob(G.fingerprint_chance))
-						return 0
-
-		//More adminstuffz
-		if(fingerprintslast != H.key)
-			fingerprintshidden += "[time_stamp()]: [key_name(H)]"
-			fingerprintslast = H.key
-
-		//Make the list if it does not exist.
-		if(!fingerprints)
-			fingerprints = list()
-
-		//Hash this shit.
-		var/full_print = H.get_full_print()
-
-		// Add the fingerprints
-		//
-		if(fingerprints[full_print])
-			switch(stringpercent(fingerprints[full_print]))		//tells us how many stars are in the current prints.
-
-				if(28 to 32)
-					if(prob(1))
-						fingerprints[full_print] = full_print 		// You rolled a one buddy.
-					else
-						fingerprints[full_print] = stars(full_print, rand(0,40)) // 24 to 32
-
-				if(24 to 27)
-					if(prob(3))
-						fingerprints[full_print] = full_print     	//Sucks to be you.
-					else
-						fingerprints[full_print] = stars(full_print, rand(15, 55)) // 20 to 29
-
-				if(20 to 23)
-					if(prob(5))
-						fingerprints[full_print] = full_print		//Had a good run didn't ya.
-					else
-						fingerprints[full_print] = stars(full_print, rand(30, 70)) // 15 to 25
-
-				if(16 to 19)
-					if(prob(5))
-						fingerprints[full_print] = full_print		//Welp.
-					else
-						fingerprints[full_print]  = stars(full_print, rand(40, 100))  // 0 to 21
-
-				if(0 to 15)
-					if(prob(5))
-						fingerprints[full_print] = stars(full_print, rand(0,50)) 	// small chance you can smudge.
-					else
-						fingerprints[full_print] = full_print
-
-		else
-			fingerprints[full_print] = stars(full_print, rand(0, 20))	//Initial touch, not leaving much evidence the first time.
-
-
-		return 1
-	else
-		//Smudge up dem prints some
-		if(fingerprintslast != M.key)
-			fingerprintshidden += "[time_stamp()]: [key_name(M)]"
-			fingerprintslast = M.key
-
-	//Cleaning up shit.
-	if(fingerprints && !fingerprints.len)
-		qdel(fingerprints)
-	return
-
-
-/atom/proc/transfer_fingerprints_to(var/atom/A)
-
-	if(!istype(A.fingerprints,/list))
-		A.fingerprints = list()
-
-	if(!istype(A.fingerprintshidden,/list))
-		A.fingerprintshidden = list()
-
-	if(!istype(fingerprintshidden, /list))
-		fingerprintshidden = list()
-
-	//skytodo
-	//A.fingerprints |= fingerprints            //detective
-	//A.fingerprintshidden |= fingerprintshidden    //admin
-	if(A.fingerprints && fingerprints)
-		A.fingerprints |= fingerprints.Copy()            //detective
-	if(A.fingerprintshidden && fingerprintshidden)
-		A.fingerprintshidden |= fingerprintshidden.Copy()    //admin	A.fingerprintslast = fingerprintslast
-
-
 //returns 1 if made bloody, returns 0 otherwise
 /atom/proc/add_blood(mob/living/carbon/human/M as mob)
 
 	if(flags & NOBLOODY)
 		return 0
-
-	if(!blood_DNA || !istype(blood_DNA, /list))	//if our list of DNA doesn't exist yet (or isn't a list) initialise it.
-		blood_DNA = list()
 
 	was_bloodied = TRUE
 	if(!blood_color)
@@ -466,35 +284,17 @@
 	. = 1
 	return 1
 
-/atom/proc/add_vomit_floor(mob/living/carbon/M as mob, var/toxvomit = 0)
-	if( istype(src, /turf/simulated) )
-		var/obj/effect/decal/cleanable/vomit/this = new /obj/effect/decal/cleanable/vomit(src)
-		this.virus2 = virus_copylist(M.virus2)
-
-		// Make toxins vomit look different
-		if(toxvomit)
-			this.icon_state = "vomittox_[pick(1,4)]"
-
-/atom/proc/clean_blood()
-	if(!simulated)
-		return
-	fluorescent = 0
-	src.germ_level = 0
-	if(istype(blood_DNA, /list))
-		blood_DNA = null
-		return TRUE
-
-/atom/proc/on_rag_wipe(var/obj/item/weapon/reagent_containers/glass/rag/R)
-	clean_blood()
+/atom/proc/on_rag_wipe(var/obj/item/reagent_containers/glass/rag/R)
+	wash(CLEAN_WASH)
 	R.reagents.splash(src, 1)
 
 /atom/proc/get_global_map_pos()
-	if(!islist(global_map) || isemptylist(global_map)) return
+	if(!islist(GLOB.global_map) || isemptylist(GLOB.global_map)) return
 	var/cur_x = null
 	var/cur_y = null
 	var/list/y_arr = null
-	for(cur_x=1,cur_x<=global_map.len,cur_x++)
-		y_arr = global_map[cur_x]
+	for(cur_x = 1, cur_x <= GLOB.global_map.len, cur_x++)
+		y_arr = GLOB.global_map[cur_x]
 		cur_y = y_arr.Find(src.z)
 		if(cur_y)
 			break
@@ -586,13 +386,13 @@
 /atom/proc/InsertedContents()
 	return contents
 
-/atom/proc/has_gravity(turf/T)
+/atom/proc/get_gravity(turf/T)
 	if(!T || !isturf(T))
 		T = get_turf(src)
 	if(istype(T, /turf/space)) // Turf never has gravity
 		return FALSE
 	var/area/A = get_area(T)
-	if(A && A.has_gravity())
+	if(A && A.get_gravity())
 		return TRUE
 	return FALSE
 
@@ -636,17 +436,18 @@
 	. = ..()
 	var/custom_edit_name
 	if(!isliving(src))
-		custom_edit_name = "<a href='?_src_=vars;datumedit=\ref[src];varnameedit=name'><b>[src]</b></a>"
+		custom_edit_name = "<a href='byond://?_src_=vars;[HrefToken()];datumedit=\ref[src];varnameedit=name'><b>[src]</b></a>"
 	. += {"
-		[custom_edit_name]
-		<br><font size='1'>
-		<a href='?_src_=vars;rotatedatum=\ref[src];rotatedir=left'><<</a>
-		<a href='?_src_=vars;datumedit=\ref[src];varnameedit=dir'>[dir2text(dir)]</a>
-		<a href='?_src_=vars;rotatedatum=\ref[src];rotatedir=right'>>></a>
-		</font>
+		[custom_edit_name]<br>
 		"}
+	var/content = {"
+		<a href='byond://?_src_=vars;[HrefToken()];rotatedatum=\ref[src];rotatedir=left'><<</a>
+		<a href='byond://?_src_=vars;[HrefToken()];datumedit=\ref[src];varnameedit=dir'>[dir2text(dir)]</a>
+		<a href='byond://?_src_=vars;[HrefToken()];rotatedatum=\ref[src];rotatedir=right'>>></a>
+		"}
+	. += span_small(content)
 	var/turf/T = get_turf(src)
-	. += "<br><font size='1'>[ADMIN_COORDJMP(T)]</font>"
+	. += "<br>" + span_small("[ADMIN_COORDJMP(T)]")
 
 /atom/vv_edit_var(var_name, var_value)
 	switch(var_name)
@@ -689,21 +490,21 @@
 		return
 	var/list/speech_bubble_hearers = list()
 	for(var/mob/M in get_mobs_in_view(7, src))
-		M.show_message("<span class='game say'><span class='name'>[src]</span> [atom_say_verb], \"[message]\"</span>", 2, null, 1)
+		M.show_message(span_npc_say(span_name("[src]") + " [atom_say_verb], \"[message]\""), 2, null, 1)
 		if(M.client)
 			speech_bubble_hearers += M.client
 
 	if(length(speech_bubble_hearers))
 		var/image/I = generate_speech_bubble(src, "[bubble_icon][say_test(message)]", FLY_LAYER)
 		I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
-		INVOKE_ASYNC(GLOBAL_PROC, /.proc/flick_overlay, I, speech_bubble_hearers, 30)
+		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_hearers, 30)
 
 /atom/proc/speech_bubble(bubble_state = "", bubble_loc = src, list/bubble_recipients = list())
 	return
 
 /atom/Entered(atom/movable/AM, atom/old_loc)
 	. = ..()
-	GLOB.moved_event.raise_event(AM, old_loc, AM.loc)
+	SEND_SIGNAL(AM, COMSIG_OBSERVER_MOVED, old_loc, AM.loc)
 	SEND_SIGNAL(src, COMSIG_ATOM_ENTERED, AM, old_loc)
 	SEND_SIGNAL(AM, COMSIG_ATOM_ENTERING, src, old_loc)
 
@@ -729,3 +530,165 @@
 // Airflow and ZAS zones now uses CanZASPass() instead of this proc.
 /atom/proc/CanPass(atom/movable/mover, turf/target)
 	return !density
+
+
+//! ## Atom Colour Priority System
+/**
+ * A System that gives finer control over which atom colour to colour the atom with.
+ * The "highest priority" one is always displayed as opposed to the default of
+ * "whichever was set last is displayed"
+ */
+
+/// Adds an instance of colour_type to the atom's atom_colours list
+/atom/proc/add_atom_colour(coloration, colour_priority)
+	if(!atom_colours || !atom_colours.len)
+		atom_colours = list()
+		atom_colours.len = COLOUR_PRIORITY_AMOUNT //four priority levels currently.
+	if(!coloration)
+		return
+	if(colour_priority > atom_colours.len)
+		return
+	atom_colours[colour_priority] = coloration
+	update_atom_colour()
+
+/// Removes an instance of colour_type from the atom's atom_colours list
+/atom/proc/remove_atom_colour(colour_priority, coloration)
+	if(!atom_colours)
+		atom_colours = list()
+		atom_colours.len = COLOUR_PRIORITY_AMOUNT //four priority levels currently.
+	if(colour_priority > atom_colours.len)
+		return
+	if(coloration && atom_colours[colour_priority] != coloration)
+		return //if we don't have the expected color (for a specific priority) to remove, do nothing
+	atom_colours[colour_priority] = null
+	update_atom_colour()
+
+/// Resets the atom's color to null, and then sets it to the highest priority colour available
+/atom/proc/update_atom_colour()
+	if(!atom_colours)
+		atom_colours = list()
+		atom_colours.len = COLOUR_PRIORITY_AMOUNT //four priority levels currently.
+	color = null
+	for(var/C in atom_colours)
+		if(islist(C))
+			var/list/L = C
+			if(L.len)
+				color = L
+				return
+		else if(C)
+			color = C
+			return
+
+///Passes Stat Browser Panel clicks to the game and calls client click on an atom
+/atom/Topic(href, list/href_list)
+	. = ..()
+	if(!usr?.client)
+		return
+	var/client/usr_client = usr.client
+	var/list/paramslist = list()
+
+	if(href_list["statpanel_item_click"])
+		switch(href_list["statpanel_item_click"])
+			if("left")
+				paramslist["left"] = "1"
+			if("right")
+				paramslist["right"] = "1"
+			if("middle")
+				paramslist["middle"] = "1"
+			else
+				return
+
+		if(href_list["statpanel_item_shiftclick"])
+			paramslist["shift"] = "1"
+		if(href_list["statpanel_item_ctrlclick"])
+			paramslist["ctrl"] = "1"
+		if(href_list["statpanel_item_altclick"])
+			paramslist["alt"] = "1"
+
+		var/mouseparams = list2params(paramslist)
+		usr_client.Click(src, loc, null, mouseparams)
+		return TRUE
+
+GLOBAL_LIST_EMPTY(icon_dimensions)
+
+/atom/proc/get_oversized_icon_offsets()
+	if (pixel_x == 0 && pixel_y == 0)
+		return list("x" = 0, "y" = 0)
+	var/list/icon_dimensions = get_icon_dimensions(icon)
+	var/icon_width = icon_dimensions["width"]
+	var/icon_height = icon_dimensions["height"]
+	return list(
+		"x" = icon_width > world.icon_size && pixel_x != 0 ? (icon_width - world.icon_size) * 0.5 : 0,
+		"y" = icon_height > world.icon_size /*&& pixel_y != 0*/ ? (icon_height - world.icon_size) * 0.5 : 0, // we don't have pixel_y in use
+	)
+
+/// Returns a list containing the width and height of an icon file
+/proc/get_icon_dimensions(icon_path)
+	// Icons can be a real file(), a rsc backed file(), a dynamic rsc (dyn.rsc) reference (known as a cache reference in byond docs), or an /icon which is pointing to one of those.
+	// Runtime generated dynamic icons are an unbounded concept cache identity wise, the same icon can exist millions of ways and holding them in a list as a key can lead to unbounded memory usage if called often by consumers.
+	// Check distinctly that this is something that has this unspecified concept, and thus that we should not cache.
+	if (!isfile(icon_path) || !length("[icon_path]"))
+		var/icon/my_icon = icon(icon_path)
+		return list("width" = my_icon.Width(), "height" = my_icon.Height())
+	if (isnull(GLOB.icon_dimensions[icon_path]))
+		var/icon/my_icon = icon(icon_path)
+		GLOB.icon_dimensions[icon_path] = list("width" = my_icon.Width(), "height" = my_icon.Height())
+	return GLOB.icon_dimensions[icon_path]
+
+/// Returns the src and all recursive contents as a list.
+/atom/proc/get_all_contents(ignore_flag_1)
+	. = list(src)
+	var/i = 0
+	while(i < length(.))
+		var/atom/checked_atom = .[++i]
+		if(checked_atom.flags & ignore_flag_1)
+			continue
+		. += checked_atom.contents
+
+/// Identical to get_all_contents but returns a list of atoms of the type passed in the argument.
+/atom/proc/get_all_contents_type(type)
+	var/list/processing_list = list(src)
+	. = list()
+	while(length(processing_list))
+		var/atom/checked_atom = processing_list[1]
+		processing_list.Cut(1, 2)
+		processing_list += checked_atom.contents
+		if(istype(checked_atom, type))
+			. += checked_atom
+
+/**
+*	Respond to our atom being checked by a virus extrapolator.
+*
+*	Default behaviour is to send COMSIG_ATOM_EXTRAPOLATOR_ACT and return an empty list (which may be populated by the signal)
+*
+*	Returns a list of viruses in the atom.
+*	Include EXTRAPOLATOR_SPECIAL_HANDLED in the list if the extrapolation act has been handled by this proc or a signal, and should not be handled by the extrapolator itself.
+*/
+/atom/proc/extrapolator_act(mob/living/user, obj/item/extrapolator/extrapolator, dry_run = FALSE)
+	. = list(EXTRAPOLATOR_RESULT_DISEASES = list())
+	SEND_SIGNAL(src, COMSIG_ATOM_EXTRAPOLATOR_ACT, user, extrapolator, dry_run, .)
+
+/**
+*	Wash this atom
+*
+*	This will clean it off any temporary stuff like blood. Override this in your item to add custom cleaning behavior.
+*	Returns true if any washing was necessary and thus performed
+*	Arguments:
+*	clean_types: any of the CLEAN_ constants
+*/
+/atom/proc/wash(clean_types)
+	SHOULD_CALL_PARENT(TRUE)
+
+	. = FALSE
+	if(SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, clean_types))
+		. = TRUE
+
+	// Basically "if has washable coloration"
+	if(length(atom_colours) >= WASHABLE_COLOUR_PRIORITY && atom_colours[WASHABLE_COLOUR_PRIORITY])
+		remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+		return TRUE
+
+	forensic_data?.wash(clean_types)
+	blood_color = null
+	germ_level = 0
+	fluorescent = 0

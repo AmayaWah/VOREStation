@@ -29,7 +29,7 @@ var/global/list/total_extraction_beacons = list()
 	else
 		var/A
 
-		A = tgui_input_list(usr, "Select a beacon to connect to", "Balloon Extraction Pack", possible_beacons)
+		A = tgui_input_list(user, "Select a beacon to connect to", "Balloon Extraction Pack", possible_beacons)
 
 		if(!A)
 			return
@@ -57,9 +57,9 @@ var/global/list/total_extraction_beacons = list()
 			return
 		if(A.anchored)
 			return
-		to_chat(user, "<span class='notice'>You start attaching the pack to [A]...</span>")
+		to_chat(user, span_notice("You start attaching the pack to [A]..."))
 		if(do_after(user,50,target=A))
-			to_chat(user, "<span class='notice'>You attach the pack to [A] and activate it.</span>")
+			to_chat(user, span_notice("You attach the pack to [A] and activate it."))
 			/* No components, sorry. No convienence for you!
 			if(loc == user && istype(user.back, /obj/item/storage/backpack))
 				var/obj/item/storage/backpack/B = user.back
@@ -139,7 +139,7 @@ var/global/list/total_extraction_beacons = list()
 
 /obj/item/fulton_core
 	name = "extraction beacon signaller"
-	desc = "Emits a signal which fulton recovery devices can lock onto. Activate in hand to create a beacon."
+	desc = "Emits a signal which Fulton recovery devices can lock onto. Activate in hand to create a beacon."
 	icon = 'icons/obj/stock_parts.dmi'
 	icon_state = "subspace_amplifier"
 
@@ -152,25 +152,25 @@ var/global/list/total_extraction_beacons = list()
 
 /obj/structure/extraction_point
 	name = "fulton recovery beacon"
-	desc = "A beacon for the fulton recovery system. Activate a pack in your hand to link it to a beacon."
+	desc = "A beacon for the Fulton recovery system. Activate a pack in your hand to link it to a beacon."
 	icon = 'icons/obj/fulton.dmi'
 	icon_state = "extraction_point"
 	anchored = TRUE
 	density = FALSE
 	var/beacon_network = "station"
 
-/obj/structure/extraction_point/Initialize()
+/obj/structure/extraction_point/Initialize(mapload)
 	. = ..()
 	name += " ([rand(100,999)]) ([get_area_name(src, TRUE)])"
 	global.total_extraction_beacons += src
 
 /obj/structure/extraction_point/Destroy()
 	global.total_extraction_beacons -= src
-	..()
+	. = ..()
 
 /obj/effect/extraction_holder
 	name = "extraction holder"
-	desc = "you shouldnt see this"
+	desc = "you shouldn't see this"
 	var/atom/movable/stored_obj
 
 /obj/item/extraction_pack/proc/check_for_living_mobs(atom/A)

@@ -86,7 +86,7 @@
 
 // attach a wire to a power machine - leads from the turf you are standing on
 //almost never called, overwritten by all power machines but terminal and generator
-/obj/machinery/power/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/attackby(obj/item/W, mob/user)
 
 	if(istype(W, /obj/item/stack/cable_coil))
 
@@ -107,7 +107,7 @@
 	return
 
 // Power machinery should also connect/disconnect from the network.
-/obj/machinery/power/default_unfasten_wrench(var/mob/user, var/obj/item/weapon/W, var/time = 20)
+/obj/machinery/power/default_unfasten_wrench(var/mob/user, var/obj/item/W, var/time = 20)
 	if((. = ..()))
 		if(anchored)
 			connect_to_network()
@@ -138,7 +138,7 @@
 	var/cdir
 	var/turf/T
 
-	for(var/card in cardinal)
+	for(var/card in GLOB.cardinal)
 		T = get_step(loc,card)
 		cdir = get_dir(T,loc)
 
@@ -157,7 +157,7 @@
 	var/cdir
 	var/turf/T
 
-	for(var/card in cardinal)
+	for(var/card in GLOB.cardinal)
 		T = get_step(loc,card)
 		cdir = get_dir(T,loc)
 
@@ -186,7 +186,7 @@
 /proc/power_list(var/turf/T, var/source, var/d, var/unmarked=0, var/cable_only = 0)
 	. = list()
 
-	var/reverse = d ? reverse_dir[d] : 0
+	var/reverse = d ? GLOB.reverse_dir[d] : 0
 	for(var/AM in T)
 		if(AM == source)	continue			//we don't want to return source
 
@@ -282,11 +282,11 @@
 		power_source = Cable.powernet
 
 	var/datum/powernet/PN
-	var/obj/item/weapon/cell/cell
+	var/obj/item/cell/cell
 
 	if(istype(power_source,/datum/powernet))
 		PN = power_source
-	else if(istype(power_source,/obj/item/weapon/cell))
+	else if(istype(power_source,/obj/item/cell))
 		cell = power_source
 	else if(istype(power_source,/obj/machinery/power/apc))
 		var/obj/machinery/power/apc/apc = power_source
@@ -302,7 +302,7 @@
 	//If following checks determine user is protected we won't alarm for long.
 	if(PN)
 		PN.trigger_warning(5)
-	if(istype(M,/mob/living/carbon/human))
+	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.species.siemens_coefficient <= 0)
 			return
@@ -338,6 +338,6 @@
 	else if (istype(power_source,/datum/powernet))
 		var/drained_power = drained_energy/CELLRATE
 		drained_power = PN.draw_power(drained_power)
-	else if (istype(power_source, /obj/item/weapon/cell))
+	else if (istype(power_source, /obj/item/cell))
 		cell.use(drained_energy)
 	return drained_energy

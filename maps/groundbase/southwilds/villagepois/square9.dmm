@@ -30,13 +30,13 @@
 /obj/random/maintenance/misc,
 /obj/random/maintenance/misc,
 /obj/random/maintenance/misc,
-/obj/item/device/flashlight/lamp/green{
+/obj/item/flashlight/lamp/green{
 	pixel_y = 8
 	},
 /turf/simulated/floor/wood,
 /area/submap/groundbase/poi/wildvillage/square/square9)
 "n" = (
-/turf/simulated/floor/outdoors/newdirt/virgo3c,
+/turf/simulated/floor/outdoors/newdirt,
 /area/submap/groundbase/poi/wildvillage)
 "o" = (
 /obj/structure/grille,
@@ -153,13 +153,13 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/submap/groundbase/poi/wildvillage/square/square9)
 "J" = (
-/turf/simulated/floor/outdoors/sidewalk/virgo3c,
+/turf/simulated/floor/outdoors/sidewalk,
 /area/submap/groundbase/poi/wildvillage)
 "K" = (
 /obj/machinery/light/small{
 	dir = 1
 	},
-/turf/simulated/floor/outdoors/newdirt/virgo3c,
+/turf/simulated/floor/outdoors/newdirt,
 /area/submap/groundbase/poi/wildvillage)
 "M" = (
 /obj/structure/bed/chair/sofa/left/brown,
@@ -174,7 +174,7 @@
 /obj/structure/table/standard,
 /obj/random/maintenance/misc,
 /obj/random/maintenance/misc,
-/obj/item/device/flashlight/lamp/green{
+/obj/item/flashlight/lamp/green{
 	pixel_y = 8
 	},
 /turf/simulated/floor/carpet,
@@ -198,7 +198,7 @@
 /area/submap/groundbase/poi/wildvillage/square/square9)
 "U" = (
 /obj/structure/bed/double/padded,
-/obj/item/weapon/bedsheet/browndouble,
+/obj/item/bedsheet/browndouble,
 /obj/structure/curtain/open/bed{
 	color = "#5e0c1d"
 	},

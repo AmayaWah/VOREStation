@@ -24,8 +24,9 @@
 
 	density = TRUE
 
-/obj/machinery/atmospherics/binary/circulator/New()
-	..()
+/obj/machinery/atmospherics/binary/circulator/Initialize(mapload)
+	. = ..()
+
 	desc = initial(desc) + " Its outlet port is to the [dir2text(dir)]."
 	air1.volume = 400
 
@@ -91,8 +92,8 @@
 
 	return 1
 
-/obj/machinery/atmospherics/binary/circulator/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(W.is_wrench())
+/obj/machinery/atmospherics/binary/circulator/attackby(obj/item/W as obj, mob/user as mob)
+	if(W.has_tool_quality(TOOL_WRENCH))
 		playsound(src, W.usesound, 75, 1)
 		anchored = !anchored
 		user.visible_message("[user.name] [anchored ? "secures" : "unsecures"] the bolts holding [src.name] to the floor.", \

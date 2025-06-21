@@ -29,7 +29,7 @@
 	anchored = TRUE
 	density = TRUE
 	can_atmos_pass = ATMOS_PASS_PROC
-	circuit = /obj/item/weapon/circuitboard/machine/power_compressor
+	circuit = /obj/item/circuitboard/machine/power_compressor
 	var/obj/machinery/power/turbine/turbine
 	var/datum/gas_mixture/gas_contained
 	var/turf/simulated/inturf
@@ -47,7 +47,7 @@
 	icon_state = "turbine"
 	anchored = TRUE
 	density = TRUE
-	circuit = /obj/item/weapon/circuitboard/machine/power_turbine
+	circuit = /obj/item/circuitboard/machine/power_turbine
 	var/obj/machinery/compressor/compressor
 	var/turf/simulated/outturf
 	var/lastgen
@@ -58,25 +58,25 @@
 	desc = "A computer to remotely control a gas turbine."
 	icon_keyboard = "tech_key"
 	icon_screen = "turbinecomp"
-	circuit = /obj/item/weapon/circuitboard/turbine_control
+	circuit = /obj/item/circuitboard/turbine_control
 	var/obj/machinery/compressor/compressor
 	var/list/obj/machinery/door/blast/doors
 	var/id = 0
 	var/door_status = 0
 
-/obj/item/weapon/circuitboard/machine/power_compressor
+/obj/item/circuitboard/machine/power_compressor
 	name = T_BOARD("power compressor")
 	build_path = /obj/machinery/compressor
 	board_type = new /datum/frame/frame_types/machine
 	origin_tech = list(TECH_MATERIAL = 4, TECH_POWER = 2)
-	req_components = list(/obj/item/stack/cable_coil = 5, /obj/item/weapon/stock_parts/manipulator = 6)
+	req_components = list(/obj/item/stack/cable_coil = 5, /obj/item/stock_parts/manipulator = 6)
 
-/obj/item/weapon/circuitboard/machine/power_turbine
+/obj/item/circuitboard/machine/power_turbine
 	name = T_BOARD("power turbine")
 	build_path = /obj/machinery/power/turbine
 	board_type = new /datum/frame/frame_types/machine
 	origin_tech = list(TECH_ENGINEERING = 2, TECH_POWER = 4)
-	req_components = list(/obj/item/stack/cable_coil = 5, /obj/item/weapon/stock_parts/capacitor = 6)
+	req_components = list(/obj/item/stack/cable_coil = 5, /obj/item/stock_parts/capacitor = 6)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Compressor
@@ -86,7 +86,7 @@
 #define COMPFRICTION 5e5
 #define COMPSTARTERLOAD 2800
 
-/obj/machinery/compressor/Initialize()
+/obj/machinery/compressor/Initialize(mapload)
 	. = ..()
 	default_apply_parts()
 	gas_contained = new()
@@ -108,7 +108,7 @@
 
 /obj/machinery/compressor/RefreshParts()
 	var/E = 0
-	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		E += M.rating
 	efficiency = E / 6
 
@@ -123,24 +123,25 @@
 		return
 	if(default_deconstruction_crowbar(user, W))
 		return
-	if(istype(W, /obj/item/device/multitool))
-		var/new_ident = tgui_input_text(usr, "Enter a new ident tag.", name, comp_id)
+	if(istype(W, /obj/item/multitool))
+		var/new_ident = tgui_input_text(user, "Enter a new ident tag.", name, comp_id, MAX_NAME_LEN)
+		new_ident = sanitize(new_ident,MAX_NAME_LEN)
 		if(new_ident && user.Adjacent(src))
 			comp_id = new_ident
 		return
 	return ..()
 
-/obj/machinery/compressor/default_unfasten_wrench(var/mob/user, var/obj/item/weapon/W, var/time = 20)
+/obj/machinery/compressor/default_unfasten_wrench(var/mob/user, var/obj/item/W, var/time = 20)
 	if((. = ..()))
 		turbine = null
 		if(anchored)
 			inturf = get_step(src, dir)
 			locate_machinery()
 			if(turbine)
-				to_chat(user, "<span class='notice'>Turbine connected.</span>")
+				to_chat(user, span_notice("Turbine connected."))
 				stat &= ~BROKEN
 			else
-				to_chat(user, "<span class='alert'>Turbine not connected.</span>")
+				to_chat(user, span_warning("Turbine not connected."))
 				stat |= BROKEN
 
 /obj/machinery/compressor/process()
@@ -179,7 +180,7 @@
 		add_overlay(image('icons/obj/pipes.dmi', "comp-o2", FLY_LAYER))
 	else if(rpm>500)
 		add_overlay(image('icons/obj/pipes.dmi', "comp-o1", FLY_LAYER))
-	 //TODO: DEFERRED
+	//TODO: DEFERRED
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +194,7 @@
 #define TURBGENQ 100000
 #define TURBGENG 0.8
 
-/obj/machinery/power/turbine/Initialize()
+/obj/machinery/power/turbine/Initialize(mapload)
 	. = ..()
 	default_apply_parts()
 	// The outlet is pointed at the direction of the turbine component
@@ -204,7 +205,7 @@
 
 /obj/machinery/power/turbine/RefreshParts()
 	var/P = 0
-	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
+	for(var/obj/item/stock_parts/capacitor/C in component_parts)
 		P += C.rating
 	productivity = P / 6
 
@@ -228,17 +229,17 @@
 		return
 	return ..()
 
-/obj/machinery/power/turbine/default_unfasten_wrench(var/mob/user, var/obj/item/weapon/W, var/time = 20)
+/obj/machinery/power/turbine/default_unfasten_wrench(var/mob/user, var/obj/item/W, var/time = 20)
 	if((. = ..()))
 		compressor = null
 		if(anchored)
 			outturf = get_step(src, dir)
 			locate_machinery()
 			if(compressor)
-				to_chat(user, "<span class='notice'>Compressor connected.</span>")
+				to_chat(user, span_notice("Compressor connected."))
 				stat &= ~BROKEN
 			else
-				to_chat(user, "<span class='alert'>Compressor not connected.</span>")
+				to_chat(user, span_warning("Compressor not connected."))
 				stat |= BROKEN
 
 /obj/machinery/power/turbine/process()
@@ -290,8 +291,8 @@
 	var/t = "<TT><B>Gas Turbine Generator</B><HR><PRE>"
 	t += "Generated power : [DisplayPower(lastgen)]<BR><BR>"
 	t += "Turbine: [round(compressor.rpm)] RPM<BR>"
-	t += "Starter: [ compressor.starter ? "<A href='?src=\ref[src];str=1'>Off</A> <B>On</B>" : "<B>Off</B> <A href='?src=\ref[src];str=1'>On</A>"]"
-	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
+	t += "Starter: [ compressor.starter ? "<A href='byond://?src=\ref[src];str=1'>Off</A> " + span_bold("On") : span_bold("Off") + " <A href='byond://?src=\ref[src];str=1'>On</A>"]"
+	t += "</PRE><HR><A href='byond://?src=\ref[src];close=1'>Close</A>"
 	t += "</TT>"
 	var/datum/browser/popup = new(user, "turbine", name, 700, 500, src)
 	popup.set_content(t)
@@ -317,7 +318,7 @@
 // Turbine Computer
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/machinery/computer/turbine_computer/Initialize()
+/obj/machinery/computer/turbine_computer/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -327,17 +328,18 @@
 /obj/machinery/computer/turbine_computer/proc/locate_machinery()
 	if(!id)
 		return
-	for(var/obj/machinery/compressor/C in machines)
+	for(var/obj/machinery/compressor/C in GLOB.machines)
 		if(C.comp_id == id)
 			compressor = C
 	LAZYINITLIST(doors)
-	for(var/obj/machinery/door/blast/P in machines)
+	for(var/obj/machinery/door/blast/P in GLOB.machines)
 		if(P.id == id)
 			doors += P
 
 /obj/machinery/computer/turbine_computer/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/device/multitool))
-		var/new_ident = tgui_input_text(usr, "Enter a new ident tag.", name, id)
+	if(istype(W, /obj/item/multitool))
+		var/new_ident = tgui_input_text(user, "Enter a new ident tag.", name, id, MAX_NAME_LEN)
+		new_ident = sanitize(new_ident,MAX_NAME_LEN)
 		if(new_ident && user.Adjacent(src))
 			id = new_ident
 		return

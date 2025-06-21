@@ -22,12 +22,13 @@ SUBSYSTEM_DEF(plants)
 	var/list/processing = list()
 	var/list/currentrun = list()
 
-/datum/controller/subsystem/plants/stat_entry()
-	..("P:[processing.len]|S:[seeds.len]")
-
-/datum/controller/subsystem/plants/Initialize(timeofday)
-	setup()
+/datum/controller/subsystem/plants/stat_entry(msg)
+	msg = "P:[processing.len]|S:[seeds.len]"
 	return ..()
+
+/datum/controller/subsystem/plants/Initialize()
+	setup()
+	return SS_INIT_SUCCESS
 
 // Predefined/roundstart varieties use a string key to make it
 // easier to grab the new variety when mutating. Post-roundstart
@@ -70,7 +71,7 @@ SUBSYSTEM_DEF(plants)
 
 	// Make sure any seed packets that were mapped in are updated
 	// correctly (since the seed datums did not exist a tick ago).
-	for(var/obj/item/seeds/S in all_seed_packs)
+	for(var/obj/item/seeds/S in GLOB.all_seed_packs)
 		S.update_seed()
 
 	//Might as well mask the gene types while we're at it.
@@ -107,10 +108,10 @@ SUBSYSTEM_DEF(plants)
 
 	if(survive_on_station)
 		if(seed.consume_gasses)
-			seed.consume_gasses["phoron"] = null
-			seed.consume_gasses["carbon_dioxide"] = null
-		if(seed.chems && !isnull(seed.chems["pacid"]))
-			seed.chems["pacid"] = null // Eating through the hull will make these plants completely inviable, albeit very dangerous.
+			seed.consume_gasses[GAS_PHORON] = null
+			seed.consume_gasses[GAS_CO2] = null
+		if(seed.chems && !isnull(seed.chems[REAGENT_ID_PACID]))
+			seed.chems[REAGENT_ID_PACID] = null // Eating through the hull will make these plants completely inviable, albeit very dangerous.
 			seed.chems -= null // Setting to null does not actually remove the entry, which is weird.
 		seed.set_trait(TRAIT_IDEAL_HEAT,293)
 		seed.set_trait(TRAIT_HEAT_TOLERANCE,20)
@@ -126,7 +127,7 @@ SUBSYSTEM_DEF(plants)
 
 	// Caching
 	var/list/currentrun = src.currentrun
-	
+
 	while(currentrun.len)
 		var/obj/effect/plant/P = currentrun[currentrun.len]
 		--currentrun.len
@@ -138,7 +139,8 @@ SUBSYSTEM_DEF(plants)
 			return
 
 /datum/controller/subsystem/plants/proc/add_plant(var/obj/effect/plant/plant)
-	processing |= plant
+	if(!QDELETED(plant))
+		processing |= plant
 
 /datum/controller/subsystem/plants/proc/remove_plant(var/obj/effect/plant/plant)
 	processing -= plant
@@ -146,7 +148,7 @@ SUBSYSTEM_DEF(plants)
 
 // Debug for testing seed genes.
 /client/proc/show_plant_genes()
-	set category = "Debug"
+	set category = "Debug.Investigate"
 	set name = "Show Plant Genes"
 	set desc = "Prints the round's plant gene masks."
 
@@ -158,3 +160,5 @@ SUBSYSTEM_DEF(plants)
 
 	for(var/mask in SSplants.gene_tag_masks)
 		to_chat(usr, "[mask]: [SSplants.gene_tag_masks[mask]]")
+
+#undef PLANT_TICK_TIME

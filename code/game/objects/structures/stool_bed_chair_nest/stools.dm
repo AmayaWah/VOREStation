@@ -1,13 +1,14 @@
 //Todo: add leather and cloth for arbitrary coloured stools.
 var/global/list/stool_cache = list() //haha stool
 
-/obj/item/weapon/stool
+/obj/item/stool
 	name = "stool"
 	desc = "Apply butt."
 	icon = 'icons/obj/furniture_vr.dmi' //VOREStation Edit - new Icons
 	icon_state = "stool_preview" //set for the map
 	randpixel = 0
-	center_of_mass = null
+	center_of_mass_x = 0
+	center_of_mass_y = 0
 	force = 10
 	throwforce = 10
 	w_class = ITEMSIZE_HUGE
@@ -15,26 +16,25 @@ var/global/list/stool_cache = list() //haha stool
 	var/datum/material/material
 	var/datum/material/padding_material
 
-/obj/item/weapon/stool/padded
+/obj/item/stool/padded
 	icon_state = "stool_padded_preview" //set for the map
 
-/obj/item/weapon/stool/New(var/newloc, var/new_material, var/new_padding_material)
-	..(newloc)
+/obj/item/stool/Initialize(mapload, var/new_material, var/new_padding_material)
+	. = ..()
 	if(!new_material)
 		new_material = MAT_STEEL
 	material = get_material_by_name(new_material)
 	if(new_padding_material)
 		padding_material = get_material_by_name(new_padding_material)
 	if(!istype(material))
-		qdel(src)
-		return
+		return INITIALIZE_HINT_QDEL
 	force = round(material.get_blunt_damage()*0.4)
 	update_icon()
 
-/obj/item/weapon/stool/padded/New(var/newloc, var/new_material)
-	..(newloc, "steel", "carpet")
+/obj/item/stool/padded/Initialize(mapload, var/new_material)
+	. = ..(mapload, MAT_STEEL, MAT_CARPET)
 
-/obj/item/weapon/stool/update_icon()
+/obj/item/stool/update_icon()
 	// Prep icon.
 	icon_state = ""
 	cut_overlays()
@@ -61,19 +61,19 @@ var/global/list/stool_cache = list() //haha stool
 		name = "[material.display_name] [initial(name)]"
 		desc = "A stool. Apply butt with care. It's made of [material.use_name]."
 
-/obj/item/weapon/stool/proc/add_padding(var/padding_type)
+/obj/item/stool/proc/add_padding(var/padding_type)
 	padding_material = get_material_by_name(padding_type)
 	update_icon()
 
-/obj/item/weapon/stool/proc/remove_padding()
+/obj/item/stool/proc/remove_padding()
 	if(padding_material)
-		padding_material.place_sheet(get_turf(src))
+		padding_material.place_sheet(get_turf(src), 1)
 		padding_material = null
 	update_icon()
 
-/obj/item/weapon/stool/attack(mob/M as mob, mob/user as mob)
-	if (prob(5) && istype(M,/mob/living))
-		user.visible_message("<span class='danger'>[user] breaks [src] over [M]'s back!</span>")
+/obj/item/stool/attack(mob/M as mob, mob/user as mob)
+	if (prob(5) && isliving(M))
+		user.visible_message(span_danger("[user] breaks [src] over [M]'s back!"))
 		user.setClickCooldown(user.get_attack_speed())
 		user.do_attack_animation(M)
 
@@ -88,7 +88,7 @@ var/global/list/stool_cache = list() //haha stool
 		return
 	..()
 
-/obj/item/weapon/stool/ex_act(severity)
+/obj/item/stool/ex_act(severity)
 	switch(severity)
 		if(1.0)
 			qdel(src)
@@ -102,15 +102,15 @@ var/global/list/stool_cache = list() //haha stool
 				qdel(src)
 				return
 
-/obj/item/weapon/stool/proc/dismantle()
+/obj/item/stool/proc/dismantle()
 	if(material)
-		material.place_sheet(get_turf(src))
+		material.place_sheet(get_turf(src), 1)
 	if(padding_material)
-		padding_material.place_sheet(get_turf(src))
+		padding_material.place_sheet(get_turf(src), 1)
 	qdel(src)
 
-/obj/item/weapon/stool/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(W.is_wrench())
+/obj/item/stool/attackby(obj/item/W as obj, mob/user as mob)
+	if(W.has_tool_quality(TOOL_WRENCH))
 		playsound(src, W.usesound, 50, 1)
 		dismantle()
 		qdel(src)
@@ -125,7 +125,7 @@ var/global/list/stool_cache = list() //haha stool
 			return
 		var/padding_type //This is awful but it needs to be like this until tiles are given a material var.
 		if(istype(W,/obj/item/stack/tile/carpet))
-			padding_type = "carpet"
+			padding_type = MAT_CARPET
 		else if(istype(W,/obj/item/stack/material))
 			var/obj/item/stack/material/M = W
 			if(M.material && (M.material.flags & MATERIAL_PADDING))
@@ -140,7 +140,7 @@ var/global/list/stool_cache = list() //haha stool
 		to_chat(user, "You add padding to \the [src].")
 		add_padding(padding_type)
 		return
-	else if (W.is_wirecutter())
+	else if (W.has_tool_quality(TOOL_WIRECUTTER))
 		if(!padding_material)
 			to_chat(user, "\The [src] has no padding to remove.")
 			return

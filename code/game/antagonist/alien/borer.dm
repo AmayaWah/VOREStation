@@ -30,7 +30,7 @@ var/datum/antagonist/borer/borers
 	borers = src
 
 /datum/antagonist/xenos/borer/get_extra_panel_options(var/datum/mind/player)
-	return "<a href='?src=\ref[src];move_to_spawn=\ref[player.current]'>\[put in host\]</a>"
+	return "<a href='byond://?src=\ref[src];[HrefToken()];move_to_spawn=\ref[player.current]'>\[put in host\]</a>"
 
 /datum/antagonist/borer/create_objectives(var/datum/mind/player)
 	if(!..())
@@ -59,15 +59,15 @@ var/datum/antagonist/borer/borers
 			borer.host_brain.name = host.name
 			borer.host_brain.real_name = host.real_name
 			return
-		 // Place them at a vent if they can't get a host.
+		// Place them at a vent if they can't get a host.
 		borer.forceMove(get_turf(pick(get_vents())))
 
 /datum/antagonist/borer/attempt_random_spawn()
-	if(config.aliens_allowed) ..()
+	if(CONFIG_GET(flag/aliens_allowed)) ..()
 
 /datum/antagonist/borer/proc/get_vents()
 	var/list/vents = list()
-	for(var/obj/machinery/atmospherics/unary/vent_pump/temp_vent in machines)
+	for(var/obj/machinery/atmospherics/unary/vent_pump/temp_vent in GLOB.machines)
 		if(!temp_vent.welded && temp_vent.network && (temp_vent.loc.z in using_map.station_levels))
 			if(temp_vent.network.normal_members.len > 50)
 				vents += temp_vent

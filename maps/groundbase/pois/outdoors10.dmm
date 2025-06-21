@@ -13,7 +13,7 @@
 /area/submap/groundbase/poi/outdoor/cabin5)
 "g" = (
 /obj/structure/table/standard,
-/obj/item/device/flashlight/lamp/green{
+/obj/item/flashlight/lamp/green{
 	pixel_x = 1;
 	pixel_y = 5
 	},
@@ -24,7 +24,7 @@
 /turf/simulated/floor/wood,
 /area/submap/groundbase/poi/outdoor/cabin5)
 "m" = (
-/turf/simulated/floor/outdoors/newdirt/virgo3c,
+/turf/simulated/floor/outdoors/newdirt,
 /area/submap/groundbase/poi/outdoor)
 "q" = (
 /obj/structure/bed/chair/sofa/corner/brown{
@@ -55,7 +55,7 @@
 /area/submap/groundbase/poi/outdoor/cabin5)
 "J" = (
 /obj/structure/table/glass,
-/obj/item/device/flashlight/lamp/green{
+/obj/item/flashlight/lamp/green{
 	pixel_x = 1;
 	pixel_y = 5
 	},

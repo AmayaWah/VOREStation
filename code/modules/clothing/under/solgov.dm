@@ -19,7 +19,7 @@
 	worn_state = "miami"
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	siemens_coefficient = 0.9
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	body_parts_covered = CHEST
 
 /obj/item/clothing/under/solgov/pt/sifguard
 	name = "\improper SifGuard pt uniform"
@@ -63,6 +63,18 @@
 	icon_state = "greyutility"
 	worn_state = "greyutility"
 
+/obj/item/clothing/under/utility/tan
+	name = "utility uniform"
+	desc = "A comfortable tan utility jumpsuit."
+	icon_state = "tanutility"
+	worn_state = "tanutility"
+
+/obj/item/clothing/under/utility/green
+	name = "utility uniform"
+	desc = "A comfortable green utility jumpsuit."
+	icon_state = "greenutility"
+	worn_state = "greenutility"
+
 //Here's the real ones
 /obj/item/clothing/under/solgov/utility/sifguard
 	name = "\improper SifGuard uniform"
@@ -82,13 +94,13 @@
 /obj/item/clothing/under/solgov/utility/sifguard_skirt
 	name = "\improper SifGuard skirt"
 	desc = "A black turtleneck and skirt, the elusive ladies' uniform of the Sif Defense Force."
-	icon_state = "blackservicefem"
+	icon_state = "blackservicef"
 	worn_state = "blackservicefem"
 
 /obj/item/clothing/under/solgov/utility/sifguard_skirt/officer
-	name = "\improper SifGuard officer skirt"
-	desc = "A black turtleneck and skirt, the elusive ladies' uniform of the Sif Defense Force. This one has gold trim."
-	icon_state = "blackservicefem_com"
+	name = "\improper NDF officer skirt"
+	desc = "A black turtleneck and skirt, the elusive ladies' uniform of the Nanotrasen Defense Force. This one has gold trim."
+	icon_state = "blackservicef_com"
 	worn_state = "blackservicefem_com"
 
 /obj/item/clothing/under/solgov/utility/sifguard/command

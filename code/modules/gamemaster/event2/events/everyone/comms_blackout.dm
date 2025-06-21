@@ -7,7 +7,7 @@
 	event_type = /datum/event2/event/comms_blackout
 
 /datum/event2/meta/comms_blackout/get_weight()
-	return 50 + metric.count_people_in_department(DEPARTMENT_EVERYONE) * 5
+	return 50 + GLOB.metric.count_people_in_department(DEPARTMENT_EVERYONE) * 5
 
 
 
@@ -22,9 +22,9 @@
 		command_announcement.Announce(alert, new_sound = 'sound/misc/interference.ogg')
 	// AIs will always know if there's a comm blackout, rogue AIs could then lie about comm blackouts in the future while they shutdown comms
 	for(var/mob/living/silicon/ai/A in player_list)
-		to_chat(A, "<br>")
-		to_chat(A, "<span class='warning'><b>[alert]</b></span>")
-		to_chat(A, "<br>")
+		to_chat(A, span_boldwarning("<br>"))
+		to_chat(A, span_boldwarning("[alert]"))
+		to_chat(A, span_boldwarning("<br>"))
 
 /datum/event2/event/comms_blackout/start()
 	if(prob(50))
@@ -39,5 +39,5 @@
 			T.emp_act(1)
 
 	// Communicators go down no matter what.
-	for(var/obj/machinery/exonet_node/N in machines)
+	for(var/obj/machinery/exonet_node/N in GLOB.machines)
 		N.emp_act(1)

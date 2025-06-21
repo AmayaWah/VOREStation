@@ -3,8 +3,8 @@ var/datum/antagonist/xenos/xenomorphs
 /datum/antagonist/xenos
 	id = MODE_XENOMORPH
 	role_type = BE_ALIEN
-	role_text = "Xenomorph"
-	role_text_plural = "Xenomorphs"
+	role_text = "Genaprawn"
+	role_text_plural = "Genaprawns"
 	mob_path = /mob/living/carbon/alien/larva
 	bantype = "Xenomorph"
 	flags = ANTAG_OVERRIDE_MOB | ANTAG_RANDSPAWN | ANTAG_OVERRIDE_JOB | ANTAG_VOTABLE
@@ -27,11 +27,11 @@ var/datum/antagonist/xenos/xenomorphs
 		xenomorphs = src
 
 /datum/antagonist/xenos/attempt_random_spawn()
-	if(config.aliens_allowed) ..()
+	if(CONFIG_GET(flag/aliens_allowed)) ..()
 
 /datum/antagonist/xenos/proc/get_vents()
 	var/list/vents = list()
-	for(var/obj/machinery/atmospherics/unary/vent_pump/temp_vent in machines)
+	for(var/obj/machinery/atmospherics/unary/vent_pump/temp_vent in GLOB.machines)
 		if(!temp_vent.welded && temp_vent.network && (temp_vent.loc.z in using_map.station_levels))
 			if(temp_vent.network.normal_members.len > 50)
 				vents += temp_vent

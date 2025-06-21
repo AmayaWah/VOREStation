@@ -20,7 +20,7 @@
 
 
 /obj/item/integrated_circuit/input/button/ask_for_input(mob/user) //Bit misleading name for this specific use.
-	to_chat(user, "<span class='notice'>You press the button labeled '[src.displayed_name]'.</span>")
+	to_chat(user, span_notice("You press the button labeled '[src.displayed_name]'."))
 	activate_pin(1)
 
 /obj/item/integrated_circuit/input/toggle_button
@@ -38,7 +38,7 @@
 	set_pin_data(IC_OUTPUT, 1, !get_pin_data(IC_OUTPUT, 1))
 	push_data()
 	activate_pin(1)
-	to_chat(user, "<span class='notice'>You toggle the button labeled '[src.displayed_name]' [get_pin_data(IC_OUTPUT, 1) ? "on" : "off"].</span>")
+	to_chat(user, span_notice("You toggle the button labeled '[src.displayed_name]' [get_pin_data(IC_OUTPUT, 1) ? "on" : "off"]."))
 
 /obj/item/integrated_circuit/input/numberpad
 	name = "number pad"
@@ -72,7 +72,8 @@
 	power_draw_per_use = 4
 
 /obj/item/integrated_circuit/input/textpad/ask_for_input(mob/user)
-	var/new_input = tgui_input_text(user, "Enter some words, please.","Number pad", get_pin_data(IC_OUTPUT, 1))
+	var/new_input = tgui_input_text(user, "Enter some words, please.","Number pad", get_pin_data(IC_OUTPUT, 1),MAX_NAME_LEN)
+	new_input = sanitize(new_input,MAX_NAME_LEN)
 	if(istext(new_input) && CanInteract(user, GLOB.tgui_physical_state))
 		set_pin_data(IC_OUTPUT, 1, new_input)
 		push_data()
@@ -91,7 +92,7 @@
 	power_draw_per_use = 4
 
 /obj/item/integrated_circuit/input/colorpad/ask_for_input(mob/user)
-	var/new_color = input(user, "Enter a color, please.", "Color pad", get_pin_data(IC_OUTPUT, 1)) as color|null
+	var/new_color = tgui_color_picker(user, "Enter a color, please.", "Color pad", get_pin_data(IC_OUTPUT, 1))
 	if(new_color && CanInteract(user, GLOB.tgui_physical_state))
 		set_pin_data(IC_OUTPUT, 1, new_color)
 		push_data()
@@ -233,8 +234,8 @@
 	var/datum/integrated_io/O = outputs[1]
 	O.data = null
 	if(assembly)
-		if(istype(assembly.loc, /mob/living)) // Now check if someone's holding us.
-			O.data = weakref(assembly.loc)
+		if(isliving(assembly.loc)) // Now check if someone's holding us.
+			O.data = WEAKREF(assembly.loc)
 
 	O.push_data()
 
@@ -269,9 +270,11 @@
 	for(var/atom/thing in nearby_things)
 		if(thing.type != desired_type)
 			continue
+		if(thing.is_incorporeal())
+			continue
 		valid_things.Add(thing)
 	if(valid_things.len)
-		O.data = weakref(pick(valid_things))
+		O.data = WEAKREF(pick(valid_things))
 		activate_pin(2)
 	else
 		activate_pin(3)
@@ -281,11 +284,11 @@
 	complexity = 6
 	name = "advanced locator"
 	desc = "This is needed for certain devices that demand a reference for a target to act upon. This type locates something \
-	that is standing in given radius of up to 7 meters"
+		that is standing in given radius of up to 7 meters"
 	extended_desc = "The first pin requires a ref to a kind of object that you want the locator to acquire. This means that it will \
-	give refs to nearby objects that are similar to given sample. If this pin is a string, the locator will search for\
-	 item by matching desired text in name + description. If more than one valid object is found nearby, it will choose one of them at \
-	random. The second pin is a radius."
+		give refs to nearby objects that are similar to given sample. If this pin is a string, the locator will search for\
+		item by matching desired text in name + description. If more than one valid object is found nearby, it will choose one of them at \
+		random. The second pin is a radius."
 	inputs = list("desired type" = IC_PINTYPE_ANY, "radius" = IC_PINTYPE_NUMBER)
 	outputs = list("located ref")
 	activators = list("locate" = IC_PINTYPE_PULSE_IN,"found" = IC_PINTYPE_PULSE_OUT,"not found" = IC_PINTYPE_PULSE_OUT)
@@ -312,15 +315,19 @@
 			var/desired_type = A.type
 			if(desired_type)
 				for(var/atom/thing in nearby_things)
+					if(thing.is_incorporeal())
+						continue
 					if(thing.type == desired_type)
 						valid_things.Add(thing)
 	else if(istext(I.data))
 		var/DT = I.data
 		for(var/atom/thing in nearby_things)
+			if(thing.is_incorporeal())
+				continue
 			if(findtext(addtext(thing.name," ",thing.desc), DT, 1, 0) )
 				valid_things.Add(thing)
 	if(valid_things.len)
-		O.data = weakref(pick(valid_things))
+		O.data = WEAKREF(pick(valid_things))
 		O.push_data()
 		activate_pin(2)
 	else
@@ -354,11 +361,11 @@
 	var/code = 30
 	var/datum/radio_frequency/radio_connection
 
-/obj/item/integrated_circuit/input/signaler/Initialize()
+/obj/item/integrated_circuit/input/signaler/Initialize(mapload)
 	. = ..()
 	set_pin_data(IC_INPUT, 1, frequency)
 	set_pin_data(IC_INPUT, 2, code)
-	addtimer(CALLBACK(src, .proc/set_frequency, frequency), 40)
+	addtimer(CALLBACK(src, PROC_REF(set_frequency), frequency), 40)
 
 /obj/item/integrated_circuit/input/signaler/Destroy()
 	if(radio_controller)
@@ -414,7 +421,7 @@
 
 	if(loc)
 		for(var/mob/O in hearers(1, get_turf(src)))
-			O.show_message("[bicon(src)] *beep* *beep*", 3, "*beep* *beep*", 2)
+			O.show_message("[icon2html(src, usr.client)] *beep* *beep*", 3, "*beep* *beep*", 2)
 
 /obj/item/integrated_circuit/input/EPv2
 	name = "\improper EPv2 circuit"
@@ -448,8 +455,8 @@
 		return can_telecomm(src,node)
 	return 0
 
-/obj/item/integrated_circuit/input/EPv2/New()
-	..()
+/obj/item/integrated_circuit/input/EPv2/Initialize(mapload)
+	. = ..()
 	exonet = new(src)
 	exonet.make_address("EPv2_circuit-\ref[src]")
 	desc += "<br>This circuit's EPv2 address is: [exonet.address]"
@@ -525,6 +532,7 @@
 	complexity = 8
 	inputs = list()
 	outputs = list(
+	"speaker ref",
 	"speaker" = IC_PINTYPE_STRING,
 	"message" = IC_PINTYPE_STRING
 	)
@@ -532,9 +540,9 @@
 	spawn_flags = IC_SPAWN_DEFAULT|IC_SPAWN_RESEARCH
 	power_draw_per_use = 15
 
-/obj/item/integrated_circuit/input/microphone/New()
-	..()
-	listening_objects |= src
+/obj/item/integrated_circuit/input/microphone/Initialize(mapload)
+	. = ..()
+	listening_objects += src
 
 /obj/item/integrated_circuit/input/microphone/Destroy()
 	listening_objects -= src
@@ -550,8 +558,9 @@
 			// as a translation, when it is not.
 			if(S.speaking && !istype(S.speaking, /datum/language/common))
 				translated = TRUE
-		set_pin_data(IC_OUTPUT, 1, M.GetVoice())
-		set_pin_data(IC_OUTPUT, 2, msg)
+		set_pin_data(IC_OUTPUT , 1, WEAKREF(M))
+		set_pin_data(IC_OUTPUT, 2, M.GetVoice())
+		set_pin_data(IC_OUTPUT, 3, msg)
 
 	push_data()
 	activate_pin(1)
@@ -569,6 +578,7 @@
 	complexity = 12
 	inputs = list()
 	outputs = list(
+	"speaker ref",
 	"speaker" = IC_PINTYPE_STRING,
 	"message" = IC_PINTYPE_STRING
 	)
@@ -586,7 +596,7 @@
 		LANGUAGE_SIGN
 		)
 
-/obj/item/integrated_circuit/input/microphone/sign/Initialize()
+/obj/item/integrated_circuit/input/microphone/sign/Initialize(mapload)
 	. = ..()
 	for(var/lang in readable_langs)
 		var/datum/language/newlang = GLOB.all_languages[lang]
@@ -595,16 +605,14 @@
 /obj/item/integrated_circuit/input/microphone/sign/hear_talk(mob/M, list/message_pieces, verb)
 	var/msg = multilingual_to_message(message_pieces)
 
-	var/translated = FALSE
+	var/translated = TRUE
 	if(M && msg)
 		for(var/datum/multilingual_say_piece/S in message_pieces)
-			if(S.speaking)
-				if(!((S.speaking.flags & NONVERBAL) || (S.speaking.flags & SIGNLANG)))
-					translated = TRUE
-					msg = stars(msg)
-					break
-		set_pin_data(IC_OUTPUT, 1, M.GetVoice())
-		set_pin_data(IC_OUTPUT, 2, msg)
+			if(!((S.speaking.flags & NONVERBAL) || (S.speaking.flags & SIGNLANG))||S.speaking.name == LANGUAGE_ECHOSONG) //Ignore verbal languages
+				return
+		set_pin_data(IC_OUTPUT , 1, WEAKREF(M))
+		set_pin_data(IC_OUTPUT, 2, M.GetVoice())
+		set_pin_data(IC_OUTPUT, 3, msg)
 
 	push_data()
 	if(!translated)
@@ -613,12 +621,11 @@
 		activate_pin(2)
 
 /obj/item/integrated_circuit/input/microphone/sign/hear_signlang(text, verb, datum/language/speaking, mob/M as mob)
-	var/translated = FALSE
+	var/translated = TRUE
 	if(M && text)
 		if(speaking)
-			if(!((speaking.flags & NONVERBAL) || (speaking.flags & SIGNLANG)))
-				translated = TRUE
-				text = speaking.scramble(text, my_langs)
+			if(!((speaking.flags & NONVERBAL) || (speaking.flags & SIGNLANG))||speaking.name == LANGUAGE_ECHOSONG)
+				return
 		set_pin_data(IC_OUTPUT, 1, M.GetVoice())
 		set_pin_data(IC_OUTPUT, 2, text)
 
@@ -643,10 +650,10 @@
 /obj/item/integrated_circuit/input/sensor/proc/scan(var/atom/A)
 	var/ignore_bags = get_pin_data(IC_INPUT, 1)
 	if(ignore_bags)
-		if(istype(A, /obj/item/weapon/storage))
+		if(istype(A, /obj/item/storage))
 			return FALSE
 
-	set_pin_data(IC_OUTPUT, 1, weakref(A))
+	set_pin_data(IC_OUTPUT, 1, WEAKREF(A))
 	push_data()
 	activate_pin(1)
 	return TRUE
@@ -674,7 +681,7 @@
 	set_pin_data(IC_OUTPUT, 1, null)
 	set_pin_data(IC_OUTPUT, 2, null)
 	set_pin_data(IC_OUTPUT, 3, null)
-	set_pin_data(IC_OUTPUT, 4, weakref(assembly))
+	set_pin_data(IC_OUTPUT, 4, WEAKREF(assembly))
 	if(assembly)
 		if(assembly.battery)
 
@@ -711,11 +718,11 @@
 	if(AM)
 
 
-		var/obj/item/weapon/cell/cell = null
-		if(istype(AM, /obj/item/weapon/cell)) // Is this already a cell?
+		var/obj/item/cell/cell = null
+		if(istype(AM, /obj/item/cell)) // Is this already a cell?
 			cell = AM
 		else // If not, maybe there's a cell inside it?
-			for(var/obj/item/weapon/cell/C in AM.contents)
+			for(var/obj/item/cell/C in AM.contents)
 				if(C) // Find one cell to charge.
 					cell = C
 					break
@@ -740,10 +747,10 @@
 	outputs = list(
 		"pressure"       = IC_PINTYPE_NUMBER,
 		"temperature" = IC_PINTYPE_NUMBER,
-		"oxygen"         = IC_PINTYPE_NUMBER,
-		"nitrogen"          = IC_PINTYPE_NUMBER,
+		GAS_O2         = IC_PINTYPE_NUMBER,
+		GAS_N2          = IC_PINTYPE_NUMBER,
 		"carbon dioxide"           = IC_PINTYPE_NUMBER,
-		"phoron"           = IC_PINTYPE_NUMBER,
+		GAS_PHORON           = IC_PINTYPE_NUMBER,
 		"other"           = IC_PINTYPE_NUMBER
 	)
 	activators = list("scan" = IC_PINTYPE_PULSE_IN, "on scanned" = IC_PINTYPE_PULSE_OUT)
@@ -761,10 +768,10 @@
 	var/total_moles = environment.total_moles
 
 	if (total_moles)
-		var/o2_level = environment.gas["oxygen"]/total_moles
-		var/n2_level = environment.gas["nitrogen"]/total_moles
-		var/co2_level = environment.gas["carbon_dioxide"]/total_moles
-		var/phoron_level = environment.gas["phoron"]/total_moles
+		var/o2_level = environment.gas[GAS_O2]/total_moles
+		var/n2_level = environment.gas[GAS_N2]/total_moles
+		var/co2_level = environment.gas[GAS_CO2]/total_moles
+		var/phoron_level = environment.gas[GAS_PHORON]/total_moles
 		var/unknown_level =  1-(o2_level+n2_level+co2_level+phoron_level)
 		set_pin_data(IC_OUTPUT, 1, pressure)
 		set_pin_data(IC_OUTPUT, 2, round(environment.temperature-T0C,0.1))
@@ -850,7 +857,7 @@
 	complexity = 3
 	inputs = list()
 	outputs = list(
-		"oxygen"       = IC_PINTYPE_NUMBER
+		GAS_O2       = IC_PINTYPE_NUMBER
 	)
 	activators = list("scan" = IC_PINTYPE_PULSE_IN, "on scanned" = IC_PINTYPE_PULSE_OUT)
 	spawn_flags = IC_SPAWN_RESEARCH
@@ -866,7 +873,7 @@
 	var/total_moles = environment.total_moles
 
 	if (total_moles)
-		var/o2_level = environment.gas["oxygen"]/total_moles
+		var/o2_level = environment.gas[GAS_O2]/total_moles
 		set_pin_data(IC_OUTPUT, 1, round(o2_level*100,0.1))
 	else
 		set_pin_data(IC_OUTPUT, 1, 0)
@@ -896,7 +903,7 @@
 	var/total_moles = environment.total_moles
 
 	if (total_moles)
-		var/co2_level = environment.gas["carbon_dioxide"]/total_moles
+		var/co2_level = environment.gas[GAS_CO2]/total_moles
 		set_pin_data(IC_OUTPUT, 1, round(co2_level*100,0.1))
 	else
 		set_pin_data(IC_OUTPUT, 1, 0)
@@ -910,7 +917,7 @@
 	complexity = 3
 	inputs = list()
 	outputs = list(
-		"nitrogen"       = IC_PINTYPE_NUMBER
+		GAS_N2       = IC_PINTYPE_NUMBER
 	)
 	activators = list("scan" = IC_PINTYPE_PULSE_IN, "on scanned" = IC_PINTYPE_PULSE_OUT)
 	spawn_flags = IC_SPAWN_RESEARCH
@@ -926,7 +933,7 @@
 	var/total_moles = environment.total_moles
 
 	if (total_moles)
-		var/n2_level = environment.gas["nitrogen"]/total_moles
+		var/n2_level = environment.gas[GAS_N2]/total_moles
 		set_pin_data(IC_OUTPUT, 1, round(n2_level*100,0.1))
 	else
 		set_pin_data(IC_OUTPUT, 1, 0)
@@ -940,7 +947,7 @@
 	complexity = 3
 	inputs = list()
 	outputs = list(
-		"phoron"       = IC_PINTYPE_NUMBER
+		GAS_PHORON       = IC_PINTYPE_NUMBER
 	)
 	activators = list("scan" = IC_PINTYPE_PULSE_IN, "on scanned" = IC_PINTYPE_PULSE_OUT)
 	spawn_flags = IC_SPAWN_RESEARCH
@@ -956,7 +963,7 @@
 	var/total_moles = environment.total_moles
 
 	if (total_moles)
-		var/phoron_level = environment.gas["phoron"]/total_moles
+		var/phoron_level = environment.gas[GAS_PHORON]/total_moles
 		set_pin_data(IC_OUTPUT, 1, round(phoron_level*100,0.1))
 	else
 		set_pin_data(IC_OUTPUT, 1, 0)

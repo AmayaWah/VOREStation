@@ -5,10 +5,10 @@
 	. = ..()
 	if(!.)
 		return
-	var/dat = "<B>Admin Log<HR></B>"
-	for(var/l in admin_log)
+	var/dat = span_bold("Admin Log<HR>")
+	for(var/l in GLOB.admin_log)
 		dat += "<li>[l]</li>"
-	if(!admin_log.len)
+	if(!GLOB.admin_log.len)
 		dat += "No-one has done anything this round!"
 
 	var/datum/browser/popup = new(user, "adminlogs", "[src]", 550, 650, src)
@@ -25,7 +25,7 @@
 	. = ..()
 	if(!.)
 		return
-	var/dat = "<B>Dialogue Log<HR></B>"
+	var/dat = span_bold("Dialogue Log<HR>")
 
 	dat += "<fieldset style='border: 2px solid white; display: inline'>"
 

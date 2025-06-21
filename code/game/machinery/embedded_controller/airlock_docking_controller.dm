@@ -15,7 +15,7 @@
 	tag_secure = 1
 	valid_actions = list("cycle_ext", "cycle_int", "force_ext", "force_int", "abort", "toggle_override")
 
-/obj/machinery/embedded_controller/radio/airlock/docking_port/Initialize()
+/obj/machinery/embedded_controller/radio/airlock/docking_port/Initialize(mapload)
 	. = ..()
 	airlock_program = new/datum/embedded_program/airlock/docking(src)
 	docking_program = new/datum/embedded_program/docking/airlock(src, airlock_program)
@@ -24,7 +24,7 @@
 		docking_program.display_name = display_name
 
 /obj/machinery/embedded_controller/radio/airlock/docking_port/attackby(obj/item/W, mob/user)
-	if(istype(W,/obj/item/device/multitool)) //give them part of code, would take few tries to get full
+	if(istype(W,/obj/item/multitool)) //give them part of code, would take few tries to get full
 		var/datum/embedded_program/docking/airlock/docking_program = program
 		var/code = docking_program.docking_codes
 		if(!code)

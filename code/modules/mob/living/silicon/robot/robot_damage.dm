@@ -6,6 +6,12 @@
 	health = getMaxHealth() - (getBruteLoss() + getFireLoss())
 	return
 
+/mob/living/silicon/robot/getMaxHealth()
+	. = ..()
+	for(var/V in components)
+		var/datum/robot_component/C = components[V]
+		. += C.max_damage - initial(C.max_damage)
+
 /mob/living/silicon/robot/getBruteLoss()
 	var/amount = 0
 	for(var/V in components)
@@ -42,7 +48,7 @@
 	return parts
 
 /mob/living/silicon/robot/proc/get_damageable_components()
-	var/list/rval = new
+	var/list/rval = list()
 	for(var/V in components)
 		var/datum/robot_component/C = components[V]
 		if(C.installed == 1) rval += C
@@ -67,7 +73,7 @@
 	if(!components.len)
 		return
 
-	 //Combat shielding absorbs a percentage of damage directly into the cell.
+	//Combat shielding absorbs a percentage of damage directly into the cell.
 	if(has_active_type(/obj/item/borg/combat/shield))
 		var/obj/item/borg/combat/shield/shield = locate() in src
 		if(shield && shield.active)
@@ -76,14 +82,12 @@
 			var/absorb_burn = burn*shield.shield_level
 			var/cost = (absorb_brute+absorb_burn) * 25
 
-			cell.charge -= cost
-			if(cell.charge <= 0)
-				cell.charge = 0
-				to_chat(src, "<font color='red'>Your shield has overloaded!</font>")
+			if(!use_direct_power(cost, 200))
+				to_chat(src, span_filter_warning("[span_red("Your shield has overloaded!")]"))
 			else
 				brute -= absorb_brute
 				burn -= absorb_burn
-				to_chat(src, "<font color='red'>Your shield absorbs some of the impact!</font>")
+				to_chat(src, span_filter_combat("[span_red("Your shield absorbs some of the impact!")]"))
 
 	if(!emp)
 		var/datum/robot_component/armour/A = get_armour()
@@ -114,7 +118,7 @@
 	if(status_flags & GODMODE)	return	//godmode
 	var/list/datum/robot_component/parts = get_damageable_components()
 
-	 //Combat shielding absorbs a percentage of damage directly into the cell.
+	//Combat shielding absorbs a percentage of damage directly into the cell.
 	if(has_active_type(/obj/item/borg/combat/shield))
 		var/obj/item/borg/combat/shield/shield = locate() in src
 		if(shield)
@@ -123,14 +127,12 @@
 			var/absorb_burn = burn*shield.shield_level
 			var/cost = (absorb_brute+absorb_burn) * 25
 
-			cell.charge -= cost
-			if(cell.charge <= 0)
-				cell.charge = 0
-				to_chat(src, "<font color='red'>Your shield has overloaded!</font>")
+			if(!use_direct_power(cost, 200))
+				to_chat(src, span_filter_warning("[span_red("Your shield has overloaded!")]"))
 			else
 				brute -= absorb_brute
 				burn -= absorb_burn
-				to_chat(src, "<font color='red'>Your shield absorbs some of the impact!</font>")
+				to_chat(src, span_filter_combat("[span_red("Your shield absorbs some of the impact!")]"))
 
 	var/datum/robot_component/armour/A = get_armour()
 	if(A)

@@ -24,6 +24,18 @@
 	icon_state = "smoke"
 	duration = 50
 
+/obj/effect/temp_visual/glitch
+	icon_state = "glitch"
+	duration = 5
+
+/obj/effect/temp_visual/confuse
+	icon_state = "confuse"
+	duration = 5
+
+/obj/effect/temp_visual/pre_confuse
+	icon_state = "pre_confuse"
+	duration = 5
+
 /obj/effect/temp_visual/impact_effect
 	icon_state = "impact_bullet"
 	plane = PLANE_LIGHTING_ABOVE // So they're visible even in a shootout in maint.
@@ -93,10 +105,11 @@
 
 /obj/effect/temp_visual/heal
 	name = "healing glow"
-	icon_state = "heal"
+	icon_state = XENO_CHEM_HEAL
 	duration = 15
 
 /obj/effect/temp_visual/heal/Initialize(mapload)
 	pixel_x = rand(-12, 12)
 	pixel_y = rand(-9, 0)
+	. = ..()
 // VOREStation Add End

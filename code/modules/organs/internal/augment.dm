@@ -28,9 +28,11 @@
 	var/radial_state = null	// Icon state for the augment's radial icon.
 
 	var/aug_cooldown = 30 SECONDS
-	var/last_activate = null
+	var/cooldown = null
 
-/obj/item/organ/internal/augment/Initialize()
+	description_fluff = "If attempting to implant a compatible augment into a synthetic limb, the limb must be screwdrivered open and then modified with a multitool before insertion can begin."
+
+/obj/item/organ/internal/augment/Initialize(mapload)
 	. = ..()
 	setup_radial_icon()
 	if(integrated_object_type)
@@ -59,13 +61,13 @@
 		return
 
 	if(aug_cooldown)
-		if(last_activate <= world.time + aug_cooldown)
-			last_activate = world.time
+		if(cooldown <= world.time)
+			cooldown = world.time + aug_cooldown
 		else
 			return
 
 	if(robotic && owner.get_restraining_bolt())
-		to_chat(owner, "<span class='warning'>\The [src] doesn't respond.</span>")
+		to_chat(owner, span_warning("\The [src] doesn't respond."))
 		return
 
 	var/item_to_equip = integrated_object
@@ -88,7 +90,7 @@
 	var/obj/item/organ/my_augment = null	// Used to reference the object's host organ.
 
 /obj/item/dropped(mob/user)
-	. = ..()
+	. = ..(user)
 	if(src)
 		if(destroy_on_drop && !QDELETED(src))
 			qdel(src)
@@ -107,7 +109,7 @@
 	set desc = "Toggle your augment menu."
 	set category = "Augments"
 
-	enable_augments(usr)
+	enable_augments(src)
 
 /mob/living/carbon/human/proc/enable_augments(var/mob/living/user)
 	var/list/options = list()
@@ -153,11 +155,11 @@
 	if(buckled)
 		var/obj/Ob = buckled
 		if(Ob.buckle_lying)
-			to_chat(M, "<span class='notice'>You cannot use your augments when restrained.</span>")
+			to_chat(M, span_notice("You cannot use your augments when restrained."))
 			return 0
 
 	if((slot == slot_l_hand && l_hand) || (slot == slot_r_hand && r_hand))
-		to_chat(M,"<span class='warning'>Your hand is full.  Drop something first.</span>")
+		to_chat(M,span_warning("Your hand is full.  Drop something first."))
 		return 0
 
 	var/del_if_failure = destroy_on_drop
@@ -183,6 +185,6 @@
 		playsound(src, 'sound/items/change_jaws.ogg', 30, 1)
 
 	if(equipping.loc != src)
-		equipping.dropped()
+		equipping.dropped(src)
 
 	return 1

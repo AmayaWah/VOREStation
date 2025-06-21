@@ -33,11 +33,11 @@ proc
 process()
 check_build()
 
-Setup map
-  |EC|
-CC|FC|
-  |PB|
-PE|PE|PE
+ * Setup map
+ *   |EC|
+ * CC|FC|
+ *   |PB|
+ * PE|PE|PE
 
 
 Icon Addemdum
@@ -72,11 +72,15 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	var/strength = null
 	var/desc_holder = null
 
+/obj/structure/particle_accelerator/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/climbable)
+
 /obj/structure/particle_accelerator/Destroy()
 	construction_state = 0
 	if(master)
 		master.part_scan()
-	..()
+	. = ..()
 
 /obj/structure/particle_accelerator/end_cap
 	name = "Alpha Particle Generation Array"
@@ -113,7 +117,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 
 /obj/structure/particle_accelerator/examine(mob/user)
 	. = ..()
-	
+
 	switch(construction_state)
 		if(0)
 			. += "Looks like it's not attached to the flooring."
@@ -137,7 +141,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	if(master?.active)
 		master.toggle_power()
 		log_game("PACCEL([x],[y],[z]) Was moved while active and turned off.")
-		investigate_log("was moved whilst active; it <font color='red'>powered down</font>.","singulo")
+		investigate_log("was moved whilst active; it " + span_red("powered down") + ".","singulo")
 
 /obj/structure/particle_accelerator/ex_act(severity)
 	switch(severity)
@@ -152,7 +156,6 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 			if (prob(25))
 				qdel(src)
 				return
-		else
 	return
 
 /obj/structure/particle_accelerator/update_icon()
@@ -204,14 +207,14 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 
 	switch(src.construction_state)//TODO:Might be more interesting to have it need several parts rather than a single list of steps
 		if(0)
-			if(O.is_wrench())
+			if(O.has_tool_quality(TOOL_WRENCH))
 				playsound(src, O.usesound, 75, 1)
 				src.anchored = TRUE
 				user.visible_message("[user.name] secures the [src.name] to the floor.", \
 					"You secure the external bolts.")
 				temp_state++
 		if(1)
-			if(O.is_wrench())
+			if(O.has_tool_quality(TOOL_WRENCH))
 				playsound(src, O.usesound, 75, 1)
 				src.anchored = FALSE
 				user.visible_message("[user.name] detaches the [src.name] from the floor.", \
@@ -223,16 +226,16 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 						"You add some wires.")
 					temp_state++
 		if(2)
-			if(O.is_wirecutter())//TODO:Shock user if its on?
+			if(O.has_tool_quality(TOOL_WIRECUTTER))//TODO:Shock user if its on?
 				user.visible_message("[user.name] removes some wires from the [src.name].", \
 					"You remove some wires.")
 				temp_state--
-			else if(O.is_screwdriver())
+			else if(O.has_tool_quality(TOOL_SCREWDRIVER))
 				user.visible_message("[user.name] closes the [src.name]'s access panel.", \
 					"You close the access panel.")
 				temp_state++
 		if(3)
-			if(O.is_screwdriver())
+			if(O.has_tool_quality(TOOL_SCREWDRIVER))
 				user.visible_message("[user.name] opens the [src.name]'s access panel.", \
 					"You open the access panel.")
 				temp_state--
@@ -292,7 +295,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 
 /obj/machinery/particle_accelerator/examine(mob/user)
 	. = ..()
-	
+
 	switch(construction_state)
 		if(0)
 			. += "Looks like it's not attached to the flooring."
@@ -324,7 +327,6 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 			if (prob(25))
 				qdel(src)
 				return
-		else
 	return
 
 /obj/machinery/particle_accelerator/proc/update_state()
@@ -338,14 +340,14 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	var/temp_state = src.construction_state
 	switch(src.construction_state)//TODO:Might be more interesting to have it need several parts rather than a single list of steps
 		if(0)
-			if(O.is_wrench())
+			if(O.has_tool_quality(TOOL_WRENCH))
 				playsound(src, O.usesound, 75, 1)
 				src.anchored = TRUE
 				user.visible_message("[user.name] secures the [src.name] to the floor.", \
 					"You secure the external bolts.")
 				temp_state++
 		if(1)
-			if(O.is_wrench())
+			if(O.has_tool_quality(TOOL_WRENCH))
 				playsound(src, O.usesound, 75, 1)
 				src.anchored = FALSE
 				user.visible_message("[user.name] detaches the [src.name] from the floor.", \
@@ -357,16 +359,16 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 						"You add some wires.")
 					temp_state++
 		if(2)
-			if(O.is_wirecutter())//TODO:Shock user if its on?
+			if(O.has_tool_quality(TOOL_WIRECUTTER))//TODO:Shock user if its on?
 				user.visible_message("[user.name] removes some wires from the [src.name].", \
 					"You remove some wires.")
 				temp_state--
-			else if(O.is_screwdriver())
+			else if(O.has_tool_quality(TOOL_SCREWDRIVER))
 				user.visible_message("[user.name] closes the [src.name]'s access panel.", \
 					"You close the access panel.")
 				temp_state++
 		if(3)
-			if(O.is_screwdriver())
+			if(O.has_tool_quality(TOOL_SCREWDRIVER))
 				user.visible_message("[user.name] opens the [src.name]'s access panel.", \
 					"You open the access panel.")
 				temp_state--

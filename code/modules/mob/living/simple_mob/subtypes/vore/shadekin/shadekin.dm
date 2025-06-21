@@ -5,7 +5,7 @@
 	icon = 'icons/mob/vore_shadekin.dmi'
 	icon_state = "map_example"
 	icon_living = "map_example"
-	faction = "shadekin"
+	faction = FACTION_SHADEKIN
 	ui_icons = 'icons/mob/shadekin_hud.dmi'
 	mob_class = MOB_CLASS_HUMANOID
 	mob_bump_flag = HUMAN
@@ -13,12 +13,12 @@
 	maxHealth = 200
 	health = 200
 
-	movement_cooldown = 2
+	movement_cooldown = -1.5
 	see_in_dark = 10 //SHADEkin
 	has_hands = TRUE //Pawbs
 	seedarkness = FALSE //SHAAAADEkin
 	attack_sound = 'sound/weapons/bladeslice.ogg'
-	has_langs = list(LANGUAGE_GALCOM,LANGUAGE_SHADEKIN)
+	has_langs = list(LANGUAGE_GALCOM, LANGUAGE_SHADEKIN)
 
 	melee_damage_lower = 10
 	melee_damage_upper = 20
@@ -68,8 +68,7 @@
 	var/image/tailimage //Cached tail image
 
 	//Darknesssss
-	var/energy = 100 //For abilities
-	var/energy_adminbuse = FALSE //For adminbuse infinite energy
+	var/datum/component/shadekin/comp = /datum/component/shadekin //Component that holds all the shadekin vars.
 	var/dark_gains = 0 //Last tick's change in energy
 	var/ability_flags = 0 //Flags for active abilities
 	var/obj/screen/darkhud //Holder to update this icon
@@ -78,8 +77,9 @@
 	var/list/shadekin_abilities
 	var/check_for_observer = FALSE
 	var/check_timer = 0
+	var/doing_phase = FALSE // Prevent bugs when spamming phase button
 
-/mob/living/simple_mob/shadekin/Initialize()
+/mob/living/simple_mob/shadekin/Initialize(mapload)
 	//You spawned the prototype, and want a totally random one.
 	if(type == /mob/living/simple_mob/shadekin)
 
@@ -94,8 +94,9 @@
 		var/new_type = pickweight(sk_types)
 
 		new new_type(loc)
-		initialized = TRUE
+		flags |= ATOM_INITIALIZED
 		return INITIALIZE_HINT_QDEL
+	comp = LoadComponent(comp)
 
 	if(icon_state == "map_example")
 		icon_state = pick("white","dark","brown")
@@ -131,6 +132,8 @@
 
 	update_icon()
 
+	add_verb(src, /mob/proc/adjust_hive_range)
+
 	return ..()
 
 /mob/living/simple_mob/shadekin/Destroy()
@@ -138,12 +141,15 @@
 	. = ..()
 
 /mob/living/simple_mob/shadekin/init_vore()
+	if(!voremob_loaded)
+		return
 	if(LAZYLEN(vore_organs))
 		return
 
 	var/obj/belly/B = new /obj/belly(src)
 	vore_selected = B
 	B.immutable = 1
+	B.affects_vore_sprites = TRUE
 	B.name = vore_stomach_name ? vore_stomach_name : "stomach"
 	B.desc = vore_stomach_flavor ? vore_stomach_flavor : "Your surroundings are warm, soft, and slimy. Makes sense, considering you're inside \the [name]."
 	B.digest_mode = vore_default_mode
@@ -169,7 +175,7 @@
 		)
 	B.emote_lists[DM_ABSORB] = list(
 		"The walls cling to you awfully close... It's almost like you're sinking into them.",
-		"You can feel the walls press in tightly against you, clinging to you posessively!",
+		"You can feel the walls press in tightly against you, clinging to you possessively!",
 		"It almost feels like you're sinking into the soft, doughy flesh!",
 		"You can feel the walls press in around you. Almost molten, so squishy!!"
 		)
@@ -191,6 +197,7 @@
 		"The stinging and aching gives way to numbness as you're slowly smothered out. Your body is steadily reduced to nutrients and energy for the creature to continue on its way.",
 		"The chaos of being digested fades as you're snuffed out by a harsh clench! You're steadily broken down into a thick paste, processed and absorbed by the predator!"
 		)
+	. = ..()
 
 /mob/living/simple_mob/shadekin/Life()
 	. = ..()
@@ -198,21 +205,21 @@
 		density = FALSE
 
 	//Convert spare nutrition into energy at a certain ratio
-	if(. && nutrition > initial(nutrition) && energy < 100)
+	if(. && nutrition > initial(nutrition) && comp.dark_energy < 100)
 		nutrition = max(0, nutrition-5)
-		energy = min(100,energy+1)
+		comp.dark_energy = min(100,comp.dark_energy+1)
 	if(!client && check_for_observer && check_timer++ > 5)
 		check_timer = 0
 		var/non_kin_count = 0
 		for(var/mob/living/M in view(6,src))
-			if(!istype(M, /mob/living/simple_mob/shadekin))
+			if(!issimplekin(M))
 				non_kin_count ++
 		// Technically can be combined with ||, they call the same function, but readability is poor
 		if(!non_kin_count && (ability_flags & AB_PHASE_SHIFTED))
 			phase_shift() // shifting back in, nobody present
 		else if (non_kin_count && !(ability_flags & AB_PHASE_SHIFTED))
 			phase_shift() // shifting out, scaredy
-				
+
 /mob/living/simple_mob/shadekin/update_icon()
 	. = ..()
 
@@ -223,14 +230,21 @@
 	add_overlay(tailimage)
 	add_overlay(eye_icon_state)
 
-/mob/living/simple_mob/shadekin/Stat()
-	. = ..()
-	if(statpanel("Shadekin"))
-		abilities_stat()
+/mob/living/simple_mob/shadekin/update_misc_tabs()
+	..()
+	var/list/L = list()
+	for(var/obj/effect/shadekin_ability/A as anything in shadekin_abilities)
+		var/client/C = client
+		var/img
+		if(C && istype(C)) //sanity checks
+			if(A.ability_name in C.misc_cache)
+				img = C.misc_cache[A.ability_name]
+			else
+				img = icon2html(A,C,sourceonly=TRUE)
+				C.misc_cache[A.ability_name] = img
 
-/mob/living/simple_mob/shadekin/proc/abilities_stat()
-	for(var/obj/effect/shadekin_ability/ability as anything in shadekin_abilities)
-		stat("[ability.ability_name]",ability.atom_button_text())
+		L[++L.len] = list("[A.ability_name]", A.ability_name, img, A.atom_button_text(), REF(A))
+	misc_tabs["Shadekin"] = L
 
 //They phase back to the dark when killed
 /mob/living/simple_mob/shadekin/death(gibbed, deathmessage = "phases to somewhere far away!")
@@ -247,7 +261,7 @@
 /mob/living/simple_mob/shadekin/Found(var/atom/A)
 	if(specific_targets && isliving(A)) //Healing!
 		var/mob/living/L = A
-		var/health_percent = (L.health/L.maxHealth)*100
+		var/health_percent = (L.health/L.getMaxHealth())*100
 		if(health_percent <= 50 && will_eat(A))
 			return A
 	. = ..()
@@ -314,10 +328,10 @@
 				if(darkness >= 0.65)
 					dark_gains = 0.30
 
-	energy = max(0,min(initial(energy),energy + dark_gains))
+	comp.dark_energy = max(0,min(initial(comp.dark_energy),comp.dark_energy + dark_gains))
 
-	if(energy_adminbuse)
-		energy = 100
+	if(comp.dark_energy_infinite)
+		comp.dark_energy = 100
 
 	//Update turf darkness hud
 	if(darkhud)
@@ -335,7 +349,7 @@
 
 	//Update energy storage hud
 	if(energyhud)
-		switch(energy)
+		switch(comp.dark_energy)
 			if(80 to INFINITY)
 				energyhud.icon_state = "energy0"
 			if(60 to 80)
@@ -379,7 +393,7 @@
 						if((get_dist(src,henlo_human) <= 1))
 							dir = moving_to
 							if(prob(speak_chance))
-								visible_message("<span class='notice'>\The [src] [pick(friendly)] \the [henlo_human].</span>")
+								visible_message(span_notice("\The [src] [pick(friendly)] \the [henlo_human]."))
 								shy_approach = FALSE //ACCLIMATED
 							lifes_since_move = 0
 							return //No need to move
@@ -394,7 +408,7 @@
 
 				//Random walk
 				if(!moving_to)
-					moving_to = pick(cardinal)
+					moving_to = pick(GLOB.cardinal)
 					dir = moving_to
 
 				var/turf/T = get_step(src,moving_to)
@@ -427,7 +441,7 @@
 				if(ORANGE_EYES)
 					gains = 5
 
-			energy += gains
+			comp.dark_energy += gains
 
 //Special hud elements for darkness and energy gains
 /mob/living/simple_mob/shadekin/extra_huds(var/datum/hud/hud,var/icon/ui_style,var/list/hud_elements)

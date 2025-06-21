@@ -5,7 +5,7 @@
 	icon_living = "faithless"
 	icon_dead = "faithless_dead"
 
-	faction = "faithless"
+	faction = FACTION_FAITHLESS
 
 	mob_class = MOB_CLASS_DEMONIC
 
@@ -42,6 +42,9 @@
 	max_n2 = 0
 	minbodytemp = 0
 
+	can_be_drop_prey = FALSE
+	can_pain_emote = FALSE
+
 /mob/living/simple_mob/faithless/Process_Spacemove(var/check_drift = 0)
 	return 1
 
@@ -50,7 +53,7 @@
 		var/mob/living/L = A
 		if(prob(12))
 			L.Weaken(3)
-			L.visible_message("<span class='danger'>\The [src] knocks down \the [L]!</span>")
+			L.visible_message(span_danger("\The [src] knocks down \the [L]!"))
 
 // Strong Variant
 /mob/living/simple_mob/faithless/strong
@@ -63,7 +66,7 @@
 
 // Cult Variant
 /mob/living/simple_mob/faithless/cult
-	faction = "cult"
+	faction = FACTION_CULT
 	supernatural = TRUE
 
 /mob/living/simple_mob/faithless/cult/cultify()

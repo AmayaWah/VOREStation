@@ -15,7 +15,7 @@
 	if(owner.life_tick % spleen_tick == 0)
 
 		//High toxins levels are dangerous
-		if(owner.getToxLoss() >= 30 && !owner.reagents.has_reagent("anti_toxin"))
+		if(owner.getToxLoss() >= 30 && !owner.reagents.has_reagent(REAGENT_ID_ANTITOXIN))
 			//Healthy liver suffers on its own
 			if (src.damage < min_broken_damage)
 				src.damage += 0.2 * spleen_tick
@@ -34,11 +34,16 @@
 				B.adjust_germ_level(round(rand(-3 * spleen_efficiency, -10 * spleen_efficiency)))
 
 		//Detox can heal small amounts of damage
-		if (src.damage && src.damage < src.min_bruised_damage && owner.reagents.has_reagent("anti_toxin"))
+		if (src.damage && src.damage < src.min_bruised_damage && owner.reagents.has_reagent(REAGENT_ID_ANTITOXIN))
 			src.damage -= 0.2 * spleen_tick * spleen_efficiency
 
 		if(src.damage < 0)
 			src.damage = 0
+
+		// General organ damage from withdraw
+		if(prob(20) && owner.chem_effects[CE_WITHDRAWL])
+			take_damage(owner.chem_effects[CE_WITHDRAWL] * 0.05 * PROCESS_ACCURACY, prob(1)) // Chance to warn them
+			owner.adjustToxLoss(owner.chem_effects[CE_WITHDRAWL] * 0.2 * PROCESS_ACCURACY)
 
 /obj/item/organ/internal/spleen/handle_germ_effects()
 	. = ..() //Up should return an infection level as an integer
@@ -72,6 +77,6 @@
 	spleen_efficiency = 0.3
 	spleen_tick = 15
 
-/obj/item/organ/internal/spleen/minor/Initialize()
+/obj/item/organ/internal/spleen/minor/Initialize(mapload)
 	. = ..()
 	adjust_scale(0.7)

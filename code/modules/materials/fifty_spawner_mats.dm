@@ -12,6 +12,10 @@
 	name = "stack of marble"
 	type_to_spawn = /obj/item/stack/material/marble
 
+/obj/fiftyspawner/concrete
+	name = "stack of concrete"
+	type_to_spawn = /obj/item/stack/material/concrete
+
 /obj/fiftyspawner/diamond
 	name = "stack of diamond"
 	type_to_spawn = /obj/item/stack/material/diamond
@@ -71,6 +75,10 @@
 /obj/fiftyspawner/plasteel
 	name = "stack of plasteel"
 	type_to_spawn = /obj/item/stack/material/plasteel
+
+/obj/fiftyspawner/plasteel/rebar
+	name = "stack of plasteel rebars"
+	type_to_spawn = /obj/item/stack/material/plasteel/rebar
 
 /obj/fiftyspawner/plasteel/hull
 	name = "stack of plasteel hull"
@@ -139,6 +147,10 @@
 /obj/fiftyspawner/phoronrglass
 	name = "stack of reinforced borosilicate glass"
 	type_to_spawn = /obj/item/stack/material/glass/phoronrglass
+
+/obj/fiftyspawner/glamour
+	name = "stack of stable glamour"
+	type_to_spawn = /obj/item/stack/material/glamour
 
 //R-UST port
 /obj/fiftyspawner/deuterium

@@ -46,9 +46,6 @@
 		/obj/item/clothing/under/swimsuit/striped,
 		/obj/item/clothing/under/swimsuit/white,
 		/obj/item/clothing/under/swimsuit/earth,
-		/obj/item/clothing/under/wetsuit,
-		/obj/item/clothing/under/wetsuit_rec,
-		/obj/item/clothing/under/wetsuit_skimpy,
 		/obj/item/clothing/mask/snorkel = 2,
 		/obj/item/clothing/shoes/swimmingfins = 2)
 
@@ -80,7 +77,7 @@
 	closet_appearance = /decl/closet_appearance/wardrobe/red
 
 	starts_with = list(
-		/obj/item/weapon/gun/energy/lasertag/red = 5,
+		/obj/item/gun/energy/lasertag/red = 5,
 		/obj/item/clothing/suit/redtag = 5)
 
 
@@ -90,5 +87,31 @@
 	closet_appearance = /decl/closet_appearance/wardrobe/blue
 
 	starts_with = list(
-		/obj/item/weapon/gun/energy/lasertag/blue = 5,
+		/obj/item/gun/energy/lasertag/blue = 5,
 		/obj/item/clothing/suit/bluetag = 5)
+
+/obj/structure/closet/lasertag/red/laserdome
+	name = "red team laserdome equipment"
+	desc = "It's a storage unit for laser tag equipment."
+	closet_appearance = /decl/closet_appearance/wardrobe/red
+
+	starts_with = list(
+		/obj/item/encryptionkey/ent = 3,
+		/obj/item/clothing/gloves/bluespace = 3,
+		/obj/item/clothing/under/color/red = 3,
+		/obj/item/gun/energy/lasertag/red = 3,
+		/obj/item/clothing/head/redtag = 3,
+		/obj/item/clothing/suit/redtag = 3)
+
+/obj/structure/closet/lasertag/blue/laserdome
+	name = "blue team laserdome equipment"
+	desc = "It's a storage unit for laser tag equipment."
+	closet_appearance = /decl/closet_appearance/wardrobe/blue
+
+	starts_with = list(
+		/obj/item/encryptionkey/ent = 3,
+		/obj/item/clothing/gloves/bluespace = 3,
+		/obj/item/clothing/under/color/blue = 3,
+		/obj/item/gun/energy/lasertag/blue = 3,
+		/obj/item/clothing/head/bluetag = 3,
+		/obj/item/clothing/suit/bluetag = 3)

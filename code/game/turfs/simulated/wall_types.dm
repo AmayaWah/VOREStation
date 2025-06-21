@@ -1,7 +1,7 @@
 /turf/simulated/wall/r_wall
 	icon_state = "rgeneric"
 /turf/simulated/wall/r_wall/Initialize(mapload)
-	. = ..(mapload, "plasteel","plasteel") //3strong
+	. = ..(mapload, MAT_PLASTEEL,MAT_PLASTEEL) //3strong
 
 /turf/simulated/wall/shull
 	icon_state = "hull-steel"
@@ -39,7 +39,7 @@
 /turf/simulated/wall/cult
 	icon_state = "cult"
 /turf/simulated/wall/cult/Initialize(mapload)
-	. = ..(mapload, "cult","cult2","cult")
+	. = ..(mapload, MAT_CULT,MAT_CULT2,MAT_CULT)
 /turf/unsimulated/wall/cult
 	name = "cult wall"
 	desc = "Hideous images dance beneath the surface."
@@ -47,47 +47,59 @@
 	icon_state = "cult"
 
 /turf/simulated/wall/iron/Initialize(mapload)
-	. = ..(mapload, "iron")
+	. = ..(mapload, MAT_IRON)
 /turf/simulated/wall/uranium/Initialize(mapload)
-	. = ..(mapload, "uranium")
+	. = ..(mapload, MAT_URANIUM)
 /turf/simulated/wall/diamond/Initialize(mapload)
-	. = ..(mapload, "diamond")
+	. = ..(mapload, MAT_DIAMOND)
 /turf/simulated/wall/gold/Initialize(mapload)
-	. = ..(mapload, "gold")
+	. = ..(mapload, MAT_GOLD)
 /turf/simulated/wall/silver/Initialize(mapload)
-	. = ..(mapload, "silver")
+	. = ..(mapload, MAT_SILVER)
 /turf/simulated/wall/lead/Initialize(mapload)
-	. = ..(mapload, "lead")
+	. = ..(mapload, MAT_LEAD)
 /turf/simulated/wall/r_lead/Initialize(mapload)
-	. = ..(mapload, "lead", "lead")
+	. = ..(mapload, MAT_LEAD, MAT_LEAD)
 /turf/simulated/wall/phoron/Initialize(mapload)
-	. = ..(mapload, "phoron")
+	. = ..(mapload, MAT_PHORON)
 /turf/simulated/wall/sandstone/Initialize(mapload)
-	. = ..(mapload, "sandstone")
+	. = ..(mapload, MAT_SANDSTONE)
 /turf/simulated/wall/ironphoron/Initialize(mapload)
-	. = ..(mapload, "iron","phoron")
+	. = ..(mapload, MAT_IRON,MAT_PHORON)
 /turf/simulated/wall/golddiamond/Initialize(mapload)
-	. = ..(mapload, "gold","diamond")
+	. = ..(mapload, MAT_GOLD,MAT_DIAMOND)
 /turf/simulated/wall/silvergold/Initialize(mapload)
-	. = ..(mapload, "silver","gold")
+	. = ..(mapload, MAT_SILVER,MAT_GOLD)
 /turf/simulated/wall/sandstonediamond/Initialize(mapload)
-	. = ..(mapload, "sandstone","diamond")
+	. = ..(mapload, MAT_SANDSTONE,MAT_DIAMOND)
 /turf/simulated/wall/snowbrick/Initialize(mapload)
-	. = ..(mapload, "packed snow")
+	. = ..(mapload, MAT_SNOWBRICK)
 
 /turf/simulated/wall/resin/Initialize(mapload)
-	. = ..(mapload, "resin",null,"resin")
+	. = ..(mapload, MAT_RESIN,null,MAT_RESIN)
+
+/turf/simulated/wall/concrete
+	icon_state = "brick"
+
+/turf/simulated/wall/concrete/Initialize(mapload)
+	. = ..(mapload, MAT_CONCRETE) //3strong
+
+/turf/simulated/wall/r_concrete
+	icon_state = "rbrick"
+
+/turf/simulated/wall/r_concrete/Initialize(mapload)
+	. = ..(mapload, MAT_CONCRETE,MAT_PLASTEELREBAR) //3strong
 
 // Kind of wondering if this is going to bite me in the butt.
 /turf/simulated/wall/skipjack/Initialize(mapload)
-	. = ..(mapload, "alienalloy")
+	. = ..(mapload, MAT_ALIENALLOY)
 /turf/simulated/wall/skipjack/attackby()
 	return
 /turf/simulated/wall/titanium/Initialize(mapload)
-	. = ..(mapload, "titanium")
+	. = ..(mapload, MAT_TITANIUM)
 
 /turf/simulated/wall/durasteel/Initialize(mapload)
-	. = ..(mapload, "durasteel", "durasteel")
+	. = ..(mapload, MAT_DURASTEEL, MAT_DURASTEEL)
 
 /turf/simulated/wall/wood/Initialize(mapload)
 	. = ..(mapload,  MAT_WOOD)
@@ -162,7 +174,7 @@
 	light_on = TRUE
 	block_tele = TRUE // Will be used for dungeons so this is needed to stop cheesing with handteles.
 
-/turf/simulated/shuttle/wall/alien/Initialize()
+/turf/simulated/shuttle/wall/alien/Initialize(mapload)
 	. = ..()
 	update_light()
 
@@ -176,7 +188,7 @@
 	icon_state = "alien-nj"
 	join_group = null
 
-/turf/simulated/shuttle/wall/Initialize()
+/turf/simulated/shuttle/wall/Initialize(mapload)
 	. = ..()
 
 	//To allow mappers to rename shuttle walls to like "redfloor interior" or whatever for ease of use.
@@ -260,7 +272,7 @@
 /turf/simulated/shuttle/wall/voidcraft/green
 	stripe_color = "#00FF00"
 
-/turf/simulated/shuttle/wall/voidcraft/Initialize()
+/turf/simulated/shuttle/wall/voidcraft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -275,19 +287,18 @@
 /obj/structure/hull_corner
 	name = "hull corner"
 	plane = OBJ_PLANE - 1
-	
 	icon = 'icons/turf/wall_masks.dmi'
 	icon_state = "hull_corner"
-	
+
 	anchored = TRUE
 	density = TRUE
 	breakable = TRUE
 
-/obj/structure/hull_corner/Initialize()
+/obj/structure/hull_corner/Initialize(mapload)
+	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/hull_corner/LateInitialize()
-	. = ..()
 	update_look()
 
 /obj/structure/hull_corner/proc/get_dirs_to_test()
@@ -295,19 +306,19 @@
 
 /obj/structure/hull_corner/proc/update_look()
 	cut_overlays()
-	
+
 	var/turf/simulated/wall/T
 	for(var/direction in get_dirs_to_test())
 		T = get_step(src, direction)
 		if(!istype(T) || T.material?.icon_base != "hull")
 			continue
-		
+
 		name = T.name
 		desc = T.desc
-		
+
 		var/datum/material/B = T.material
 		var/datum/material/R = T.reinf_material
-		
+
 		if(B?.icon_colour)
 			color = B.icon_colour
 		if(R?.icon_colour)
@@ -315,7 +326,7 @@
 			I.color = R.icon_colour
 			add_overlay(I)
 		break
-	
+
 	if(!T)
 		warning("Hull corner at [x],[y] not placed adjacent to a hull it can find.")
 
@@ -345,10 +356,10 @@
 
 /turf/simulated/wall/eris/can_join_with_low_wall(var/obj/structure/low_wall/WF)
 	return istype(WF, /obj/structure/low_wall/eris)
-	
+
 /turf/simulated/wall/eris/special_wall_connections(list/dirs, list/inrange)
 	..()
-	for(var/direction in cardinal)
+	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(src, direction)
 		var/decided_to_blend = FALSE
 		blend_obj_loop:
@@ -370,7 +381,7 @@
 /turf/simulated/wall/eris/r_wall
 	icon_state = "rgeneric"
 /turf/simulated/wall/eris/r_wall/Initialize(mapload)
-	. = ..(mapload, "plasteel","plasteel")
+	. = ..(mapload, MAT_PLASTEEL,MAT_PLASTEEL)
 
 // Bay walls
 /turf/simulated/wall/bay
@@ -396,7 +407,7 @@
 
 /turf/simulated/wall/bay/special_wall_connections(list/dirs, list/inrange)
 	..()
-	for(var/direction in cardinal)
+	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(src, direction)
 		var/decided_to_blend = FALSE
 		blend_obj_loop:
@@ -418,7 +429,7 @@
 /turf/simulated/wall/bay/r_wall
 	icon_state = "rgeneric"
 /turf/simulated/wall/bay/r_wall/Initialize(mapload)
-	. = ..(mapload, "plasteel","plasteel")
+	. = ..(mapload, MAT_PLASTEEL,MAT_PLASTEEL)
 
 /turf/simulated/wall/tgmc
 	icon = 'icons/turf/wall_masks_tgmc.dmi'
@@ -462,7 +473,7 @@
 	if(!material)
 		return
 	var/dirs = 0
-	var/list_to_use = diagonal_blending ? alldirs : cardinal
+	var/list_to_use = diagonal_blending ? GLOB.alldirs : GLOB.cardinal
 	main_direction_loop:
 		for(var/direction in list_to_use)
 			var/turf/simulated/wall/tgmc/W = get_step(src, direction)

@@ -39,7 +39,8 @@
 /obj/structure/prop/vv_edit_var(var_name, var_value)
 	if(var_name == "state")
 		change_state(var_value)
-
+	else
+		..()
 
 //Misc stuff that fits no category
 
@@ -51,9 +52,16 @@
 	icon_state = "ship_memorial"
 	bound_width = 64
 
+/obj/structure/prop/big_skeleton
+	name = "large skeleton"
+	desc = "Whatever it is, it doesn't look too healthy."
+	icon = 'icons/obj/props/decor96x96.dmi'
+	icon_state = "big_skeleton"
+	density = 0
+
 /**
  *
- Notes on change_state
+ * Notes on change_state
  *
  * tl;dr "You can varedit 'state' on these to the things in the comments below to get cool animations"
  *
@@ -67,4 +75,3 @@
  * Like, I don't want to add a state machine to decorative objects. You can if you want.
  *
  */
-

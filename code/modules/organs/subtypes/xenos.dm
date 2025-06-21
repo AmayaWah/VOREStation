@@ -13,13 +13,14 @@
 /obj/item/organ/internal/xenos/eggsac/grey
 	icon_state = "sac_grey"
 
-/obj/item/organ/internal/xenos/eggsac/grey/colormatch/New()
+/obj/item/organ/internal/xenos/eggsac/grey/colormatch/Initialize(mapload, internal)
 	..()
-	var/mob/living/carbon/human/H = null
-	spawn(15)
-		if(ishuman(owner))
-			H = owner
-			color = H.species.blood_color
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/organ/internal/xenos/eggsac/grey/colormatch/LateInitialize()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		color = H.species.blood_color
 
 /obj/item/organ/internal/xenos/plasmavessel
 	name = "plasma vessel"
@@ -39,10 +40,10 @@
 
 	var/modifier = 1 - 0.5 * is_bruised()
 
-	if(owner.bloodstr.has_reagent("phoron"))
+	if(owner.bloodstr.has_reagent(REAGENT_ID_PHORON))
 		adjust_plasma(round(4 * modifier))
 
-	if(owner.ingested.has_reagent("phoron"))
+	if(owner.ingested.has_reagent(REAGENT_ID_PHORON))
 		adjust_plasma(round(2 * modifier))
 
 	adjust_plasma(1)
@@ -54,13 +55,14 @@
 	icon_state = "plasma_grey"
 	stored_plasma = 200
 
-/obj/item/organ/internal/xenos/plasmavessel/grey/colormatch/New()
+/obj/item/organ/internal/xenos/plasmavessel/grey/colormatch/Initialize(mapload, internal)
 	..()
-	var/mob/living/carbon/human/H = null
-	spawn(15)
-		if(ishuman(owner))
-			H = owner
-			color = H.species.blood_color
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/organ/internal/xenos/plasmavessel/grey/colormatch/LateInitialize()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		color = H.species.blood_color
 
 /obj/item/organ/internal/xenos/plasmavessel/queen
 	name = "bloated plasma vessel"
@@ -91,13 +93,14 @@
 /obj/item/organ/internal/xenos/acidgland/grey
 	icon_state = "acidgland_grey"
 
-/obj/item/organ/internal/xenos/acidgland/grey/colormatch/New()
+/obj/item/organ/internal/xenos/acidgland/grey/colormatch/Initialize(mapload, internal)
 	..()
-	var/mob/living/carbon/human/H = null
-	spawn(15)
-		if(ishuman(owner))
-			H = owner
-			color = H.species.blood_color
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/organ/internal/xenos/acidgland/grey/colormatch/LateInitialize()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		color = H.species.blood_color
 
 /obj/item/organ/internal/xenos/hivenode
 	name = "hive node"
@@ -108,13 +111,14 @@
 /obj/item/organ/internal/xenos/hivenode/grey
 	icon_state = "xenode_grey"
 
-/obj/item/organ/internal/xenos/hivenode/grey/colormatch/New()
+/obj/item/organ/internal/xenos/hivenode/grey/colormatch/Initialize(mapload, internal)
 	..()
-	var/mob/living/carbon/human/H = null
-	spawn(15)
-		if(ishuman(owner))
-			H = owner
-			color = H.species.blood_color
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/organ/internal/xenos/hivenode/grey/colormatch/LateInitialize()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		color = H.species.blood_color
 
 /obj/item/organ/internal/xenos/resinspinner
 	name = "resin spinner"
@@ -130,13 +134,14 @@
 /obj/item/organ/internal/xenos/resinspinner/grey
 	icon_state = "xenode_grey"
 
-/obj/item/organ/internal/xenos/resinspinner/grey/colormatch/New()
+/obj/item/organ/internal/xenos/resinspinner/grey/colormatch/Initialize(mapload, internal)
 	..()
-	var/mob/living/carbon/human/H = null
-	spawn(15)
-		if(ishuman(owner))
-			H = owner
-			color = H.species.blood_color
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/organ/internal/xenos/resinspinner/grey/colormatch/LateInitialize()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		color = H.species.blood_color
 
 
 // XENOMORPH EXTERNAL ORGANS
@@ -144,72 +149,61 @@
 /obj/item/organ/external/chest/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
-	thick_skin = TRUE
 
 /obj/item/organ/external/groin/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/arm/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/arm/right/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/leg/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/leg/right/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/foot/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/foot/right/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/hand/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/hand/right/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
 	stapled_nerves = TRUE
 	encased = TRUE
-	thick_skin = TRUE
 
 /obj/item/organ/external/head/unseverable/xeno
 	cannot_gib = 1
 	cannot_amputate = 1
-	thick_skin = TRUE
 	eye_icon = "blank_eyes"

@@ -1,6 +1,6 @@
 /proc/readglobal(which)
 	. = global.vars[which]
-		
+
 /proc/writeglobal(which, newval)
 	global.vars[which] = newval
 
@@ -12,7 +12,7 @@
 /var/decl/global_vars/global_vars_
 
 /decl/global_vars
-	var/name = "<b>Global Variables</b>"
+	var/name = span_bold("Global Variables")
 
 /decl/global_vars/get_view_variables_options()
 	return "" // Ensuring changes to the base proc never affect us
@@ -29,18 +29,13 @@
 	writeglobal(varname, value)
 
 /decl/global_vars/make_view_variables_variable_entry(varname, value)
-	return "(<a href='?_src_=vars;datumedit=\ref[src];varnameedit=[varname]'>E</a>) "
+	return "(<a href='byond://?_src_=vars;[HrefToken()];datumedit=\ref[src];varnameedit=[varname]'>E</a>) "
 
 /decl/global_vars/VV_locked()
 	return vars
 
 /decl/global_vars/VV_hidden()
 	return list(
-		"forumsqladdress",
-		"forumsqldb",
-		"forumsqllogin",
-		"forumsqlpass",
-		"forumsqlport",
 		"sqladdress",
 		"sqldb",
 		"sqllogin",
@@ -73,11 +68,11 @@
 		"admin_ranks",
 		"admin_state",
 		"alien_whitelist",
-		"alldirs",
+		"GLOB.alldirs",
 		"ahelp_tickets",
 		"adminfaxes",
 		"adminlogs",
-		"cardinal",
+		"GLOB.cardinal",
 		"cardinalz",
 		"IClog"
 	)

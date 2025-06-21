@@ -6,7 +6,7 @@
 	icon_screen = "comm_logs"
 	light_color = "#00b000"
 	var/hack_icon = "error"
-	circuit = /obj/item/weapon/circuitboard/message_monitor
+	circuit = /obj/item/circuitboard/message_monitor
 	//Server linked to.
 	var/obj/machinery/message_server/linkedServer = null
 	//Sparks effect - For emag
@@ -23,20 +23,20 @@
 	var/optioncount = 8
 	// Custom temp Properties
 	var/customsender = "System Administrator"
-	var/obj/item/device/pda/customrecepient = null
+	var/obj/item/pda/customrecepient = null
 	var/customjob		= "Admin"
 	var/custommessage 	= "This is a test, please ignore."
 	var/list/temp = null
 
-/obj/machinery/computer/message_monitor/attackby(obj/item/weapon/O as obj, mob/living/user as mob)
+/obj/machinery/computer/message_monitor/attackby(obj/item/O as obj, mob/living/user as mob)
 	if(stat & (NOPOWER|BROKEN))
 		..()
 		return
 	if(!istype(user))
 		return
-	if(O.is_screwdriver() && emag)
+	if(O.has_tool_quality(TOOL_SCREWDRIVER) && emag)
 		//Stops people from just unscrewing the monitor and putting it back to get the console working again.
-		to_chat(user, "<span class='warning'>It is too hot to mess with!</span>")
+		to_chat(user, span_warning("It is too hot to mess with!"))
 		return
 
 	..()
@@ -50,16 +50,16 @@
 			emag = 1
 			spark_system.set_up(5, 0, src)
 			spark_system.start()
-			var/obj/item/weapon/paper/monitorkey/MK = new/obj/item/weapon/paper/monitorkey
+			var/obj/item/paper/monitorkey/MK = new/obj/item/paper/monitorkey
 			MK.loc = loc
 			// Will help make emagging the console not so easy to get away with.
-			MK.info += "<br><br><font color='red'>£%@%(*$%&(£&?*(%&£/{}</font>"
+			MK.info += "<br><br>" + span_red("£%@%(*$%&(£&?*(%&£/{}")
 			spawn(100*length(linkedServer.decryptkey)) UnmagConsole()
 			temp = rebootmsg
 			update_icon()
 			return 1
 		else
-			to_chat(user, "<span class='notice'>A no server error appears on the screen.</span>")
+			to_chat(user, span_notice("A no server error appears on the screen."))
 
 /obj/machinery/computer/message_monitor/update_icon()
 	if(emag || hacking)
@@ -68,12 +68,11 @@
 		icon_screen = initial(icon_screen)
 	..()
 
-/obj/machinery/computer/message_monitor/Initialize()
+/obj/machinery/computer/message_monitor/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/message_monitor/LateInitialize()
-	. = ..()
 	//Is the server isn't linked to a server, and there's a server available, default it to the first one in the list.
 	if(!linkedServer)
 		if(message_servers && message_servers.len > 0)
@@ -101,7 +100,7 @@
 	if(linkedServer && auth)
 		data["linkedServer"]["active"] = linkedServer.active
 		data["linkedServer"]["broke"] = linkedServer.stat & (NOPOWER|BROKEN)
-		
+
 		var/list/pda_msgs = list()
 		for(var/datum/data_pda_msg/pda in linkedServer.pda_msgs)
 			pda_msgs.Add(list(list(
@@ -111,7 +110,7 @@
 				"message" = pda.message,
 			)))
 		data["linkedServer"]["pda_msgs"] = pda_msgs
-		
+
 		var/list/rc_msgs = list()
 		for(var/datum/data_rc_msg/rc in linkedServer.rc_msgs)
 			rc_msgs.Add(list(list(
@@ -136,8 +135,8 @@
 		data["linkedServer"]["spamFilter"] = spamfilter
 
 		//Get out list of viable PDAs
-		var/list/obj/item/device/pda/sendPDAs = list()
-		for(var/obj/item/device/pda/P in PDAs)
+		var/list/obj/item/pda/sendPDAs = list()
+		for(var/obj/item/pda/P in PDAs)
 			if(!P.owner || P.hidden)
 				continue
 			var/datum/data/pda/app/messenger/M = P.find_program(/datum/data/pda/app/messenger)
@@ -146,7 +145,7 @@
 			sendPDAs["[P.name]"] = "\ref[P]"
 		data["possibleRecipients"] = sendPDAs
 
-	data["isMalfAI"] = ((istype(user, /mob/living/silicon/ai) || istype(user, /mob/living/silicon/robot)) && (user.mind.special_role && user.mind.original == user))
+	data["isMalfAI"] = ((isAI(user) || isrobot(user)) && (user.mind.special_role && user.mind.original == user))
 
 	return data
 
@@ -162,10 +161,10 @@
 
 /obj/machinery/computer/message_monitor/proc/BruteForce(mob/user as mob)
 	if(isnull(linkedServer))
-		to_chat(user, "<span class='warning'>Could not complete brute-force: Linked Server Disconnected!</span>")
+		to_chat(user, span_warning("Could not complete brute-force: Linked Server Disconnected!"))
 	else
 		var/currentKey = linkedServer.decryptkey
-		to_chat(user, "<span class='warning'>Brute-force completed! The key is '[currentKey]'.</span>")
+		to_chat(user, span_warning("Brute-force completed! The key is '[currentKey]'."))
 	hacking = 0
 	update_icon()
 
@@ -179,10 +178,10 @@
 	custommessage 	= "This is a test, please ignore."
 	customjob 		= "Admin"
 
-/obj/machinery/computer/message_monitor/tgui_act(action, params)
+/obj/machinery/computer/message_monitor/tgui_act(action, params, datum/tgui/ui)
 	if(..())
 		return TRUE
-	
+
 	switch(action)
 		if("cleartemp")
 			temp = null
@@ -202,7 +201,7 @@
 		//Find a server
 		if("find")
 			if(message_servers && message_servers.len > 1)
-				linkedServer = tgui_input_list(usr,"Please select a server.", "Select a server.", message_servers)
+				linkedServer = tgui_input_list(ui.user,"Please select a server.", "Select a server.", message_servers)
 				set_temp("NOTICE: Server selected.", "alert")
 			else if(message_servers && message_servers.len > 0)
 				linkedServer = message_servers[1]
@@ -211,21 +210,21 @@
 				temp = noserver
 		//Hack the Console to get the password
 		if("hack")
-			if((istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot)) && (usr.mind.special_role && usr.mind.original == usr))
+			if((isAI(ui.user) || isrobot(ui.user)) && (ui.user.mind.special_role && ui.user.mind.original == ui.user))
 				hacking = 1
 				update_icon()
 				//Time it takes to bruteforce is dependant on the password length.
 				spawn(100*length(linkedServer.decryptkey))
-					if(src && linkedServer && usr)
-						BruteForce(usr)
-	
+					if(src && linkedServer && ui.user)
+						BruteForce(ui.user)
+
 	if(!auth)
 		return
-	
+
 	if(!linkedServer || linkedServer.stat & (NOPOWER|BROKEN))
 		temp = noserver
 		return TRUE
-	
+
 	switch(action)
 		//Turn the server on/off.
 		if("active")
@@ -243,10 +242,10 @@
 			. = TRUE
 		//Change the password - KEY REQUIRED
 		if("pass")
-			var/dkey = trim(tgui_input_text(usr, "Please enter the current decryption key."))
+			var/dkey = trim(tgui_input_text(ui.user, "Please enter the current decryption key."))
 			if(dkey && dkey != "")
 				if(linkedServer.decryptkey == dkey)
-					var/newkey = trim(tgui_input_text(usr,"Please enter the new key (3 - 16 characters max):",null,null,16))
+					var/newkey = trim(tgui_input_text(ui.user,"Please enter the new key (3 - 16 characters max):",null,null,16))
 					if(length(newkey) <= 3)
 						set_temp("NOTICE: Decryption key too short!", "average")
 					else if(length(newkey) > 16)
@@ -274,10 +273,10 @@
 			. = TRUE
 		if("set_recipient")
 			var/ref = params["val"]
-			var/obj/item/device/pda/P = locate(ref)
+			var/obj/item/pda/P = locate(ref)
 			if(!istype(P) || !P.owner || P.hidden)
 				return FALSE
-				
+
 			var/datum/data/pda/app/messenger/M = P.find_program(/datum/data/pda/app/messenger)
 			if(!M || M.toff)
 				return FALSE
@@ -298,8 +297,8 @@
 				set_temp("NOTICE: No message entered!", "average")
 				return TRUE
 
-			var/obj/item/device/pda/PDARec = null
-			for(var/obj/item/device/pda/P in PDAs)
+			var/obj/item/pda/PDARec = null
+			for(var/obj/item/pda/P in PDAs)
 				if(!P.owner || P.hidden)
 					continue
 				var/datum/data/pda/app/messenger/M = P.find_program(/datum/data/pda/app/messenger)
@@ -316,7 +315,7 @@
 			//Sender is faking as someone who exists
 			else
 				linkedServer.send_pda_message("[customrecepient.owner]", "[PDARec.owner]","[custommessage]")
-				
+
 				var/datum/data/pda/app/messenger/M = customrecepient.find_program(/datum/data/pda/app/messenger)
 				if(M)
 					M.receive_message(list("sent" = 0, "owner" = "[PDARec.owner]", "job" = "[customjob]", "message" = "[custommessage]", "target" = "\ref[PDARec]"), "\ref[PDARec]")
@@ -325,7 +324,7 @@
 			. = TRUE
 
 		if("addtoken")
-			linkedServer.spamfilter += tgui_input_text(usr,"Enter text you want to be filtered out","Token creation")
+			linkedServer.spamfilter += tgui_input_text(ui.user,"Enter text you want to be filtered out","Token creation")
 			. = TRUE
 
 		if("deltoken")
@@ -338,14 +337,14 @@
 	if(update_now)
 		SStgui.update_uis(src)
 
-/obj/item/weapon/paper/monitorkey
+/obj/item/paper/monitorkey
 	name = "Monitor Decryption Key"
 
-/obj/item/weapon/paper/monitorkey/Initialize()
+/obj/item/paper/monitorkey/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
-/obj/item/weapon/paper/monitorkey/LateInitialize()
+/obj/item/paper/monitorkey/LateInitialize()
 	if(message_servers)
 		for(var/obj/machinery/message_server/server in message_servers)
 			if(!isnull(server.decryptkey))

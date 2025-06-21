@@ -12,7 +12,7 @@ below 100 is not dizzy
 /mob/var/is_dizzy = 0
 
 /mob/proc/make_dizzy(var/amount)
-	if(!istype(src, /mob/living/carbon/human)) // for the moment, only humans get dizzy
+	if(!ishuman(src)) // for the moment, only humans get dizzy
 		return
 
 	dizziness = min(1000, dizziness + amount)	// store what will be new value
@@ -46,7 +46,7 @@ note dizziness decrements automatically in the mob's Life() proc.
 /mob/var/is_jittery = 0
 /mob/var/jitteriness = 0//Carbon
 /mob/proc/make_jittery(var/amount)
-	if(!istype(src, /mob/living/carbon/human)) // for the moment, only humans get dizzy
+	if(!ishuman(src)) // for the moment, only humans get dizzy
 		return
 
 	jitteriness = min(1000, jitteriness + amount)	// store what will be new value
@@ -94,7 +94,7 @@ note dizziness decrements automatically in the mob's Life() proc.
 	var/turf/turf = get_turf(src)
 	if(!istype(turf,/turf/space))
 		var/area/A = turf.loc
-		if(istype(A) && A.has_gravity)
+		if(istype(A) && A.get_gravity())
 			make_floating(0)
 			return
 		else if (Check_Shoegrip())
@@ -195,12 +195,8 @@ note dizziness decrements automatically in the mob's Life() proc.
 	else if(direction & WEST)
 		pixel_x_diff = 8
 
-	var/default_pixel_x = initial(pixel_x)
-	var/default_pixel_y = initial(pixel_y)
-	var/mob/mob = src
-	if(istype(mob))
-		default_pixel_x = mob.default_pixel_x
-		default_pixel_y = mob.default_pixel_y
+	var/default_pixel_x = pixel_x
+	var/default_pixel_y = pixel_y
 
 	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = windup_time - 2)
 	animate(pixel_x = default_pixel_x, pixel_y = default_pixel_y, time = 2)
@@ -220,12 +216,8 @@ note dizziness decrements automatically in the mob's Life() proc.
 	else if(direction & WEST)
 		pixel_x_diff = -8
 
-	var/default_pixel_x = initial(pixel_x)
-	var/default_pixel_y = initial(pixel_y)
-	var/mob/mob = src
-	if(istype(mob))
-		default_pixel_x = mob.default_pixel_x
-		default_pixel_y = mob.default_pixel_y
+	var/default_pixel_x = pixel_x
+	var/default_pixel_y = pixel_y
 
 	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
 	animate(pixel_x = default_pixel_x, pixel_y = default_pixel_y, time = 2)
@@ -238,8 +230,7 @@ note dizziness decrements automatically in the mob's Life() proc.
 	//Check for clients with pref enabled
 	var/list/viewing = list()
 	for(var/mob/M as anything in viewers(A))
-		var/client/C = M.client
-		if(C && C.is_preference_enabled(/datum/client_preference/attack_icons))
+		if(M.client?.prefs?.read_preference(/datum/preference/toggle/attack_icons))
 			viewing += M.client
 
 	//Animals attacking each other in the distance, probably. Forgeddaboutit.
@@ -296,6 +287,8 @@ note dizziness decrements automatically in the mob's Life() proc.
 	return TRUE //Found an item, doing item attack animation.
 
 /mob/proc/spin(spintime, speed)
+	if(!speed || speed < 1)		// Do NOT spin with infinite speed, it will break the reality
+		return
 	spawn()
 		var/D = dir
 		while(spintime >= speed)

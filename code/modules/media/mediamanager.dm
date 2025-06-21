@@ -54,15 +54,15 @@
 
 /client/verb/change_volume()
 	set name = "Set Volume"
-	set category = "OOC"
+	set category = "OOC.Client Settings"
 	set desc = "Set jukebox volume"
 	set_new_volume(usr)
 
 /client/proc/set_new_volume(var/mob/user)
-	if(!QDELETED(src.media) || !istype(src.media))
-		to_chat(user, "<span class='warning'>You have no media datum to change, if you're not in the lobby tell an admin.</span>")
+	if(QDELETED(src.media) || !istype(src.media))
+		to_chat(user, span_warning("You have no media datum to change, if you're not in the lobby tell an admin."))
 		return
-	var/value = input(usr, "Choose your Jukebox volume.", "Jukebox volume", media.volume)
+	var/value = tgui_input_number(user, "Choose your Jukebox volume.", "Jukebox volume", media.volume, 100, 0)
 	value = round(max(0, min(100, value)))
 	media.update_volume(value)
 
@@ -122,26 +122,20 @@
 /datum/media_manager/proc/open()
 	if(!owner.prefs)
 		return
-	if(isnum(owner.prefs.media_volume))
-		volume = owner.prefs.media_volume
-	switch(owner.prefs.media_player)
-		if(0)
-			playerstyle = PLAYER_VLC_HTML
-		if(1)
-			playerstyle = PLAYER_WMP_HTML
-		if(2)
-			playerstyle = PLAYER_HTML5_HTML
+	if(isnum(owner.prefs.read_preference(/datum/preference/numeric/living/jukebox_volume)))
+		volume = owner.prefs.read_preference(/datum/preference/numeric/living/jukebox_volume) / 100
+	playerstyle = PLAYER_HTML5_HTML // we're in the 516 era baby
 	owner << browse(null, "window=[WINDOW_ID]")
 	owner << browse(playerstyle, "window=[WINDOW_ID]")
 	send_update()
 
 // Tell the player to play something via JS.
 /datum/media_manager/proc/send_update()
-	if(!(owner.prefs))
+	if(!owner.prefs)
 		return
-	if(!owner.is_preference_enabled(/datum/client_preference/play_jukebox) && url != "")
+	if(!owner.prefs.read_preference(/datum/preference/toggle/play_jukebox) && url != "")
 		return // Don't send anything other than a cancel to people with SOUND_STREAMING pref disabled
-	MP_DEBUG("<span class='good'>Sending update to mediapanel ([url], [(world.time - start_time) / 10], [volume * source_volume])...</span>")
+	MP_DEBUG(span_good("Sending update to mediapanel ([url], [(world.time - start_time) / 10], [volume * source_volume])..."))
 	owner << output(list2params(list(url, (world.time - start_time) / 10, volume * source_volume)), "[WINDOW_ID]:SetMusic")
 
 /datum/media_manager/proc/push_music(var/targetURL, var/targetStartTime, var/targetVolume)
@@ -179,3 +173,9 @@
 		targetVolume = M.volume
 		//MP_DEBUG("Found audio source: [M.media_url] @ [(world.time - start_time) / 10]s.")
 	push_music(targetURL, targetStartTime, targetVolume)
+
+
+#ifdef DEBUG_MEDIAPLAYER
+#undef DEBUG_MEDIAPLAYER
+#undef MP_DEBUG
+#endif

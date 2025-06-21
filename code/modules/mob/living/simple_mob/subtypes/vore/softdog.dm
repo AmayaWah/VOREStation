@@ -15,10 +15,10 @@
 	icon_rest = "woof_rest"
 	icon = 'icons/mob/vore.dmi'
 
-	faction = "dog"
+	faction = FACTION_DOG
 	maxHealth = 600
 	health = 600
-	movement_cooldown = 1
+	movement_cooldown = -1
 
 	response_help = "pets"
 	response_disarm = "rudely paps"
@@ -50,15 +50,15 @@
 
 	mob_size = MOB_SMALL
 
-	has_langs = list("Dog", "Canilunzt", "Galactic Common")
+	has_langs = list(LANGUAGE_ANIMAL, LANGUAGE_CANILUNZT, LANGUAGE_GALCOM)
 	say_list_type = /datum/say_list/softdog
 	swallowTime = 0.1 SECONDS
 
-/mob/living/simple_mob/vore/woof/New()
-	..()
+/mob/living/simple_mob/vore/woof/Initialize(mapload)
+	. = ..()
 
-	verbs += /mob/living/proc/ventcrawl
-	verbs += /mob/living/proc/hide
+	add_verb(src, /mob/living/proc/ventcrawl)
+	add_verb(src, /mob/living/proc/hide)
 
 /datum/say_list/softdog
 	speak = list("Woof~", "Woof!", "Yip!", "Yap!", "Yip~", "Yap~", "Awoooooo~", "Awoo!", "AwooooooooooOOOOOOoOooOoooOoOOoooo!")
@@ -95,7 +95,11 @@
 
 
 /mob/living/simple_mob/vore/woof/init_vore()
-	..()
+	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "You have found yourself pumping on down, down, down into this extremely soft dog. The slick touches of pulsing walls roll over you in greedy fashion as you're swallowed away, the flesh forms to your figure as in an instant the world is replaced by the hot squeeze of canine gullet. And in another moment a heavy GLLRMMPTCH seals you away, the dog tossing its head eagerly, the way forward stretching to accommodate your shape as you are greedily guzzled down. The wrinkled, doughy walls pulse against you in time to the creature's steady heartbeat. The sounds of the outside world muffled into obscure tones as the wet, grumbling rolls of this soft creature's gut hold you, churning you tightly such that no part of you is spared from these gastric affections."
@@ -172,7 +176,7 @@
 	icon_rest = "cass_rest"
 	ic_revivable = 0
 
-	faction = "theatre"
+	faction = FACTION_THEATRE
 	gender = PLURAL
 	ai_holder_type = /datum/ai_holder/simple_mob/woof/cass
 
@@ -201,11 +205,11 @@
 		var/mob/living/L = A
 		if(prob(knockdown_chance))
 			L.Weaken(3)
-			L.visible_message(span("danger", "\The [src] pounces on \the [L]!"))
+			L.visible_message(span_danger("\The [src] pounces on \the [L]!"))
 
 /mob/living/simple_mob/vore/woof/hostile/melee
 
-	movement_cooldown = 0
+	movement_cooldown = -2
 
 	ai_holder_type = /datum/ai_holder/simple_mob/woof/hostile
 
@@ -271,7 +275,7 @@
 	var/killswitch = FALSE
 
 
-/mob/living/simple_mob/vore/woof/hostile/aweful/Initialize()
+/mob/living/simple_mob/vore/woof/hostile/aweful/Initialize(mapload)
 	. = ..()
 	var/thismany = (rand(25,500)) / 100
 	resize(thismany, animate = FALSE, uncapped = TRUE, ignore_prefs = TRUE)
@@ -279,35 +283,35 @@
 /mob/living/simple_mob/vore/woof/hostile/aweful/death()
 	. = ..()
 	if(killswitch)
-		visible_message("<span class='notice'>\The [src] evaporates into nothing...</span>")
+		visible_message(span_notice("\The [src] evaporates into nothing..."))
 		qdel(src)
 		return
 	var/thismany = rand(0,3)
 	var/list/possiblewoofs = list(/mob/living/simple_mob/vore/woof/hostile/aweful/melee, /mob/living/simple_mob/vore/woof/hostile/aweful/ranged)
 	if(thismany == 0)
-		visible_message("<span class='notice'>\The [src] evaporates into nothing...</span>")
+		visible_message(span_notice("\The [src] evaporates into nothing..."))
 	if(thismany >= 1)
 		var/thiswoof = pick(possiblewoofs)
 		new thiswoof(loc, src)
-		visible_message("<span class='warning'>Another [src] appears!</span>")
+		visible_message(span_warning("Another [src] appears!"))
 	if(thismany >= 2)
 		var/thiswoof = pick(possiblewoofs)
 		new thiswoof(loc, src)
-		visible_message("<span class='warning'>Another [src] appears!</span>")
+		visible_message(span_warning("Another [src] appears!"))
 	if(thismany >= 3)
 		var/thiswoof = pick(possiblewoofs)
 		new thiswoof(loc, src)
-		visible_message("<span class='warning'>Another [src] appears!</span>")
+		visible_message(span_warning("Another [src] appears!"))
 	qdel(src)
 
 /mob/living/simple_mob/vore/woof/hostile/aweful/melee
 
-	movement_cooldown = 0
+	movement_cooldown = -2
 
 	ai_holder_type = /datum/ai_holder/simple_mob/woof/hostile
 
 /mob/living/simple_mob/vore/woof/hostile/aweful/ranged
-	movement_cooldown = 0
+	movement_cooldown = -2
 
 	ai_holder_type = /datum/ai_holder/simple_mob/ranged/kiting/threatening/woof
 

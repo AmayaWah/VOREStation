@@ -1,53 +1,55 @@
 var/global/list/radio_channels_by_freq = list(
-	num2text(PUB_FREQ) = "Common",
-	num2text(AI_FREQ)  = "AI Private",
-	num2text(ENT_FREQ) = "Entertainment",
-	num2text(ERT_FREQ) = "Response Team",
-	num2text(COMM_FREQ)= "Command",
-	num2text(ENG_FREQ) = "Engineering",
-	num2text(MED_FREQ) = "Medical",
-	num2text(MED_I_FREQ)="Medical(I)",
-	num2text(SEC_FREQ) = "Security",
-	num2text(SEC_I_FREQ)="Security(I)",
-	num2text(SCI_FREQ) = "Science",
-	num2text(SUP_FREQ) = "Supply",
-	num2text(SRV_FREQ) = "Service",
-	num2text(EXP_FREQ) = "Explorer"
+	num2text(PUB_FREQ) = CHANNEL_COMMON,
+	num2text(AI_FREQ)  = CHANNEL_AI_PRIVATE,
+	num2text(ENT_FREQ) = CHANNEL_ENTERTAINMENT,
+	num2text(ERT_FREQ) = CHANNEL_RESPONSE_TEAM,
+	num2text(COMM_FREQ)= CHANNEL_COMMAND,
+	num2text(ENG_FREQ) = CHANNEL_ENGINEERING,
+	num2text(MED_FREQ) = CHANNEL_MEDICAL,
+	num2text(MED_I_FREQ)=CHANNEL_MEDICAL_1,
+	num2text(SEC_FREQ) = CHANNEL_SECURITY,
+	num2text(SEC_I_FREQ)=CHANNEL_SECURITY_1,
+	num2text(SCI_FREQ) = CHANNEL_SCIENCE,
+	num2text(SUP_FREQ) = CHANNEL_SUPPLY,
+	num2text(SRV_FREQ) = CHANNEL_SERVICE,
+	num2text(EXP_FREQ) = CHANNEL_EXPLORATION
 	)
 
-GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
+GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/paicard)
 
-/obj/item/device/paicard
+/obj/item/paicard
 	name = "personal AI device"
 	icon = 'icons/obj/pda.dmi'
 	icon_state = "pai"
 	item_state = "electronic"
 	w_class = ITEMSIZE_SMALL
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_BELT | SLOT_HOLSTER
 	origin_tech = list(TECH_DATA = 2)
 	show_messages = 0
 	preserve_item = 1
 
-	var/obj/item/device/radio/borg/pai/radio
+	var/obj/item/radio/borg/pai/radio
 	var/looking_for_personality = 0
 	var/mob/living/silicon/pai/pai
 	var/image/screen_layer
 	var/screen_color = "#00ff0d"
 	var/last_notify = 0
 	var/screen_msg
+	pickup_sound = 'sound/items/pickup/device.ogg'
+	drop_sound = 'sound/items/drop/device.ogg'
 
-/obj/item/device/paicard/relaymove(var/mob/user, var/direction)
+/obj/item/paicard/relaymove(var/mob/user, var/direction)
 	if(user.stat || user.stunned)
 		return
-	var/obj/item/weapon/rig/rig = src.get_rig()
+	var/obj/item/rig/rig = src.get_rig()
 	if(istype(rig))
 		rig.forced_move(direction, user)
 
-/obj/item/device/paicard/New()
-	..()
+/obj/item/paicard/Initialize(mapload)
+	. = ..()
 	add_overlay("pai-off")
 
-/obj/item/device/paicard/Destroy()
+/obj/item/paicard/Destroy()
 	//Will stop people throwing friend pAIs into the singularity so they can respawn
 	if(!isnull(pai))
 		pai.death(0)
@@ -55,16 +57,29 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 	return ..()
 
 // VOREStation Edit - Allow everyone to become a pAI
-/obj/item/device/paicard/attack_ghost(mob/user as mob)
+/obj/item/paicard/attack_ghost(mob/user as mob)
 	if(pai != null) //Have a person in them already?
 		return ..()
-
-	if(jobban_isbanned(usr, "pAI"))
-		to_chat(usr,"<span class='warning'>You cannot join a pAI card when you are banned from playing as a pAI.</span>")
+	if(is_damage_critical())
+		to_chat(user, span_warning("That card is too damaged to activate!"))
+		return
+	var/time_till_respawn = user.time_till_respawn()
+	if(time_till_respawn == -1) // Special case, never allowed to respawn
+		to_chat(user, span_warning("Respawning is not allowed!"))
+	else if(time_till_respawn) // Nonzero time to respawn
+		to_chat(user, span_warning("You can't do that yet! You died too recently. You need to wait another [round(time_till_respawn/10/60, 0.1)] minutes."))
+		return
+	if(jobban_isbanned(user, JOB_PAI))
+		to_chat(user,span_warning("You cannot join a pAI card when you are banned from playing as a pAI."))
 		return
 
+	for(var/ourkey in paikeys)
+		if(ourkey == user.ckey)
+			to_chat(user, span_warning("You can't just rejoin any old pAI card!!! Your card still exists."))
+			return
+
 	var/choice = tgui_alert(user, "You sure you want to inhabit this PAI, or submit yourself to being recruited?", "Confirmation", list("Inhabit", "Recruit", "Cancel"))
-	if(choice == "Cancel")
+	if(!choice || choice == "Cancel")
 		return ..()
 	if(choice == "Recruit")
 		paiController.recruitWindow(user)
@@ -77,24 +92,27 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 		actual_pai_name = sanitize_name(pai_name, ,1)
 		if(isnull(actual_pai_name))
 			return ..()
-		if(istype(src , /obj/item/device/paicard/typeb))
-			var/obj/item/device/paicard/typeb/card = new(location)
+		if(istype(src , /obj/item/paicard/typeb))
+			var/obj/item/paicard/typeb/card = new(location)
 			var/mob/living/silicon/pai/new_pai = new(card)
 			new_pai.key = user.key
+			paikeys |= new_pai.ckey
 			card.setPersonality(new_pai)
 			new_pai.SetName(actual_pai_name)
 		else
-			var/obj/item/device/paicard/card = new(location)
+			var/obj/item/paicard/card = new(location)
 			var/mob/living/silicon/pai/new_pai = new(card)
 			new_pai.key = user.key
+			paikeys |= new_pai.ckey
 			card.setPersonality(new_pai)
 			new_pai.SetName(actual_pai_name)
 
 	if(choice == "Yes")
-		if(istype(src , /obj/item/device/paicard/typeb))
-			var/obj/item/device/paicard/typeb/card = new(location)
+		if(istype(src , /obj/item/paicard/typeb))
+			var/obj/item/paicard/typeb/card = new(location)
 			var/mob/living/silicon/pai/new_pai = new(card)
 			new_pai.key = user.key
+			paikeys |= new_pai.ckey
 			card.setPersonality(new_pai)
 			if(!new_pai.savefile_load(new_pai))
 				var/pai_name = tgui_input_text(new_pai, "Choose your character's name", "Character Name")
@@ -102,9 +120,10 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 				if(isnull(actual_pai_name))
 					return ..()
 		else
-			var/obj/item/device/paicard/card = new(location)
+			var/obj/item/paicard/card = new(location)
 			var/mob/living/silicon/pai/new_pai = new(card)
 			new_pai.key = user.key
+			paikeys |= new_pai.ckey
 			card.setPersonality(new_pai)
 			if(!new_pai.savefile_load(new_pai))
 				var/pai_name = tgui_input_text(new_pai, "Choose your character's name", "Character Name")
@@ -117,7 +136,10 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 
 // VOREStation Edit End
 
-/obj/item/device/paicard/attack_self(mob/user)
+/obj/item/paicard/proc/access_screen(mob/user)
+	if(is_damage_critical())
+		to_chat(user, span_warning("WARNING: CRITICAL HARDWARE FAILURE, SERVICE DEVICE IMMEDIATELY"))
+		return
 	if (!in_range(src, user))
 		return
 	user.set_machine(src)
@@ -127,90 +149,90 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 			<head>
 				<style>
 					body {
-					    margin-top:5px;
-					    font-family:Verdana;
-					    color:white;
-					    font-size:13px;
-					    background-image:url('uiBackground.png');
-					    background-repeat:repeat-x;
-					    background-color:#272727;
+						margin-top:5px;
+						font-family:Verdana;
+						color:white;
+						font-size:13px;
+						background-image:url('uiBackground.png');
+						background-repeat:repeat-x;
+						background-color:#272727;
 						background-position:center top;
 					}
 					table {
-					    font-size:13px;
-					    margin-left:-2px;
+						font-size:13px;
+						margin-left:-2px;
 					}
 					table.request {
-					    border-collapse:collapse;
+						border-collapse:collapse;
 					}
 					table.desc {
-					    border-collapse:collapse;
-					    font-size:13px;
-					    border: 1px solid #161616;
-					    width:100%;
+						border-collapse:collapse;
+						font-size:13px;
+						border: 1px solid #161616;
+						width:100%;
 					}
 					table.download {
-					    border-collapse:collapse;
-					    font-size:13px;
-					    border: 1px solid #161616;
-					    width:100%;
+						border-collapse:collapse;
+						font-size:13px;
+						border: 1px solid #161616;
+						width:100%;
 					}
 					tr.d0 td, tr.d0 th {
-					    background-color: #506070;
-					    color: white;
+						background-color: #506070;
+						color: white;
 					}
 					tr.d1 td, tr.d1 th {
-					    background-color: #708090;
-					    color: white;
+						background-color: #708090;
+						color: white;
 					}
 					tr.d2 td {
-					    background-color: #00FF00;
-					    color: white;
-					    text-align:center;
+						background-color: #00FF00;
+						color: white;
+						text-align:center;
 					}
 					td.button {
-					    border: 1px solid #161616;
-					    background-color: #40628a;
+						border: 1px solid #161616;
+						background-color: #40628a;
 					}
 					td.button {
-					    border: 1px solid #161616;
-					    background-color: #40628a;
-					    text-align: center;
+						border: 1px solid #161616;
+						background-color: #40628a;
+						text-align: center;
 					}
 					td.button_red {
-					    border: 1px solid #161616;
-					    background-color: #B04040;
-					    text-align: center;
+						border: 1px solid #161616;
+						background-color: #B04040;
+						text-align: center;
 					}
 					td.download {
-					    border: 1px solid #161616;
-					    background-color: #40628a;
-					    text-align: center;
+						border: 1px solid #161616;
+						background-color: #40628a;
+						text-align: center;
 					}
 					th {
-					    text-align:left;
-					    width:125px;
+						text-align:left;
+						width:125px;
 					}
 					td.request {
-					    width:140px;
-					    vertical-align:top;
+						width:140px;
+						vertical-align:top;
 					}
 					td.radio {
-					    width:90px;
-					    vertical-align:top;
+						width:90px;
+						vertical-align:top;
 					}
 					td.request {
-					    vertical-align:top;
+						vertical-align:top;
 					}
 					a {
-					    color:#4477E0;
+						color:#4477E0;
 					}
 					a.button {
-					    color:white;
-					    text-decoration: none;
+						color:white;
+						text-decoration: none;
 					}
 					h2 {
-					    font-size:15px;
+						font-size:15px;
 					}
 				</style>
 			</head>
@@ -219,11 +241,13 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 
 	if(pai)
 		dat += {"
-			<b><font size='3px'>Personal AI Device</font></b><br><br>
+			"} + span_bold("<font size='3px'>Personal AI Device</font>") + {"<br><br>
 			<table class="request">
 				<tr>
-					<td class="request">Installed Personality:</td>
-					<td>[pai.name]</td>
+					<td><font size='5px'; color=[screen_color]>"} + span_bold("[pai.name]") + {"</font></td>
+				</tr>
+				<tr>
+					<td class="request">Integrity: [pai.health]</td>
 				</tr>
 				<tr>
 					<td class="request">Prime directive:</td>
@@ -253,7 +277,7 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 			"}
 		dat += "<br>"
 		if(radio)
-			dat += "<b>Radio Uplink</b>"
+			dat += span_bold("Radio Uplink")
 			dat += {"
 				<table class="request">
 					<tr>
@@ -272,8 +296,8 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 				<br>
 			"}
 		else //</font></font>
-			dat += "<b>Radio Uplink</b><br>"
-			dat += "<font color=red><i>Radio firmware not loaded. Please install a pAI personality to load firmware.</i></font><br>"
+			dat += span_bold("Radio Uplink") + "<br>"
+			dat += span_red(span_italics("Radio firmware not loaded. Please install a pAI personality to load firmware.")) + "<br>"
 		/* - //A button for instantly deleting people from the game is lame, especially considering that pAIs on our server tend to activate without a master.
 		dat += {"
 			<table>
@@ -284,11 +308,11 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 		"}
 		*/
 		if(screen_msg)
-			dat += "<b>Message from [pai.name]</b><br>[screen_msg]"
+			dat += span_bold("Message from [pai.name]") + "<br>[screen_msg]"
 	else
 		if(looking_for_personality)
 			dat += {"
-				<b><font size='3px'>pAI Request Module</font></b><br><br>
+				"} + span_bold("<font size='3px'>pAI Request Module</font>") + {"<br><br>
 				<p>Requesting AI personalities from central database... If there are no entries, or if a suitable entry is not listed, check again later as more personalities may be added.</p>
 				<img src='loading.gif' /> Searching for personalities<br><br>
 
@@ -302,8 +326,8 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 			"}
 		else
 			dat += {"
-				<b><font size='3px'>pAI Request Module</font></b><br><br>
-			    <p>No personality is installed.</p>
+				"} + span_bold("<font size='3px'>pAI Request Module</font>") + {"<br><br>
+				<p>No personality is installed.</p>
 				<table>
 					<tr>
 						<td class="button"><a href='byond://?src=\ref[src];request=1' class="button">Request personality</a>
@@ -313,11 +337,12 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 				<br>
 				<p>Each time this button is pressed, a request will be sent out to any available personalities. Check back often give plenty of time for personalities to respond. This process could take anywhere from 15 seconds to several minutes, depending on the available personalities' timeliness.</p>
 			"}
+	dat += "</html>"
 	user << browse(dat, "window=paicard")
 	onclose(user, "paicard")
 	return
 
-/obj/item/device/paicard/Topic(href, href_list)
+/obj/item/paicard/Topic(href, href_list)
 
 	if(!usr || usr.stat)
 		return
@@ -327,12 +352,12 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 			return
 		var/mob/M = usr
 		if(!istype(M, /mob/living/carbon))
-			to_chat(usr, "<font color=blue>You don't have any DNA, or your DNA is incompatible with this device.</font>")
+			to_chat(usr, span_blue("You don't have any DNA, or your DNA is incompatible with this device."))
 		else
 			var/datum/dna/dna = usr.dna
 			pai.master = M.real_name
 			pai.master_dna = dna.unique_enzymes
-			to_chat(pai, "<font color = red><h3>You have been bound to a new master.</h3></font>")
+			to_chat(pai, span_red("<h3>You have been bound to a new master.</h3>"))
 	if(href_list["request"])
 		src.looking_for_personality = 1
 		paiController.findPAI(src, usr)
@@ -340,7 +365,7 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 		var/confirm = tgui_alert(usr, "Are you CERTAIN you wish to delete the current personality? This action cannot be undone.", "Personality Wipe", list("Yes", "No"))
 		if(confirm == "Yes")
 			for(var/mob/M in src)
-				to_chat(M, "<font color = #ff0000><h2>You feel yourself slipping away from reality.</h2></font>")
+				to_chat(M, span_red("<h2>You feel yourself slipping away from reality.</h2>"))
 				to_chat(M, "<font color = #ff4d4d><h3>Byte by byte you lose your sense of self.</h3></font>")
 				to_chat(M, "<font color = #ff8787><h4>Your mental faculties leave you.</h4></font>")
 				to_chat(M, "<font color = #ffc4c4><h5>oblivion... </h5></font>")
@@ -366,18 +391,18 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 //		WIRE_RECEIVE = 2
 //		WIRE_TRANSMIT = 4
 
-/obj/item/device/paicard/proc/setPersonality(mob/living/silicon/pai/personality)
+/obj/item/paicard/proc/setPersonality(mob/living/silicon/pai/personality)
 	src.pai = personality
 	setEmotion(1)
 
-/obj/item/device/paicard/proc/removePersonality()
+/obj/item/paicard/proc/removePersonality()
 	src.pai = null
 	cut_overlays()
 	setEmotion(16)
 
-/obj/item/device/paicard
+/obj/item/paicard
 	var/current_emotion = 1
-/obj/item/device/paicard/proc/setEmotion(var/emotion)
+/obj/item/paicard/proc/setEmotion(var/emotion)
 	if(pai)
 		cut_overlays()
 		qdel(screen_layer)
@@ -404,32 +429,32 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 		add_overlay(screen_layer)
 		current_emotion = emotion
 
-/obj/item/device/paicard/proc/alertUpdate()
+/obj/item/paicard/proc/alertUpdate()
 	if(pai)
 		return
 	if(last_notify == 0 || (5 MINUTES <= world.time - last_notify))
-		audible_message("<span class='notice'>\The [src] flashes a message across its screen, \"Additional personalities available for download.\"</span>", hearing_distance = world.view, runemessage = "bleeps!")
+		audible_message(span_notice("\The [src] flashes a message across its screen, \"Additional personalities available for download.\""), hearing_distance = world.view, runemessage = "bleeps!")
 		last_notify = world.time
 
-/obj/item/device/paicard/emp_act(severity)
+/obj/item/paicard/emp_act(severity)
 	for(var/mob/M in src)
 		M.emp_act(severity)
 
-/obj/item/device/paicard/ex_act(severity)
+/obj/item/paicard/ex_act(severity)
 	if(pai)
 		pai.ex_act(severity)
 	else
 		qdel(src)
 
-/obj/item/device/paicard/see_emote(mob/living/M, text)
+/obj/item/paicard/see_emote(mob/living/M, text)
 	if(pai && pai.client && !pai.canmove)
-		var/rendered = "<span class='message'>[text]</span>"
+		var/rendered = span_message("[text]")
 		pai.show_message(rendered, 2)
 	..()
 
-/obj/item/device/paicard/show_message(msg, type, alt, alt_type)
+/obj/item/paicard/show_message(msg, type, alt, alt_type)
 	if(pai && pai.client)
-		var/rendered = "<span class='message'>[msg]</span>"
+		var/rendered = span_message("[msg]")
 		pai.show_message(rendered, type)
 	..()
 
@@ -438,9 +463,9 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 // This adds a var and proc for all machines to take a pAI. (The pAI can't control anything, it's just for RP.)
 // You need to add usage of the proc to each machine to actually add support. For an example of this, see code\modules\food\kitchen\microwave.dm
 /obj/machinery
-	var/obj/item/device/paicard/paicard = null
+	var/obj/item/paicard/paicard = null
 
-/obj/machinery/proc/insertpai(mob/user, obj/item/device/paicard/card)
+/obj/machinery/proc/insertpai(mob/user, obj/item/paicard/card)
 	//var/obj/item/paicard/card = I
 	var/mob/living/silicon/pai/AI = card.pai
 	if(paicard)
@@ -475,19 +500,19 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 ///////////////////////////////
 //Thanks heroman!
 
-/obj/item/device/radio/borg/pai
+/obj/item/radio/borg/pai
 	name = "integrated radio"
 	icon = 'icons/obj/robot_component.dmi' // Cyborgs radio icons should look like the component.
 	icon_state = "radio"
 	loudspeaker = FALSE
 
-/obj/item/device/radio/borg/pai/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/radio/borg/pai/attackby(obj/item/W as obj, mob/user as mob)
 	return
 
-/obj/item/device/radio/borg/pai/recalculateChannels()
-	if(!istype(loc,/obj/item/device/paicard))
+/obj/item/radio/borg/pai/recalculateChannels()
+	if(!istype(loc,/obj/item/paicard))
 		return
-	var/obj/item/device/paicard/card = loc
+	var/obj/item/paicard/card = loc
 	secure_radio_connections = list()
 	channels = list()
 
@@ -498,7 +523,7 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 			channels[ch_name] = 1
 			secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
 
-/obj/item/device/paicard/typeb
+/obj/item/paicard/typeb
 	name = "personal AI device"
 	icon = 'icons/obj/paicard.dmi'
 
@@ -508,9 +533,8 @@ GLOBAL_LIST_BOILERPLATE(all_pai_cards, /obj/item/device/paicard)
 	icon_state = "pai"
 
 /obj/random/paicard/item_to_spawn()
-	return pick(/obj/item/device/paicard ,/obj/item/device/paicard/typeb)
+	return pick(/obj/item/paicard ,/obj/item/paicard/typeb)
 
-/obj/item/device/paicard/digest_act(var/atom/movable/item_storage = null)
-	if(!pai.digestable)
-		return
-	. = ..()	
+/obj/item/paicard/digest_act(var/atom/movable/item_storage = null)
+	if(pai.digestable)
+		return ..()

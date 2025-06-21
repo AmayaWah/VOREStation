@@ -6,7 +6,6 @@
 	density = TRUE
 	anchored = TRUE
 	throwpass = 1
-	climbable = TRUE
 
 	layer = ABOVE_JUNK_LAYER
 
@@ -19,15 +18,15 @@
 
 	var/datum/material/material
 
-/obj/structure/gravemarker/New(var/newloc, var/material_name)
-	..(newloc)
+/obj/structure/gravemarker/Initialize(mapload, var/material_name)
+	. = ..()
 	if(!material_name)
-		material_name = "wood"
+		material_name = MAT_WOOD
 	material = get_material_by_name("[material_name]")
 	if(!material)
-		qdel(src)
-		return
+		return INITIALIZE_HINT_QDEL
 	color = material.icon_colour
+	AddElement(/datum/element/climbable)
 
 /obj/structure/gravemarker/examine(mob/user)
 	. = ..()
@@ -39,7 +38,7 @@
 /obj/structure/gravemarker/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && mover.checkpass(PASSTABLE))
 		return TRUE
-	if(get_dir(mover, target) == reverse_dir[dir]) // From elsewhere to here, can't move against our dir
+	if(get_dir(mover, target) == GLOB.reverse_dir[dir]) // From elsewhere to here, can't move against our dir
 		return !density
 	return TRUE
 
@@ -50,8 +49,8 @@
 		return !density
 	return TRUE
 
-/obj/structure/gravemarker/attackby(obj/item/weapon/W, mob/user as mob)
-	if(W.is_screwdriver())
+/obj/structure/gravemarker/attackby(obj/item/W, mob/user as mob)
+	if(W.has_tool_quality(TOOL_SCREWDRIVER))
 		var/carving_1 = sanitizeSafe(tgui_input_text(user, "Who is \the [src.name] for?", "Gravestone Naming", null, MAX_NAME_LEN), MAX_NAME_LEN)
 		if(carving_1)
 			user.visible_message("[user] starts carving \the [src.name].", "You start carving \the [src.name].")
@@ -67,7 +66,7 @@
 				epitaph += carving_2
 				update_icon()
 		return
-	if(W.is_wrench())
+	if(W.has_tool_quality(TOOL_WRENCH))
 		user.visible_message("[user] starts taking down \the [src.name].", "You start taking down \the [src.name].")
 		if(do_after(user, material.hardness * W.toolspeed))
 			user.visible_message("[user] takes down \the [src.name].", "You take down \the [src.name].")
@@ -87,11 +86,11 @@
 /obj/structure/gravemarker/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			visible_message("<span class='danger'>\The [src] is blown apart!</span>")
+			visible_message(span_danger("\The [src] is blown apart!"))
 			qdel(src)
 			return
 		if(2.0)
-			visible_message("<span class='danger'>\The [src] is blown apart!</span>")
+			visible_message(span_danger("\The [src] is blown apart!"))
 			if(prob(50))
 				dismantle()
 			else
@@ -101,7 +100,7 @@
 /obj/structure/gravemarker/proc/damage(var/damage)
 	health -= damage
 	if(health <= 0)
-		visible_message("<span class='danger'>\The [src] falls apart!</span>")
+		visible_message(span_danger("\The [src] falls apart!"))
 		dismantle()
 
 /obj/structure/gravemarker/proc/dismantle()
@@ -122,8 +121,27 @@
 		return
 	if(usr.stat || usr.restrained())
 		return
-	if(ismouse(usr) || (isobserver(usr) && !config.ghost_interaction))
+	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
 		return
 
 	src.set_dir(turn(src.dir, 270))
+	return
+
+//VOREstation edit: counter-clockwise rotation
+/obj/structure/gravemarker/verb/rotate_counterclockwise()
+	set name = "Rotate Grave Marker Counter-Clockwise"
+	set category = "Object"
+	set src in oview(1)
+
+	if(anchored)
+		return
+
+	if(!usr || !isturf(usr.loc))
+		return
+	if(usr.stat || usr.restrained())
+		return
+	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
+		return
+
+	src.set_dir(turn(src.dir, 90))
 	return

@@ -18,22 +18,22 @@
 	var/dpdir = 0	// directions as disposalpipe
 	var/base_state = "pipe-s"
 
-/obj/structure/disposalconstruct/New(var/newturf, var/newtype, var/newdir, var/flipped, var/newsubtype)
-	..(newturf)
+/obj/structure/disposalconstruct/Initialize(mapload, var/newtype, var/newdir, var/flipped, var/newsubtype)
+	. = ..()
 	ptype = newtype
 	dir = newdir
 	// Disposals handle "bent"/"corner" strangely, handle this specially.
-	if(ptype == DISPOSAL_PIPE_STRAIGHT && (dir in cornerdirs))
+	if(ptype == DISPOSAL_PIPE_STRAIGHT && (dir in GLOB.cornerdirs))
 		ptype = DISPOSAL_PIPE_CORNER
-		switch(dir)
-			if(NORTHWEST)
-				dir = WEST
-			if(NORTHEAST)
-				dir = NORTH
-			if(SOUTHWEST)
-				dir = SOUTH
-			if(SOUTHEAST)
-				dir = EAST
+	switch(dir)
+		if(NORTHWEST)
+			dir = WEST
+		if(NORTHEAST)
+			dir = NORTH
+		if(SOUTHWEST)
+			dir = SOUTH
+		if(SOUTHEAST)
+			dir = EAST
 
 	switch(ptype)
 		if(DISPOSAL_PIPE_BIN, DISPOSAL_PIPE_OUTLET, DISPOSAL_PIPE_CHUTE)
@@ -71,7 +71,7 @@
 		if(DISPOSAL_PIPE_TRUNK)
 			base_state = "pipe-t"
 			dpdir = dir
-		 // disposal bin has only one dir, thus we don't need to care about setting it
+		// disposal bin has only one dir, thus we don't need to care about setting it
 		if(DISPOSAL_PIPE_BIN)
 			if(anchored)
 				base_state = "disposal"
@@ -116,7 +116,7 @@
 // hide called by levelupdate if turf intact status changes
 // change visibility status and force update of icon
 /obj/structure/disposalconstruct/hide(var/intact)
-	invisibility = (intact && level==1) ? 101: 0	// hide if floor is intact
+	invisibility = (intact && level==1) ? INVISIBILITY_ABSTRACT: INVISIBILITY_NONE	// hide if floor is intact
 	update()
 
 
@@ -135,6 +135,23 @@
 
 	src.set_dir(turn(src.dir, 270))
 	update()
+
+//VOREstation edit: counter-clockwise rotation
+/obj/structure/disposalconstruct/verb/rotate_counterclockwise()
+	set category = "Object"
+	set name = "Rotate Pipe Counter-Clockwise"
+	set src in view(1)
+
+	if(usr.stat)
+		return
+
+	if(anchored)
+		to_chat(usr, "You must unfasten the pipe before rotating it.")
+		return
+
+	src.set_dir(turn(src.dir, 90))
+	update()
+//VOREstation edit end
 
 /obj/structure/disposalconstruct/verb/flip()
 	set category = "Object"
@@ -246,7 +263,7 @@
 	var/obj/structure/disposalpipe/CP = locate() in T
 
 	// wrench: (un)anchor
-	if(I.is_wrench())
+	if(I.has_tool_quality(TOOL_WRENCH))
 		if(anchored)
 			anchored = FALSE
 			if(ispipe)
@@ -285,9 +302,9 @@
 		update()
 
 	// weldingtool: convert to real pipe
-	else if(istype(I, /obj/item/weapon/weldingtool))
+	else if(I.has_tool_quality(TOOL_WELDER))
 		if(anchored)
-			var/obj/item/weapon/weldingtool/W = I
+			var/obj/item/weldingtool/W = I.get_welder()
 			if(W.remove_fuel(0,user))
 				playsound(src, W.usesound, 100, 1)
 				to_chat(user, "Welding the [nicetype] in place.")
@@ -303,7 +320,7 @@
 						P.base_icon_state = base_state
 						P.set_dir(dir)
 						P.dpdir = dpdir
-						P.updateicon()
+						P.update_icon()
 
 						//Needs some special treatment ;)
 						if(ptype==DISPOSAL_PIPE_SORTER || ptype==DISPOSAL_PIPE_SORTER_FLIPPED)
@@ -322,6 +339,7 @@
 						var/obj/structure/disposaloutlet/P = new /obj/structure/disposaloutlet(src.loc)
 						src.transfer_fingerprints_to(P)
 						P.set_dir(dir)
+						P.target = get_ranged_target_turf(src, dir, 10) //TODO: replace this with a proc parameter or other cleaner
 						var/obj/structure/disposalpipe/trunk/Trunk = CP
 						Trunk.linked = P
 

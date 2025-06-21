@@ -2,7 +2,7 @@
 	desc = "The current barsign of this shift! The bartender can change it with their ID."
 	icon = 'icons/obj/barsigns.dmi'
 	plane = ABOVE_PLANE
-	icon_state = "empty"
+	icon_state = "Empty"
 	appearance_flags = 0
 	anchored = TRUE
 	var/cult = 0
@@ -27,24 +27,24 @@
 		else
 			. += "It says '[icon_state]'"
 
-/obj/structure/sign/double/barsign/New()
-	..()
+/obj/structure/sign/double/barsign/Initialize(mapload)
+	. = ..()
 	icon_state = pick(get_valid_states())
 
 /obj/structure/sign/double/barsign/attackby(obj/item/I, mob/user)
 	if(cult)
 		return ..()
 
-	var/obj/item/weapon/card/id/card = I.GetID()
+	var/obj/item/card/id/card = I.GetID()
 	if(istype(card))
 		if(access_bar in card.GetAccess())
 			var/sign_type = tgui_input_list(user, "What would you like to change the barsign to?", "Bar Sign Choice", get_valid_states(0))
 			if(!sign_type)
 				return
 			icon_state = sign_type
-			to_chat(user, "<span class='notice'>You change the barsign.</span>")
+			to_chat(user, span_notice("You change the barsign."))
 		else
-			to_chat(user, "<span class='warning'>Access denied.</span>")
+			to_chat(user, span_warning("Access denied."))
 		return
 
 	return ..()

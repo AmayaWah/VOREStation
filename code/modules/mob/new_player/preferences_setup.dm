@@ -1,47 +1,43 @@
 /datum/preferences
-	//The mob should have a gender you want before running this proc. Will run fine without H
-/datum/preferences/proc/randomize_appearance_and_body_for(var/mob/living/carbon/human/H)
-	var/datum/species/current_species = GLOB.all_species[species ? species : "Human"]
-	set_biological_gender(pick(current_species.genders))
 
-	h_style = random_hair_style(biological_gender, species)
-	f_style = random_facial_hair_style(biological_gender, species)
-	if(current_species)
-		if(current_species.appearance_flags & HAS_SKIN_TONE)
-			s_tone = random_skin_tone()
-		if(current_species.appearance_flags & HAS_SKIN_COLOR)
-			r_skin = rand (0,255)
-			g_skin = rand (0,255)
-			b_skin = rand (0,255)
-		if(current_species.appearance_flags & HAS_EYE_COLOR)
-			randomize_eyes_color()
-		if(current_species.appearance_flags & HAS_HAIR_COLOR)
-			randomize_hair_color("hair")
-			randomize_hair_color("facial")
-		if(current_species.appearance_flags & HAS_SKIN_COLOR)
-			r_skin = rand (0,255)
-			g_skin = rand (0,255)
-			b_skin = rand (0,255)
-	if(current_species.appearance_flags & HAS_UNDERWEAR)
-		all_underwear.Cut()
-		for(var/datum/category_group/underwear/WRC in global_underwear.categories)
-			var/datum/category_item/underwear/WRI = pick(WRC.items)
-			all_underwear[WRC.name] = WRI.name
+/datum/preferences/proc/randomise_appearance_prefs_update(randomize_flags = ALL, datum/species/current_species)
+	randomise_appearance_prefs(randomize_flags, current_species)
 
+/datum/preferences/proc/randomise_appearance_prefs_write(randomize_flags = ALL, datum/species/current_species)
+	randomise_appearance_prefs(randomize_flags, current_species, TRUE)
 
-	backbag = rand(1,6)
-	pdachoice = rand(1,7)
-	age = rand(current_species.min_age, current_species.max_age)
-	b_type = RANDOM_BLOOD_TYPE
-	if(H)
-		copy_to(H,1)
+/// Fully randomizes everything in the character.
+/datum/preferences/proc/randomise_appearance_prefs(randomize_flags = ALL, datum/species/current_species, write = FALSE)
+	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
+		if (!preference.included_in_randomization_flags(randomize_flags))
+			continue
+		if (preference.is_randomizable())
+			if(write)
+				write_preference(preference, preference.create_random_value(src, current_species))
+			else
+				update_preference(preference, preference.create_random_value(src, current_species))
+
+/* Currently not used
+/// Randomizes the character according to preferences.
+/datum/preferences/proc/apply_character_randomization_prefs(antag_override = FALSE)
+	switch (read_preference(/datum/preference/choiced/random_body))
+		if (RANDOM_ANTAG_ONLY)
+			if (!antag_override)
+				return
+
+		if (RANDOM_DISABLED)
+			return
+
+	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
+		if (should_randomize(preference, antag_override))
+			write_preference(preference, preference.create_random_value(src))
+*/
+
 
 
 /datum/preferences/proc/randomize_hair_color(var/target = "hair")
 	if(prob (75) && target == "facial") // Chance to inherit hair color
-		r_facial = r_hair
-		g_facial = g_hair
-		b_facial = b_hair
+		update_preference_by_type(/datum/preference/color/human/facial_color, read_preference(/datum/preference/color/human/hair_color))
 		return
 
 	var/red
@@ -89,13 +85,9 @@
 
 	switch(target)
 		if("hair")
-			r_hair = red
-			g_hair = green
-			b_hair = blue
+			update_preference_by_type(/datum/preference/color/human/hair_color, rgb(red, green, blue))
 		if("facial")
-			r_facial = red
-			g_facial = green
-			b_facial = blue
+			update_preference_by_type(/datum/preference/color/human/facial_color, rgb(red, green, blue))
 
 /datum/preferences/proc/randomize_eyes_color()
 	var/red
@@ -141,9 +133,7 @@
 	green = max(min(green + rand (-25, 25), 255), 0)
 	blue = max(min(blue + rand (-25, 25), 255), 0)
 
-	r_eyes = red
-	g_eyes = green
-	b_eyes = blue
+	update_preference_by_type(/datum/preference/color/human/eyes_color, rgb(red, green, blue))
 
 /datum/preferences/proc/randomize_skin_color()
 	var/red
@@ -189,9 +179,7 @@
 	green = max(min(green + rand (-25, 25), 255), 0)
 	blue = max(min(blue + rand (-25, 25), 255), 0)
 
-	r_skin = red
-	g_skin = green
-	b_skin = blue
+	update_preference_by_type(/datum/preference/color/human/skin_color, rgb(red, green, blue))
 
 /datum/preferences/proc/dress_preview_mob(var/mob/living/carbon/human/mannequin)
 	if(!mannequin.dna) // Special handling for preview icons before SSAtoms has initailized.
@@ -204,7 +192,9 @@
 	var/datum/job/previewJob
 	// Determine what job is marked as 'High' priority, and dress them up as such.
 	if(job_civilian_low & ASSISTANT)
-		previewJob = job_master.GetJob(USELESS_JOB)
+		previewJob = job_master.GetJob(JOB_ALT_VISITOR)
+	else if(client && ispAI(client.mob))	//VOREStation Edit! - pAIs shouldn't wear job gear~!
+		pass() //Don't do anything!
 	else
 		for(var/datum/job/job in job_master.occupations)
 			var/job_flag
@@ -221,7 +211,8 @@
 
 	if((equip_preview_mob & EQUIP_PREVIEW_LOADOUT) && !(previewJob && (equip_preview_mob & EQUIP_PREVIEW_JOB) && (previewJob.type == /datum/job/ai || previewJob.type == /datum/job/cyborg)))
 		var/list/equipped_slots = list()
-		for(var/thing in gear)
+		var/list/active_gear_list = LAZYACCESS(gear_list, "[gear_slot]")
+		for(var/thing in active_gear_list)
 			var/datum/gear/G = gear_datums[thing]
 			if(G)
 				var/permitted = 0
@@ -241,7 +232,7 @@
 					continue
 
 				if(G.slot && !(G.slot in equipped_slots))
-					var/metadata = gear[G.display_name]
+					var/metadata = active_gear_list[G.display_name]
 					if(mannequin.equip_to_slot_or_del(G.spawn_item(mannequin, metadata), G.slot))
 						if(G.slot != slot_tie)
 							equipped_slots += G.slot
@@ -257,18 +248,16 @@
 	mannequin.delete_inventory(TRUE)
 	dress_preview_mob(mannequin)
 	mannequin.update_transform() //VOREStation Edit to update size/shape stuff.
-	mannequin.toggle_tail(setting = TRUE)
-	mannequin.toggle_wing(setting = TRUE)
-	mannequin.update_tail_showing()
-	COMPILE_OVERLAYS(mannequin)
+	mannequin.toggle_tail(setting = animations_toggle)
+	mannequin.toggle_wing(setting = animations_toggle)
 
-	update_character_previews(new /mutable_appearance(mannequin))
+	update_character_previews(mannequin)
 
 /datum/preferences/proc/get_highest_job()
 	var/datum/job/highJob
 	// Determine what job is marked as 'High' priority, and dress them up as such.
 	if(job_civilian_low & ASSISTANT)
-		highJob = job_master.GetJob("Assistant")
+		highJob = job_master.GetJob(JOB_ALT_ASSISTANT)
 	else
 		for(var/datum/job/job in job_master.occupations)
 			var/job_flag
@@ -285,13 +274,13 @@
 
 	return highJob
 
-/datum/preferences/proc/get_valid_hairstyles()
+/datum/preferences/proc/get_valid_hairstyles(mob/user)
 	var/list/valid_hairstyles = list()
 	for(var/hairstyle in hair_styles_list)
 		var/datum/sprite_accessory/S = hair_styles_list[hairstyle]
 		if(!(species in S.species_allowed) && (!custom_base || !(custom_base in S.species_allowed))) //VOREStation Edit - Custom species base species allowance
 			continue
-		if((!S.ckeys_allowed) || (usr.ckey in S.ckeys_allowed)) //VOREStation Edit, allows ckey locked hairstyles.
+		if((!S.ckeys_allowed) || (user.ckey in S.ckeys_allowed)) //VOREStation Edit, allows ckey locked hairstyles.
 			valid_hairstyles[S.name] = hairstyle //VOREStation Edit, allows ckey locked hairstyles.
 
 		//valid_hairstyles[hairstyle] = hair_styles_list[hairstyle] //VOREStation Edit. Replaced by above.

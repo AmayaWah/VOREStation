@@ -30,9 +30,9 @@
 			location.hotspot_expose(1000,500,1)
 	return 1
 
-/obj/machinery/igniter/New()
-	..()
+/obj/machinery/igniter/Initialize(mapload)
 	icon_state = "igniter[on]"
+	. = ..()
 
 /obj/machinery/igniter/power_change()
 	..()
@@ -58,9 +58,6 @@
 	idle_power_usage = 2
 	active_power_usage = 4
 
-/obj/machinery/sparker/New()
-	..()
-
 /obj/machinery/sparker/power_change()
 	..()
 	if(!(stat & NOPOWER) && disable == 0)
@@ -71,16 +68,16 @@
 		icon_state = "[base_state]-p"
 //		sd_SetLuminosity(0)
 
-/obj/machinery/sparker/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(W.is_screwdriver())
+/obj/machinery/sparker/attackby(obj/item/W as obj, mob/user as mob)
+	if(W.has_tool_quality(TOOL_SCREWDRIVER))
 		add_fingerprint(user)
 		disable = !disable
 		playsound(src, W.usesound, 50, 1)
 		if(disable)
-			user.visible_message("<span class='warning'>[user] has disabled the [src]!</span>", "<span class='warning'>You disable the connection to the [src].</span>")
+			user.visible_message(span_warning("[user] has disabled the [src]!"), span_warning("You disable the connection to the [src]."))
 			icon_state = "[base_state]-d"
 		if(!disable)
-			user.visible_message("<span class='warning'>[user] has reconnected the [src]!</span>", "<span class='warning'>You fix the connection to the [src].</span>")
+			user.visible_message(span_warning("[user] has reconnected the [src]!"), span_warning("You fix the connection to the [src]."))
 			if(powered())
 				icon_state = "[base_state]"
 			else
@@ -131,12 +128,12 @@
 	active = 1
 	icon_state = "launcheract"
 
-	for(var/obj/machinery/sparker/M in machines)
+	for(var/obj/machinery/sparker/M in GLOB.machines)
 		if(M.id == id)
 			spawn(0)
 				M.ignite()
 
-	for(var/obj/machinery/igniter/M in machines)
+	for(var/obj/machinery/igniter/M in GLOB.machines)
 		if(M.id == id)
 			use_power(50)
 			M.on = !(M.on)

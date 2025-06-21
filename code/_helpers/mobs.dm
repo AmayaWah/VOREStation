@@ -1,3 +1,40 @@
+/atom/movable/proc/get_mob()
+	if(buckled_mobs) return buckled_mobs.Copy()
+
+/obj/mecha/get_mob()
+	return occupant
+
+/obj/vehicle_old/train/get_mob()
+	return buckled_mobs
+
+/mob/get_mob()
+	return src
+
+/mob/living/bot/mulebot/get_mob()
+	if(load && isliving(load))
+		return list(src, load)
+	return src
+
+/proc/mobs_in_view(range, source)
+	var/list/mobs = list()
+	for(var/atom/movable/AM in view(range, source))
+		var/M = AM.get_mob()
+		if(M)
+			mobs += M
+
+	return mobs
+
+/// This gets a list of mobs ALL around us as if we had xray vision and can see through walls.
+/// Currently only used in portable_turret.dm if you wish to see an example of how to use it.
+/proc/mobs_in_xray_view(range, source)
+	var/list/mobs = list()
+	for(var/atom/movable/AM in orange(range, source))
+		var/M = AM.get_mob()
+		if(M)
+			mobs += M
+
+	return mobs
+
 /proc/random_hair_style(gender, species = SPECIES_HUMAN)
 	var/h_style = "Bald"
 
@@ -94,7 +131,7 @@
 		else				return "unknown"
 
 /proc/RoundHealth(health)
-	var/list/icon_states = cached_icon_states(ingame_hud_med)
+	var/list/icon_states = cached_icon_states(GLOB.ingame_hud_med)
 	for(var/icon_state in icon_states)
 		if(health >= text2num(icon_state))
 			return icon_state
@@ -121,22 +158,22 @@ Proc for attack log creation, because really why not
 	var/target_str = key_name(target)
 
 	if(ismob(user))
-		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Attacked [target_str]: [what_done]</font>")
+		user.attack_log += text("\[[time_stamp()]\] [span_red("Attacked [target_str]: [what_done]")]")
 	if(ismob(target))
-		target.attack_log += text("\[[time_stamp()]\] <font color='orange'>Attacked by [user_str]: [what_done]</font>")
+		target.attack_log += text("\[[time_stamp()]\] [span_orange("Attacked by [user_str]: [what_done]")]")
 	log_attack(user_str,target_str,what_done)
 	if(admin_notify)
 		msg_admin_attack("[key_name_admin(user)] vs [target_str]: [what_done]")
 
 //checks whether this item is a module of the robot it is located in.
 /proc/is_robot_module(var/obj/item/thing)
-	if (!thing || !istype(thing.loc, /mob/living/silicon/robot))
+	if (!thing || !isrobot(thing.loc))
 		return 0
 	var/mob/living/silicon/robot/R = thing.loc
 	return (thing in R.module.modules)
 
 /proc/get_exposed_defense_zone(var/atom/movable/target)
-	var/obj/item/weapon/grab/G = locate() in target
+	var/obj/item/grab/G = locate() in target
 	if(G && G.state >= GRAB_NECK) //works because mobs are currently not allowed to upgrade to NECK if they are grabbing two people.
 		return pick(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_FOOT, BP_R_FOOT, BP_L_ARM, BP_R_ARM, BP_L_LEG, BP_R_LEG)
 	else
@@ -148,10 +185,10 @@ Proc for attack log creation, because really why not
 	if(!time)
 		return TRUE //Done!
 	if(user.status_flags & DOING_TASK)
-		to_chat(user, "<span class='warning'>You're in the middle of doing something else already.</span>")
+		to_chat(user, span_warning("You're in the middle of doing something else already."))
 		return FALSE //Performing an exclusive do_after or do_mob already
 	if(target?.flags & IS_BUSY)
-		to_chat(user, "<span class='warning'>Someone is already doing something with \the [target].</span>")
+		to_chat(user, span_warning("Someone is already doing something with \the [target]."))
 		return FALSE
 	var/user_loc = user.loc
 	var/target_loc = target.loc
@@ -196,7 +233,7 @@ Proc for attack log creation, because really why not
 			. = FALSE
 			break
 
-		if(target_zone && user.zone_sel.selecting != target_zone)
+		if(target_zone && user.zone_sel?.selecting != target_zone)
 			. = FALSE
 			break
 
@@ -214,12 +251,12 @@ Proc for attack log creation, because really why not
 	if(!delay)
 		return TRUE //Okay. Done.
 	if(user.status_flags & DOING_TASK)
-		to_chat(user, "<span class='warning'>You're in the middle of doing something else already.</span>")
+		to_chat(user, span_warning("You're in the middle of doing something else already."))
 		return FALSE //Performing an exclusive do_after or do_mob already
 	if(target?.flags & IS_BUSY)
-		to_chat(user, "<span class='warning'>Someone is already doing something with \the [target].</span>")
+		to_chat(user, span_warning("Someone is already doing something with \the [target]."))
 		return FALSE
-		
+
 	var/atom/target_loc = null
 	if(target)
 		target_loc = target.loc
@@ -243,7 +280,7 @@ Proc for attack log creation, because really why not
 
 	if(exclusive & TASK_USER_EXCLUSIVE)
 		user.status_flags |= DOING_TASK
-	
+
 	if(target && (exclusive & TASK_TARGET_EXCLUSIVE))
 		target.flags |= IS_BUSY
 
@@ -310,8 +347,24 @@ Proc for attack log creation, because really why not
 /proc/cached_character_icon(var/mob/desired)
 	var/cachekey = "\ref[desired][desired.real_name]"
 
-	if(cached_character_icons[cachekey])
-		. = cached_character_icons[cachekey]
+	if(GLOB.cached_character_icons[cachekey])
+		. = GLOB.cached_character_icons[cachekey]
 	else
 		. = getCompoundIcon(desired)
-		cached_character_icons[cachekey] = .
+		GLOB.cached_character_icons[cachekey] = .
+
+/proc/not_has_ooc_text(mob/user)
+	if (CONFIG_GET(flag/allow_metadata) && (!user.client?.prefs?.read_preference(/datum/preference/text/living/ooc_notes) || length(user.client.prefs.read_preference(/datum/preference/text/living/ooc_notes)) < 15))
+		to_chat(user, span_warning("Please set informative OOC notes related to RP/ERP preferences. Set them using the 'OOC Notes' button on the 'General' tab in character setup."))
+		return TRUE
+	return FALSE
+
+///Makes a call in the context of a different usr. Use sparingly
+/world/proc/push_usr(mob/user_mob, datum/callback/invoked_callback, ...)
+	var/temp = usr
+	usr = user_mob
+	if (length(args) > 2)
+		. = invoked_callback.Invoke(arglist(args.Copy(3)))
+	else
+		. = invoked_callback.Invoke()
+	usr = temp

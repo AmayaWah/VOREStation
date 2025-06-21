@@ -6,7 +6,7 @@
 	density = TRUE
 	var/list/starts_with
 
-/obj/structure/largecrate/Initialize()
+/obj/structure/largecrate/Initialize(mapload)
 	. = ..()
 	if(starts_with)
 		create_objects_in_loc(src, starts_with)
@@ -18,14 +18,14 @@
 	update_icon()
 
 /obj/structure/largecrate/attack_hand(mob/user as mob)
-	to_chat(user, "<span class='notice'>You need a crowbar to pry this open!</span>")
+	to_chat(user, span_notice("You need a crowbar to pry this open!"))
 	return
 
-/obj/structure/largecrate/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/largecrate/attackby(obj/item/W as obj, mob/user as mob)
 	var/turf/T = get_turf(src)
 	if(!T)
-		to_chat(user, "<span class='notice'>You can't open this here!</span>")
-	if(W.is_crowbar())
+		to_chat(user, span_notice("You can't open this here!"))
+	if(W.has_tool_quality(TOOL_CROWBAR))
 		new /obj/item/stack/material/wood(src)
 
 		for(var/atom/movable/AM in contents)
@@ -37,11 +37,11 @@
 				if(!AMBLINAL.mind)
 					AMBLINAL.ghostjoin = 1
 					AMBLINAL.ghostjoin_icon()
-					active_ghost_pods |= AMBLINAL
+					GLOB.active_ghost_pods |= AMBLINAL
 			//VOREStation Add End
-		user.visible_message("<span class='notice'>[user] pries \the [src] open.</span>", \
-							 "<span class='notice'>You pry open \the [src].</span>", \
-							 "<span class='notice'>You hear splitting wood.</span>")
+		user.visible_message(span_notice("[user] pries \the [src] open."), \
+								span_notice("You pry open \the [src]."), \
+								span_notice("You hear splitting wood."))
 		qdel(src)
 	else
 		return attack_hand(user)
@@ -54,8 +54,8 @@
 	desc = "You aren't sure how this crate is so light, but the Wulf Aeronautics logo might be a hint."
 	icon_state = "vehiclecrate"
 
-/obj/structure/largecrate/hoverpod/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(W.is_crowbar())
+/obj/structure/largecrate/hoverpod/attackby(obj/item/W as obj, mob/user as mob)
+	if(W.has_tool_quality(TOOL_CROWBAR))
 		var/obj/item/mecha_parts/mecha_equipment/ME
 		var/obj/mecha/working/hoverpod/H = new (loc)
 
@@ -75,7 +75,7 @@
 	desc = "Wulf Aeronautics says it comes in a box for the consumer's sake... How is this so light?"
 	icon_state = "vehiclecrate"
 
-/obj/structure/largecrate/vehicle/Initialize()
+/obj/structure/largecrate/vehicle/Initialize(mapload)
 	. = ..()
 	for(var/obj/O in contents)
 		O.update_icon()
@@ -126,6 +126,10 @@
 /obj/structure/largecrate/animal/chick
 	name = "chicken crate"
 	starts_with = list(/mob/living/simple_mob/animal/passive/chick = 5)
+
+/obj/structure/largecrate/animal/turkey
+	name = "turkey crate"
+	starts_with = list(/mob/living/simple_mob/vore/turkey)
 
 /obj/structure/largecrate/animal/catslug
 	name = "catslug carrier"

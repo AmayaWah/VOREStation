@@ -25,6 +25,8 @@ GLOBAL_VAR_INIT(prey_eaten_roundstat, 0)		//VOREStation Edit - Obviously
 GLOBAL_VAR_INIT(prey_absorbed_roundstat, 0)		//VOREStation Edit - Obviously
 GLOBAL_VAR_INIT(prey_digested_roundstat, 0)		//VOREStation Edit - Obviously
 GLOBAL_VAR_INIT(items_digested_roundstat, 0)	//VOREStation Edit - Obviously
+GLOBAL_LIST_EMPTY(security_printer_tickets)		//VOREStation Edit
+
 
 /hook/roundend/proc/RoundTrivia()//bazinga
 	var/list/valid_stats_list = list() //This is to be populated with the good shit
@@ -54,6 +56,22 @@ GLOBAL_VAR_INIT(items_digested_roundstat, 0)	//VOREStation Edit - Obviously
 	else if(GLOB.disposals_flush_shift_roundstat > 40)
 		valid_stats_list.Add("The disposal system flushed a whole [GLOB.disposals_flush_shift_roundstat] times for this shift. We should really invest in waste treatement.")
 
+	//VOREStation add Start - Ticket time!
+	if(GLOB.security_printer_tickets.len)
+		valid_stats_list.Add(span_danger("[GLOB.security_printer_tickets.len] unique security tickets were issued today!") + "<br>Examples include:")
+		var/good_num = 5
+		var/ourticket
+		while(good_num > 0)
+			ourticket = null
+			if(GLOB.security_printer_tickets.len)
+				ourticket = pick(GLOB.security_printer_tickets)
+				GLOB.security_printer_tickets -= ourticket
+				if(ourticket)
+					valid_stats_list.Add(span_bold("-")+"\"[ourticket]\"")
+				good_num--
+			else
+				good_num = 0
+
 	//VOREStation Add Start - Vore stats lets gooooo
 	if(GLOB.prey_eaten_roundstat > 0)
 		valid_stats_list.Add("A total of [GLOB.prey_eaten_roundstat] individuals were eaten today!")
@@ -66,7 +84,7 @@ GLOBAL_VAR_INIT(items_digested_roundstat, 0)	//VOREStation Edit - Obviously
 	//VOREStation Add End
 
 	if(LAZYLEN(valid_stats_list))
-		to_world("<B>Shift trivia!</B>")
+		to_world(span_world("Shift trivia!"))
 
 		for(var/body in valid_stats_list)
-			to_world("[body]")
+			to_world(span_filter_system("[body]"))

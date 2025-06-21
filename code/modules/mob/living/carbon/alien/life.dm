@@ -1,8 +1,7 @@
 // Alien larva are quite simple.
 /mob/living/carbon/alien/Life()
 
-	set invisibility = 0
-	set background = 1
+	set invisibility = INVISIBILITY_NONE
 
 	if (transforming)	return
 	if(!loc)			return
@@ -122,7 +121,7 @@
 			healths.icon_state = "health7"
 
 	if (client)
-		client.screen.Remove(global_hud.blurry,global_hud.druggy,global_hud.vimpaired)
+		client.screen.Remove(GLOB.global_hud.blurry,GLOB.global_hud.druggy,GLOB.global_hud.vimpaired)
 
 	if ( stat != 2)
 		if ((blinded))
@@ -150,7 +149,7 @@
 		adjustFireLoss((environment.temperature - (T0C+66))/5) // Might be too high, check in testing.
 		throw_alert("alien_fire", /obj/screen/alert/alien_fire)
 		if(prob(20))
-			to_chat(src, "<font color='red'>You feel a searing heat!</font>")
+			to_chat(src, span_red("You feel a searing heat!"))
 	else
 		clear_alert("alien_fire")
 

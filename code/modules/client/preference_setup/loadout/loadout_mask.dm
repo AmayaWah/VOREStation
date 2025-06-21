@@ -20,12 +20,10 @@
 /datum/gear/mask/sterile
 	display_name = "sterile mask"
 	path = /obj/item/clothing/mask/surgical
-	cost = 2
 
 /datum/gear/mask/sterile/white
 	display_name = "white sterile mask"
 	path = /obj/item/clothing/mask/surgical/white
-	cost = 2
 
 /datum/gear/mask/sterile/white/dust
 	display_name = "dust mask"
@@ -60,7 +58,6 @@
 /datum/gear/mask/gaiter
 	display_name = "neck gaiter selection"
 	path = /obj/item/clothing/accessory/gaiter
-	cost = 1
 
 /datum/gear/mask/gaiter/New()
 	..()
@@ -68,4 +65,22 @@
 	for(var/gaiter in typesof(/obj/item/clothing/accessory/gaiter))
 		var/obj/item/clothing/accessory/gaiter_type = gaiter
 		gaiters[initial(gaiter_type.name)] = gaiter_type
-	gear_tweaks += new/datum/gear_tweak/path(sortTim(gaiters, /proc/cmp_text_asc))
+	gear_tweaks += new/datum/gear_tweak/path(sortTim(gaiters, GLOBAL_PROC_REF(cmp_text_asc)))
+
+/datum/gear/mask/lace
+	display_name = "lace veil"
+	path = /obj/item/clothing/mask/lacemask
+
+/datum/gear/mask/lace/New()
+	gear_tweaks += gear_tweak_free_color_choice
+
+/datum/gear/mask/half
+	display_name = "black half-mask"
+	path = /obj/item/clothing/accessory/gaiter/half
+
+/datum/gear/mask/wrestling
+	display_name = "wrestling mask"
+	path = /obj/item/clothing/mask/luchador/colorable
+
+/datum/gear/mask/wrestling/New()
+	gear_tweaks += gear_tweak_free_color_choice

@@ -45,7 +45,7 @@
 /area/submap/groundbase/poi/wildvillage/square/square12)
 "h" = (
 /obj/structure/bed/double/padded,
-/obj/item/weapon/bedsheet/browndouble,
+/obj/item/bedsheet/browndouble,
 /obj/structure/curtain/open/bed{
 	color = "#5e0c1d"
 	},
@@ -170,7 +170,7 @@
 /area/submap/groundbase/poi/wildvillage/square/square12)
 "G" = (
 /obj/structure/bed/double/padded,
-/obj/item/weapon/bedsheet/browndouble,
+/obj/item/bedsheet/browndouble,
 /obj/structure/curtain/open/bed{
 	color = "#5e0c1d"
 	},
@@ -198,14 +198,14 @@
 /obj/structure/table/glass,
 /obj/random/maintenance/misc,
 /obj/random/maintenance/misc,
-/obj/item/device/flashlight/lamp{
+/obj/item/flashlight/lamp{
 	pixel_x = 2;
 	pixel_y = 7
 	},
 /turf/simulated/floor/wood,
 /area/submap/groundbase/poi/wildvillage/square/square12)
 "M" = (
-/turf/simulated/floor/outdoors/sidewalk/virgo3c,
+/turf/simulated/floor/outdoors/sidewalk,
 /area/submap/groundbase/poi/wildvillage)
 "P" = (
 /obj/structure/table/standard,
@@ -226,7 +226,7 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/turf/simulated/floor/outdoors/newdirt/virgo3c,
+/turf/simulated/floor/outdoors/newdirt,
 /area/submap/groundbase/poi/wildvillage)
 "S" = (
 /turf/simulated/floor/carpet/purcarpet,
@@ -256,7 +256,7 @@
 /turf/simulated/floor,
 /area/submap/groundbase/poi/wildvillage/square/square12)
 "W" = (
-/turf/simulated/floor/outdoors/newdirt/virgo3c,
+/turf/simulated/floor/outdoors/newdirt,
 /area/submap/groundbase/poi/wildvillage)
 "X" = (
 /obj/structure/table/glass,

@@ -5,7 +5,7 @@
 	. = ..()
 	if(!.)
 		return
-	var/dat = "<B>Showing Fingerprints.</B><HR>"
+	var/dat = span_bold("Showing Fingerprints.") + "<HR>"
 	dat += "<table cellspacing=5><tr><th>Name</th><th>Fingerprints</th></tr>"
 	for(var/mob/living/carbon/human/H in mob_list)
 		if(H.ckey)
@@ -16,4 +16,7 @@
 			else if(!H.dna)
 				dat += "<tr><td>[H]</td><td>H.dna = null</td></tr>"
 	dat += "</table>"
-	user << browse(dat, "window=fingerprints;size=440x410")
+
+	var/datum/browser/popup = new(user, "fingerprints", "Fingerprints", 440, 410)
+	popup.set_content(dat)
+	popup.open()

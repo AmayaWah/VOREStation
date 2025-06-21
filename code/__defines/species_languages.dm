@@ -1,7 +1,7 @@
 // Species flags.
 #define NO_MINOR_CUT      	0x1	// Can step on broken glass with no ill-effects. Either thick skin (diona), cut resistant (slimes) or incorporeal (shadows)
 #define IS_PLANT          	0x2	// Is a treeperson.
-#define NO_SCAN           	0x4	// Cannot be scanned in a DNA machine/genome-stolen.
+#define NO_SLEEVE        	0x4	// Cannot be resleeved by clonepods
 #define NO_PAIN           	0x8	// Cannot suffer halloss/recieves deceptive health indicator.
 #define NO_SLIP           	0x10	// Cannot fall over.
 #define NO_POISON         	0x20	// Cannot not suffer toxloss.
@@ -11,6 +11,8 @@
 #define UNDEAD			0x200	// Various things that living things don't do, mostly for skeletons
 #define NO_INFECT		0x400	// Don't allow infections in limbs or organs, similar to IS_PLANT, without other strings.
 #define NO_DEFIB		0x800	// Don't allow them to be defibbed
+#define NO_DNA          0x1000	// Cannot have mutations or have their dna changed by genetics/radiation/genome-stolen.
+#define THICK_SKIN		0x2000	// Needles have a chain to fail when attempted to be used on them.
 // unused: 0x8000 - higher than this will overflow
 
 // Species EMP vuln for carbons
@@ -38,6 +40,7 @@
 #define ALLERGEN_SUGARS		0x400	// For unathi-like reactions
 #define ALLERGEN_EGGS		0x800	// For Skrell eggs allergy
 #define ALLERGEN_STIMULANT	0x1000	// Stimulants are what makes the Tajaran heart go ruh roh - not just coffee!
+#define ALLERGEN_CHOCOLATE	0x2000	// Makes dogs die if they want to?
 
 // Allergen reactions
 #define AG_PHYS_DMG	0x1	// brute
@@ -86,19 +89,18 @@
 #define LANGUAGE_ROOTLOCAL "Local Rootspeak"
 #define LANGUAGE_ROOTGLOBAL "Global Rootspeak"
 #define LANGUAGE_CULT "Cult"
-#define LANGUAGE_OCCULT "Occult"
 #define LANGUAGE_CHANGELING "Changeling"
 #define LANGUAGE_VOX "Vox-Pidgin"
 #define LANGUAGE_TERMINUS "Terminus"
-#define LANGUAGE_SKRELLIANFAR "High Skrellian"
 #define LANGUAGE_MINBUS "Minbus"
 #define LANGUAGE_EVENT1 "Occursus"
 #define LANGUAGE_AKHANI "Akhani"
 #define LANGUAGE_ALAI "Alai"
 #define LANGUAGE_ZADDAT "Vedahq"
 #define LANGUAGE_PROMETHEAN "Promethean Biolinguistics"
-#define LANGUAGE_BLOB "Chemosense Transmission"
 #define LANGUAGE_GIBBERISH "Babel"
+#define LANGUAGE_ROBOT_TALK "Robot Talk"
+#define LANGUAGE_DRONE_TALK "Drone Talk"
 
 // Language flags.
 #define WHITELISTED  1   // Language is available if the speaker is whitelisted.

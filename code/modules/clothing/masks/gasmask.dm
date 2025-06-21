@@ -11,7 +11,7 @@
 	permeability_coefficient = 0.01
 	siemens_coefficient = 0.9
 	var/gas_filter_strength = 1			//For gas mask filters
-	var/list/filtered_gases = list("phoron", "nitrous_oxide")
+	var/list/filtered_gases = list(GAS_PHORON, GAS_N2O)
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 75, rad = 0)
 	pickup_sound = 'sound/items/pickup/rubber.ogg'
 
@@ -45,14 +45,13 @@
 
 //Turn it into a hailer mask
 /obj/item/clothing/mask/gas/half/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/device/hailer))
+	if(istype(I, /obj/item/hailer))
 		playsound(src, 'sound/items/Screwdriver.ogg', 50, 1)
 		user.drop_item(src)
 		var/obj/item/clothing/mask/gas/sechailer/N = new /obj/item/clothing/mask/gas/sechailer(src.loc)
-		N.fingerprints = src.fingerprints
-		N.fingerprintshidden = src.fingerprintshidden
-		N.fingerprintslast = src.fingerprintslast
-		N.suit_fibers = src.suit_fibers
+		transfer_blooddna_to(N)
+		transfer_fingerprints_to(N)
+		transfer_fibres_to(N)
 		N.hailer = I
 		I.loc = N
 		if(!isturf(N.loc))
@@ -68,7 +67,11 @@
 	item_state_slots = list(slot_r_hand_str = "gas", slot_l_hand_str = "gas")
 	armor = list(melee = 0, bullet = 0, laser = 2,energy = 2, bomb = 0, bio = 90, rad = 0)
 	body_parts_covered = HEAD|FACE|EYES
-
+	heat_protection = HEAD
+	cold_protection = HEAD
+	sprite_sheets = list(
+		SPECIES_TESHARI = 'icons/inventory/face/mob_vr_teshari.dmi'
+		)
 /obj/item/clothing/mask/gas/plaguedoctor/gold
 	name = "gold plague doctor mask"
 	desc = "A modernised version of the classic design, this mask will not only filter out phoron but it can also be connected to an air supply. This one is gold."
@@ -88,9 +91,9 @@
 	flags = PHORONGUARD
 	item_flags = BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT
 	species_restricted = list(SPECIES_VOX)
-	filtered_gases = list("oxygen", "nitrous_oxide")
+	filtered_gases = list(GAS_O2, GAS_N2O)
 	var/mask_open = FALSE	// Controls if the Vox can eat through this mask
-	action_button_name = "Toggle Feeding Port"
+	actions_types = list(/datum/action/item_action/toggle_feeding_port)
 
 /obj/item/clothing/mask/gas/swat/vox/proc/feeding_port(mob/user)
 	if(user.canmove && !user.stat)
@@ -115,7 +118,7 @@
 	//body_parts_covered = 0
 	species_restricted = list(SPECIES_ZADDAT)
 	flags_inv = HIDEEARS //semi-transparent
-	filtered_gases = list("phoron", "nitrogen", "nitrous_oxide")
+	filtered_gases = list(GAS_PHORON, GAS_N2, GAS_N2O)
 
 /obj/item/clothing/mask/gas/syndicate
 	name = "tactical mask"

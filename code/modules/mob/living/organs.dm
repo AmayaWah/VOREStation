@@ -29,10 +29,16 @@
 		for(var/obj/item/organ/I in internal_organs)
 			I.removed()
 			if(isturf(I?.loc)) // Some organs qdel themselves or other things when removed
-				I.throw_at(get_edge_target_turf(src,pick(alldirs)),rand(1,3),30)
+				I.throw_at(get_edge_target_turf(src,pick(GLOB.alldirs)),rand(1,3),30)
 
 		for(var/obj/item/organ/external/E in src.organs)
 			if(!ispath(E))
 				E.droplimb(0,DROPLIMB_EDGE,1)
+
+	//VOREStation Addition Start
+	if(tf_mob_holder && tf_mob_holder.loc == src)
+		tf_mob_holder.revert_mob_tf()
+		tf_mob_holder.gib()
+	//VOREStation Addition End
 
 	..()

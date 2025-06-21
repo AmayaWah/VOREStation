@@ -70,21 +70,19 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 			//Messages having theese tokens will be rejected by server. Case sensitive
 	var/spamfilter_limit = MESSAGE_SERVER_DEFAULT_SPAM_LIMIT	//Maximal amount of tokens
 
-/obj/machinery/message_server/New()
+/obj/machinery/message_server/Initialize(mapload)
+	. = ..()
 	message_servers += src
 	decryptkey = GenerateKey()
 	send_pda_message("System Administrator", "system", "This is an automated message. The messaging system is functioning correctly.")
-	..()
-	return
 
 /obj/machinery/message_server/Destroy()
 	message_servers -= src
-	..()
-	return
+	return ..()
 
 /obj/machinery/message_server/examine(mob/user, distance, infix, suffix)
 	. = ..()
-	. += "It appears to be [active ? "online" : "offline"]."	
+	. += "It appears to be [active ? "online" : "offline"]."
 
 /obj/machinery/message_server/proc/GenerateKey()
 	//Feel free to move to Helpers.
@@ -107,7 +105,7 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	var/result
 	for (var/token in spamfilter)
 		if (findtextEx(message,token))
-			message = "<font color=\"red\">[message]</font>"	//Rejected messages will be indicated by red color.
+			message = span_red("[message]")	//Rejected messages will be indicated by red color.
 			result = token										//Token caused rejection (if there are multiple, last will be chosen>.
 	pda_msgs += new/datum/data_pda_msg(recipient,sender,message)
 	return result
@@ -119,7 +117,7 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 		authmsg += "([id_auth])\n"
 	if (stamp)
 		authmsg += "([stamp])\n"
-	for (var/obj/machinery/requests_console/Console in allConsoles)
+	for (var/obj/machinery/requests_console/Console in GLOB.allConsoles)
 		if (ckey(Console.department) == ckey(recipient))
 			if(Console.inoperable())
 				Console.message_log += list(list("Message lost due to console failure.","Please contact [station_name()] system adminsitrator or AI for technical assistance."))
@@ -131,31 +129,31 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 				if(2)
 					if(!Console.silent)
 						playsound(Console, 'sound/machines/twobeep.ogg', 50, 1)
-						Console.audible_message(text("[bicon(Console)] *The Requests Console beeps: 'PRIORITY Alert in [sender]'"),,5, runemessage = "beep! beep!")
+						Console.audible_message(text("[icon2html(Console,hearers(Console))] *The Requests Console beeps: 'PRIORITY Alert in [sender]'"),,5, runemessage = "beep! beep!")
 					Console.message_log += list(list("High Priority message from [sender]", "[authmsg]"))
 				else
 					if(!Console.silent)
 						playsound(Console, 'sound/machines/twobeep.ogg', 50, 1)
-						Console.audible_message(text("[bicon(Console)] *The Requests Console beeps: 'Message from [sender]'"),,4, runemessage = "beep beep")
+						Console.audible_message(text("[icon2html(Console,hearers(Console))] *The Requests Console beeps: 'Message from [sender]'"),,4, runemessage = "beep beep")
 					Console.message_log += list(list("Message from [sender]", "[authmsg]"))
 			Console.set_light(2)
 
 
 /obj/machinery/message_server/attack_hand(user as mob)
-//	to_chat(user, "<font color='blue'>There seem to be some parts missing from this server. They should arrive on the station in a few days, give or take a few CentCom delays.</font>")
-	to_chat(user, "You toggle PDA message passing from [active ? "On" : "Off"] to [active ? "Off" : "On"]")
+//	to_chat(user, span_blue("There seem to be some parts missing from this server. They should arrive on the station in a few days, give or take a few CentCom delays."))
+	to_chat(user, span_filter_notice("You toggle PDA message passing from [active ? "On" : "Off"] to [active ? "Off" : "On"]."))
 	active = !active
 	update_icon()
 
 	return
 
-/obj/machinery/message_server/attackby(obj/item/weapon/O as obj, mob/living/user as mob)
+/obj/machinery/message_server/attackby(obj/item/O as obj, mob/living/user as mob)
 	if (active && !(stat & (BROKEN|NOPOWER)) && (spamfilter_limit < MESSAGE_SERVER_DEFAULT_SPAM_LIMIT*2) && \
-		istype(O,/obj/item/weapon/circuitboard/message_monitor))
+		istype(O,/obj/item/circuitboard/message_monitor))
 		spamfilter_limit += round(MESSAGE_SERVER_DEFAULT_SPAM_LIMIT / 2)
 		user.drop_item()
 		qdel(O)
-		to_chat(user, "You install additional memory and processors into message server. Its filtering capabilities been enhanced.")
+		to_chat(user, span_filter_notice("You install additional memory and processors into message server. Its filtering capabilities been enhanced."))
 	else
 		..(O, user)
 
@@ -263,10 +261,11 @@ var/obj/machinery/blackbox_recorder/blackbox
 	var/list/datum/feedback_variable/feedback = new()
 
 	//Only one can exist in the world!
-/obj/machinery/blackbox_recorder/New()
+/obj/machinery/blackbox_recorder/Initialize(mapload)
+	. = ..()
 	if(blackbox)
 		if(istype(blackbox,/obj/machinery/blackbox_recorder))
-			qdel(src)
+			return INITIALIZE_HINT_QDEL
 	blackbox = src
 
 /obj/machinery/blackbox_recorder/Destroy()
@@ -289,7 +288,7 @@ var/obj/machinery/blackbox_recorder/blackbox
 		BR.messages_admin = messages_admin
 		if(blackbox != BR)
 			blackbox = BR
-	..()
+	. = ..()
 
 /obj/machinery/blackbox_recorder/proc/find_feedback_datum(var/variable)
 	for(var/datum/feedback_variable/FV in feedback)
@@ -307,7 +306,7 @@ var/obj/machinery/blackbox_recorder/blackbox
 	var/pda_msg_amt = 0
 	var/rc_msg_amt = 0
 
-	for(var/obj/machinery/message_server/MS in machines)
+	for(var/obj/machinery/message_server/MS in GLOB.machines)
 		if(MS.pda_msgs.len > pda_msg_amt)
 			pda_msg_amt = MS.pda_msgs.len
 		if(MS.rc_msgs.len > rc_msg_amt)
@@ -348,22 +347,23 @@ var/obj/machinery/blackbox_recorder/blackbox
 
 	round_end_data_gathering() //round_end time logging and some other data processing
 	establish_db_connection()
-	if(!dbcon.IsConnected()) return
+	if(!SSdbcore.IsConnected()) return
 	var/round_id
 
-	var/DBQuery/query = dbcon.NewQuery("SELECT MAX(round_id) AS round_id FROM erro_feedback")
+	var/datum/db_query/query = SSdbcore.NewQuery("SELECT MAX(round_id) AS round_id FROM erro_feedback")
 	query.Execute()
 	while(query.NextRow())
 		round_id = query.item[1]
-
+	qdel(query)
 	if(!isnum(round_id))
 		round_id = text2num(round_id)
 	round_id++
 
 	for(var/datum/feedback_variable/FV in feedback)
 		var/sql = "INSERT INTO erro_feedback VALUES (null, Now(), [round_id], \"[FV.get_variable()]\", [FV.get_value()], \"[FV.get_details()]\")"
-		var/DBQuery/query_insert = dbcon.NewQuery(sql)
+		var/datum/db_query/query_insert = SSdbcore.NewQuery(sql)
 		query_insert.Execute()
+		qdel(query_insert)
 
 // Sanitize inputs to avoid SQL injection attacks
 /proc/sql_sanitize_text(var/text)
@@ -428,3 +428,6 @@ var/obj/machinery/blackbox_recorder/blackbox
 	if(!FV) return
 
 	FV.add_details(details)
+
+#undef MESSAGE_SERVER_SPAM_REJECT
+#undef MESSAGE_SERVER_DEFAULT_SPAM_LIMIT

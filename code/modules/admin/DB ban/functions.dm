@@ -5,7 +5,7 @@
 	if(!check_rights(R_MOD,0) && !check_rights(R_BAN))	return
 
 	establish_db_connection()
-	if(!dbcon.IsConnected())
+	if(!SSdbcore.IsConnected())
 		return
 
 	var/serverip = "[world.internet_address]:[world.port]"
@@ -44,15 +44,16 @@
 		computerid = bancid
 		ip = banip
 
-	var/DBQuery/query = dbcon.NewQuery("SELECT id FROM erro_player WHERE ckey = '[ckey]'")
+	var/datum/db_query/query = SSdbcore.NewQuery("SELECT id FROM erro_player WHERE ckey = '[ckey]'")
 	query.Execute()
 	var/validckey = 0
 	if(query.NextRow())
 		validckey = 1
+	qdel(query)
 	if(!validckey)
 		if(!banned_mob || (banned_mob && !IsGuestKey(banned_mob.key))) //VOREStation Edit Start.
 			var/confirm = tgui_alert(usr, "This ckey hasn't been seen, are you sure?", "Confirm Badmin", list("Yes", "No"))
-			if(confirm == "No")
+			if(confirm != "Yes")
 				return //VOREStation Edit End
 
 	var/a_ckey
@@ -81,11 +82,11 @@
 	reason = sql_sanitize_text(reason)
 
 	var/sql = "INSERT INTO erro_ban (`id`,`bantime`,`serverip`,`bantype`,`reason`,`job`,`duration`,`rounds`,`expiration_time`,`ckey`,`computerid`,`ip`,`a_ckey`,`a_computerid`,`a_ip`,`who`,`adminwho`,`edits`,`unbanned`,`unbanned_datetime`,`unbanned_ckey`,`unbanned_computerid`,`unbanned_ip`) VALUES (null, Now(), '[serverip]', '[bantype_str]', '[reason]', '[job]', [(duration)?"[duration]":"0"], [(rounds)?"[rounds]":"0"], Now() + INTERVAL [(duration>0) ? duration : 0] MINUTE, '[ckey]', '[computerid]', '[ip]', '[a_ckey]', '[a_computerid]', '[a_ip]', '[who]', '[adminwho]', '', null, null, null, null, null)"
-	var/DBQuery/query_insert = dbcon.NewQuery(sql)
+	var/datum/db_query/query_insert = SSdbcore.NewQuery(sql)
 	query_insert.Execute()
-	to_chat(usr, "<span class='filter_adminlog'><font color='blue'>Ban saved to database.</font></span>")
+	to_chat(usr, span_filter_adminlog("[span_blue("Ban saved to database.")]"))
 	message_admins("[key_name_admin(usr)] has added a [bantype_str] for [ckey] [(job)?"([job])":""] [(duration > 0)?"([duration] minutes)":""] with the reason: \"[reason]\" to the ban database.",1)
-
+	qdel(query_insert)
 
 
 /datum/admins/proc/DB_ban_unban(var/ckey, var/bantype, var/job = "")
@@ -124,30 +125,31 @@
 		sql += " AND job = '[job]'"
 
 	establish_db_connection()
-	if(!dbcon.IsConnected())
+	if(!SSdbcore.IsConnected())
 		return
 
 	var/ban_id
 	var/ban_number = 0 //failsafe
 
-	var/DBQuery/query = dbcon.NewQuery(sql)
+	var/datum/db_query/query = SSdbcore.NewQuery(sql)
 	query.Execute()
 	while(query.NextRow())
 		ban_id = query.item[1]
 		ban_number++;
+	qdel(query)
 
 	if(ban_number == 0)
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Database update failed due to no bans fitting the search criteria. If this is not a legacy ban you should contact the database admin.</font></span>")
+		to_chat(usr, span_filter_adminlog("[span_red("Database update failed due to no bans fitting the search criteria. If this is not a legacy ban you should contact the database admin.")]"))
 		return
 
 	if(ban_number > 1)
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Database update failed due to multiple bans fitting the search criteria. Note down the ckey, job and current time and contact the database admin.</font></span>")
+		to_chat(usr, span_filter_adminlog("[span_red("Database update failed due to multiple bans fitting the search criteria. Note down the ckey, job and current time and contact the database admin.")]"))
 		return
 
 	if(istext(ban_id))
 		ban_id = text2num(ban_id)
 	if(!isnum(ban_id))
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Database update failed due to a ban ID mismatch. Contact the database admin.</font></span>")
+		to_chat(usr, span_filter_adminlog("[span_red("Database update failed due to a ban ID mismatch. Contact the database admin.")]"))
 		return
 
 	DB_ban_unban_by_id(ban_id)
@@ -160,7 +162,7 @@
 		to_chat(usr, "Cancelled")
 		return
 
-	var/DBQuery/query = dbcon.NewQuery("SELECT ckey, duration, reason FROM erro_ban WHERE id = [banid]")
+	var/datum/db_query/query = SSdbcore.NewQuery("SELECT ckey, duration, reason FROM erro_ban WHERE id = [banid]")
 	query.Execute()
 
 	var/eckey = usr.ckey	//Editing admin ckey
@@ -173,9 +175,11 @@
 		duration = query.item[2]
 		reason = query.item[3]
 	else
-		to_chat(usr, "<span class='filter_adminlog'>Invalid ban id. Contact the database admin</span>")
+		to_chat(usr, span_filter_adminlog("Invalid ban id. Contact the database admin"))
+		qdel(query)
 		return
 
+	qdel(query)
 	reason = sql_sanitize_text(reason)
 	var/value
 
@@ -188,9 +192,10 @@
 					to_chat(usr, "Cancelled")
 					return
 
-			var/DBQuery/update_query = dbcon.NewQuery("UPDATE erro_ban SET reason = '[value]', edits = CONCAT(edits,'- [eckey] changed ban reason from <cite><b>\\\"[reason]\\\"</b></cite> to <cite><b>\\\"[value]\\\"</b></cite><BR>') WHERE id = [banid]")
+			var/datum/db_query/update_query = SSdbcore.NewQuery("UPDATE erro_ban SET reason = '[value]', edits = CONCAT(edits,'- [eckey] changed ban reason from <cite>" + span_bold("\\\"[reason]\\\"") + "</cite> to <cite>" + span_bold("\\\"[value]\\\"") + "</cite><BR>') WHERE id = [banid]")
 			update_query.Execute()
 			message_admins("[key_name_admin(usr)] has edited a ban for [pckey]'s reason from [reason] to [value]",1)
+			qdel(update_query)
 		if("duration")
 			if(!value)
 				value = tgui_input_number(usr, "Insert the new duration (in minutes) for [pckey]'s ban", "New Duration", "[duration]", null)
@@ -198,14 +203,15 @@
 					to_chat(usr, "Cancelled")
 					return
 
-			var/DBQuery/update_query = dbcon.NewQuery("UPDATE erro_ban SET duration = [value], edits = CONCAT(edits,'- [eckey] changed ban duration from [duration] to [value]<br>'), expiration_time = DATE_ADD(bantime, INTERVAL [value] MINUTE) WHERE id = [banid]")
+			var/datum/db_query/update_query = SSdbcore.NewQuery("UPDATE erro_ban SET duration = [value], edits = CONCAT(edits,'- [eckey] changed ban duration from [duration] to [value]<br>'), expiration_time = DATE_ADD(bantime, INTERVAL [value] MINUTE) WHERE id = [banid]")
 			message_admins("[key_name_admin(usr)] has edited a ban for [pckey]'s duration from [duration] to [value]",1)
 			update_query.Execute()
+			qdel(update_query)
 		if("unban")
 			if(tgui_alert(usr, "Unban [pckey]?", "Unban?", list("Yes", "No")) == "Yes")
 				DB_ban_unban_by_id(banid)
 				return
-	to_chat(usr, "<span class='filter_adminlog'>Cancelled</span>")
+	to_chat(usr, span_filter_adminlog("Cancelled"))
 	return
 
 /datum/admins/proc/DB_ban_unban_by_id(var/id)
@@ -215,24 +221,24 @@
 	var/sql = "SELECT ckey FROM erro_ban WHERE id = [id]"
 
 	establish_db_connection()
-	if(!dbcon.IsConnected())
+	if(!SSdbcore.IsConnected())
 		return
 
 	var/ban_number = 0 //failsafe
 
 	var/pckey
-	var/DBQuery/query = dbcon.NewQuery(sql)
+	var/datum/db_query/query = SSdbcore.NewQuery(sql)
 	query.Execute()
 	while(query.NextRow())
 		pckey = query.item[1]
 		ban_number++;
-
+	qdel(query)
 	if(ban_number == 0)
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Database update failed due to a ban id not being present in the database.</font></span>")
+		to_chat(usr, span_filter_adminlog("[span_red("Database update failed due to a ban id not being present in the database.")]"))
 		return
 
 	if(ban_number > 1)
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Database update failed due to multiple bans having the same ID. Contact the database admin.</font></span>")
+		to_chat(usr, span_filter_adminlog("[span_red("Database update failed due to multiple bans having the same ID. Contact the database admin.")]"))
 		return
 
 	if(!src.owner || !istype(src.owner, /client))
@@ -245,12 +251,13 @@
 	var/sql_update = "UPDATE erro_ban SET unbanned = 1, unbanned_datetime = Now(), unbanned_ckey = '[unban_ckey]', unbanned_computerid = '[unban_computerid]', unbanned_ip = '[unban_ip]' WHERE id = [id]"
 	message_admins("[key_name_admin(usr)] has lifted [pckey]'s ban.",1)
 
-	var/DBQuery/query_update = dbcon.NewQuery(sql_update)
+	var/datum/db_query/query_update = SSdbcore.NewQuery(sql_update)
 	query_update.Execute()
+	qdel(query_update)
 
 
 /client/proc/DB_ban_panel()
-	set category = "Admin"
+	set category = "Admin.Moderation"
 	set name = "Banning Panel"
 	set desc = "Edit admin permissions"
 
@@ -267,8 +274,8 @@
 	if(!check_rights(R_BAN))	return
 
 	establish_db_connection()
-	if(!dbcon.IsConnected())
-		to_chat(usr, "<span class='filter_adminlog'><font color='red'>Failed to establish database connection</font></span>")
+	if(!SSdbcore.IsConnected())
+		to_chat(usr, span_filter_adminlog("[span_red("Failed to establish database connection")]"))
 		return
 
 	var/output = "<div align='center'><table width='90%'><tr>"
@@ -279,34 +286,35 @@
 
 	output += "<td width='65%' align='center' bgcolor='#f9f9f9'>"
 
-	output += "<form method='GET' action='?src=\ref[src]'><b>Add custom ban:</b> (ONLY use this if you can't ban through any other method)"
+	output += "<form method='GET' action='?src=\ref[src]'>[HrefTokenFormField()]"
+	output += span_bold("Add custom ban:") + " (ONLY use this if you can't ban through any other method)"
 	output += "<input type='hidden' name='src' value='\ref[src]'>"
 	output += "<table width='100%'><tr>"
-	output += "<td width='50%' align='right'><b>Ban type:</b><select name='dbbanaddtype'>"
+	output += "<td width='50%' align='right'>" + span_bold("Ban type:") + "<select name='dbbanaddtype'>"
 	output += "<option value=''>--</option>"
 	output += "<option value='[BANTYPE_PERMA]'>PERMABAN</option>"
 	output += "<option value='[BANTYPE_TEMP]'>TEMPBAN</option>"
 	output += "<option value='[BANTYPE_JOB_PERMA]'>JOB PERMABAN</option>"
 	output += "<option value='[BANTYPE_JOB_TEMP]'>JOB TEMPBAN</option>"
 	output += "</select></td>"
-	output += "<td width='50%' align='right'><b>Ckey:</b> <input type='text' name='dbbanaddckey'></td></tr>"
-	output += "<tr><td width='50%' align='right'><b>IP:</b> <input type='text' name='dbbanaddip'></td>"
-	output += "<td width='50%' align='right'><b>CID:</b> <input type='text' name='dbbanaddcid'></td></tr>"
-	output += "<tr><td width='50%' align='right'><b>Duration:</b> <input type='text' name='dbbaddduration'></td>"
-	output += "<td width='50%' align='right'><b>Job:</b><select name='dbbanaddjob'>"
+	output += "<td width='50%' align='right'>" + span_bold("Ckey:") + " <input type='text' name='dbbanaddckey'></td></tr>"
+	output += "<tr><td width='50%' align='right'>" + span_bold("IP:") + " <input type='text' name='dbbanaddip'></td>"
+	output += "<td width='50%' align='right'>" + span_bold("CID:") + " <input type='text' name='dbbanaddcid'></td></tr>"
+	output += "<tr><td width='50%' align='right'>" + span_bold("Duration:") + " <input type='text' name='dbbaddduration'></td>"
+	output += "<td width='50%' align='right'>" + span_bold("Job:") + "<select name='dbbanaddjob'>"
 	output += "<option value=''>--</option>"
 	for(var/j in get_all_jobs())
 		output += "<option value='[j]'>[j]</option>"
 	for(var/j in SSjob.get_job_titles_in_department(DEPARTMENT_SYNTHETIC))
 		output += "<option value='[j]'>[j]</option>"
 	var/list/bantypes = list("traitor","changeling","operative","revolutionary","cultist","wizard") //For legacy bans.
-	for(var/antag_type in all_antag_types) // Grab other bans.
-		var/datum/antagonist/antag = all_antag_types[antag_type]
+	for(var/antag_type in GLOB.all_antag_types) // Grab other bans.
+		var/datum/antagonist/antag = GLOB.all_antag_types[antag_type]
 		bantypes |= antag.bantype
 	for(var/j in bantypes)
 		output += "<option value='[j]'>[j]</option>"
 	output += "</select></td></tr></table>"
-	output += "<b>Reason:<br></b><textarea name='dbbanreason' cols='50'></textarea><br>"
+	output += span_bold("Reason:<br>") + "<textarea name='dbbanreason' cols='50'></textarea><br>"
 	output += "<input type='submit' value='Add ban'>"
 	output += "</form>"
 
@@ -314,13 +322,14 @@
 	output += "</tr>"
 	output += "</table>"
 
-	output += "<form method='GET' action='?src=\ref[src]'><table width='60%'><tr><td colspan='2' align='left'><b>Search:</b>"
+	output += "<form method='GET' action='?src=\ref[src]'>[HrefTokenFormField()]"
+	output += "<table width='60%'><tr><td colspan='2' align='left'>" + span_bold("Search:") + ""
 	output += "<input type='hidden' name='src' value='\ref[src]'></td></tr>"
-	output += "<tr><td width='50%' align='right'><b>Ckey:</b> <input type='text' name='dbsearchckey' value='[playerckey]'></td>"
-	output += "<td width='50%' align='right'><b>Admin ckey:</b> <input type='text' name='dbsearchadmin' value='[adminckey]'></td></tr>"
-	output += "<tr><td width='50%' align='right'><b>IP:</b> <input type='text' name='dbsearchip' value='[playerip]'></td>"
-	output += "<td width='50%' align='right'><b>CID:</b> <input type='text' name='dbsearchcid' value='[playercid]'></td></tr>"
-	output += "<tr><td width='50%' align='right' colspan='2'><b>Ban type:</b><select name='dbsearchbantype'>"
+	output += "<tr><td width='50%' align='right'>" + span_bold("Ckey:") + " <input type='text' name='dbsearchckey' value='[playerckey]'></td>"
+	output += "<td width='50%' align='right'>" + span_bold("Admin ckey:") + " <input type='text' name='dbsearchadmin' value='[adminckey]'></td></tr>"
+	output += "<tr><td width='50%' align='right'>" + span_bold("IP:") + " <input type='text' name='dbsearchip' value='[playerip]'></td>"
+	output += "<td width='50%' align='right'>" + span_bold("CID:") + " <input type='text' name='dbsearchcid' value='[playercid]'></td></tr>"
+	output += "<tr><td width='50%' align='right' colspan='2'>" + span_bold("Ban type:") + "<select name='dbsearchbantype'>"
 	output += "<option value=''>--</option>"
 	output += "<option value='[BANTYPE_PERMA]'>PERMABAN</option>"
 	output += "<option value='[BANTYPE_TEMP]'>TEMPBAN</option>"
@@ -351,11 +360,11 @@
 
 			output += "<table width='90%' bgcolor='#e3e3e3' cellpadding='5' cellspacing='0' align='center'>"
 			output += "<tr>"
-			output += "<th width='25%'><b>TYPE</b></th>"
-			output += "<th width='20%'><b>CKEY</b></th>"
-			output += "<th width='20%'><b>TIME APPLIED</b></th>"
-			output += "<th width='20%'><b>ADMIN</b></th>"
-			output += "<th width='15%'><b>OPTIONS</b></th>"
+			output += "<th width='25%'>" + span_bold("TYPE") + "</th>"
+			output += "<th width='20%'>" + span_bold("CKEY") + "</th>"
+			output += "<th width='20%'>" + span_bold("TIME APPLIED") + "</th>"
+			output += "<th width='20%'>" + span_bold("ADMIN") + "</th>"
+			output += "<th width='15%'>" + span_bold("OPTIONS") + "</th>"
 			output += "</tr>"
 
 			var/adminsearch = ""
@@ -396,7 +405,7 @@
 					else
 						bantypesearch += "'PERMABAN' "
 
-			var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM erro_ban WHERE 1 [playersearch] [adminsearch] [ipsearch] [cidsearch] [bantypesearch] ORDER BY bantime DESC LIMIT 100")
+			var/datum/db_query/select_query = SSdbcore.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM erro_ban WHERE 1 [playersearch] [adminsearch] [ipsearch] [cidsearch] [bantypesearch] ORDER BY bantime DESC LIMIT 100")
 			select_query.Execute()
 
 			var/now = time2text(world.realtime, "YYYY-MM-DD hh:mm:ss") // MUST BE the same format as SQL gives us the dates in, and MUST be least to most specific (i.e. year, month, day not day, month, year)
@@ -433,47 +442,50 @@
 				var/typedesc =""
 				switch(bantype)
 					if("PERMABAN")
-						typedesc = "<font color='red'><b>PERMABAN</b></font>"
+						typedesc = span_red(span_bold("PERMABAN"))
 					if("TEMPBAN")
-						typedesc = "<b>TEMPBAN</b><br><font size='2'>([duration] minutes) [(unbanned || auto) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=duration;dbbanid=[banid]\">Edit</a>)"]<br>Expires [expiration]</font>"
+						typedesc = span_bold("TEMPBAN") + "<br>" + span_normal("([duration] minutes) [(unbanned || auto) ? "" : "(<a href=\"byond://?src=\ref[src];[HrefToken()];dbbanedit=duration;dbbanid=[banid]\">Edit</a>)"]<br>Expires [expiration]")
 					if("JOB_PERMABAN")
-						typedesc = "<b>JOBBAN</b><br><font size='2'>([job])</font>"
+						typedesc = span_bold("JOBBAN") + "<br>" + span_normal("([job])")
 					if("JOB_TEMPBAN")
-						typedesc = "<b>TEMP JOBBAN</b><br><font size='2'>([job])<br>([duration] minutes<br>Expires [expiration]</font>"
+						typedesc = span_bold("TEMP JOBBAN") + "<br>" + span_normal("([job])<br>([duration] minutes<br>Expires [expiration]")
 
 				output += "<tr bgcolor='[dcolor]'>"
 				output += "<td align='center'>[typedesc]</td>"
-				output += "<td align='center'><b>[ckey]</b></td>"
+				output += "<td align='center'>" + span_bold("[ckey]") + "</td>"
 				output += "<td align='center'>[bantime]</td>"
-				output += "<td align='center'><b>[ackey]</b></td>"
-				output += "<td align='center'>[(unbanned || auto) ? "" : "<b><a href=\"byond://?src=\ref[src];dbbanedit=unban;dbbanid=[banid]\">Unban</a></b>"]</td>"
+				output += "<td align='center'>" + span_bold("[ackey]") + "</td>"
+				output += "<td align='center'>[(unbanned || auto) ? "" : span_bold("<a href=\"byond://?src=\ref[src];[HrefToken()];dbbanedit=unban;dbbanid=[banid]\">Unban</a>")]</td>"
 				output += "</tr>"
 				output += "<tr bgcolor='[dcolor]'>"
-				output += "<td align='center' colspan='2' bgcolor=''><b>IP:</b> [ip]</td>"
-				output += "<td align='center' colspan='3' bgcolor=''><b>CIP:</b> [cid]</td>"
+				output += "<td align='center' colspan='2' bgcolor=''>" + span_bold("IP:") + " [ip]</td>"
+				output += "<td align='center' colspan='3' bgcolor=''>" + span_bold("CIP:") + " [cid]</td>"
 				output += "</tr>"
 				output += "<tr bgcolor='[lcolor]'>"
-				output += "<td align='center' colspan='5'><b>Reason: [(unbanned || auto) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=reason;dbbanid=[banid]\">Edit</a>)"]</b> <cite>\"[reason]\"</cite></td>"
+				output += "<td align='center' colspan='5'>" + span_bold("Reason: [(unbanned || auto) ? "" : "(<a href=\"byond://?src=\ref[src];[HrefToken()];dbbanedit=reason;dbbanid=[banid]\">Edit</a>)"]") + " <cite>\"[reason]\"</cite></td>"
 				output += "</tr>"
 				if(edits)
 					output += "<tr bgcolor='[dcolor]'>"
-					output += "<td align='center' colspan='5'><b>EDITS</b></td>"
+					output += "<td align='center' colspan='5'>" + span_bold("EDITS") + "</td>"
 					output += "</tr>"
 					output += "<tr bgcolor='[lcolor]'>"
-					output += "<td align='center' colspan='5'><font size='2'>[edits]</font></td>"
+					output += "<td align='center' colspan='5'>" + span_normal("[edits]") + "</td>"
 					output += "</tr>"
 				if(unbanned)
 					output += "<tr bgcolor='[dcolor]'>"
-					output += "<td align='center' colspan='5' bgcolor=''><b>UNBANNED by admin [unbanckey] on [unbantime]</b></td>"
+					output += "<td align='center' colspan='5' bgcolor=''>" + span_bold("UNBANNED by admin [unbanckey] on [unbantime]") + "</td>"
 					output += "</tr>"
 				else if(auto)
 					output += "<tr bgcolor='[dcolor]'>"
-					output += "<td align='center' colspan='5' bgcolor=''><b>EXPIRED at [expiration]</b></td>"
+					output += "<td align='center' colspan='5' bgcolor=''>" + span_bold("EXPIRED at [expiration]") + "</td>"
 					output += "</tr>"
 				output += "<tr>"
 				output += "<td colspan='5' bgcolor='white'>&nbsp</td>"
 				output += "</tr>"
 
 			output += "</table></div>"
+			qdel(select_query)
 
-	usr << browse(output,"window=lookupbans;size=900x700")
+	var/datum/browser/popup = new(owner, "lookupbans", "Lookup Bans", 900, 700)
+	popup.set_content(output)
+	popup.open()

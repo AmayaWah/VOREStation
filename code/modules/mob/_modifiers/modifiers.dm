@@ -7,7 +7,7 @@
 	var/desc = null						// Ditto.
 	var/icon_state = null				// See above.
 	var/mob/living/holder = null		// The mob that this datum is affecting.
-	var/weakref/origin = null			// A weak reference to whatever caused the modifier to appear.  THIS NEEDS TO BE A MOB/LIVING.  It's a weakref to not interfere with qdel().
+	var/datum/weakref/origin = null		// A weak reference to whatever caused the modifier to appear.  THIS NEEDS TO BE A MOB/LIVING.  It's a weakref to not interfere with qdel().
 	var/expire_at = null				// world.time when holder's Life() will remove the datum.  If null, it lasts forever or until it gets deleted by something else.
 	var/on_created_text = null			// Text to show to holder upon being created.
 	var/on_expired_text = null			// Text to show to holder when it expires.
@@ -20,7 +20,7 @@
 	var/light_intensity = null			// Ditto. Not implemented yet.
 	var/mob_overlay_state = null		// Icon_state for an overlay to apply to a (human) mob while this exists.  This is actually implemented.
 	var/client_color = null				// If set, the client will have the world be shown in this color, from their perspective.
-	var/wire_colors_replace = null		// If set, the client will have wires replaced by the given replacement list. For colorblindness. //VOREStation Add
+	var/wire_colors_replace = null		// If set, the client will have wires replaced by the given replacement list. For colorblindness.
 	var/list/filter_parameters = null	// If set, will add a filter to the holder with the parameters in this var. Must be a list.
 	var/filter_priority = 1				// Used to make filters be applied in a specific order, if that is important.
 	var/filter_instance = null			// Instance of a filter created with the `filter_parameters` list. This exists to make `animate()` calls easier. Don't set manually.
@@ -68,9 +68,9 @@
 /datum/modifier/New(var/new_holder, var/new_origin)
 	holder = new_holder
 	if(new_origin)
-		origin = weakref(new_origin)
+		origin = WEAKREF(new_origin)
 	else // We assume the holder caused the modifier if not told otherwise.
-		origin = weakref(holder)
+		origin = WEAKREF(holder)
 	..()
 
 // Checks if the modifier should be allowed to be applied to the mob before attaching it.
@@ -112,10 +112,6 @@
 
 /mob/living
 	var/list/modifiers = list() // A list of modifier datums, which can adjust certain mob numbers.
-
-/mob/living/Destroy()
-	remove_all_modifiers(TRUE)
-	return ..()
 
 // Called by Life().
 /mob/living/proc/handle_modifiers()

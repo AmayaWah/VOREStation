@@ -25,7 +25,7 @@
 	tt_desc = "S Choeros shantak"
 	catalogue_data = list(/datum/category_item/catalogue/fauna/shantak)
 
-	faction = "shantak"
+	faction = FACTION_SHANTAK
 
 	icon_state = "shantak"
 	icon_living = "shantak"
@@ -43,7 +43,7 @@
 				"rad" = 0
 				)
 
-	movement_cooldown = 5
+	movement_cooldown = -1
 
 	melee_damage_lower = 6
 	melee_damage_upper = 14
@@ -77,7 +77,7 @@
 /mob/living/simple_mob/animal/sif/shantak/leader/verb/rally_pack()
 	set name = "Rally Pack"
 	set desc = "Commands your fellow packmembers to follow you, the leader."
-	set category = "Abilities"
+	set category = "Abilities.Shantak"
 
 	for(var/mob/living/simple_mob/animal/sif/shantak/S in hearers(7, src))
 		if(istype(S, /mob/living/simple_mob/animal/sif/shantak/leader)) // Leaders won't follow other leaders. Also avoids trying to follow ourselves.
@@ -91,7 +91,7 @@
 
 // Variant that automatically commands nearby allies to follow it when created.
 // Suggested to spawn last so it can rally up all the shantaks easily before hunting for tasty explorers.
-/mob/living/simple_mob/animal/sif/shantak/leader/autofollow/Initialize()
+/mob/living/simple_mob/animal/sif/shantak/leader/autofollow/Initialize(mapload)
 	rally_pack()
 	return ..()
 
@@ -107,7 +107,7 @@
 	name = "Scruffy"
 	ai_holder_type = /datum/ai_holder/simple_mob/passive
 	makes_dirt = 0
-	faction = "neutral"
-	
+	faction = FACTION_NEUTRAL
+
 /decl/mob_organ_names/shantak
 	hit_zones = list("head", "torso", "left foreleg", "right foreleg", "left hind leg", "right hind leg", "tail", "mane", "snout")

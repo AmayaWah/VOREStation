@@ -1,6 +1,6 @@
 /obj/item/clothing/proc/can_attach_accessory(obj/item/clothing/accessory/A)
 	//Just no, okay
-	if(!A.slot)
+	if(!istype(A) || !A.slot)
 		return FALSE
 
 	//Not valid at all, not in the valid list period.
@@ -79,7 +79,7 @@
 /obj/item/clothing/proc/attempt_attach_accessory(obj/item/clothing/accessory/A, mob/user)
 	if(!valid_accessory_slots)
 		if(user)
-			to_chat(user, "<span class='warning'>You cannot attach accessories of any kind to \the [src].</span>")
+			to_chat(user, span_warning("You cannot attach accessories of any kind to \the [src]."))
 		return FALSE
 
 	var/obj/item/clothing/accessory/acc = A
@@ -90,7 +90,7 @@
 		return TRUE
 	else
 		if(user)
-			to_chat(user, "<span class='warning'>You cannot attach more accessories of this type to [src].</span>")
+			to_chat(user, span_warning("You cannot attach more accessories of this type to [src]."))
 		return FALSE
 
 
@@ -120,7 +120,7 @@
 	set category = "Object"
 	set src in usr
 
-	if(!istype(usr, /mob/living))
+	if(!isliving(usr))
 		return
 
 	if(usr.stat)
@@ -135,7 +135,11 @@
 			A = tgui_input_list(usr, "Select an accessory to remove from \the [src]", "Accessory Choice", accessories)
 
 	if(A)
-		remove_accessory(usr,A)
+		if(A.can_remove)
+			remove_accessory(usr,A)
+		else
+			to_chat(usr, span_warning("It doesn't look like \the [A] can be taken off \the [src]."))
+
 
 	if(!LAZYLEN(accessories))
 		src.verbs -= /obj/item/clothing/proc/removetie_verb

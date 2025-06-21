@@ -3,7 +3,7 @@
 		return 0
 
 	//This is a terrible hack and I should be ashamed.
-	var/datum/seed/diona = SSplants.seeds["diona"]
+	var/datum/seed/diona = SSplants.seeds[PLANT_DIONA]
 	if(!diona)
 		return 0
 
@@ -211,11 +211,10 @@
 	parent_organ = BP_TORSO
 	vital = TRUE
 
-/obj/item/organ/internal/brain/cephalon/Initialize()
+/obj/item/organ/internal/brain/cephalon/Initialize(mapload)
 	. = ..()
-	spawn(30 SECONDS)	// FBP Dionaea need some way to be disassembled through surgery, if absolutely necessary.
-		if(!owner.isSynthetic())
-			vital = FALSE
+	if(!owner?.isSynthetic())
+		vital = FALSE
 
 /obj/item/organ/internal/brain/cephalon/robotize()
 	return

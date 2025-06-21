@@ -8,6 +8,7 @@
  *			Misc
  */
 
+GLOBAL_LIST_INIT(alphabet_upper, list("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"))
 
 /*
  * SQL sanitization
@@ -15,14 +16,19 @@
 
 // Run all strings to be used in an SQL query through this proc first to properly escape out injection attempts.
 /proc/sanitizeSQL(var/t as text)
-	var/sqltext = dbcon.Quote(t);
-	return copytext(sqltext, 2, length(sqltext));//Quote() adds quotes around input, we already do that
+	//var/sqltext = dbcon.Quote(t);
+	//return copytext(sqltext, 2, length(sqltext));//Quote() adds quotes around input, we already do that
+	return t
+
+/proc/format_table_name(table as text)
+	//return CONFIG_GET(string/feedback_tableprefix) + table
+	return table // We don't implement tableprefix
 
 /*
  * Text sanitization
  */
 // Can be used almost the same way as normal input for text
-/proc/clean_input(Message, Title, Default, mob/user=usr)
+/proc/clean_input(Message, Title, Default, mob/user)
 	var/txt = input(user, Message, Title, Default) as text | null
 	if(txt)
 		return html_encode(txt)
@@ -52,7 +58,10 @@
 		input = copytext(input,1,max_length)
 
 	if(extra)
-		input = replace_characters(input, list("\n"=" ","\t"=" "))
+		input = replacetext(input, new/regex("^\[\\n\]+|\[\\n\]+$", "g"), "")// strip leading and trailing new lines
+		var/temp_input = replace_characters(input, list("\n"="  ","\t"=" "))//one character is replaced by two
+		if(length(input) < (length(temp_input) - 18))//18 is the number of linebreaks allowed per message
+			input = replace_characters(temp_input,list("  "=" "))//replace again, this time the double spaces with single ones
 
 	if(encode)
 		// The below \ escapes have a space inserted to attempt to enable CI auto-checking of span class usage. Please do not remove the space.
@@ -253,6 +262,10 @@
 /proc/capitalize(var/t as text)
 	return uppertext(copytext(t, 1, 2)) + copytext(t, 2)
 
+//Returns a unicode string with the first element of the string capitalized.
+/proc/capitalize_utf(var/t as text)
+	return uppertext(copytext_char(t, 1, 2)) + copytext_char(t, 2)
+
 //This proc strips html properly, remove < > and all text between
 //for complete text sanitizing should be used sanitize()
 /proc/strip_html_properly(var/input)
@@ -336,14 +349,22 @@
 //The icon var could be local in the proc, but it's a waste of resources
 //	to always create it and then throw it out.
 /var/icon/text_tag_icons = 'icons/chattags.dmi'
-/var/list/text_tag_cache = list()
+GLOBAL_LIST_EMPTY(text_tag_cache)
+
 /proc/create_text_tag(var/tagname, var/tagdesc = tagname, var/client/C = null)
-	if(!(C && C.is_preference_enabled(/datum/client_preference/chat_tags)))
+	if(!(C && C.prefs?.read_preference(/datum/preference/toggle/chat_tags)))
 		return tagdesc
-	if(!text_tag_cache[tagname])
-		var/icon/tag = icon(text_tag_icons, tagname)
-		text_tag_cache[tagname] = bicon(tag, TRUE, "text_tag")
-	return text_tag_cache[tagname]
+	if(!GLOB.text_tag_cache[tagname])
+		var/datum/asset/spritesheet_batched/chatassets = get_asset_datum(/datum/asset/spritesheet_batched/chat)
+		GLOB.text_tag_cache[tagname] = chatassets.icon_tag(tagname)
+	if(!C.tgui_panel.is_ready() || C.tgui_panel.oldchat)
+		return "<IMG src='\ref[text_tag_icons]' class='text_tag' iconstate='[tagname]'" + (tagdesc ? " alt='[tagdesc]'" : "") + ">"
+	return GLOB.text_tag_cache[tagname]
+
+/proc/create_text_tag_old(var/tagname, var/tagdesc = tagname, var/client/C = null)
+	if(!(C && C.prefs?.read_preference(/datum/preference/toggle/chat_tags)))
+		return tagdesc
+	return "<IMG src='\ref[text_tag_icons]' class='text_tag' iconstate='[tagname]'" + (tagdesc ? " alt='[tagdesc]'" : "") + ">"
 
 /proc/contains_az09(var/input)
 	for(var/i=1, i<=length(input), i++)
@@ -406,6 +427,58 @@
 	t = replacetext(t, "\[redlogo\]", "<img src = redntlogo.png>")
 	t = replacetext(t, "\[sglogo\]", "<img src = sglogo.png>")
 	t = replacetext(t, "\[editorbr\]", "")
+	return t
+
+//pencode translation to html for tags exclusive to digital files (currently email, nanoword, report editor fields,
+//modular scanner data and txt file printing) and prints from them
+/proc/digitalPencode2html(var/text)
+	text = replacetext(text, "\[pre\]", "<pre>")
+	text = replacetext(text, "\[/pre\]", "</pre>")
+	text = replacetext(text, "\[fontred\]", "<font color=\"red\">") //</font> to pass html tag integrity unit test
+	text = replacetext(text, "\[fontblue\]", "<font color=\"blue\">")//</font> to pass html tag integrity unit test
+	text = replacetext(text, "\[fontgreen\]", "<font color=\"green\">")
+	text = replacetext(text, "\[/font\]", "</font>")
+	text = replacetext(text, "\[redacted\]", "<span class=\"redacted\">R E D A C T E D</span>")
+	return pencode2html(text)
+
+//Will kill most formatting; not recommended.
+/proc/html2pencode(t)
+	t = replacetext(t, "<pre>", "\[pre\]")
+	t = replacetext(t, "</pre>", "\[/pre\]")
+	t = replacetext(t, "<font color=\"red\">", "\[fontred\]")//</font> to pass html tag integrity unit test
+	t = replacetext(t, "<font color=\"blue\">", "\[fontblue\]")//</font> to pass html tag integrity unit test
+	t = replacetext(t, "<font color=\"green\">", "\[fontgreen\]")
+	t = replacetext(t, "</font>", "\[/font\]")
+	t = replacetext(t, "<BR>", "\[br\]")
+	t = replacetext(t, "<br>", "\[br\]")
+	t = replacetext(t, "<B>", "\[b\]")
+	t = replacetext(t, "</B>", "\[/b\]")
+	t = replacetext(t, "<I>", "\[i\]")
+	t = replacetext(t, "</I>", "\[/i\]")
+	t = replacetext(t, "<U>", "\[u\]")
+	t = replacetext(t, "</U>", "\[/u\]")
+	t = replacetext(t, "<center>", "\[center\]")
+	t = replacetext(t, "</center>", "\[/center\]")
+	t = replacetext(t, "<H1>", "\[h1\]")
+	t = replacetext(t, "</H1>", "\[/h1\]")
+	t = replacetext(t, "<H2>", "\[h2\]")
+	t = replacetext(t, "</H2>", "\[/h2\]")
+	t = replacetext(t, "<H3>", "\[h3\]")
+	t = replacetext(t, "</H3>", "\[/h3\]")
+	t = replacetext(t, "<li>", "\[*\]")
+	t = replacetext(t, "<HR>", "\[hr\]")
+	t = replacetext(t, "<ul>", "\[list\]")
+	t = replacetext(t, "</ul>", "\[/list\]")
+	t = replacetext(t, "<table>", "\[grid\]")
+	t = replacetext(t, "</table>", "\[/grid\]")
+	t = replacetext(t, "<tr>", "\[row\]")
+	t = replacetext(t, "<td>", "\[cell\]")
+	t = replacetext(t, "<img src = ntlogo.png>", "\[logo\]")
+	t = replacetext(t, "<img src = redntlogo.png>", "\[redlogo\]")
+	t = replacetext(t, "<img src = sglogo.png>", "\[sglogo\]")
+	t = replacetext(t, "<span class=\"paper_field\"></span>", "\[field\]")
+	t = replacetext(t, "<span class=\"redacted\">R E D A C T E D</span>", "\[redacted\]")
+	t = strip_html_properly(t)
 	return t
 
 // Random password generator
@@ -547,3 +620,38 @@
 	paper_text = replacetext(paper_text, "<br>", "\n")
 	paper_text = strip_html_properly(paper_text) // Get rid of everything else entirely.
 	return paper_text
+
+//json decode that will return null on parse error instead of runtiming.
+/proc/safe_json_decode(data)
+	try
+		return json_decode(data)
+	catch
+		return null
+
+/// Removes all non-alphanumerics from the text, keep in mind this can lead to id conflicts
+/proc/sanitize_css_class_name(name)
+	var/static/regex/regex = new(@"[^a-zA-Z0-9]","g")
+	return replacetext(name, regex, "")
+
+/// Returns TRUE if the input_text ends with the ending
+/proc/endswith(input_text, ending)
+	var/input_length = LAZYLEN(ending)
+	return !!findtext(input_text, ending, -input_length)
+
+/// Returns TRUE if the input_text starts with any of the beginnings
+/proc/starts_with_any(input_text, list/beginnings)
+	for(var/beginning in beginnings)
+		if(!!findtext(input_text, beginning, 1, LAZYLEN(beginning)+1))
+			return TRUE
+	return FALSE
+
+//finds the first occurrence of one of the characters from needles argument inside haystack
+//it may appear this can be optimised, but it really can't. findtext() is so much faster than anything you can do in byondcode.
+//stupid byond :(
+/proc/findchar(haystack, needles, start=1, end=0)
+	var/temp
+	var/len = length(needles)
+	for(var/i=1, i<=len, i++)
+		temp = findtextEx(haystack, ascii2text(text2ascii(needles,i)), start, end)	//Note: ascii2text(text2ascii) is faster than copytext()
+		if(temp)	end = temp
+	return end

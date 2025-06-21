@@ -11,13 +11,13 @@ SUBSYSTEM_DEF(nightshift)
 	var/high_security_mode = FALSE
 
 /datum/controller/subsystem/nightshift/Initialize()
-	if(!config.enable_night_shifts)
+	if(!CONFIG_GET(flag/enable_night_shifts))
 		can_fire = FALSE
 	/*
 	if(config.randomize_shift_time)
 		GLOB.gametime_offset = rand(0, 23) HOURS
 	*/
-	return ..()
+	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/nightshift/fire(resumed = FALSE)
 	if(round_duration_in_ds < nightshift_first_check)
@@ -41,7 +41,7 @@ SUBSYSTEM_DEF(nightshift)
 /datum/controller/subsystem/nightshift/proc/check_nightshift(check_canfire=FALSE) //This is called from elsewhere, like setting the alert levels
 	if(check_canfire && !can_fire)
 		return
-	var/emergency = security_level > SEC_LEVEL_GREEN
+	var/emergency = GLOB.security_level > SEC_LEVEL_GREEN
 	var/announcing = TRUE
 	var/night_time = using_map.get_nightshift()
 	if(high_security_mode != emergency)

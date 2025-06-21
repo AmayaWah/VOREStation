@@ -1,6 +1,6 @@
 
 /hook/startup/proc/createDatacore()
-	data_core = new /datum/datacore()
+	GLOB.data_core = new /datum/datacore()
 	return 1
 
 /datum/datacore
@@ -44,7 +44,7 @@
 	"}
 	var/even = 0
 	// sort mobs
-	for(var/datum/data/record/t in data_core.general)
+	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = t.fields["name"]
 		var/rank = t.fields["rank"]
 		var/real_rank = make_list_rank(t.fields["real_rank"])
@@ -191,10 +191,10 @@ we'll only update it when it changes.  The PDA_Manifest global list is zeroed ou
 using /datum/datacore/proc/manifest_inject( ), or manifest_insert( )
 */
 
-var/global/list/PDA_Manifest = list()
+GLOBAL_LIST_EMPTY(PDA_Manifest)
 
 /datum/datacore/proc/get_manifest_list()
-	if(PDA_Manifest.len)
+	if(GLOB.PDA_Manifest.len)
 		return
 	var/list/heads = list()
 	var/list/sec = list()
@@ -206,7 +206,7 @@ var/global/list/PDA_Manifest = list()
 	var/list/civ = list()
 	var/list/bot = list()
 	var/list/misc = list()
-	for(var/datum/data/record/t in data_core.general)
+	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = sanitize(t.fields["name"])
 		var/rank = sanitize(t.fields["rank"])
 		var/real_rank = make_list_rank(t.fields["real_rank"])
@@ -218,7 +218,7 @@ var/global/list/PDA_Manifest = list()
 			heads[++heads.len] = list("name" = name, "rank" = rank, "active" = isactive)
 			department = 1
 			depthead = 1
-			if(rank=="Site Manager" && heads.len != 1)
+			if(rank==JOB_SITE_MANAGER && heads.len != 1)
 				heads.Swap(1,heads.len)
 
 		if(SSjob.is_job_in_department(real_rank, DEPARTMENT_SECURITY))
@@ -281,7 +281,7 @@ var/global/list/PDA_Manifest = list()
 		bot[++bot.len] = list("name" = robot.real_name, "rank" = "[robot.modtype] [robot.braintype]", "active" = "Active")
 
 
-	PDA_Manifest = list(
+	GLOB.PDA_Manifest = list(
 		list("cat" = "Command", "elems" = heads),
 		list("cat" = "Security", "elems" = sec),
 		list("cat" = "Engineering", "elems" = eng),
@@ -306,7 +306,7 @@ var/global/list/PDA_Manifest = list()
 	var/datum/data/record/foundrecord
 	var/real_title = assignment
 
-	for(var/datum/data/record/t in data_core.general)
+	for(var/datum/data/record/t in GLOB.data_core.general)
 		if (t)
 			if(t.fields["name"] == name)
 				foundrecord = t
@@ -338,18 +338,7 @@ var/global/list/PDA_Manifest = list()
 		var/datum/job/J = SSjob.get_job(H.mind.assigned_role)
 		hidden = J?.offmap_spawn
 
-		/* Note: Due to cached_character_icon, a number of emergent properties occur due to the initialization
-		* order of readied-up vs latejoiners. Namely, latejoiners will get a uniform in their datacore picture, but readied-up will
-		* not. This is due to the fact that SSticker calls data_core.manifest_inject() inside of ticker/proc/create_characters(),
-		* but does not equip them until ticker/proc/equip_characters(), which is called later. So, this proc is literally called before
-		* they ever get their equipment, and so it can't get a picture of them in their equipment.
-		* Latejoiners do not have this problem, because /mob/new_player/proc/AttemptLateSpawn calls EquipRank() before it calls
-		* this proc, which means that they're already clothed by the time they get their picture taken here.
-		* The COMPILE_OVERLAYS() here is just to bypass SSoverlays taking for-fucking-ever to update the mob, since we're about to
-		* take a picture of them, we want all the overlays.
-		*/
-		COMPILE_OVERLAYS(H)
-		SSoverlays.queue -= H
+		H.ImmediateOverlayUpdate()
 
 		var/id = generate_record_id()
 		//General Record
@@ -358,6 +347,7 @@ var/global/list/PDA_Manifest = list()
 		G.fields["real_rank"]	= H.mind.assigned_role
 		G.fields["rank"]		= assignment
 		G.fields["age"]			= H.age
+		G.fields["languages"] = list2text(H.languages,", ")
 		if(H.get_FBP_type())
 			G.fields["brain_type"] = H.get_FBP_type()
 		else
@@ -366,8 +356,12 @@ var/global/list/PDA_Manifest = list()
 		G.fields["p_stat"]		= "Active"
 		G.fields["m_stat"]		= "Stable"
 		G.fields["sex"]			= gender2text(H.gender)
-		G.fields["species"]		= H.get_species()
+		if(H.species.name == SPECIES_HANNER)
+			G.fields["species"] = "[H.custom_species ? "[H.custom_species]" : H.species.name]"
+		else
+			G.fields["species"]		= "[H.custom_species ? "[H.custom_species] ([H.species.name])" : H.species.name]"
 		G.fields["home_system"]	= H.home_system
+		G.fields["birthplace"]	= H.birthplace
 		G.fields["citizenship"]	= H.citizenship
 		G.fields["faction"]		= H.personal_faction
 		G.fields["religion"]	= H.religion
@@ -376,7 +370,13 @@ var/global/list/PDA_Manifest = list()
 
 		//Medical Record
 		var/datum/data/record/M = CreateMedicalRecord(H.real_name, id, hidden)
-		M.fields["b_type"]		= H.b_type
+		if(H.species.name == SPECIES_HANNER)
+			M.fields["species"] = "[H.custom_species ? "[H.custom_species]" : H.species.name]"
+		else
+			M.fields["species"]		= "[H.custom_species ? "[H.custom_species] ([H.species.name])" : H.species.name]"
+		M.fields["b_type"]		= H.dna ? H.dna.b_type : DEFAULT_BLOOD_TYPE
+		M.fields["blood_reagent"]	= H.dna.blood_reagents
+		M.fields["blood_color"]	= H.dna.blood_color
 		M.fields["b_dna"]		= H.dna.unique_enzymes
 		M.fields["id_gender"]	= gender2text(H.identifying_gender)
 		if(H.get_FBP_type())
@@ -388,6 +388,10 @@ var/global/list/PDA_Manifest = list()
 
 		//Security Record
 		var/datum/data/record/S = CreateSecurityRecord(H.real_name, id, hidden)
+		if(H.species.name == SPECIES_HANNER)
+			S.fields["species"] = "[H.custom_species ? "[H.custom_species]" : H.species.name]"
+		else
+			S.fields["species"]		= "[H.custom_species ? "[H.custom_species] ([H.species.name])" : H.species.name]"
 		if(H.get_FBP_type())
 			S.fields["brain_type"] = H.get_FBP_type()
 		else
@@ -401,6 +405,7 @@ var/global/list/PDA_Manifest = list()
 		L.fields["name"]		= H.real_name
 		L.fields["rank"] 		= H.mind.assigned_role
 		L.fields["age"]			= H.age
+		L.fields["languages"] = list2text(H.languages,", ")
 		L.fields["fingerprint"]	= md5(H.dna.uni_identity)
 		L.fields["sex"]			= gender2text(H.gender)
 		L.fields["id_gender"]	= gender2text(H.identifying_gender)
@@ -408,12 +413,16 @@ var/global/list/PDA_Manifest = list()
 			L.fields["brain_type"] = H.get_FBP_type()
 		else
 			L.fields["brain_type"] = "Organic"
-		L.fields["b_type"]		= H.b_type
+		L.fields["b_type"]		= H.dna ? H.dna.b_type : DEFAULT_BLOOD_TYPE
 		L.fields["b_dna"]		= H.dna.unique_enzymes
 		L.fields["enzymes"]		= H.dna.SE // Used in respawning
 		L.fields["identity"]	= H.dna.UI // "
-		L.fields["species"]		= H.get_species()
+		if(H.species.name == SPECIES_HANNER)
+			L.fields["species"] = "[H.custom_species ? "[H.custom_species]" : H.species.name]"
+		else
+			L.fields["species"]		= "[H.custom_species ? "[H.custom_species] ([H.species.name])" : H.species.name]"
 		L.fields["home_system"]	= H.home_system
+		L.fields["birthplace"]	= H.birthplace
 		L.fields["citizenship"]	= H.citizenship
 		L.fields["faction"]		= H.personal_faction
 		L.fields["religion"]	= H.religion
@@ -453,12 +462,14 @@ var/global/list/PDA_Manifest = list()
 	G.fields["real_rank"] = "Unassigned"
 	G.fields["sex"] = "Unknown"
 	G.fields["age"] = "Unknown"
+	G.fields["languages"] = "Unknown"
 	G.fields["brain_type"] = "Unknown"
 	G.fields["fingerprint"] = "Unknown"
 	G.fields["p_stat"] = "Active"
 	G.fields["m_stat"] = "Stable"
 	G.fields["species"] = SPECIES_HUMAN
 	G.fields["home_system"]	= "Unknown"
+	G.fields["birthplace"]	= "Unknown"
 	G.fields["citizenship"]	= "Unknown"
 	G.fields["faction"]		= "Unknown"
 	G.fields["religion"]	= "Unknown"
@@ -479,6 +490,7 @@ var/global/list/PDA_Manifest = list()
 	var/datum/data/record/R = new /datum/data/record()
 	R.name = "Security Record #[id]"
 	R.fields["name"] = name
+	R.fields["species"] = SPECIES_HUMAN
 	R.fields["id"] = id
 	R.fields["brain_type"] = "Unknown"
 	R.fields["criminal"]	= "None"
@@ -487,7 +499,6 @@ var/global/list/PDA_Manifest = list()
 	R.fields["ma_crim"]		= "None"
 	R.fields["ma_crim_d"]	= "No major crime convictions."
 	R.fields["notes"]		= "No notes."
-	R.fields["notes"] = "No notes."
 	if(hidden)
 		hidden_security += R
 	else
@@ -501,6 +512,7 @@ var/global/list/PDA_Manifest = list()
 	M.name = "Medical Record #[id]"
 	M.fields["id"]			= id
 	M.fields["name"]		= name
+	M.fields["species"]		= SPECIES_HUMAN
 	M.fields["b_type"]		= "AB+"
 	M.fields["b_dna"]		= md5(name)
 	M.fields["id_gender"]	= "Unknown"
@@ -522,17 +534,17 @@ var/global/list/PDA_Manifest = list()
 	return M
 
 /datum/datacore/proc/ResetPDAManifest()
-	if(PDA_Manifest.len)
-		PDA_Manifest.Cut()
+	if(GLOB.PDA_Manifest.len)
+		GLOB.PDA_Manifest.Cut()
 
 /proc/find_general_record(field, value)
-	return find_record(field, value, data_core.general)
+	return find_record(field, value, GLOB.data_core.general)
 
 /proc/find_medical_record(field, value)
-	return find_record(field, value, data_core.medical)
+	return find_record(field, value, GLOB.data_core.medical)
 
 /proc/find_security_record(field, value)
-	return find_record(field, value, data_core.security)
+	return find_record(field, value, GLOB.data_core.security)
 
 /proc/find_record(field, value, list/L)
 	for(var/datum/data/record/R in L)

@@ -15,6 +15,12 @@
  * Misc
  */
 
+/// Returns the top (last) element from the list, does not remove it from the list. Stack functionality.
+/proc/peek(list/target_list)
+	var/list_length = length(target_list)
+	if(list_length != 0)
+		return target_list[list_length]
+
 //Returns a list in plain english as a string
 /proc/english_list(var/list/input, nothing_text = "nothing", and_text = " and ", comma_text = ", ", final_comma_text = ",")
 	// this proc cannot be merged with counting_english_list to maintain compatibility
@@ -194,7 +200,7 @@
 /proc/difflist(var/list/first, var/list/second, var/skiprep=0)
 	if(!islist(first) || !islist(second))
 		return
-	var/list/result = new
+	var/list/result = list()
 	if(skiprep)
 		for(var/e in first)
 			if(!(e in result) && !(e in second))
@@ -202,6 +208,13 @@
 	else
 		result = first - second
 	return result
+
+/**
+ * Removes any null entries from the list
+ * Returns TRUE if the list had nulls, FALSE otherwise
+**/
+/proc/list_clear_nulls(list/list_to_clear)
+	return (list_to_clear.RemoveAll(null) > 0)
 
 /*
 Two lists may be different (A!=B) even if they have the same elements.
@@ -218,6 +231,17 @@ This actually tests if they have the same entries and values.
 	return 1
 
 /*
+Checks if a list has the same entries and values as an element of big.
+*/
+/proc/in_as_list(var/list/little, var/list/big)
+	if(!islist(big))
+		return 0
+	for(var/element in big)
+		if(same_entries(little, element))
+			return 1
+	return 0
+
+/*
  * Returns list containing entries that are in either list but not both.
  * If skipref = 1, repeated elements are treated as one.
  * If either of arguments is not a list, returns null
@@ -225,7 +249,7 @@ This actually tests if they have the same entries and values.
 /proc/uniquemergelist(var/list/first, var/list/second, var/skiprep=0)
 	if(!islist(first) || !islist(second))
 		return
-	var/list/result = new
+	var/list/result = list()
 	if(skiprep)
 		result = difflist(first, second, skiprep)+difflist(second, first, skiprep)
 	else
@@ -350,7 +374,7 @@ This actually tests if they have the same entries and values.
 	if(isnull(L) || L.len < 2)
 		return L
 	var/middle = L.len / 2 + 1
-	return mergeAtoms(sortAtom(L.Copy(0,middle)), sortAtom(L.Copy(middle)), order)
+	return mergeAtoms(sortAtom(L.Copy(1,middle)), sortAtom(L.Copy(middle)), order)
 
 //Mergsort: does the actual sorting and returns the results back to sortAtom
 /proc/mergeAtoms(var/list/atom/L, var/list/atom/R, var/order = 1)
@@ -870,4 +894,91 @@ var/global/list/json_cache = list()
 	else
 		used_key_list[input_key] = 1
 	return input_key
-	
+
+// Generic listoflist safe add and removal macros:
+///If value is a list, wrap it in a list so it can be used with list add/remove operations
+#define LIST_VALUE_WRAP_LISTS(value) (islist(value) ? list(value) : value)
+///Add an untyped item to a list, taking care to handle list items by wrapping them in a list to remove the footgun
+#define UNTYPED_LIST_ADD(list, item) (list += LIST_VALUE_WRAP_LISTS(item))
+///Remove an untyped item to a list, taking care to handle list items by wrapping them in a list to remove the footgun
+#define UNTYPED_LIST_REMOVE(list, item) (list -= LIST_VALUE_WRAP_LISTS(item))
+
+/// Passed into BINARY_INSERT to compare keys
+#define COMPARE_KEY __BIN_LIST[__BIN_MID]
+/// Passed into BINARY_INSERT to compare values
+#define COMPARE_VALUE __BIN_LIST[__BIN_LIST[__BIN_MID]]
+
+/****
+	* Binary search sorted insert
+	* INPUT: Object to be inserted
+	* LIST: List to insert object into
+	* TYPECONT: The typepath of the contents of the list
+	* COMPARE: The object to compare against, usualy the same as INPUT
+	* COMPARISON: The variable on the objects to compare
+	* COMPTYPE: How should the values be compared? Either COMPARE_KEY or COMPARE_VALUE.
+	*/
+#define BINARY_INSERT(INPUT, LIST, TYPECONT, COMPARE, COMPARISON, COMPTYPE) \
+	do {\
+		var/list/__BIN_LIST = LIST;\
+		var/__BIN_CTTL = length(__BIN_LIST);\
+		if(!__BIN_CTTL) {\
+			__BIN_LIST += INPUT;\
+		} else {\
+			var/__BIN_LEFT = 1;\
+			var/__BIN_RIGHT = __BIN_CTTL;\
+			var/__BIN_MID = (__BIN_LEFT + __BIN_RIGHT) >> 1;\
+			var ##TYPECONT/__BIN_ITEM;\
+			while(__BIN_LEFT < __BIN_RIGHT) {\
+				__BIN_ITEM = COMPTYPE;\
+				if(__BIN_ITEM.##COMPARISON <= COMPARE.##COMPARISON) {\
+					__BIN_LEFT = __BIN_MID + 1;\
+				} else {\
+					__BIN_RIGHT = __BIN_MID;\
+				};\
+				__BIN_MID = (__BIN_LEFT + __BIN_RIGHT) >> 1;\
+			};\
+			__BIN_ITEM = COMPTYPE;\
+			__BIN_MID = __BIN_ITEM.##COMPARISON > COMPARE.##COMPARISON ? __BIN_MID : __BIN_MID + 1;\
+			__BIN_LIST.Insert(__BIN_MID, INPUT);\
+		};\
+	} while(FALSE)
+
+///Converts a bitfield to a list of numbers (or words if a wordlist is provided)
+/proc/bitfield_to_list(bitfield = 0, list/wordlist)
+	var/list/return_list = list()
+	if(islist(wordlist))
+		var/max = min(wordlist.len, 24)
+		var/bit = 1
+		for(var/i in 1 to max)
+			if(bitfield & bit)
+				return_list += wordlist[i]
+			bit = bit << 1
+	else
+		for(var/bit_number = 0 to 23)
+			var/bit = 1 << bit_number
+			if(bitfield & bit)
+				return_list += bit
+
+	return return_list
+
+/// A version of deep_copy_list that actually supports associative list nesting: list(list(list("a" = "b"))) will actually copy correctly.
+/proc/deep_copy_list_alt(list/inserted_list)
+	if(!islist(inserted_list))
+		return inserted_list
+	var/copied_list = inserted_list.Copy()
+	. = copied_list
+	for(var/key_or_value in inserted_list)
+		if(isnum_safe(key_or_value) || !inserted_list[key_or_value])
+			continue
+		var/value = inserted_list[key_or_value]
+		var/new_value = value
+		if(islist(value))
+			new_value = deep_copy_list_alt(value)
+		copied_list[key_or_value] = new_value
+
+/// Turns an associative list into a flat list of keys
+/proc/assoc_to_keys(list/input)
+	var/list/keys = list()
+	for(var/key in input)
+		UNTYPED_LIST_ADD(keys, key)
+	return keys

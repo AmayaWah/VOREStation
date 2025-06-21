@@ -10,7 +10,7 @@
 /obj/machinery/door/airlock/multi_tile/Initialize(mapload)
 	. = ..()
 	SetBounds()
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/SetBounds)
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(SetBounds))
 	apply_opacity_to_my_turfs(opacity)
 
 /obj/machinery/door/airlock/multi_tile/set_opacity()
@@ -27,6 +27,7 @@
 	return ..()
 
 /obj/machinery/door/airlock/multi_tile/proc/SetBounds()
+	SIGNAL_HANDLER
 	if(dir in list(EAST, WEST))
 		bound_width = width * world.icon_size
 		bound_height = world.icon_size

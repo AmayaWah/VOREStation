@@ -2,9 +2,9 @@
 
 
 /datum/reagent
-	var/name = "Reagent"
-	var/id = "reagent"
-	var/description = "A non-descript chemical."
+	var/name = REAGENT_DEVELOPER_WARNING
+	var/id = REAGENT_ID_DEVELOPER_WARNING
+	var/description = REAGENT_DESC_DEVELOPER_WARNING
 	var/taste_description = "bitterness"
 	var/taste_mult = 1 //how this taste compares to others. Higher values means it is more noticable
 	var/datum/reagents/holder = null
@@ -23,7 +23,7 @@
 	var/can_overdose_touch = FALSE	// Can the chemical OD when processing on touch?
 	var/scannable = 0 // Shows up on health analyzers.
 
-	var/affects_dead = 0	// Does this chem process inside a corpse?
+	var/affects_dead = 0	// Does this chem process inside a corpse without outside intervention required?
 	var/affects_robots = 0	// Does this chem process inside a Synth?
 
 	var/allergen_type		// What potential allergens does this contain?
@@ -32,7 +32,9 @@
 	var/cup_icon_state = null
 	var/cup_name = null
 	var/cup_desc = null
-	var/cup_center_of_mass = null
+	var/cup_center_of_mass_x = 0
+	var/cup_center_of_mass_y = 0
+	var/cup_prefix = null
 
 	var/color = "#000000"
 	var/color_weight = 1
@@ -41,6 +43,9 @@
 	var/glass_name = "something"
 	var/glass_desc = "It's a glass of... what, exactly?"
 	var/list/glass_special = null // null equivalent to list()
+
+	var/from_belly = FALSE
+	var/wiki_flag = 0 // Bitflags for secret/food/drink reagent sorting
 
 /datum/reagent/proc/remove_self(var/amount) // Shortcut
 	if(holder)
@@ -62,7 +67,7 @@
 /datum/reagent/proc/on_mob_life(var/mob/living/carbon/M, var/alien, var/datum/reagents/metabolism/location) // Currently, on_mob_life is called on carbons. Any interaction with non-carbon mobs (lube) will need to be done in touch_mob.
 	if(!istype(M))
 		return
-	if(!affects_dead && M.stat == DEAD)
+	if(!affects_dead && M.stat == DEAD && !M.has_modifier_of_type(/datum/modifier/bloodpump_corpse))
 		return
 	if(!affects_robots && M.isSynthetic())
 		return
@@ -168,10 +173,10 @@
 				affect_ingest(M, alien, removed * ingest_abs_mult)
 			if(CHEM_TOUCH)
 				affect_touch(M, alien, removed)
-	if(overdose && (volume > overdose * M?.species.chemOD_threshold) && (active_metab.metabolism_class != CHEM_TOUCH && !can_overdose_touch))
+	if(overdose && (volume > overdose * M?.species.chemOD_threshold) && (active_metab.metabolism_class != CHEM_TOUCH || can_overdose_touch))
 		overdose(M, alien, removed)
 	if(M.species.allergens & allergen_type)	//uhoh, we can't handle this!
-		M.add_chemical_effect(CE_ALLERGEN,allergen_factor)
+		M.add_chemical_effect(CE_ALLERGEN, allergen_factor * removed)
 	remove_self(removed)
 	return
 
@@ -180,6 +185,8 @@
 
 /datum/reagent/proc/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	M.bloodstr.add_reagent(id, removed)
+	if(src.id == M.species.blood_reagents)
+		M.add_chemical_effect(CE_BLOODRESTORE, 8 * removed)
 	return
 
 /datum/reagent/proc/affect_touch(var/mob/living/carbon/M, var/alien, var/removed)
@@ -213,18 +220,9 @@
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	holder = null
+	if(islist(data))
+		data.Cut()
 	. = ..()
-
-/* DEPRECATED - TODO: REMOVE EVERYWHERE */
-
-/datum/reagent/proc/reaction_turf(var/turf/target)
-	touch_turf(target)
-
-/datum/reagent/proc/reaction_obj(var/obj/target)
-	touch_obj(target)
-
-/datum/reagent/proc/reaction_mob(var/mob/target)
-	touch_mob(target)
 
 /// Called by [/datum/reagents/proc/conditional_update]
 /datum/reagent/proc/on_update(atom/A)
